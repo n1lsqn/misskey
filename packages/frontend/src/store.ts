@@ -315,6 +315,14 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: 1,
 	},
+	instanceTickerStyle: {
+		where: 'device',
+		default: 'default' as 'default' | 'minimal' | 'icon',
+	},
+	reactionPickerSize: {
+		where: 'device',
+		default: 1,
+	},
 	emojiPickerWidth: {
 		where: 'device',
 		default: 1,

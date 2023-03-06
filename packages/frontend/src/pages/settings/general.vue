@@ -272,6 +272,19 @@ SPDX-License-Identifier: AGPL-3.0-only
 						</MkSwitch>
 					</div>
 				</FormSection>
+	<MkSelect v-model="instanceTickerStyle">
+		<template #label>{{ i18n.ts.instanceTickerStyle }}</template>
+		<option value="default">{{ i18n.ts._instanceTickerStyle.default }}</option>
+		<option value="minimal">{{ i18n.ts._instanceTickerStyle.minimal }}</option>
+		<option value="icon">{{ i18n.ts._instanceTickerStyle.icon }}</option>
+	</MkSelect>
+
+	<MkSelect v-model="nsfw">
+		<template #label>{{ i18n.ts.nsfw }}</template>
+		<option value="respect">{{ i18n.ts._nsfw.respect }}</option>
+		<option value="ignore">{{ i18n.ts._nsfw.ignore }}</option>
+		<option value="force">{{ i18n.ts._nsfw.force }}</option>
+	</MkSelect>
 
 				<FormSection v-if="maxLocalTimeline >= 2">
 					<div v-if="maxLocalTimeline >= 2" class="_gaps_m">
@@ -446,6 +459,7 @@ const showFixedPostForm = computed(defaultStore.makeGetterSetter('showFixedPostF
 const showFixedPostFormInChannel = computed(defaultStore.makeGetterSetter('showFixedPostFormInChannel'));
 const numberOfPageCache = computed(defaultStore.makeGetterSetter('numberOfPageCache'));
 const instanceTicker = computed(defaultStore.makeGetterSetter('instanceTicker'));
+const instanceTickerStyle = computed(defaultStore.makeGetterSetter('instanceTickerStyle'));
 const enableInfiniteScroll = computed(defaultStore.makeGetterSetter('enableInfiniteScroll'));
 const useReactionPickerForContextMenu = computed(defaultStore.makeGetterSetter('useReactionPickerForContextMenu'));
 const squareAvatars = computed(defaultStore.makeGetterSetter('squareAvatars'));
@@ -520,6 +534,7 @@ watch([
 	showNoteActionsOnlyHover,
 	showGapBetweenNotesInTimeline,
 	instanceTicker,
+	instanceTickerStyle,
 	overridedDeviceKind,
 	mediaListWithOneImageAppearance,
 	reactionsDisplaySize,
