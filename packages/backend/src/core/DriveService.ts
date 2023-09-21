@@ -309,7 +309,7 @@ export class DriveService {
 			const metadata = await img.metadata();
 			isAnimated = !!(metadata.pages && metadata.pages > 1);
 
-			const maxSize = 8192;
+			const maxSize = this.config.buiso?.maxWebImageSize ?? 8192;
 			// nirila Extension: We want to keep original size as possible
 			// noinspection PointlessBooleanExpressionJS
 			satisfyWebpublic = !!(

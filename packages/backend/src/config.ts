@@ -93,6 +93,10 @@ type Source = {
 	perUserNotificationsMaxCount?: number;
 	deactivateAntennaThreshold?: number;
 	pidFile: string;
+
+	buiso?: {
+		maxWebImageSize?: number;
+	}
 };
 
 export type Config = {
