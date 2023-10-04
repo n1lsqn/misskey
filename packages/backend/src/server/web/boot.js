@@ -50,7 +50,7 @@
 		const metaRes = await window.fetch('/api/meta', {
 			method: 'POST',
 			body: JSON.stringify({}),
-			credentials: 'omit',
+			credentials: 'same-origin',
 			cache: 'no-cache',
 			headers: {
 				'Content-Type': 'application/json',
