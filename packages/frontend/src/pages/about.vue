@@ -28,8 +28,14 @@ SPDX-License-Identifier: AGPL-3.0-only
 						<template #key>Misskey</template>
 						<template #value>{{ version }}</template>
 					</MkKeyValue>
-					<div v-html="i18n.t('poweredByMisskeyDescription', { name: instance.name ?? host })">
+					<div style="text-align: center;" v-html="i18n.t('poweredByMisskeyDescription', { name: instance.name ?? host })">
 					</div>
+					<div style="text-align: center;">★ULTRA SPECIAL THANKS★</div>
+					<div style="text-align: center; color: #34a1c9;">
+						<a href="https://soukun.io/@khronosk">@khronosk@soukun.io</a>
+					</div>
+					<div style="text-align: center; color: #34a1c9;">
+						<a href="https://papi.n1l.dev/@n1lsqn">@n1lsqn@papi.n1l.dev</a></div>
 					<FormLink to="/about-misskey">{{ i18n.ts.aboutMisskey }}</FormLink>
 				</div>
 			</FormSection>
