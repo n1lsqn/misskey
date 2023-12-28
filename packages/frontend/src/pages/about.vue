@@ -72,11 +72,11 @@ SPDX-License-Identifier: AGPL-3.0-only
 					<template #label>{{ i18n.ts.statistics }}</template>
 					<FormSplit>
 						<MkKeyValue>
-							<template #key>{{ i18n.ts.users }}</template>
+							<template #key>村人</template>
 							<template #value>{{ number(stats.originalUsersCount) }}</template>
 						</MkKeyValue>
 						<MkKeyValue>
-							<template #key>{{ i18n.ts.notes }}</template>
+							<template #key>村役場への投書</template>
 							<template #value>{{ number(stats.originalNotesCount) }}</template>
 						</MkKeyValue>
 					</FormSplit>
