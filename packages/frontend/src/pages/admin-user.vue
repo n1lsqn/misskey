@@ -220,12 +220,12 @@ import MkFileListForAdmin from '@/components/MkFileListForAdmin.vue';
 import MkInfo from '@/components/MkInfo.vue';
 import * as os from '@/os.js';
 import { url } from '@/config.js';
-import { userPage, acct } from '@/filters/user.js';
+import { acct } from '@/filters/user.js';
 import { definePageMetadata } from '@/scripts/page-metadata.js';
 import { i18n } from '@/i18n.js';
 import { iAmAdmin, $i } from '@/account.js';
 import MkRolePreview from '@/components/MkRolePreview.vue';
-import MkPagination, { Paging } from '@/components/MkPagination.vue';
+import MkPagination from '@/components/MkPagination.vue';
 
 const props = withDefaults(defineProps<{
 	userId: string;
@@ -238,9 +238,9 @@ const tab = ref(props.initialTab);
 const chartSrc = ref('per-user-notes');
 const user = ref<null | Misskey.entities.UserDetailed>();
 const init = ref<ReturnType<typeof createFetcher>>();
-const info = ref();
-const ips = ref(null);
-const ap = ref(null);
+const info = ref<any>();
+const ips = ref<Misskey.entities.AdminGetUserIpsResponse | null>(null);
+const ap = ref<any>(null);
 const moderator = ref(false);
 const silenced = ref(false);
 const suspended = ref(false);
