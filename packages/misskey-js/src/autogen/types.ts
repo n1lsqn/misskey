@@ -4984,6 +4984,10 @@ export type operations = {
             tosUrl: string | null;
             uri: string;
             version: string;
+            enableEmergencyAnnouncementIntegration: boolean;
+            emergencyAnnouncementIntegrationConfig: {
+              type: string;
+            };
           };
         };
       };
@@ -5526,7 +5530,7 @@ export type operations = {
            * @default normal
            * @enum {string}
            */
-          display?: 'normal' | 'banner' | 'dialog';
+          display?: 'normal' | 'banner' | 'dialog' | 'emergency';
           /** @default false */
           forExistingUsers?: boolean;
           /** @default false */
@@ -5737,7 +5741,7 @@ export type operations = {
           /** @enum {string} */
           icon?: 'info' | 'warning' | 'error' | 'success';
           /** @enum {string} */
-          display?: 'normal' | 'banner' | 'dialog';
+          display?: 'normal' | 'banner' | 'dialog' | 'emergency';
           forExistingUsers?: boolean;
           silence?: boolean;
           needConfirmationToRead?: boolean;
@@ -9040,6 +9044,11 @@ export type operations = {
           perUserListTimelineCacheMax?: number;
           notesPerOneAd?: number;
           silencedHosts?: string[] | null;
+          enableEmergencyAnnouncementIntegration?: boolean;
+          emergencyAnnouncementIntegrationConfig?: ({
+            /** @enum {string} */
+            type?: 'none' | 'p2pquake';
+          }) | null;
         };
       };
     };
@@ -9712,6 +9721,8 @@ export type operations = {
         'application/json': {
           /** @default 10 */
           limit?: number;
+          /** @enum {string|null} */
+          display?: 'normal' | 'banner' | 'dialog' | 'emergency' | null;
           /** Format: misskey:id */
           sinceId?: string;
           /** Format: misskey:id */

@@ -108,7 +108,7 @@ export async function mainBoot() {
 			}
 		});
 
-		for (const announcement of ($i.unreadAnnouncements ?? []).filter(x => x.display === 'dialog')) {
+		for (const announcement of ($i.unreadAnnouncements ?? []).filter(x => ['dialog', 'emergency'].includes(x.display))) {
 			popup(defineAsyncComponent(() => import('@/components/MkAnnouncementDialog.vue')), {
 				announcement,
 			}, {}, 'closed');
@@ -116,7 +116,7 @@ export async function mainBoot() {
 
 		stream.on('announcementCreated', (ev) => {
 			const announcement = ev.announcement;
-			if (announcement.display === 'dialog') {
+			if (['dialog', 'emergency'].includes(announcement.display)) {
 				popup(defineAsyncComponent(() => import('@/components/MkAnnouncementDialog.vue')), {
 					announcement,
 				}, {}, 'closed');
