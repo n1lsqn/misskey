@@ -53,7 +53,7 @@ export class EmergencyAnnouncementService implements OnApplicationShutdown {
 				// P2P地震情報（日本、津波）
 				case 'p2pquake': {
 					// 津波情報のみ取得
-					const res = await this.httpRequestService.getJson<Record<string, any>[]>('https://api.p2pquake.net/v2/history?codes=552');
+					const res = await this.httpRequestService.getJson<Record<string, any>[]>('https://api.p2pquake.net/v2/history?codes=552&limit=1');
 					if (res.some((v) => v.cancelled === false) && !hasExistingEmergencyAnnouncement) {
 						// 1件でも発令中があれば ＆ 既存の緊急情報が出ていなければ作成
 						await this.announcementService.create({
