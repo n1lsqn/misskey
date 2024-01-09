@@ -1193,6 +1193,8 @@ export interface Locale {
     "addMfmFunction": string;
     "enableQuickAddMfmFunction": string;
     "bubbleGame": string;
+    "sfx": string;
+    "soundWillBePlayed": string;
     "_announcement": {
         "forExistingUsers": string;
         "forExistingUsersDescription": string;
@@ -1656,6 +1658,15 @@ export interface Locale {
             "_tutorialCompleted": {
                 "title": string;
                 "description": string;
+            };
+            "_bubbleGameExplodingHead": {
+                "title": string;
+                "description": string;
+            };
+            "_bubbleGameDoubleExplodingHead": {
+                "title": string;
+                "description": string;
+                "flavor": string;
             };
         };
     };
