@@ -634,6 +634,7 @@ export interface Locale {
     "small": string;
     "generateAccessToken": string;
     "permission": string;
+    "adminPermission": string;
     "enableAll": string;
     "disableAll": string;
     "tokenRequested": string;
@@ -1195,6 +1196,9 @@ export interface Locale {
     "bubbleGame": string;
     "sfx": string;
     "soundWillBePlayed": string;
+    "showReplay": string;
+    "replay": string;
+    "replaying": string;
     "_announcement": {
         "forExistingUsers": string;
         "forExistingUsersDescription": string;
