@@ -6,8 +6,12 @@
 // How to run:
 // pnpm jest -- e2e/timelines.ts
 
+process.env.NODE_ENV = 'test';
+process.env.FORCE_FOLLOW_REMOTE_USER_FOR_TESTING = 'true';
+
 import * as assert from 'assert';
-import { api, post, randomString, sendEnvUpdateRequest, signup, sleep, uploadUrl } from '../utils.js';
+import { api, post, randomString, signup, sleep, startServer, uploadUrl } from '../utils.js';
+import type { INestApplicationContext } from '@nestjs/common';
 
 function genHost() {
 	return randomString() + '.example.com';
@@ -16,6 +20,16 @@ function genHost() {
 function waitForPushToTl() {
 	return sleep(500);
 }
+
+let app: INestApplicationContext;
+
+beforeAll(async () => {
+	app = await startServer();
+}, 1000 * 60 * 2);
+
+afterAll(async () => {
+	await app.close();
+});
 
 describe('Timelines', () => {
 	describe('Home TL', () => {
@@ -320,9 +334,8 @@ describe('Timelines', () => {
 		test.concurrent('フォローしているリモートユーザーのノートが含まれる', async () => {
 			const [alice, bob] = await Promise.all([signup(), signup({ host: genHost() })]);
 
-			await sendEnvUpdateRequest({ key: 'FORCE_FOLLOW_REMOTE_USER_FOR_TESTING', value: 'true' });
 			await api('/following/create', { userId: bob.id }, alice);
-
+			await sleep(1000);
 			const bobNote = await post(bob, { text: 'hi' });
 
 			await waitForPushToTl();
@@ -335,9 +348,8 @@ describe('Timelines', () => {
 		test.concurrent('フォローしているリモートユーザーの visibility: home なノートが含まれる', async () => {
 			const [alice, bob] = await Promise.all([signup(), signup({ host: genHost() })]);
 
-			await sendEnvUpdateRequest({ key: 'FORCE_FOLLOW_REMOTE_USER_FOR_TESTING', value: 'true' });
 			await api('/following/create', { userId: bob.id }, alice);
-
+			await sleep(1000);
 			const bobNote = await post(bob, { text: 'hi', visibility: 'home' });
 
 			await waitForPushToTl();
@@ -528,7 +540,6 @@ describe('Timelines', () => {
 			assert.strictEqual(res.body.some((note: any) => note.id === bobNote2.id), true);
 		});
 
-		/*
 		test.concurrent('チャンネル投稿が含まれない', async () => {
 			const [alice, bob] = await Promise.all([signup(), signup()]);
 
@@ -541,7 +552,6 @@ describe('Timelines', () => {
 
 			assert.strictEqual(res.body.some((note: any) => note.id === bobNote.id), false);
 		});
-		*/
 
 		test.concurrent('リモートユーザーのノートが含まれない', async () => {
 			const [alice, bob] = await Promise.all([signup(), signup({ host: genHost() })]);
@@ -752,9 +762,8 @@ describe('Timelines', () => {
 		test.concurrent('フォローしているリモートユーザーのノートが含まれる', async () => {
 			const [alice, bob] = await Promise.all([signup(), signup({ host: genHost() })]);
 
-			await sendEnvUpdateRequest({ key: 'FORCE_FOLLOW_REMOTE_USER_FOR_TESTING', value: 'true' });
 			await api('/following/create', { userId: bob.id }, alice);
-
+			await sleep(1000);
 			const bobNote = await post(bob, { text: 'hi' });
 
 			await waitForPushToTl();
@@ -767,9 +776,8 @@ describe('Timelines', () => {
 		test.concurrent('フォローしているリモートユーザーの visibility: home なノートが含まれる', async () => {
 			const [alice, bob] = await Promise.all([signup(), signup({ host: genHost() })]);
 
-			await sendEnvUpdateRequest({ key: 'FORCE_FOLLOW_REMOTE_USER_FOR_TESTING', value: 'true' });
 			await api('/following/create', { userId: bob.id }, alice);
-
+			await sleep(1000);
 			const bobNote = await post(bob, { text: 'hi', visibility: 'home' });
 
 			await waitForPushToTl();
@@ -969,7 +977,6 @@ describe('Timelines', () => {
 			assert.strictEqual(res.body.find((note: any) => note.id === aliceNote.id).text, 'hi');
 		});
 
-		/*
 		test.concurrent('リスインしているユーザーのチャンネルノートが含まれない', async () => {
 			const [alice, bob] = await Promise.all([signup(), signup()]);
 
@@ -985,9 +992,7 @@ describe('Timelines', () => {
 
 			assert.strictEqual(res.body.some((note: any) => note.id === bobNote.id), false);
 		});
-		*/
 
-		/*
 		test.concurrent('[withFiles: true] リスインしているユーザーのファイル付きノートのみ含まれる', async () => {
 			const [alice, bob] = await Promise.all([signup(), signup()]);
 
@@ -1004,7 +1009,6 @@ describe('Timelines', () => {
 			assert.strictEqual(res.body.some((note: any) => note.id === bobNote1.id), false);
 			assert.strictEqual(res.body.some((note: any) => note.id === bobNote2.id), true);
 		}, 1000 * 10);
-		*/
 
 		test.concurrent('リスインしているユーザーの自身宛ての visibility: specified なノートが含まれる', async () => {
 			const [alice, bob] = await Promise.all([signup(), signup()]);
@@ -1092,7 +1096,6 @@ describe('Timelines', () => {
 			assert.strictEqual(res.body.find((note: any) => note.id === aliceNote.id).text, 'hi');
 		});
 
-		/*
 		test.concurrent('チャンネル投稿が含まれない', async () => {
 			const [alice, bob] = await Promise.all([signup(), signup()]);
 
@@ -1105,7 +1108,6 @@ describe('Timelines', () => {
 
 			assert.strictEqual(res.body.some((note: any) => note.id === bobNote.id), false);
 		});
-		*/
 
 		test.concurrent('[withReplies: false] 他人への返信が含まれない', async () => {
 			const [alice, bob, carol] = await Promise.all([signup(), signup(), signup()]);
@@ -1180,7 +1182,6 @@ describe('Timelines', () => {
 			assert.strictEqual(res.body.some((note: any) => note.id === bobNote.id), true);
 		});
 
-		/*
 		test.concurrent('[withChannelNotes: true] 他人が取得した場合センシティブチャンネル投稿が含まれない', async () => {
 			const [alice, bob] = await Promise.all([signup(), signup()]);
 
@@ -1193,9 +1194,7 @@ describe('Timelines', () => {
 
 			assert.strictEqual(res.body.some((note: any) => note.id === bobNote.id), false);
 		});
-		*/
 
-		/*
 		test.concurrent('[withChannelNotes: true] 自分が取得した場合センシティブチャンネル投稿が含まれる', async () => {
 			const [bob] = await Promise.all([signup()]);
 
@@ -1208,7 +1207,6 @@ describe('Timelines', () => {
 
 			assert.strictEqual(res.body.some((note: any) => note.id === bobNote.id), true);
 		});
-		*/
 
 		test.concurrent('ミュートしているユーザーに関連する投稿が含まれない', async () => {
 			const [alice, bob, carol] = await Promise.all([signup(), signup(), signup()]);

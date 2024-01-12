@@ -8,10 +8,12 @@ process.env.NODE_ENV = 'test';
 import * as assert from 'assert';
 import { WebSocket } from 'ws';
 import { MiFollowing } from '@/models/Following.js';
-import { api, createAppToken, initTestDb, port, post, signup, waitFire } from '../utils.js';
+import { signup, api, post, startServer, initTestDb, waitFire, createAppToken, port } from '../utils.js';
+import type { INestApplicationContext } from '@nestjs/common';
 import type * as misskey from 'misskey-js';
 
 describe('Streaming', () => {
+	let app: INestApplicationContext;
 	let Followings: any;
 
 	const follow = async (follower: any, followee: any) => {
@@ -46,6 +48,7 @@ describe('Streaming', () => {
 		let list: any;
 
 		beforeAll(async () => {
+			app = await startServer();
 			const connection = await initTestDb(true);
 			Followings = connection.getRepository(MiFollowing);
 
@@ -91,6 +94,10 @@ describe('Streaming', () => {
 				userId: takumi.id,
 			}, chitose);
 		}, 1000 * 60 * 2);
+
+		afterAll(async () => {
+			await app.close();
+		});
 
 		describe('Events', () => {
 			test('mention event', async () => {

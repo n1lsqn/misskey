@@ -1,12 +1,6 @@
 name: API report (misskey.js)
 
-on:
-  push:
-    paths:
-      - packages/misskey-js/**
-  pull_request:
-    paths:
-      - packages/misskey-js/**
+on: [push, pull_request]
 
 jobs:
   report:

@@ -55,7 +55,7 @@ function onClick(ev: MouseEvent) {
 			icon: 'ti ti-plus',
 			action: () => {
 				react(props.emoji);
-				sound.playMisskeySfx('reaction');
+				sound.play('reaction');
 			},
 		}] : [])], ev.currentTarget ?? ev.target);
 	}

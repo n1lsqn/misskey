@@ -6,12 +6,12 @@
 process.env.NODE_ENV = 'test';
 
 import * as assert from 'assert';
-import { api, port, post, signup, startJobQueue } from '../utils.js';
+import { signup, api, startServer, startJobQueue, port, post } from '../utils.js';
 import type { INestApplicationContext } from '@nestjs/common';
 import type * as misskey from 'misskey-js';
 
 describe('export-clips', () => {
-	let queue: INestApplicationContext;
+	let app: INestApplicationContext;
 	let alice: misskey.entities.SignupResponse;
 	let bob: misskey.entities.SignupResponse;
 
@@ -33,13 +33,14 @@ describe('export-clips', () => {
 	}
 
 	beforeAll(async () => {
-		queue = await startJobQueue();
+		app = await startServer();
+		await startJobQueue();
 		alice = await signup({ username: 'alice' });
 		bob = await signup({ username: 'bob' });
 	}, 1000 * 60 * 2);
 
 	afterAll(async () => {
-		await queue.close();
+		await app.close();
 	});
 
 	beforeEach(async () => {

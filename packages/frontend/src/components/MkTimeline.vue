@@ -81,7 +81,7 @@ function prepend(note) {
 	emit('note');
 
 	if (props.sound) {
-		sound.playMisskeySfx($i && (note.userId === $i.id) ? 'noteMy' : 'note');
+		sound.play($i && (note.userId === $i.id) ? 'noteMy' : 'note');
 	}
 }
 

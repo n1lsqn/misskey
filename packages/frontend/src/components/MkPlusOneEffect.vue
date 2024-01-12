@@ -16,7 +16,7 @@ import * as os from '@/os.js';
 const props = withDefaults(defineProps<{
 	x: number;
 	y: number;
-	value?: number | string;
+	value?: number;
 }>(), {
 	value: 1,
 });

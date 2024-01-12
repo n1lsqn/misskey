@@ -6,10 +6,21 @@
 process.env.NODE_ENV = 'test';
 
 import * as assert from 'assert';
-import { api, post, signup } from '../utils.js';
+import { signup, api, post, startServer } from '../utils.js';
+import type { INestApplicationContext } from '@nestjs/common';
 import type * as misskey from 'misskey-js';
 
 describe('API visibility', () => {
+	let app: INestApplicationContext;
+
+	beforeAll(async () => {
+		app = await startServer();
+	}, 1000 * 60 * 2);
+
+	afterAll(async () => {
+		await app.close();
+	});
+
 	describe('Note visibility', () => {
 		//#region vars
 		/** ヒロイン */

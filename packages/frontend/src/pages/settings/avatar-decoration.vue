@@ -224,6 +224,7 @@ function openDecoration(avatarDecoration, index?: number) {
 	}, 'closed');
 }
 
+
 function detachAllDecorations() {
 	os.confirm({
 		type: 'warning',

@@ -6,9 +6,20 @@
 process.env.NODE_ENV = 'test';
 
 import * as assert from 'assert';
-import { relativeFetch } from '../utils.js';
+import { relativeFetch, startServer } from '../utils.js';
+import type { INestApplicationContext } from '@nestjs/common';
 
 describe('nodeinfo', () => {
+	let app: INestApplicationContext;
+
+	beforeAll(async () => {
+		app = await startServer();
+	}, 1000 * 60 * 2);
+
+	afterAll(async () => {
+		await app.close();
+	});
+
 	test('nodeinfo 2.1', async () => {
 		const res = await relativeFetch('nodeinfo/2.1');
 		assert.ok(res.ok);

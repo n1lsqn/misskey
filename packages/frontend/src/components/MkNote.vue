@@ -345,7 +345,7 @@ function react(viaKeyboard = false): void {
 	pleaseLogin();
 	showMovedDialog();
 	if (appearNote.value.reactionAcceptance === 'likeOnly') {
-		sound.playMisskeySfx('reaction');
+		sound.play('reaction');
 
 		if (props.mock) {
 			return;
@@ -365,7 +365,7 @@ function react(viaKeyboard = false): void {
 	} else {
 		blur();
 		reactionPicker.show(reactButton.value, reaction => {
-			sound.playMisskeySfx('reaction');
+			sound.play('reaction');
 
 			if (props.mock) {
 				emit('reaction', reaction);

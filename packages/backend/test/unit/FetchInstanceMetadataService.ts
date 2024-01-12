@@ -55,8 +55,7 @@ describe('FetchInstanceMetadataService', () => {
 					return { fetch: jest.fn() };
 				} else if (token === DI.redis) {
 					return mockRedis;
-				}
-			})
+				}})
 			.compile();
 
 		app.enableShutdownHooks();
