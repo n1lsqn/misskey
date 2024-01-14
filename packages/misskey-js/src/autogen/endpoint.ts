@@ -1,6 +1,6 @@
 /*
  * version: 2023.12.2.mogeko
- * generatedAt: 2024-01-14T11:46:28.628Z
+ * generatedAt: 2024-01-14T11:50:21.712Z
  */
 
 import type {

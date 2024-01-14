@@ -1,6 +1,6 @@
 /*
  * version: 2023.12.2.mogeko
- * generatedAt: 2024-01-14T11:46:28.632Z
+ * generatedAt: 2024-01-14T11:50:21.717Z
  */
 
 import type { SwitchCaseResponseType } from '../api.js';
