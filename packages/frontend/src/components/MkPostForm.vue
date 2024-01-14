@@ -690,6 +690,7 @@ function deleteDraft() {
 }
 
 async function post(ev?: MouseEvent) {
+	/*
 	if (useCw.value && (cw.value == null || cw.value.trim() === '')) {
 		os.alert({
 			type: 'error',
@@ -697,6 +698,7 @@ async function post(ev?: MouseEvent) {
 		});
 		return;
 	}
+	*/
 
 	if (ev) {
 		const el = ev.currentTarget ?? ev.target;

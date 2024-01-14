@@ -1,6 +1,6 @@
 /*
- * version: 2023.12.2
- * generatedAt: 2024-01-04T18:10:15.094Z
+ * version: 2023.12.2.papi.4
+ * generatedAt: 2024-01-08T08:57:37.939Z
  */
 
 import type {
@@ -66,6 +66,8 @@ import type {
 	AdminInviteCreateResponse,
 	AdminInviteListRequest,
 	AdminInviteListResponse,
+	AdminRootAddRequest,
+	AdminRootRemoveRequest,
 	AdminPromoCreateRequest,
 	AdminQueueDeliverDelayedResponse,
 	AdminQueueInboxDelayedResponse,
@@ -540,6 +542,10 @@ import type {
 	FetchExternalResourcesRequest,
 	FetchExternalResourcesResponse,
 	RetentionResponse,
+	BubbleGameRegisterRequest,
+	BubbleGameRegisterResponse,
+	BubbleGameRankingRequest,
+	BubbleGameRankingResponse,
 } from './entities.js';
 
 export type Endpoints = {
@@ -589,6 +595,8 @@ export type Endpoints = {
 	'admin/get-user-ips': { req: AdminGetUserIpsRequest; res: AdminGetUserIpsResponse };
 	'admin/invite/create': { req: AdminInviteCreateRequest; res: AdminInviteCreateResponse };
 	'admin/invite/list': { req: AdminInviteListRequest; res: AdminInviteListResponse };
+	'admin/root/add': { req: AdminRootAddRequest; res: EmptyResponse };
+	'admin/root/remove': { req: AdminRootRemoveRequest; res: EmptyResponse };
 	'admin/promo/create': { req: AdminPromoCreateRequest; res: EmptyResponse };
 	'admin/queue/clear': { req: EmptyRequest; res: EmptyResponse };
 	'admin/queue/deliver-delayed': { req: EmptyRequest; res: AdminQueueDeliverDelayedResponse };
@@ -745,6 +753,7 @@ export type Endpoints = {
 	'i/export-following': { req: IExportFollowingRequest; res: EmptyResponse };
 	'i/export-mute': { req: EmptyRequest; res: EmptyResponse };
 	'i/export-notes': { req: EmptyRequest; res: EmptyResponse };
+	'i/export-clips': { req: EmptyRequest; res: EmptyResponse };
 	'i/export-favorites': { req: EmptyRequest; res: EmptyResponse };
 	'i/export-user-lists': { req: EmptyRequest; res: EmptyResponse };
 	'i/export-antennas': { req: EmptyRequest; res: EmptyResponse };
@@ -900,4 +909,6 @@ export type Endpoints = {
 	'fetch-rss': { req: FetchRssRequest; res: FetchRssResponse };
 	'fetch-external-resources': { req: FetchExternalResourcesRequest; res: FetchExternalResourcesResponse };
 	'retention': { req: EmptyRequest; res: RetentionResponse };
+	'bubble-game/register': { req: BubbleGameRegisterRequest; res: BubbleGameRegisterResponse };
+	'bubble-game/ranking': { req: BubbleGameRankingRequest; res: BubbleGameRankingResponse };
 }

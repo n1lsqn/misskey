@@ -1,6 +1,6 @@
 /*
- * version: 2023.12.2
- * generatedAt: 2024-01-04T18:10:15.093Z
+ * version: 2023.12.2.papi.4
+ * generatedAt: 2024-01-08T08:57:37.934Z
  */
 
 import { operations } from './types.js';
@@ -68,6 +68,8 @@ export type AdminInviteCreateRequest = operations['admin/invite/create']['reques
 export type AdminInviteCreateResponse = operations['admin/invite/create']['responses']['200']['content']['application/json'];
 export type AdminInviteListRequest = operations['admin/invite/list']['requestBody']['content']['application/json'];
 export type AdminInviteListResponse = operations['admin/invite/list']['responses']['200']['content']['application/json'];
+export type AdminRootAddRequest = operations['admin/root/add']['requestBody']['content']['application/json'];
+export type AdminRootRemoveRequest = operations['admin/root/remove']['requestBody']['content']['application/json'];
 export type AdminPromoCreateRequest = operations['admin/promo/create']['requestBody']['content']['application/json'];
 export type AdminQueueDeliverDelayedResponse = operations['admin/queue/deliver-delayed']['responses']['200']['content']['application/json'];
 export type AdminQueueInboxDelayedResponse = operations['admin/queue/inbox-delayed']['responses']['200']['content']['application/json'];
@@ -542,3 +544,7 @@ export type FetchRssResponse = operations['fetch-rss']['responses']['200']['cont
 export type FetchExternalResourcesRequest = operations['fetch-external-resources']['requestBody']['content']['application/json'];
 export type FetchExternalResourcesResponse = operations['fetch-external-resources']['responses']['200']['content']['application/json'];
 export type RetentionResponse = operations['retention']['responses']['200']['content']['application/json'];
+export type BubbleGameRegisterRequest = operations['bubble-game/register']['requestBody']['content']['application/json'];
+export type BubbleGameRegisterResponse = operations['bubble-game/register']['responses']['200']['content']['application/json'];
+export type BubbleGameRankingRequest = operations['bubble-game/ranking']['requestBody']['content']['application/json'];
+export type BubbleGameRankingResponse = operations['bubble-game/ranking']['responses']['200']['content']['application/json'];

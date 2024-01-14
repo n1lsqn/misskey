@@ -16,7 +16,7 @@ import * as os from '@/os.js';
 const props = withDefaults(defineProps<{
 	x: number;
 	y: number;
-	value?: number;
+	value?: number | string;
 }>(), {
 	value: 1,
 });
@@ -42,6 +42,7 @@ onMounted(() => {
 
 <style lang="scss" module>
 .root {
+	user-select: none;
 	pointer-events: none;
 	position: fixed;
 	width: 128px;

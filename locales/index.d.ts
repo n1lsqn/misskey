@@ -634,6 +634,7 @@ export interface Locale {
     "small": string;
     "generateAccessToken": string;
     "permission": string;
+    "adminPermission": string;
     "enableAll": string;
     "disableAll": string;
     "tokenRequested": string;
@@ -1002,6 +1003,7 @@ export interface Locale {
     "color": string;
     "manageCustomEmojis": string;
     "manageAvatarDecorations": string;
+    "manageUseChannel": string;
     "youCannotCreateAnymore": string;
     "cannotPerformTemporary": string;
     "cannotPerformTemporaryDescription": string;
@@ -1192,6 +1194,23 @@ export interface Locale {
     "decorate": string;
     "addMfmFunction": string;
     "enableQuickAddMfmFunction": string;
+    "bubbleGame": string;
+    "sfx": string;
+    "soundWillBePlayed": string;
+    "showReplay": string;
+    "replay": string;
+    "replaying": string;
+    "ranking": string;
+    "lastNDays": string;
+    "backToTitle": string;
+    "_bubbleGame": {
+        "howToPlay": string;
+        "_howToPlay": {
+            "section1": string;
+            "section2": string;
+            "section3": string;
+        };
+    };
     "_announcement": {
         "forExistingUsers": string;
         "forExistingUsersDescription": string;
@@ -1656,6 +1675,15 @@ export interface Locale {
                 "title": string;
                 "description": string;
             };
+            "_bubbleGameExplodingHead": {
+                "title": string;
+                "description": string;
+            };
+            "_bubbleGameDoubleExplodingHead": {
+                "title": string;
+                "description": string;
+                "flavor": string;
+            };
         };
     };
     "_role": {
@@ -1705,6 +1733,7 @@ export interface Locale {
             "inviteExpirationTime": string;
             "canManageCustomEmojis": string;
             "canManageAvatarDecorations": string;
+            "canUseChannel": string;
             "driveCapacity": string;
             "alwaysMarkNsfw": string;
             "pinMax": string;
@@ -2256,6 +2285,7 @@ export interface Locale {
     "_exportOrImport": {
         "allNotes": string;
         "favoritedNotes": string;
+        "clips": string;
         "followingList": string;
         "muteList": string;
         "blockingList": string;

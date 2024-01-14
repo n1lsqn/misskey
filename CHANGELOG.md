@@ -12,20 +12,37 @@
 
 -->
 
+## 独自機能
+- Feat: rootの切り替え機能
+- Feat: KaTeXの実装
+- Feat: ロールにチャンネルが使えるかどうかの権限を追加
+- Feat: CWに何も書かなくても投稿できるようにする
+- Feat: リモートユーザーのアイコンデコレーションを表示する
+
 ## 202x.x.x (Unreleased)
 
 ### General
 - Feat: [mCaptcha](https://github.com/mCaptcha/mCaptcha)のサポートを追加
+- Fix: リストライムラインの「リノートを表示」が正しく機能しない問題を修正
 
 ### Client
 - Feat: 新しいゲームを追加
 - Enhance: ハッシュタグ入力時に、本文の末尾の行に何も書かれていない場合は新たにスペースを追加しないように
+- Enhance: チャンネルノートのピン留めをノートのメニューからできるように
+- Enhance: 管理者の場合はAPI tokenの発行画面で管理機能に関する権限を付与できるように
+- Enhance: AiScriptを0.17.0に更新　[CHANGELOG](https://github.com/aiscript-dev/aiscript/blob/bb89d132b633a622d3cb0eff0d0cc7e476c0cfdd/CHANGELOG.md)
+  - 配列の範囲外・非整数のインデックスへの代入が完全禁止になるので注意
+- Enhance: 絵文字ピッカー・オートコンプリートで、完全一致した絵文字を優先的に表示するように
+- Fix: ネイティブモードの絵文字がモノクロにならないように
 - Fix: v2023.12.0で追加された「モデレーターがユーザーのアイコンもしくはバナー画像を未設定状態にできる機能」が管理画面上で正しく表示されていない問題を修正
-- Enhance: チャンネルノートのピン留めをノートのメニューからできるよ
+- Fix: AiScriptの`readline`関数が不正な値を返すことがある問題のv2023.12.0時点での修正がPlay以外に適用されていないのを修正
+- Fix: v2023.12.1で追加された`$[clickable ...]`および`onClickEv`が正しく機能していないのを修正
 
 ### Server
 - Enhance: 連合先のレートリミットに引っかかった際にリトライするようになりました
 - Enhance: ActivityPub Deliver queueでBodyを事前処理するように (#12916)
+- Enhance: クリップをエクスポートできるように
+- Fix: `drive/files/update`でファイル名のバリデーションが機能していない問題を修正
 
 ## 2023.12.2
 
@@ -90,6 +107,8 @@
 
 ### Client
 - Feat: 今日誕生日のフォロー中のユーザーを一覧表示できるウィジェットを追加
+- Feat: データセーバーでコードハイライトの読み込みを削減できるように
+- Enhance: 投稿フォームの絵文字ピッカーをリアクション時に使用するものと同じのを使用するように #12336
 - Feat: 画面に雪を降らせられるように
 - Enhance: MFMのアニメーション要素（`tada`, `jelly`, `twitch`, `shake`, `spin`, `jump`, `bounce`, `rainbow`）に `delay` オプションを追加
 - Enhance: センシティブと判断されたウェブサイトのサムネイルを非表示に
