@@ -39,17 +39,6 @@ SPDX-License-Identifier: AGPL-3.0-only
 				/>
 			</div>
 		</MkFolder>
-		<MkFolder>
-			<template #label>リモート</template>
-			<div :class="$style.decorations">
-				<XDecoration
-					v-for="remoteAvatarDecoration in remoteAvatarDecorations"
-					:key="remoteAvatarDecoration.id"
-					:decoration="remoteAvatarDecoration"
-					@click="openRemoteDecoration(remoteAvatarDecoration)"
-				/>
-			</div>
-		</MkFolder>
 	</div>
 	<div v-else>
 		<MkLoading/>
