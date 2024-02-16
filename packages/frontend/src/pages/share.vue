@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: syuilo and other misskey contributors
+SPDX-FileCopyrightText: syuilo and misskey-project
 SPDX-License-Identifier: AGPL-3.0-only
 -->
 
@@ -56,7 +56,7 @@ const renote = ref<Misskey.entities.Note | undefined>();
 const visibility = ref(Misskey.noteVisibilities.includes(visibilityQuery) ? visibilityQuery : undefined);
 const localOnly = ref(localOnlyQuery === '0' ? false : localOnlyQuery === '1' ? true : undefined);
 const files = ref([] as Misskey.entities.DriveFile[]);
-const visibleUsers = ref([] as Misskey.entities.User[]);
+const visibleUsers = ref([] as Misskey.entities.UserDetailed[]);
 
 async function init() {
 	let noteText = '';

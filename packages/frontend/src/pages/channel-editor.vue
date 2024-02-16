@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: syuilo and other misskey contributors
+SPDX-FileCopyrightText: syuilo and misskey-project
 SPDX-License-Identifier: AGPL-3.0-only
 -->
 
@@ -82,7 +82,7 @@ import { i18n } from '@/i18n.js';
 import MkFolder from '@/components/MkFolder.vue';
 import MkSwitch from '@/components/MkSwitch.vue';
 import MkTextarea from '@/components/MkTextarea.vue';
-import { useRouter } from '@/global/router/supplier.js';
+import { useRouter } from '@/router/supplier.js';
 
 const Sortable = defineAsyncComponent(() => import('vuedraggable').then(x => x.default));
 
