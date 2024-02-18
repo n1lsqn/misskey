@@ -4029,7 +4029,7 @@ declare module '../api.js' {
 
     /**
      * No description provided.
-     *
+     * 
      * **Credential required**: *Yes* / **Permission**: *write:account*
      */
     request<E extends 'reversi/cancel-match', P extends Endpoints[E]['req']>(
@@ -4040,7 +4040,7 @@ declare module '../api.js' {
 
     /**
      * No description provided.
-     *
+     * 
      * **Credential required**: *No*
      */
     request<E extends 'reversi/games', P extends Endpoints[E]['req']>(
@@ -4051,7 +4051,7 @@ declare module '../api.js' {
 
     /**
      * No description provided.
-     *
+     * 
      * **Credential required**: *Yes* / **Permission**: *write:account*
      */
     request<E extends 'reversi/match', P extends Endpoints[E]['req']>(
@@ -4062,7 +4062,7 @@ declare module '../api.js' {
 
     /**
      * No description provided.
-     *
+     * 
      * **Credential required**: *Yes* / **Permission**: *read:account*
      */
     request<E extends 'reversi/invitations', P extends Endpoints[E]['req']>(
@@ -4073,7 +4073,7 @@ declare module '../api.js' {
 
     /**
      * No description provided.
-     *
+     * 
      * **Credential required**: *No*
      */
     request<E extends 'reversi/show-game', P extends Endpoints[E]['req']>(
@@ -4084,7 +4084,7 @@ declare module '../api.js' {
 
     /**
      * No description provided.
-     *
+     * 
      * **Credential required**: *Yes* / **Permission**: *write:account*
      */
     request<E extends 'reversi/surrender', P extends Endpoints[E]['req']>(
@@ -4095,7 +4095,7 @@ declare module '../api.js' {
 
     /**
      * No description provided.
-     *
+     * 
      * **Credential required**: *No*
      */
     request<E extends 'reversi/verify', P extends Endpoints[E]['req']>(
