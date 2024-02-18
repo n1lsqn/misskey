@@ -37,6 +37,10 @@ export const meta = {
 				type: 'string',
 				optional: false, nullable: false,
 			},
+			providesTarball: {
+				type: 'boolean',
+				optional: false, nullable: false,
+			},
 			name: {
 				type: 'string',
 				optional: false, nullable: false,
@@ -69,12 +73,12 @@ export const meta = {
 			},
 			repositoryUrl: {
 				type: 'string',
-				optional: false, nullable: false,
+				optional: false, nullable: true,
 				default: 'https://github.com/misskey-dev/misskey',
 			},
 			feedbackUrl: {
 				type: 'string',
-				optional: false, nullable: false,
+				optional: false, nullable: true,
 				default: 'https://github.com/misskey-dev/misskey/issues/new',
 			},
 			defaultDarkTheme: {
@@ -86,6 +90,10 @@ export const meta = {
 				optional: false, nullable: true,
 			},
 			disableRegistration: {
+				type: 'boolean',
+				optional: false, nullable: false,
+			},
+			disableAntiSpam: {
 				type: 'boolean',
 				optional: false, nullable: false,
 			},
@@ -352,6 +360,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				maintainerEmail: instance.maintainerEmail,
 
 				version: this.config.version,
+				providesTarball: this.config.publishTarballInsteadOfProvideRepositoryUrl,
 
 				name: instance.name,
 				shortName: instance.shortName,
@@ -364,6 +373,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				impressumUrl: instance.impressumUrl,
 				privacyPolicyUrl: instance.privacyPolicyUrl,
 				disableRegistration: instance.disableRegistration,
+				disableAntiSpam: instance.disableAntiSpam,
 				emailRequiredForSignup: instance.emailRequiredForSignup,
 				enableHcaptcha: instance.enableHcaptcha,
 				hcaptchaSiteKey: instance.hcaptchaSiteKey,
@@ -421,6 +431,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				response.proxyAccountName = proxyAccount ? proxyAccount.username : null;
 				response.features = {
 					registration: !instance.disableRegistration,
+					antiSpam: !instance.disableAntiSpam,
 					emailRequiredForSignup: instance.emailRequiredForSignup,
 					hcaptcha: instance.enableHcaptcha,
 					recaptcha: instance.enableRecaptcha,

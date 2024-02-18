@@ -108,6 +108,7 @@ export const navbarItemDef = reactive({
 	},
 	channels: {
 		title: i18n.ts.channel,
+		show: computed(() => $i != null && ($i.isAdmin || $i.policies.canUseChannel)),
 		icon: 'ti ti-device-tv',
 		to: '/channels',
 	},
@@ -183,5 +184,21 @@ export const navbarItemDef = reactive({
 		action: (ev) => {
 			clearCache();
 		},
+	},
+	bubbleGame: {
+		title: i18n.ts.bubbleGame,
+		icon: 'ti ti-apple',
+		to: '/bubble-game',
+	},
+	clicker: {
+		title: '🍪👈',
+		icon: 'ti ti-cookie',
+		to: '/clicker',
+	},
+	manageCustomEmojis: {
+		title: i18n.ts.manageCustomEmojis,
+		icon: 'ti ti-icons',
+		show: computed(() => $i != null && ($i.isAdmin || $i.policies.canManageCustomEmojis)),
+		to: '/custom-emojis-manager',
 	},
 });

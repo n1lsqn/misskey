@@ -847,7 +847,7 @@ interface IEndpointMetaBase {
 	readonly cacheSec?: number;
 }
 
-export type IEndpointMeta = (Omit<IEndpointMetaBase, 'requireCrential' | 'requireModerator' | 'requireAdmin'> & {
+export type IEndpointMeta = (Omit<IEndpointMetaBase, 'requireCredential' | 'requireModerator' | 'requireAdmin'> & {
 	requireCredential?: false,
 	requireAdmin?: false,
 	requireModerator?: false,

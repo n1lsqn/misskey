@@ -366,6 +366,17 @@ export interface Locale {
     "disablingTimelinesInfo": string;
     "registration": string;
     "enableRegistration": string;
+    /**
+     * アンチスパムモードを有効にする
+     */
+    "enableAntiSpam": string;
+    /**
+     * 本サーバーからフォローされていないユーザーのメンションが届かなくなります
+     */
+    "enableAntiSpamDescription": string;
+    /**
+     * 招待
+     */
     "invite": string;
     "driveCapacityPerLocalAccount": string;
     "driveCapacityPerRemoteAccount": string;
@@ -993,7 +1004,17 @@ export interface Locale {
     "neverShow": string;
     "remindMeLater": string;
     "didYouLikeMisskey": string;
-    "pleaseDonate": string;
+    /**
+     * Misskeyは{host}が使用している無料のソフトウェアです。これからも開発を続けられるように、ぜひ寄付をお願いします！
+     */
+    "pleaseDonate": ParameterizedString<"host">;
+    /**
+     * 対応するソースコードは{anchor}から利用可能です。
+     */
+    "correspondingSourceIsAvailable": ParameterizedString<"anchor">;
+    /**
+     * ロール
+     */
     "roles": string;
     "role": string;
     "noRole": string;
@@ -1004,7 +1025,13 @@ export interface Locale {
     "color": string;
     "manageCustomEmojis": string;
     "manageAvatarDecorations": string;
+    /**
+     * チャンネルの利用を管理
+     */
     "manageUseChannel": string;
+    /**
+     * これ以上作成することはできません。
+     */
     "youCannotCreateAnymore": string;
     "cannotPerformTemporary": string;
     "cannotPerformTemporaryDescription": string;
@@ -1183,6 +1210,37 @@ export interface Locale {
     "confirmShowRepliesAll": string;
     "confirmHideRepliesAll": string;
     "externalServices": string;
+    /**
+     * ソースコード
+     */
+    "sourceCode": string;
+    /**
+     * ソースコードはまだ提供されていません。この問題の修正について管理者に問い合わせてください。
+     */
+    "sourceCodeIsNotYetProvided": string;
+    /**
+     * リポジトリURL
+     */
+    "repositoryUrl": string;
+    /**
+     * ソースコードが公開されているリポジトリがある場合、そのURLを記入します。Misskeyを現状のまま（ソースコードにいかなる変更も加えずに）使用している場合は https://github.com/misskey-dev/misskey と記入します。
+     */
+    "repositoryUrlDescription": string;
+    /**
+     * リポジトリを公開していない場合、代わりにtarballを提供する必要があります。詳細は.config/example.ymlを参照してください。
+     */
+    "repositoryUrlOrTarballRequired": string;
+    /**
+     * フィードバック
+     */
+    "feedback": string;
+    /**
+     * フィードバックURL
+     */
+    "feedbackUrl": string;
+    /**
+     * 運営者情報
+     */
     "impressum": string;
     "impressumUrl": string;
     "impressumDescription": string;
@@ -1773,7 +1831,13 @@ export interface Locale {
             "inviteExpirationTime": string;
             "canManageCustomEmojis": string;
             "canManageAvatarDecorations": string;
+            /**
+             * チャンネルの利用
+             */
             "canUseChannel": string;
+            /**
+             * ドライブ容量
+             */
             "driveCapacity": string;
             "alwaysMarkNsfw": string;
             "pinMax": string;
@@ -1908,6 +1972,17 @@ export interface Locale {
         "contributors": string;
         "allContributors": string;
         "source": string;
+        /**
+         * オリジナル
+         */
+        "original": string;
+        /**
+         * {name}はオリジナルのMisskeyを改変したバージョンを使用しています。
+         */
+        "thisIsModifiedVersion": ParameterizedString<"name">;
+        /**
+         * Misskeyを翻訳
+         */
         "translation": string;
         "donate": string;
         "morePatrons": string;

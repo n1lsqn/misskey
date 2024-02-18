@@ -1,6 +1,6 @@
 {
 	"name": "misskey",
-	"version": "2024.2.0-beta.12.mogeko",
+	"version": "2024.2.0.mogeko.1+antiSpam",
 	"codename": "nasubi",
 	"repository": {
 		"type": "git",
