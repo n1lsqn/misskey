@@ -189,6 +189,7 @@ export class InboxProcessorService {
 					return 'blocked notes with prohibited words';
 				}
 				if (e.id === '85ab9bd7-3a41-4530-959d-f07073900109') return 'actor has been suspended';
+				if (e.id === 'e11b3a16-f543-4885-8eb1-66cad131dbfd') return 'blocked mentions from unfamiliar user';
 			}
 			throw e;
 		}
