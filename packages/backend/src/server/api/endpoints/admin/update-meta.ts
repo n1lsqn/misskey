@@ -20,7 +20,9 @@ export const meta = {
 export const paramDef = {
 	type: 'object',
 	properties: {
-		disableRegistration: { type: 'boolean', nullable: true },
+		disableRegistration: { type: 'boolean', nullable: false },
+		disableAntiSpam: { type: 'boolean', nullable: false },
+
 		pinnedUsers: {
 			type: 'array', nullable: true, items: {
 				type: 'string',
@@ -165,6 +167,10 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 
 			if (typeof ps.disableRegistration === 'boolean') {
 				set.disableRegistration = ps.disableRegistration;
+			}
+
+			if (typeof ps.disableAntiSpam === 'boolean') {
+				set.disableAntiSpam = ps.disableAntiSpam;
 			}
 
 			if (Array.isArray(ps.pinnedUsers)) {
