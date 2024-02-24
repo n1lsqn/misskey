@@ -1,6 +1,6 @@
 {
 	"name": "misskey",
-	"version": "2024.2.0.papi.1+antiSpam",
+	"version": "2024.2.0.papi.2",
 	"codename": "nasubi",
 	"repository": {
 		"type": "git",
