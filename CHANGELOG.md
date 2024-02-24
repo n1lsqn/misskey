@@ -13,13 +13,14 @@
 -->
 
 ## 独自機能
-- Feat: rootの切り替え機能
-- Feat: KaTeXの実装
+- Feat: rootの切り替え機能 [#1](https://github.com/n1lsqn/misskey/pull/1)
+- Feat: KaTeXの実装 [#2](https://github.com/n1lsqn/misskey/pull/2)
 - Feat: ロールにチャンネルが使えるかどうかの権限を追加
 - Feat: CWに何も書かなくても投稿できるようにする
 - Feat: リモートユーザーのアイコンデコレーションを表示する
 - Feat: 文字数制限を9000に緩和
 - Feat: アンチスパムモードの追加
+- Feat: 他のサーバーのLTLを覗けるようにする [#62](https://github.com/n1lsqn/misskey/pull/62)
 
 ## 2024.2.0
 
