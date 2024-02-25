@@ -178,6 +178,13 @@ export async function common(createVue: () => App<Element>) {
 	});
 	//#endregion
 
+	//#region Auto data saver
+	if (defaultStore.state.autoDataSaver) {
+		defaultStore.set('enableDataSaverMode', isMobileData());
+		initializeDetectNetworkChange();
+	}
+	//#endregion
+
 	fetchInstanceMetaPromise.then(() => {
 		if (defaultStore.state.themeInitial) {
 			if (instance.defaultLightTheme != null) ColdDeviceStorage.set('lightTheme', JSON.parse(instance.defaultLightTheme));

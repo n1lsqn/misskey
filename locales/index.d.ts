@@ -4309,6 +4309,14 @@ export interface Locale extends ILocale {
      */
     "dataSaver": string;
     /**
+     * 自動でデータセーバーを切り替え
+     */
+    "autoDataSaver": string;
+    /**
+     * Wi-Fi接続時はオフ、モバイルデータ接続時はオンになります。(非対応のブラウザではONにできません)
+     */
+    "autoDataSaverDescription": string;
+    /**
      * アカウントの移行
      */
     "accountMigration": string;

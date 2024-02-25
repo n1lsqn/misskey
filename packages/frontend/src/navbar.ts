@@ -13,6 +13,7 @@ import * as os from '@/os.js';
 import { i18n } from '@/i18n.js';
 import { ui } from '@/config.js';
 import { unisonReload } from '@/scripts/unison-reload.js';
+import { defaultStore } from './store.js';
 
 export const navbarItemDef = reactive({
 	notifications: {
@@ -148,6 +149,69 @@ export const navbarItemDef = reactive({
 					miLocalStorage.setItem('ui', 'classic');
 					unisonReload();
 				},
+			}], ev.currentTarget ?? ev.target);
+		},
+	},
+	quickSettings: {
+		title: i18n.ts.quickSettings,
+		icon: 'ti ti-tool',
+		action: (ev) => {
+			os.popupMenu([{
+				type: 'parent',
+				text: i18n.ts.withSensitive,
+				children: [{
+					text: i18n.ts.on,
+					active: defaultStore.state.tl.filter.withSensitive,
+					action: () => {
+						const out = { ...defaultStore.state.tl };
+						// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+						if (!out.filter) {
+							out.filter = {
+								withRenotes: true,
+								withReplies: true,
+								withSensitive: true,
+								onlyFiles: false,
+							};
+						}
+						out.filter.withSensitive = true;
+						defaultStore.set('tl', out);
+						unisonReload();
+					},
+				}, {
+					text: i18n.ts.off,
+					active: !defaultStore.state.tl.filter.withSensitive,
+					action: () => {
+						const out = { ...defaultStore.state.tl };
+						// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+						if (!out.filter) {
+							out.filter = {
+								withRenotes: true,
+								withReplies: true,
+								withSensitive: true,
+								onlyFiles: false,
+							};
+						}
+						out.filter.withSensitive = false;
+						defaultStore.set('tl', out);
+						unisonReload();
+					},
+				}],
+			}, {
+				type: 'parent',
+				text: i18n.ts.dataSaver,
+				children: [{
+					text: i18n.ts.on,
+					active: defaultStore.state.enableDataSaverMode,
+					action: () => {
+						defaultStore.set('enableDataSaverMode', true);
+					},
+				}, {
+					text: i18n.ts.off,
+					active: !defaultStore.state.enableDataSaverMode,
+					action: () => {
+						defaultStore.set('enableDataSaverMode', false);
+					},
+				}],
 			}], ev.currentTarget ?? ev.target);
 		},
 	},

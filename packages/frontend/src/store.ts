@@ -243,6 +243,14 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: false,
 	},
+	enableDataSaverMode: {
+		where: 'device',
+		default: false,
+	},
+	autoDataSaver: {
+		where: 'device',
+		default: true,
+	},
 	disableShowingAnimatedImages: {
 		where: 'device',
 		default: window.matchMedia('(prefers-reduced-motion)').matches,
@@ -538,11 +546,11 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	sound_note: {
 		where: 'device',
-		default: { type: 'syuilo/n-aec', volume: 1 } as SoundStore,
+		default: { type: 'syuilo/n-aec', volume: 0 } as SoundStore,
 	},
 	sound_noteMy: {
 		where: 'device',
-		default: { type: 'syuilo/n-cea-4va', volume: 1 } as SoundStore,
+		default: { type: 'syuilo/n-cea-4va', volume: 0 } as SoundStore,
 	},
 	sound_notification: {
 		where: 'device',
