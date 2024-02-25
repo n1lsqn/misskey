@@ -4309,6 +4309,10 @@ export interface Locale extends ILocale {
      */
     "dataSaver": string;
     /**
+     * データセーバーの詳細設定
+     */
+    "dataSaverAdvancedSettings": string;
+    /**
      * 自動でデータセーバーを切り替え
      */
     "autoDataSaver": string;

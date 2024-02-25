@@ -180,7 +180,6 @@ SPDX-License-Identifier: AGPL-3.0-only
 			<MkSwitch v-model="autoDataSaver" :disabled="!supportAutoDataSaver">
 				<template #caption>{{ i18n.ts.autoDataSaverDescription }}</template>
 				{{ i18n.ts.autoDataSaver }}
-
 			</MkSwitch>
 
 			<MkFolder v-if="enableDataSaverMode">
