@@ -1245,6 +1245,14 @@ export interface Locale extends ILocale {
      */
     "syncDeviceDarkMode": string;
     /**
+     * 日の出/日の入りとダークモードを同期する
+     */
+    "syncTimeDarkMode": string;
+    /**
+     * この設定を有効にすると、デバイスのダークモードと同期されなくなります。
+     */
+    "disableSyncDeviceDarkMode": string;
+    /**
      * ドライブ
      */
     "drive": string;
@@ -3881,6 +3889,14 @@ export interface Locale extends ILocale {
      */
     "activeEmailValidationDescription": string;
     /**
+     * ファイル名をランダム化
+     */
+    "filenameRandomize": string;
+    /**
+     * ファイルのアップロード時にファイル名をランダムな文字列に変更します。以前にアップロードしたファイルのファイル名は変更されません。
+     */
+    "filenameRandomizeDescription": string;
+    /**
      * ナビゲーションバー
      */
     "navbar": string;
@@ -4292,6 +4308,14 @@ export interface Locale extends ILocale {
      * データセーバー
      */
     "dataSaver": string;
+    /**
+     * 自動でデータセーバーを切り替え
+     */
+    "autoDataSaver": string;
+    /**
+     * Wi-Fi接続時はオフ、モバイルデータ接続時はオンになります。(非対応のブラウザではONにできません)
+     */
+    "autoDataSaverDescription": string;
     /**
      * アカウントの移行
      */

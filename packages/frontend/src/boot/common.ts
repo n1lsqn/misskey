@@ -163,6 +163,10 @@ export async function common(createVue: () => App<Element>) {
 	});
 
 	//#region Sync dark mode
+	if (ColdDeviceStorage.get('syncDeviceDarkMode') && !ColdDeviceStorage.get('syncTimeDarkMode')) {
+		defaultStore.set('darkMode', isDeviceDarkmode());
+	}
+
 	if (ColdDeviceStorage.get('syncDeviceDarkMode')) {
 		defaultStore.set('darkMode', isDeviceDarkmode());
 	}
@@ -172,6 +176,13 @@ export async function common(createVue: () => App<Element>) {
 			defaultStore.set('darkMode', mql.matches);
 		}
 	});
+	//#endregion
+
+	//#region Auto data saver
+	if (defaultStore.state.autoDataSaver) {
+		defaultStore.set('enableDataSaverMode', isMobileData());
+		initializeDetectNetworkChange();
+	}
 	//#endregion
 
 	fetchInstanceMetaPromise.then(() => {

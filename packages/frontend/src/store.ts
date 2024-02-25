@@ -113,6 +113,10 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'account',
 		default: false,
 	},
+	filenameRandomize: {
+		where: 'account',
+		default: false,
+	},
 	memo: {
 		where: 'account',
 		default: null,
@@ -238,6 +242,14 @@ export const defaultStore = markRaw(new Storage('base', {
 	imageNewTab: {
 		where: 'device',
 		default: false,
+	},
+	enableDataSaverMode: {
+		where: 'device',
+		default: false,
+	},
+	autoDataSaver: {
+		where: 'device',
+		default: true,
 	},
 	disableShowingAnimatedImages: {
 		where: 'device',
@@ -534,11 +546,11 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	sound_note: {
 		where: 'device',
-		default: { type: 'syuilo/n-aec', volume: 1 } as SoundStore,
+		default: { type: 'syuilo/n-aec', volume: 0 } as SoundStore,
 	},
 	sound_noteMy: {
 		where: 'device',
-		default: { type: 'syuilo/n-cea-4va', volume: 1 } as SoundStore,
+		default: { type: 'syuilo/n-cea-4va', volume: 0 } as SoundStore,
 	},
 	sound_notification: {
 		where: 'device',
@@ -593,6 +605,7 @@ export class ColdDeviceStorage {
 		lightTheme,
 		darkTheme,
 		syncDeviceDarkMode: true,
+		syncTimeDarkMode: false,
 		plugins: [] as Plugin[],
 	};
 
