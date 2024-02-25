@@ -23,6 +23,7 @@ import { deckStore } from '@/ui/deck/deck-store.js';
 import { miLocalStorage } from '@/local-storage.js';
 import { fetchCustomEmojis } from '@/custom-emojis.js';
 import { setupRouter } from '@/router/definition.js';
+import { initializeDetectNetworkChange, isMobileData } from '@/scripts/dataserver.js';
 
 export async function common(createVue: () => App<Element>) {
 	console.info(`Misskey v${version}`);
