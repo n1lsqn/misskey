@@ -52,7 +52,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<template #caption>{{ i18n.ts.enableAutoSensitiveDescription }}</template>
 			</MkSwitch>
 			<MkSwitch v-model="filenameRandomize">
-				<template #label>{{ i18n.ts.filenameRandomize }}<span class="_beta">{{ i18n.ts.originalFeature }}</span></template>
+				<template #label>{{ i18n.ts.filenameRandomize }}</template>
 				<template #caption>{{ i18n.ts.filenameRandomizeDescription }}</template>
 			</MkSwitch>
 		</div>
