@@ -175,6 +175,45 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<template #caption>{{ i18n.ts.numberOfPageCacheDescription }}</template>
 			</MkRange>
 
+			<MkSwitch v-model="enableDataSaverMode" :disabled="autoDataSaver">{{ i18n.ts.dataSaver }}</MkSwitch>
+
+			<MkSwitch v-model="autoDataSaver" :disabled="!supportAutoDataSaver">
+				<template #caption>{{ i18n.ts.autoDataSaverDescription }}</template>
+				{{ i18n.ts.autoDataSaver }}
+
+			</MkSwitch>
+
+			<MkFolder v-if="enableDataSaverMode">
+				<template #label>{{ i18n.ts.dataSaverAdvancedSettings }}</template>
+
+				<div class="_gaps_m">
+					<MkInfo>{{ i18n.ts.reloadRequiredToApplySettings }}</MkInfo>
+
+					<div class="_buttons">
+						<MkButton inline @click="enableAllDataSaver">{{ i18n.ts.enableAll }}</MkButton>
+						<MkButton inline @click="disableAllDataSaver">{{ i18n.ts.disableAll }}</MkButton>
+					</div>
+					<div class="_gaps_m">
+						<MkSwitch v-model="dataSaver.media">
+							{{ i18n.ts._dataSaver._media.title }}
+							<template #caption>{{ i18n.ts._dataSaver._media.description }}</template>
+						</MkSwitch>
+						<MkSwitch v-model="dataSaver.avatar">
+							{{ i18n.ts._dataSaver._avatar.title }}
+							<template #caption>{{ i18n.ts._dataSaver._avatar.description }}</template>
+						</MkSwitch>
+						<MkSwitch v-model="dataSaver.urlPreview">
+							{{ i18n.ts._dataSaver._urlPreview.title }}
+							<template #caption>{{ i18n.ts._dataSaver._urlPreview.description }}</template>
+						</MkSwitch>
+						<MkSwitch v-model="dataSaver.code">
+							{{ i18n.ts._dataSaver._code.title }}
+							<template #caption>{{ i18n.ts._dataSaver._code.description }}</template>
+						</MkSwitch>
+					</div>
+				</div>
+			</MkFolder>
+
 			<MkFolder>
 				<template #label>{{ i18n.ts.dataSaver }}</template>
 
@@ -355,6 +394,7 @@ import { miLocalStorage } from '@/local-storage.js';
 import { globalEvents } from '@/events.js';
 import { claimAchievement } from '@/scripts/achievements.js';
 import { signinRequired } from '@/account.js';
+import { isSupportNavigatorConnection } from '@/scripts/dataserver.js';
 
 const lang = ref(miLocalStorage.getItem('lang'));
 const fontSize = ref(miLocalStorage.getItem('fontSize'));
@@ -389,6 +429,8 @@ const enableQuickAddMfmFunction = computed(defaultStore.makeGetterSetter('enable
 const emojiStyle = computed(defaultStore.makeGetterSetter('emojiStyle'));
 const disableDrawer = computed(defaultStore.makeGetterSetter('disableDrawer'));
 const disableShowingAnimatedImages = computed(defaultStore.makeGetterSetter('disableShowingAnimatedImages'));
+const autoDataSaver = computed(defaultStore.makeGetterSetter('autoDataSaver'));
+const enableDataSaverMode = computed(defaultStore.makeGetterSetter('enableDataSaverMode'));
 const forceShowAds = computed(defaultStore.makeGetterSetter('forceShowAds'));
 const loadRawImages = computed(defaultStore.makeGetterSetter('loadRawImages'));
 const highlightSensitiveMedia = computed(defaultStore.makeGetterSetter('highlightSensitiveMedia'));
@@ -512,6 +554,7 @@ async function remoteLocaltimelineSave() {
 	await reloadAsk();
 }
 
+const supportAutoDataSaver = computed(() => isSupportNavigatorConnection());
 const emojiIndexLangs = ['en-US', 'ja-JP', 'ja-JP_hira'] as const;
 
 function getEmojiIndexLangName(targetLang: typeof emojiIndexLangs[number]) {
