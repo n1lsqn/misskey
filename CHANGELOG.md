@@ -21,6 +21,10 @@
 - Feat: 文字数制限を9000に緩和
 - Feat: アンチスパムモードの追加
 - Feat: 他のサーバーのLTLを覗けるようにする [#62](https://github.com/n1lsqn/misskey/pull/62)
+- Fix: 通知バグの解消 [#64](https://github.com/n1lsqn/misskey/pull/64)
+- Feat: 日の入り/日の出に合わてダークモードを変える [#65](https://github.com/n1lsqn/misskey/pull/65)
+- Feat: ファイル名をランダム化できるように [#65](https://github.com/n1lsqn/misskey/pull/65)
+- Feat: 自動的にデータセーバーを切り替える機能 [#65](https://github.com/n1lsqn/misskey/pull/65)
 
 ## 2024.2.0
 
