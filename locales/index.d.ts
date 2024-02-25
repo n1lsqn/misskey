@@ -1251,7 +1251,7 @@ export interface Locale extends ILocale {
     /**
      * この設定を有効にすると、デバイスのダークモードと同期されなくなります。
      */
-    "disableSyncTimeDarkMode": string;
+    "disableSyncDeviceDarkMode": string;
     /**
      * ドライブ
      */
@@ -3888,6 +3888,14 @@ export interface Locale extends ILocale {
      * ユーザーのメールアドレスのバリデーションを、捨てアドかどうかや実際に通信可能かどうかなどを判定しより積極的に行います。オフにすると単に文字列として正しいかどうかのみチェックされます。
      */
     "activeEmailValidationDescription": string;
+    /**
+     * ファイル名をランダム化
+     */
+    "filenameRandomize": string;
+    /**
+     * ファイルのアップロード時にファイル名をランダムな文字列に変更します。以前にアップロードしたファイルのファイル名は変更されません。
+     */
+    "filenameRandomizeDescription": string;
     /**
      * ナビゲーションバー
      */
