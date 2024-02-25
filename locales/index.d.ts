@@ -1245,6 +1245,14 @@ export interface Locale extends ILocale {
      */
     "syncDeviceDarkMode": string;
     /**
+     * 日の出/日の入りとダークモードを同期する
+     */
+    "syncTimeDarkMode": string;
+    /**
+     * この設定を有効にすると、デバイスのダークモードと同期されなくなります。
+     */
+    "disableSyncTimeDarkMode": string;
+    /**
      * ドライブ
      */
     "drive": string;

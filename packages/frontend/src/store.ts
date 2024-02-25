@@ -593,6 +593,7 @@ export class ColdDeviceStorage {
 		lightTheme,
 		darkTheme,
 		syncDeviceDarkMode: true,
+		syncTimeDarkMode: false,
 		plugins: [] as Plugin[],
 	};
 
