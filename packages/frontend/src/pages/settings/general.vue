@@ -393,7 +393,7 @@ import { miLocalStorage } from '@/local-storage.js';
 import { globalEvents } from '@/events.js';
 import { claimAchievement } from '@/scripts/achievements.js';
 import { signinRequired } from '@/account.js';
-import { isSupportNavigatorConnection } from '@/scripts/dataserver.js';
+import { isSupportNavigatorConnection } from '@/scripts/datasaver.js';
 
 const lang = ref(miLocalStorage.getItem('lang'));
 const fontSize = ref(miLocalStorage.getItem('fontSize'));
