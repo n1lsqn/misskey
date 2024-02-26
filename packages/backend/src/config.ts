@@ -10,7 +10,6 @@ import * as yaml from 'js-yaml';
 import type { RedisOptions } from 'ioredis';
 import { cpus } from 'os';
 
-
 type RedisOptionsSource = Partial<RedisOptions> & {
 	host: string;
 	port: number;
@@ -248,8 +247,8 @@ export function loadConfig(): Config {
 		deliverJobConcurrency: config.deliverJobConcurrency || ((cpus().length || 4) * 8),
 		inboxJobConcurrency: config.inboxJobConcurrency || ((cpus().length || 4) * 1),
 		relationshipJobConcurrency: config.relationshipJobConcurrency,
-		deliverJobPerSec: config.deliverJobPerSec || -1,
-		inboxJobPerSec: config.inboxJobPerSec || -1,
+		deliverJobPerSec: config.deliverJobPerSec,
+		inboxJobPerSec: config.inboxJobPerSec,
 		relationshipJobPerSec: config.relationshipJobPerSec,
 		deliverJobMaxAttempts: config.deliverJobMaxAttempts,
 		inboxJobMaxAttempts: config.inboxJobMaxAttempts,
