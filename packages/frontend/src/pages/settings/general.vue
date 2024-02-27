@@ -174,13 +174,12 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<template #label>{{ i18n.ts.numberOfPageCache }}</template>
 				<template #caption>{{ i18n.ts.numberOfPageCacheDescription }}</template>
 			</MkRange>
-
+			<!--
 			<MkSwitch v-model="enableDataSaverMode" :disabled="autoDataSaver">{{ i18n.ts.dataSaver }}</MkSwitch>
 
 			<MkSwitch v-model="autoDataSaver" :disabled="!supportAutoDataSaver">
 				<template #caption>{{ i18n.ts.autoDataSaverDescription }}</template>
 				{{ i18n.ts.autoDataSaver }}
-				<span class="_beta">{{ i18n.ts.originalFeature }}</span>
 			</MkSwitch>
 
 			<MkFolder v-if="enableDataSaverMode">
@@ -213,6 +212,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 					</div>
 				</div>
 			</MkFolder>
+			-->
 		</div>
 	</FormSection>
 
