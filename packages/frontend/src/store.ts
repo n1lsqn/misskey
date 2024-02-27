@@ -115,7 +115,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	filenameRandomize: {
 		where: 'account',
-		default: false,
+		default: true,
 	},
 	memo: {
 		where: 'account',

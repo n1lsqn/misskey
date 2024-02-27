@@ -11,7 +11,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 			<div class="_gaps_m">
 				<div :class="$style.banner" :style="{ backgroundImage: `url(${ instance.bannerUrl })` }">
 					<div style="overflow: clip;">
-						<img :src="instance.iconUrl ?? instance.faviconUrl ?? '/favicon.ico'" alt="" :class="$style.bannerIcon"/>
+						<img :src="instance.iconUrl ?? instance.iconUrl ?? '/favicon.ico'" alt="" :class="$style.bannerIcon"/>
 						<div :class="$style.bannerName">
 							<b>{{ instance.name ?? host }}</b>
 						</div>
@@ -24,6 +24,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 						Special Thanks <a href="https://git.prismisskey.space/mattyatea/misskey">Prismisskey</a>
 						<br/>
 						Special Thanks <a href="https://misskey.io/@cyberrex_v2">@cyberrex_v2</a>
+						<br/>
 						Special Thanks <a href="https://github.com/hideki0403/misskey.yukineko.me">隠れ家</a>
 					</template>
 				</MkKeyValue>
