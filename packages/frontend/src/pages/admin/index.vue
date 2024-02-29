@@ -72,7 +72,7 @@ misskeyApi('admin/abuse-user-reports', {
 	if (reports.length > 0) thereIsUnresolvedAbuseReport.value = true;
 });
 
-os.api('announcements', {
+misskeyApi('announcements', {
 	display: 'emergency',
 	isActive: true,
 	limit: 1,

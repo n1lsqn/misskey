@@ -48,7 +48,7 @@ export class MiAnnouncement {
 		length: 256, nullable: false,
 		default: 'normal',
 	})
-	public display: 'normal' | 'banner' | 'dialog';
+	public display: 'normal' | 'banner' | 'dialog' | 'emergency';
 
 	@Column('boolean', {
 		default: false,
