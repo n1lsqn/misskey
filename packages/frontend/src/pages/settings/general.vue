@@ -174,13 +174,12 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<template #label>{{ i18n.ts.numberOfPageCache }}</template>
 				<template #caption>{{ i18n.ts.numberOfPageCacheDescription }}</template>
 			</MkRange>
-
+			<!--
 			<MkSwitch v-model="enableDataSaverMode" :disabled="autoDataSaver">{{ i18n.ts.dataSaver }}</MkSwitch>
 
 			<MkSwitch v-model="autoDataSaver" :disabled="!supportAutoDataSaver">
 				<template #caption>{{ i18n.ts.autoDataSaverDescription }}</template>
 				{{ i18n.ts.autoDataSaver }}
-
 			</MkSwitch>
 
 			<MkFolder v-if="enableDataSaverMode">
@@ -213,7 +212,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 					</div>
 				</div>
 			</MkFolder>
-
+			-->
 			<MkFolder>
 				<template #label>{{ i18n.ts.dataSaver }}</template>
 
@@ -394,7 +393,7 @@ import { miLocalStorage } from '@/local-storage.js';
 import { globalEvents } from '@/events.js';
 import { claimAchievement } from '@/scripts/achievements.js';
 import { signinRequired } from '@/account.js';
-import { isSupportNavigatorConnection } from '@/scripts/dataserver.js';
+import { isSupportNavigatorConnection } from '@/scripts/datasaver.js';
 
 const lang = ref(miLocalStorage.getItem('lang'));
 const fontSize = ref(miLocalStorage.getItem('fontSize'));

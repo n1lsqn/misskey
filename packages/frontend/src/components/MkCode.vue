@@ -28,16 +28,16 @@ SPDX-License-Identifier: AGPL-3.0-only
 import { defineAsyncComponent, ref } from 'vue';
 import * as os from '@/os.js';
 import MkLoading from '@/components/global/MkLoading.vue';
-import { defaultStore } from '@/store.js';
 import { i18n } from '@/i18n.js';
 import copyToClipboard from '@/scripts/copy-to-clipboard.js';
+import { getDataSaverState } from '@/scripts/datasaver.js';
 
 const props = defineProps<{
 	code: string;
 	lang?: string;
 }>();
 
-const show = ref(!defaultStore.state.dataSaver.code);
+const show = ref(!getDataSaverState('code'));
 
 const XCode = defineAsyncComponent(() => import('@/components/MkCode.core.vue'));
 
