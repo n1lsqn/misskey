@@ -240,6 +240,7 @@ export interface InternalEventTypes {
 	unmute: { muterId: MiUser['id']; muteeId: MiUser['id']; };
 	userListMemberAdded: { userListId: MiUserList['id']; memberId: MiUser['id']; };
 	userListMemberRemoved: { userListId: MiUserList['id']; memberId: MiUser['id']; };
+	userChangeRootState: { id: MiUser['id']; isRoot: boolean; };
 }
 
 // name/messages(spec) pairs dictionary
