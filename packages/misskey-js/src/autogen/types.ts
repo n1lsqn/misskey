@@ -9722,7 +9722,7 @@ export type operations = {
           /** @default 10 */
           limit?: number;
           /** @enum {string|null} */
-          display?: 'normal' | 'banner' | 'dialog' | 'emergency' | null;
+          display?: 'normal' | 'banner' | 'dialog' | 'emergency';
           /** Format: misskey:id */
           sinceId?: string;
           /** Format: misskey:id */
