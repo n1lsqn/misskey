@@ -1,6 +1,6 @@
 {
 	"name": "misskey",
-	"version": "2024.2.0.papi.5",
+	"version": "2024.3.0.papi",
 	"codename": "nasubi",
 	"repository": {
 		"type": "git",
