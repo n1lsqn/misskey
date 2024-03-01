@@ -174,6 +174,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<template #label>{{ i18n.ts.numberOfPageCache }}</template>
 				<template #caption>{{ i18n.ts.numberOfPageCacheDescription }}</template>
 			</MkRange>
+			<!--
 			<MkSwitch v-model="enableDataSaverMode" :disabled="autoDataSaver">{{ i18n.ts.dataSaver }}</MkSwitch>
 
 			<MkSwitch v-model="autoDataSaver" :disabled="!supportAutoDataSaver">
@@ -183,6 +184,37 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 			<MkFolder v-if="enableDataSaverMode">
 				<template #label>{{ i18n.ts.dataSaverAdvancedSettings }}</template>
+
+				<div class="_gaps_m">
+					<MkInfo>{{ i18n.ts.reloadRequiredToApplySettings }}</MkInfo>
+
+					<div class="_buttons">
+						<MkButton inline @click="enableAllDataSaver">{{ i18n.ts.enableAll }}</MkButton>
+						<MkButton inline @click="disableAllDataSaver">{{ i18n.ts.disableAll }}</MkButton>
+					</div>
+					<div class="_gaps_m">
+						<MkSwitch v-model="dataSaver.media">
+							{{ i18n.ts._dataSaver._media.title }}
+							<template #caption>{{ i18n.ts._dataSaver._media.description }}</template>
+						</MkSwitch>
+						<MkSwitch v-model="dataSaver.avatar">
+							{{ i18n.ts._dataSaver._avatar.title }}
+							<template #caption>{{ i18n.ts._dataSaver._avatar.description }}</template>
+						</MkSwitch>
+						<MkSwitch v-model="dataSaver.urlPreview">
+							{{ i18n.ts._dataSaver._urlPreview.title }}
+							<template #caption>{{ i18n.ts._dataSaver._urlPreview.description }}</template>
+						</MkSwitch>
+						<MkSwitch v-model="dataSaver.code">
+							{{ i18n.ts._dataSaver._code.title }}
+							<template #caption>{{ i18n.ts._dataSaver._code.description }}</template>
+						</MkSwitch>
+					</div>
+				</div>
+			</MkFolder>
+			-->
+			<MkFolder>
+				<template #label>{{ i18n.ts.dataSaver }}</template>
 
 				<div class="_gaps_m">
 					<MkInfo>{{ i18n.ts.reloadRequiredToApplySettings }}</MkInfo>
@@ -357,11 +389,11 @@ import { misskeyApi } from '@/scripts/misskey-api.js';
 import { unisonReload } from '@/scripts/unison-reload.js';
 import { i18n } from '@/i18n.js';
 import { definePageMetadata } from '@/scripts/page-metadata.js';
-import { isSupportNavigatorConnection } from '@/scripts/datasaver.js';
 import { miLocalStorage } from '@/local-storage.js';
 import { globalEvents } from '@/events.js';
 import { claimAchievement } from '@/scripts/achievements.js';
 import { signinRequired } from '@/account.js';
+import { isSupportNavigatorConnection } from '@/scripts/datasaver.js';
 
 const lang = ref(miLocalStorage.getItem('lang'));
 const fontSize = ref(miLocalStorage.getItem('fontSize'));

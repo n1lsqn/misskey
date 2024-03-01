@@ -204,14 +204,12 @@ export const navbarItemDef = reactive({
 					active: defaultStore.state.enableDataSaverMode,
 					action: () => {
 						defaultStore.set('enableDataSaverMode', true);
-						unisonReload();
 					},
 				}, {
 					text: i18n.ts.off,
 					active: !defaultStore.state.enableDataSaverMode,
 					action: () => {
 						defaultStore.set('enableDataSaverMode', false);
-						unisonReload();
 					},
 				}],
 			}], ev.currentTarget ?? ev.target);
