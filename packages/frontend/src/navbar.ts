@@ -203,25 +203,31 @@ export const navbarItemDef = reactive({
 					text: i18n.ts.on,
 					active: defaultStore.state.enableDataSaverMode,
 					action: () => {
-						defaultStore.set('enableDataSaverMode', true);
-						const g = { ...defaultStore.state.dataSaver };
-						Object.keys(g).forEach(k => {
-							g[k] = true;
-						},
-						);
-						unisonReload();
+						if (!defaultStore.state.enableDataSaverMode) {
+							defaultStore.set('enableDataSaverMode', true);
+							defaultStore.set('dataSaver', {
+								media: true,
+								avatar: true,
+								urlPreview: true,
+								code: true,
+							});
+							unisonReload();
+						}
 					},
 				}, {
 					text: i18n.ts.off,
 					active: !defaultStore.state.enableDataSaverMode,
 					action: () => {
-						defaultStore.set('enableDataSaverMode', false);
-						const g = { ...defaultStore.state.dataSaver };
-						Object.keys(g).forEach(k => {
-							g[k] = false;
-						},
-						);
-						unisonReload();
+						if (defaultStore.state.enableDataSaverMode) {
+							defaultStore.set('enableDataSaverMode', false);
+							defaultStore.set('dataSaver', {
+								media: false,
+								avatar: false,
+								urlPreview: false,
+								code: false,
+							});
+							unisonReload();
+						}
 					},
 				}],
 			}], ev.currentTarget ?? ev.target);
