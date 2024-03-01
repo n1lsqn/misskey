@@ -427,6 +427,26 @@ export type paths = {
      */
     post: operations['admin/invite/list'];
   };
+  '/admin/root/add': {
+    /**
+     * admin/root/add
+     * @description No description provided.
+     *
+     * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
+     * **Credential required**: *Yes*
+     */
+    post: operations['admin/root/add'];
+  };
+  '/admin/root/remove': {
+    /**
+     * admin/root/remove
+     * @description No description provided.
+     *
+     * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
+     * **Credential required**: *Yes*
+     */
+    post: operations['admin/root/remove'];
+  };
   '/admin/promo/create': {
     /**
      * admin/promo/create
@@ -4660,6 +4680,7 @@ export type components = {
       inviteExpirationTime: number;
       canManageCustomEmojis: boolean;
       canManageAvatarDecorations: boolean;
+      canUseChannel: boolean;
       canSearchNotes: boolean;
       canUseTranslator: boolean;
       canHideAds: boolean;
@@ -4951,6 +4972,7 @@ export type operations = {
             defaultLightTheme: string | null;
             description: string | null;
             disableRegistration: boolean;
+            disableAntiSpam: boolean | null;
             impressumUrl: string | null;
             maintainerEmail: string | null;
             maintainerName: string | null;
@@ -7647,6 +7669,112 @@ export type operations = {
     };
   };
   /**
+   * admin/root/add
+   * @description No description provided.
+   *
+   * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
+   * **Credential required**: *Yes*
+   */
+  'admin/root/add': {
+    requestBody: {
+      content: {
+        'application/json': {
+          /** Format: misskey:id */
+          userId: string;
+        };
+      };
+    };
+    responses: {
+      /** @description OK (without any results) */
+      204: {
+        content: never;
+      };
+      /** @description Client error */
+      400: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Authentication error */
+      401: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Forbidden error */
+      403: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description I'm Ai */
+      418: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Internal server error */
+      500: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+    };
+  };
+  /**
+   * admin/root/remove
+   * @description No description provided.
+   *
+   * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
+   * **Credential required**: *Yes*
+   */
+  'admin/root/remove': {
+    requestBody: {
+      content: {
+        'application/json': {
+          /** Format: misskey:id */
+          userId: string;
+        };
+      };
+    };
+    responses: {
+      /** @description OK (without any results) */
+      204: {
+        content: never;
+      };
+      /** @description Client error */
+      400: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Authentication error */
+      401: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Forbidden error */
+      403: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description I'm Ai */
+      418: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Internal server error */
+      500: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+    };
+  };
+  /**
    * admin/promo/create
    * @description No description provided.
    *
@@ -8810,7 +8938,8 @@ export type operations = {
     requestBody: {
       content: {
         'application/json': {
-          disableRegistration?: boolean | null;
+          disableRegistration?: boolean;
+          disableAntiSpam?: boolean;
           pinnedUsers?: string[] | null;
           hiddenTags?: string[] | null;
           blockedHosts?: string[] | null;
