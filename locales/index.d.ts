@@ -1469,6 +1469,14 @@ export interface Locale extends ILocale {
      */
     "enableRegistration": string;
     /**
+     * アンチスパムモードを有効にする
+     */
+    "enableAntiSpam": string;
+    /**
+     * 本サーバーからフォローされていないユーザーのメンションが届かなくなります
+     */
+    "enableAntiSpamDescription": string;
+    /**
      * 招待
      */
     "invite": string;
@@ -4024,6 +4032,10 @@ export interface Locale extends ILocale {
      * アバターデコレーションの管理
      */
     "manageAvatarDecorations": string;
+    /**
+     * チャンネルの利用を管理
+     */
+    "manageUseChannel": string;
     /**
      * これ以上作成することはできません。
      */

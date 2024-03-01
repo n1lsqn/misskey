@@ -8,6 +8,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 import * as yaml from 'js-yaml';
 import type { RedisOptions } from 'ioredis';
+import { cpus } from 'os';
 
 type RedisOptionsSource = Partial<RedisOptions> & {
 	host: string;
@@ -240,11 +241,11 @@ export function loadConfig(): Config {
 		proxyBypassHosts: config.proxyBypassHosts,
 		allowedPrivateNetworks: config.allowedPrivateNetworks,
 		maxFileSize: config.maxFileSize,
-		clusterLimit: config.clusterLimit,
+		clusterLimit: config.clusterLimit || cpus().length || 1,
 		outgoingAddress: config.outgoingAddress,
 		outgoingAddressFamily: config.outgoingAddressFamily,
-		deliverJobConcurrency: config.deliverJobConcurrency,
-		inboxJobConcurrency: config.inboxJobConcurrency,
+		deliverJobConcurrency: config.deliverJobConcurrency || ((cpus().length || 4) * 8),
+		inboxJobConcurrency: config.inboxJobConcurrency || ((cpus().length || 4) * 1),
 		relationshipJobConcurrency: config.relationshipJobConcurrency,
 		deliverJobPerSec: config.deliverJobPerSec,
 		inboxJobPerSec: config.inboxJobPerSec,
