@@ -249,7 +249,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	autoDataSaver: {
 		where: 'device',
-		default: true,
+		default: false,
 	},
 	disableShowingAnimatedImages: {
 		where: 'device',
