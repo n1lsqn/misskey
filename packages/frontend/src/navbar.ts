@@ -5,6 +5,7 @@
 
 import { computed, reactive } from 'vue';
 import { clearCache } from './scripts/clear-cache.js';
+import { defaultStore } from './store.js';
 import { $i } from '@/account.js';
 import { miLocalStorage } from '@/local-storage.js';
 import { openInstanceMenu, openToolsMenu } from '@/ui/_common_/common.js';
@@ -13,7 +14,6 @@ import * as os from '@/os.js';
 import { i18n } from '@/i18n.js';
 import { ui } from '@/config.js';
 import { unisonReload } from '@/scripts/unison-reload.js';
-import { defaultStore } from './store.js';
 
 export const navbarItemDef = reactive({
 	notifications: {
@@ -203,13 +203,31 @@ export const navbarItemDef = reactive({
 					text: i18n.ts.on,
 					active: defaultStore.state.enableDataSaverMode,
 					action: () => {
-						defaultStore.set('enableDataSaverMode', true);
+						if (!defaultStore.state.enableDataSaverMode) {
+							defaultStore.set('enableDataSaverMode', true);
+							defaultStore.set('dataSaver', {
+								media: true,
+								avatar: true,
+								urlPreview: true,
+								code: true,
+							});
+							unisonReload();
+						}
 					},
 				}, {
 					text: i18n.ts.off,
 					active: !defaultStore.state.enableDataSaverMode,
 					action: () => {
-						defaultStore.set('enableDataSaverMode', false);
+						if (defaultStore.state.enableDataSaverMode) {
+							defaultStore.set('enableDataSaverMode', false);
+							defaultStore.set('dataSaver', {
+								media: false,
+								avatar: false,
+								urlPreview: false,
+								code: false,
+							});
+							unisonReload();
+						}
 					},
 				}],
 			}], ev.currentTarget ?? ev.target);

@@ -43,11 +43,12 @@ export class MiAnnouncement {
 	// normal ... お知らせページ掲載
 	// banner ... お知らせページ掲載 + バナー表示
 	// dialog ... お知らせページ掲載 + ダイアログ表示
+	// emergency ... （緊急防災情報）お知らせページ掲載 + バナー表示 + 専用ダイアログ表示
 	@Column('varchar', {
 		length: 256, nullable: false,
 		default: 'normal',
 	})
-	public display: 'normal' | 'banner' | 'dialog';
+	public display: 'normal' | 'banner' | 'dialog' | 'emergency';
 
 	@Column('boolean', {
 		default: false,

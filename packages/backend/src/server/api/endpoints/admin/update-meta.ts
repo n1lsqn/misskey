@@ -152,6 +152,16 @@ export const paramDef = {
 				type: 'string',
 			},
 		},
+		enableEmergencyAnnouncementIntegration: { type: 'boolean' },
+		emergencyAnnouncementIntegrationConfig: {
+			type: 'object',
+			nullable: true,
+			properties: {
+				type: {
+					type: 'string', enum: ['none', 'p2pquake'],
+				},
+			},
+		},
 	},
 	required: [],
 } as const;
@@ -585,6 +595,19 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 
 			if (ps.bannedEmailDomains !== undefined) {
 				set.bannedEmailDomains = ps.bannedEmailDomains;
+			}
+
+			if (ps.enableEmergencyAnnouncementIntegration !== undefined) {
+				set.enableEmergencyAnnouncementIntegration = ps.enableEmergencyAnnouncementIntegration;
+			}
+
+			if (ps.emergencyAnnouncementIntegrationConfig && ps.emergencyAnnouncementIntegrationConfig.type !== undefined) {
+				set.emergencyAnnouncementIntegrationConfig = {
+					...ps.emergencyAnnouncementIntegrationConfig,
+					type: ps.emergencyAnnouncementIntegrationConfig.type,
+				};
+			} else {
+				set.emergencyAnnouncementIntegrationConfig = { type: 'none' };
 			}
 
 			const before = await this.metaService.fetch(true);
