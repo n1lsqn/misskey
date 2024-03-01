@@ -25,7 +25,7 @@ export interface Locale extends ILocale {
      */
     "introMisskey": string;
     /**
-     * {name}は、オープンソースのプラットフォーム<b>Misskey</b>のサーバーのひとつです。
+     * {name}は、オープンソースのプラットフォーム<b>Misskey</b>の村のひとつです。
      */
     "poweredByMisskeyDescription": ParameterizedString<"name">;
     /**
@@ -149,7 +149,7 @@ export interface Locale extends ILocale {
      */
     "save": string;
     /**
-     * ユーザー
+     * 村人
      */
     "users": string;
     /**
@@ -345,7 +345,7 @@ export interface Locale extends ILocale {
      */
     "note": string;
     /**
-     * ノート
+     * 村役場への投書
      */
     "notes": string;
     /**
@@ -869,7 +869,7 @@ export interface Locale extends ILocale {
      */
     "instanceInfo": string;
     /**
-     * 統計
+     * 村の統計
      */
     "statistics": string;
     /**
@@ -1721,7 +1721,7 @@ export interface Locale extends ILocale {
      */
     "aboutMisskey": string;
     /**
-     * 管理者
+     * 村長
      */
     "administrator": string;
     /**
@@ -4365,7 +4365,7 @@ export interface Locale extends ILocale {
      */
     "position": string;
     /**
-     * サーバールール
+     * 村の掟
      */
     "serverRules": string;
     /**
@@ -6482,6 +6482,10 @@ export interface Locale extends ILocale {
              * アバターデコレーションの管理
              */
             "canManageAvatarDecorations": string;
+            /**
+             * チャンネルの利用
+             */
+            "canUseChannel": string;
             /**
              * ドライブ容量
              */
