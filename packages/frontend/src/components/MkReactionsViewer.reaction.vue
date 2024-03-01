@@ -51,7 +51,12 @@ const emit = defineEmits<{
 const buttonEl = shallowRef<HTMLElement>();
 
 const isCustomEmoji = computed(() => props.reaction.includes(':'));
+const emoji = computed(() => isCustomEmoji.value ? customEmojis.value.find(emoji => emoji.name === props.reaction.replace(/:/g, '').replace(/@\./, '')) : null);
+
+const canToggle = computed(() => {
 	return !props.reaction.match(/@\w/) && $i
+			&& (emoji.value && checkReactionPermissions($i, props.note, emoji.value))
+			|| !isCustomEmoji.value;
 });
 const canGetInfo = computed(() => !props.reaction.match(/@\w/) && props.reaction.includes(':'));
 
