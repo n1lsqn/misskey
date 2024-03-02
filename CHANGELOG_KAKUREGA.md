@@ -1,3 +1,33 @@
+## 1.32.0
+Release: 2024/03/03  
+Base: 2024.3.1
+
+### 新機能
+- pgroongaのサポートを追加
+  - ノート検索が高速になります
+
+> [!IMPORTANT]
+> **1.32.0以降はpgroongaのインストールが必須になります**  
+> インストール方法は[こちら](https://pgroonga.github.io/ja/install/)を参照してください。
+>
+> #### マイグレーション時の注意点
+> マイグレーションを行うユーザー (.config/default.yml のdbに記載されているユーザー) がスーパーユーザー権限を持っていないとコケる可能性があります。  
+> マイグレーション時に `QueryFailedError: permission denied to create extension "pgroonga"` が表示された場合は、一時的にスーパーユーザー権限を付与してマイグレーションを行ってください。
+>
+> #### pgroongaを使用しない場合
+> 以下のコマンドを実行し、関連するコミットおよびコードを取り除いてください
+> ```bash
+> git revert 923c9de5c5cb1ba2e3e9c924f5227aaa61bd7f00
+> git revert 4b63224f3a53a5e38f9a901e40c7a4fadbbd42a8
+> ```
+
+## 1.31.1
+Release: 2024/03/02  
+Base: 2024.3.0  
+
+### 修正
+- ピン留め or 履歴に表示されるカスタム絵文字がサーバから削除されるとリアクションが出来なくなる問題を修正 (cherry-picked from 6fdf30b4663a17bb7843246c703b2d20d4f1673a)
+
 ## 1.31.0
 Release: 2024/03/01  
 Base: 2024.2.0

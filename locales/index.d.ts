@@ -5252,7 +5252,7 @@ export interface Locale extends ILocale {
      * このサーバーからのフォロワーがいないリモートユーザーの、メンションを含むノートをブロックするようにします。
      */
     "blockMentionsFromUnfamiliarRemoteUsersDescription": string;
-		/**
+    /**
      * 読み込み中
      */
     "loading": string;
