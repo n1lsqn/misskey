@@ -1,6 +1,6 @@
 {
 	"name": "misskey",
-	"version": "2024.3.0.mogeko",
+	"version": "2024.3.1.mogeko",
 	"codename": "nasubi",
 	"repository": {
 		"type": "git",
