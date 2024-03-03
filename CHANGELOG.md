@@ -25,6 +25,7 @@
 - Feat: 日の入り/日の出に合わてダークモードを変える [#65](https://github.com/n1lsqn/misskey/pull/65)
 - Feat: ファイル名をランダム化できるように [#65](https://github.com/n1lsqn/misskey/pull/65)
 - Feat: 自動的にデータセーバーを切り替える機能 [#65](https://github.com/n1lsqn/misskey/pull/65)
+- Feat: 指定した時間にノートを自動削除する機能 [#75](https://github.com/n1lsqn/misskey/pull/75)
 
 ## 2024.3.1
 
