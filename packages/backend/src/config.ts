@@ -245,7 +245,7 @@ export function loadConfig(): Config {
 		outgoingAddress: config.outgoingAddress,
 		outgoingAddressFamily: config.outgoingAddressFamily,
 		deliverJobConcurrency: config.deliverJobConcurrency || ((cpus().length || 4) * 8),
-		inboxJobConcurrency: config.inboxJobConcurrency || ((cpus().length || 4) * 1),
+		inboxJobConcurrency: config.inboxJobConcurrency || ((cpus().length || 4) * 8),
 		relationshipJobConcurrency: config.relationshipJobConcurrency,
 		deliverJobPerSec: config.deliverJobPerSec,
 		inboxJobPerSec: config.inboxJobPerSec,
