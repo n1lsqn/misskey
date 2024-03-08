@@ -52,6 +52,8 @@ import * as ep___admin_getTableStats from './endpoints/admin/get-table-stats.js'
 import * as ep___admin_getUserIps from './endpoints/admin/get-user-ips.js';
 import * as ep___admin_invite_create from './endpoints/admin/invite/create.js';
 import * as ep___admin_invite_list from './endpoints/admin/invite/list.js';
+import * as ep___admin_root_add from './endpoints/admin/root/add.js';
+import * as ep___admin_root_remove from './endpoints/admin/root/remove.js';
 import * as ep___admin_promo_create from './endpoints/admin/promo/create.js';
 import * as ep___admin_queue_clear from './endpoints/admin/queue/clear.js';
 import * as ep___admin_queue_deliverDelayed from './endpoints/admin/queue/deliver-delayed.js';
@@ -274,6 +276,7 @@ import * as ep___notes_featured from './endpoints/notes/featured.js';
 import * as ep___notes_globalTimeline from './endpoints/notes/global-timeline.js';
 import * as ep___notes_hybridTimeline from './endpoints/notes/hybrid-timeline.js';
 import * as ep___notes_localTimeline from './endpoints/notes/local-timeline.js';
+import * as ep___notes_anyLocalTimeline from './endpoints/notes/any-local-timeline.js';
 import * as ep___notes_mentions from './endpoints/notes/mentions.js';
 import * as ep___notes_polls_recommendation from './endpoints/notes/polls/recommendation.js';
 import * as ep___notes_polls_vote from './endpoints/notes/polls/vote.js';
@@ -424,6 +427,8 @@ const $admin_getTableStats: Provider = { provide: 'ep:admin/get-table-stats', us
 const $admin_getUserIps: Provider = { provide: 'ep:admin/get-user-ips', useClass: ep___admin_getUserIps.default };
 const $admin_invite_create: Provider = { provide: 'ep:admin/invite/create', useClass: ep___admin_invite_create.default };
 const $admin_invite_list: Provider = { provide: 'ep:admin/invite/list', useClass: ep___admin_invite_list.default };
+const $admin_root_add: Provider = { provide: 'ep:admin/root/add', useClass: ep___admin_root_add.default };
+const $admin_root_remove: Provider = { provide: 'ep:admin/root/remove', useClass: ep___admin_root_remove.default };
 const $admin_promo_create: Provider = { provide: 'ep:admin/promo/create', useClass: ep___admin_promo_create.default };
 const $admin_queue_clear: Provider = { provide: 'ep:admin/queue/clear', useClass: ep___admin_queue_clear.default };
 const $admin_queue_deliverDelayed: Provider = { provide: 'ep:admin/queue/deliver-delayed', useClass: ep___admin_queue_deliverDelayed.default };
@@ -646,6 +651,7 @@ const $notes_featured: Provider = { provide: 'ep:notes/featured', useClass: ep__
 const $notes_globalTimeline: Provider = { provide: 'ep:notes/global-timeline', useClass: ep___notes_globalTimeline.default };
 const $notes_hybridTimeline: Provider = { provide: 'ep:notes/hybrid-timeline', useClass: ep___notes_hybridTimeline.default };
 const $notes_localTimeline: Provider = { provide: 'ep:notes/local-timeline', useClass: ep___notes_localTimeline.default };
+const $notes_anyLocalTimeline: Provider = { provide: 'ep:notes/any-local-timeline', useClass: ep___notes_anyLocalTimeline.default };
 const $notes_mentions: Provider = { provide: 'ep:notes/mentions', useClass: ep___notes_mentions.default };
 const $notes_polls_recommendation: Provider = { provide: 'ep:notes/polls/recommendation', useClass: ep___notes_polls_recommendation.default };
 const $notes_polls_vote: Provider = { provide: 'ep:notes/polls/vote', useClass: ep___notes_polls_vote.default };
@@ -800,6 +806,8 @@ const $reversi_verify: Provider = { provide: 'ep:reversi/verify', useClass: ep__
 		$admin_getUserIps,
 		$admin_invite_create,
 		$admin_invite_list,
+		$admin_root_add,
+		$admin_root_remove,
 		$admin_promo_create,
 		$admin_queue_clear,
 		$admin_queue_deliverDelayed,
@@ -1022,6 +1030,7 @@ const $reversi_verify: Provider = { provide: 'ep:reversi/verify', useClass: ep__
 		$notes_globalTimeline,
 		$notes_hybridTimeline,
 		$notes_localTimeline,
+		$notes_anyLocalTimeline,
 		$notes_mentions,
 		$notes_polls_recommendation,
 		$notes_polls_vote,
@@ -1170,6 +1179,8 @@ const $reversi_verify: Provider = { provide: 'ep:reversi/verify', useClass: ep__
 		$admin_getUserIps,
 		$admin_invite_create,
 		$admin_invite_list,
+		$admin_root_add,
+		$admin_root_remove,
 		$admin_promo_create,
 		$admin_queue_clear,
 		$admin_queue_deliverDelayed,

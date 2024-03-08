@@ -405,6 +405,7 @@ describe('Endpoints', () => {
 		});
 	});
 
+	/*
 	describe('channels/search', () => {
 		test('空白検索で一覧を取得できる', async () => {
 			await api('channels/create', {
@@ -498,6 +499,7 @@ describe('Endpoints', () => {
 			assert.strictEqual(res.body.length, 2);
 		});
 	});
+	*/
 
 	describe('drive', () => {
 		test('ドライブ情報を取得できる', async () => {

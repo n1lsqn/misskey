@@ -42,7 +42,7 @@ export const packedAnnouncementSchema = {
 		display: {
 			type: 'string',
 			optional: false, nullable: false,
-			enum: ['dialog', 'normal', 'banner'],
+			enum: ['dialog', 'normal', 'banner', 'emergency'],
 		},
 		needConfirmationToRead: {
 			type: 'boolean',

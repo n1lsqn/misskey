@@ -50,6 +50,7 @@ export class MiNote {
 	public threadId: string | null;
 
 	// TODO: varcharにしたい
+	@Index() // using PGroonga
 	@Column('text', {
 		nullable: true,
 	})
@@ -181,6 +182,11 @@ export class MiNote {
 		default: false,
 	})
 	public hasPoll: boolean;
+
+	@Column('timestamp with time zone', {
+		nullable: true,
+	})
+	public deleteAt: Date | null;
 
 	@Index()
 	@Column({

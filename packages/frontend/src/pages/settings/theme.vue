@@ -26,47 +26,52 @@ SPDX-License-Identifier: AGPL-3.0-only
 				</label>
 			</div>
 		</div>
-		<div class="sync">
-			<MkSwitch v-model="syncDeviceDarkMode">{{ i18n.ts.syncDeviceDarkMode }}</MkSwitch>
+		<div class="sync _gaps_s">
+			<MkSwitch v-model="syncDeviceDarkMode" :disabled="syncTimeDarkMode">{{ i18n.ts.syncDeviceDarkMode }}</MkSwitch>
+			<MkSwitch v-model="syncTimeDarkMode">
+				{{ i18n.ts.syncTimeDarkMode }}
+
+				<template #caption>{{ i18n.ts.disableSyncDeviceDarkMode }}</template>
+			</MkSwitch>
 		</div>
 	</div>
 
-	<div class="selects">
-		<MkSelect v-model="lightThemeId" large class="select">
-			<template #label>{{ i18n.ts.themeForLightMode }}</template>
-			<template #prefix><i class="ti ti-sun"></i></template>
-			<option v-if="instanceLightTheme" :key="'instance:' + instanceLightTheme.id" :value="instanceLightTheme.id">{{ instanceLightTheme.name }}</option>
-			<optgroup v-if="installedLightThemes.length > 0" :label="i18n.ts._theme.installedThemes">
-				<option v-for="x in installedLightThemes" :key="'installed:' + x.id" :value="x.id">{{ x.name }}</option>
-			</optgroup>
-			<optgroup :label="i18n.ts._theme.builtinThemes">
-				<option v-for="x in builtinLightThemes" :key="'builtin:' + x.id" :value="x.id">{{ x.name }}</option>
-			</optgroup>
-		</MkSelect>
-		<MkSelect v-model="darkThemeId" large class="select">
-			<template #label>{{ i18n.ts.themeForDarkMode }}</template>
-			<template #prefix><i class="ti ti-moon"></i></template>
-			<option v-if="instanceDarkTheme" :key="'instance:' + instanceDarkTheme.id" :value="instanceDarkTheme.id">{{ instanceDarkTheme.name }}</option>
-			<optgroup v-if="installedDarkThemes.length > 0" :label="i18n.ts._theme.installedThemes">
-				<option v-for="x in installedDarkThemes" :key="'installed:' + x.id" :value="x.id">{{ x.name }}</option>
-			</optgroup>
-			<optgroup :label="i18n.ts._theme.builtinThemes">
-				<option v-for="x in builtinDarkThemes" :key="'builtin:' + x.id" :value="x.id">{{ x.name }}</option>
-			</optgroup>
-		</MkSelect>
+<div class="selects">
+	<MkSelect v-model="lightThemeId" large class="select">
+		<template #label>{{ i18n.ts.themeForLightMode }}</template>
+		<template #prefix><i class="ti ti-sun"></i></template>
+		<option v-if="instanceLightTheme" :key="'instance:' + instanceLightTheme.id" :value="instanceLightTheme.id">{{ instanceLightTheme.name }}</option>
+		<optgroup v-if="installedLightThemes.length > 0" :label="i18n.ts._theme.installedThemes">
+			<option v-for="x in installedLightThemes" :key="'installed:' + x.id" :value="x.id">{{ x.name }}</option>
+		</optgroup>
+		<optgroup :label="i18n.ts._theme.builtinThemes">
+			<option v-for="x in builtinLightThemes" :key="'builtin:' + x.id" :value="x.id">{{ x.name }}</option>
+		</optgroup>
+	</MkSelect>
+	<MkSelect v-model="darkThemeId" large class="select">
+		<template #label>{{ i18n.ts.themeForDarkMode }}</template>
+		<template #prefix><i class="ti ti-moon"></i></template>
+		<option v-if="instanceDarkTheme" :key="'instance:' + instanceDarkTheme.id" :value="instanceDarkTheme.id">{{ instanceDarkTheme.name }}</option>
+		<optgroup v-if="installedDarkThemes.length > 0" :label="i18n.ts._theme.installedThemes">
+			<option v-for="x in installedDarkThemes" :key="'installed:' + x.id" :value="x.id">{{ x.name }}</option>
+		</optgroup>
+		<optgroup :label="i18n.ts._theme.builtinThemes">
+			<option v-for="x in builtinDarkThemes" :key="'builtin:' + x.id" :value="x.id">{{ x.name }}</option>
+		</optgroup>
+	</MkSelect>
+</div>
+
+<FormSection>
+	<div class="_formLinksGrid">
+		<FormLink to="/settings/theme/manage"><template #icon><i class="ti ti-tool"></i></template>{{ i18n.ts._theme.manage }}<template #suffix>{{ themesCount }}</template></FormLink>
+		<FormLink to="https://assets.misskey.io/theme/list" external><template #icon><i class="ti ti-world"></i></template>{{ i18n.ts._theme.explore }}</FormLink>
+		<FormLink to="/settings/theme/install"><template #icon><i class="ti ti-download"></i></template>{{ i18n.ts._theme.install }}</FormLink>
+		<FormLink to="/theme-editor"><template #icon><i class="ti ti-paint"></i></template>{{ i18n.ts._theme.make }}</FormLink>
 	</div>
+</FormSection>
 
-	<FormSection>
-		<div class="_formLinksGrid">
-			<FormLink to="/settings/theme/manage"><template #icon><i class="ti ti-tool"></i></template>{{ i18n.ts._theme.manage }}<template #suffix>{{ themesCount }}</template></FormLink>
-			<FormLink to="https://assets.misskey.io/theme/list" external><template #icon><i class="ti ti-world"></i></template>{{ i18n.ts._theme.explore }}</FormLink>
-			<FormLink to="/settings/theme/install"><template #icon><i class="ti ti-download"></i></template>{{ i18n.ts._theme.install }}</FormLink>
-			<FormLink to="/theme-editor"><template #icon><i class="ti ti-paint"></i></template>{{ i18n.ts._theme.make }}</FormLink>
-		</div>
-	</FormSection>
-
-	<MkButton v-if="wallpaper == null" @click="setWallpaper">{{ i18n.ts.setWallpaper }}</MkButton>
-	<MkButton v-else @click="wallpaper = null">{{ i18n.ts.removeWallpaper }}</MkButton>
+<MkButton v-if="wallpaper == null" @click="setWallpaper">{{ i18n.ts.setWallpaper }}</MkButton>
+<MkButton v-else @click="wallpaper = null">{{ i18n.ts.removeWallpaper }}</MkButton>
 </div>
 </template>
 
@@ -90,6 +95,7 @@ import { definePageMetadata } from '@/scripts/page-metadata.js';
 import { miLocalStorage } from '@/local-storage.js';
 import { unisonReload } from '@/scripts/unison-reload.js';
 import * as os from '@/os.js';
+import { isTimeDarkmode } from '@/scripts/is-time-darkmode.js';
 
 async function reloadAsk() {
 	const { canceled } = await os.confirm({
@@ -139,6 +145,7 @@ const lightThemeId = computed({
 
 const darkMode = computed(defaultStore.makeGetterSetter('darkMode'));
 const syncDeviceDarkMode = computed(ColdDeviceStorage.makeGetterSetter('syncDeviceDarkMode'));
+const syncTimeDarkMode = computed(ColdDeviceStorage.makeGetterSetter('syncTimeDarkMode'));
 const wallpaper = ref(miLocalStorage.getItem('wallpaper'));
 const themesCount = installedThemes.value.length;
 
@@ -146,6 +153,14 @@ watch(syncDeviceDarkMode, () => {
 	if (syncDeviceDarkMode.value) {
 		defaultStore.set('darkMode', isDeviceDarkmode());
 	}
+});
+
+watch(syncTimeDarkMode, () => {
+	if (syncTimeDarkMode.value) {
+		defaultStore.set('darkMode', isTimeDarkmode());
+	}
+
+	reloadAsk();
 });
 
 watch(wallpaper, () => {

@@ -191,6 +191,10 @@ export const packedRolePoliciesSchema = {
 			type: 'boolean',
 			optional: false, nullable: false,
 		},
+		canUseChannel: {
+			type: 'boolean',
+			optional: false, nullable: false,
+		},
 		canSearchNotes: {
 			type: 'boolean',
 			optional: false, nullable: false,
