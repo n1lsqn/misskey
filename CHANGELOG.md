@@ -1,16 +1,16 @@
-<!--
-## 202x.x.x (unreleased)
+## Unreleased
 
 ### General
 -
 
 ### Client
-- 
+- Enhance: 自分のノートの添付ファイルから直接ファイルの詳細ページに飛べるように
+- Enhance: リアクション・いいねの総数を表示するように
+- Enhance: リアクション受け入れが「いいねのみ」の場合はリアクション絵文字一覧を表示しないように
+- Fix: 一部のページ内リンクが正しく動作しない問題を修正
 
 ### Server
 -
-
--->
 
 ## 独自機能
 - Feat: rootの切り替え機能 [#1](https://github.com/n1lsqn/misskey/pull/1)
