@@ -528,6 +528,9 @@ watch([
 	keepScreenOn,
 	disableStreamingTimeline,
 	enableSeasonalScreenEffect,
+	showReactionsCount,
+	showRenotesCount,
+	showRepliesCount,
 ], async () => {
 	await reloadAsk();
 });

@@ -108,7 +108,6 @@ const defaultStoreSaveKeys: (keyof typeof defaultStore['state'])[] = [
 	'notificationStackAxis',
 	'enableCondensedLineForAcct',
 	'keepScreenOn',
-	'hideMutedNotes',
 	'defaultWithReplies',
 	'disableStreamingTimeline',
 	'useGroupedNotifications',
