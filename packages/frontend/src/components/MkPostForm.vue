@@ -575,6 +575,9 @@ function clear() {
 
 function onKeydown(ev: KeyboardEvent) {
 	if (ev.key === 'Enter' && (ev.ctrlKey || ev.metaKey) && canPost.value) post();
+	if (ev.key === 'z' && (ev.ctrlKey || ev.metaKey)) visibility.value = 'public';
+	if (ev.key === 'x' && (ev.ctrlKey || ev.metaKey)) visibility.value = 'home';
+	if (ev.key === 'c' && (ev.ctrlKey || ev.metaKey)) visibility.value = 'followers';
 	if (ev.key === 'Escape') emit('esc');
 }
 
