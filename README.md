@@ -1,3 +1,4 @@
+[![n-master Test](https://github.com/n1lsqn/misskey/actions/workflows/n-master.yml/badge.svg)](https://github.com/n1lsqn/misskey/actions/workflows/n-master.yml)
 <div align="center">
 <a href="https://misskey-hub.net">
 	<img src="./assets/title_float.svg" alt="Misskey logo" style="border-radius:50%" width="300"/>
