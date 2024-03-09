@@ -4,22 +4,9 @@ on:
   push:
     branches:
       - n-master
-    paths:
-      - packages/misskey-js/**
-      - packages/backend/**
-      - packages/frontend/**
-      - packages/sw/**
-      - packages/misskey-js/**
   pull_request:
     branches:
       - n-master
-    paths:
-      - packages/misskey-js/**
-      - packages/backend/**
-      - packages/backend/**
-      - packages/frontend/**
-      - packages/sw/**
-      - packages/misskey-js/**
 
 jobs:
 
@@ -395,3 +382,21 @@ jobs:
       with:
         name: ${{ matrix.browser }}-cypress-videos
         path: cypress/videos
+    - name: deploy
+      if: success()
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_IP }}
+        username: ${{ secrets.SSH_USERNAME }}
+        # key: ${{ secrets.SSH_PRIVATE_KEY }}
+        # passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          cd /home/misskey/misskey
+          git pull
+          git submodule update --init
+          NODE_ENV=production pnpm install --frozen-lockfile
+          NODE_ENV=production pnpm run build
+          pnpm run migrate
+          sudo service misskey restart
