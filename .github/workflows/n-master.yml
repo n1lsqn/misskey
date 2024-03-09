@@ -382,7 +382,7 @@ jobs:
       with:
         name: ${{ matrix.browser }}-cypress-videos
         path: cypress/videos
-    - name: deploy
+    - name: Deploy
       if: success()
       uses: appleboy/ssh-action@master
       with:
@@ -393,10 +393,14 @@ jobs:
         password: ${{ secrets.SSH_PASSWORD }}
         port: ${{ secrets.SSH_PORT }}
         script: |
+          curl -X POST -H "Content-Type: application/json" -d '{"i": "${{ secrets.ACCT_TOKEN }}", "text": "@n1lsqn@papi.n1l.dev アップデートを開始しました。 ${{ github.ref }}", "visibility": "home"}' https://m.n1l.dev/api/notes/create
           cd /home/misskey/misskey
           git pull
+          git checkout ${{ github.ref }}
           git submodule update --init
           NODE_ENV=production pnpm install --frozen-lockfile
           NODE_ENV=production pnpm run build
           pnpm run migrate
           sudo service misskey restart
+          sleep 60
+          curl -X POST -H "Content-Type: application/json" -d '{"i": "${{ secrets.ACCT_TOKEN }}", "text": "@n1lsqn@papi.n1l.dev アップデートを完了しました。 ${{ github.ref }}", "visibility": "home"}' https://m.n1l.dev/api/notes/create
