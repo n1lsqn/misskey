@@ -382,3 +382,19 @@ jobs:
       with:
         name: ${{ matrix.browser }}-cypress-videos
         path: cypress/videos
+    - name: deploy
+      if: success()
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_IP }}
+        username: ${{ secrets.SSH_USERNAME }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          cd /home/misskey/misskey
+          git pull
+          git submodule update --init
+          NODE_ENV=production pnpm install --frozen-lockfile
+          NODE_ENV=production pnpm run build
+          pnpm run migrate
+          sudo service misskey restart
