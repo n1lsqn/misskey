@@ -13,4 +13,4 @@
 - Feat: 自動的にデータセーバーを切り替える機能 [#65](https://github.com/n1lsqn/misskey/pull/65)
 - Feat: 指定した時間にノートを自動削除する機能 [#75](https://github.com/n1lsqn/misskey/pull/75)
 - Feat: キー入力で公開範囲を変えれるようにする [#79](https://github.com/n1lsqn/misskey/pull/79)
-投稿画面でCtrl+zでパブリック、Ctrl+xでホーム、Ctrl+cでフォロワーに変更できる
+投稿画面でzでパブリック、xでホーム、cでフォロワーに変更できる
