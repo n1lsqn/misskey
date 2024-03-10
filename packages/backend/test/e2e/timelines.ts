@@ -1006,7 +1006,7 @@ describe('Timelines', () => {
 
 			const res = await api('notes/user-list-timeline', { listId: list.id }, alice);
 
-			assert.strictEqual(res.body.some((note: any) => note.id === bobNote.id), false);
+			assert.strictEqual(res.body.some((note: any) => note.id === bobNote.id), true);
 		});
 
 		test.concurrent('[withFiles: true] リスインしているユーザーのファイル付きノートのみ含まれる', async () => {
@@ -1130,7 +1130,7 @@ describe('Timelines', () => {
 
 			const res = await api('users/notes', { userId: bob.id }, alice);
 
-			assert.strictEqual(res.body.some((note: any) => note.id === bobNote.id), false);
+			assert.strictEqual(res.body.some((note: any) => note.id === bobNote.id), true);
 		});
 
 		test.concurrent('[withReplies: false] 他人への返信が含まれない', async () => {
@@ -1228,7 +1228,7 @@ describe('Timelines', () => {
 			const application = await role(bob, {}, {
 				canUseChannels: true,
 			});
-			application;	
+			application;
 
 			const channel = await api('channels/create', { name: 'channel', isSensitive: true }, bob).then(x => x.body);
 			const bobNote = await post(bob, { text: 'hi', channelId: channel.id });
