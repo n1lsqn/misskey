@@ -406,10 +406,12 @@ describe('Endpoints', () => {
 	});
 
 	describe('channels/search', async () => {
-		const application = await role(bob, {}, {
-			canUseChannels: true,
+		let application;
+		beforeAll(async () => {
+			application = await role(bob, {}, {
+				canUseChannels: true,
+			});
 		});
-		application;
 		test('空白検索で一覧を取得できる', async () => {
 			await api('channels/create', {
 				name: 'aaa',

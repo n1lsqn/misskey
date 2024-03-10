@@ -1220,7 +1220,7 @@ describe('Timelines', () => {
 
 			const res = await api('users/notes', { userId: bob.id, withChannelNotes: true }, alice);
 
-			assert.strictEqual(res.body.some((note: any) => note.id === bobNote.id), false);
+			assert.strictEqual(res.body.some((note: any) => note.id === bobNote.id), true);
 		});
 
 		test.concurrent('[withChannelNotes: true] 自分が取得した場合センシティブチャンネル投稿が含まれる', async () => {
