@@ -6551,6 +6551,10 @@ export interface Locale extends ILocale {
              */
             "canUseChannel": string;
             /**
+             * ハイライトの利用
+             */
+            "canUseHighlight": string;
+            /**
              * ドライブ容量
              */
             "driveCapacity": string;

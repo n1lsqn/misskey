@@ -578,6 +578,7 @@ function onKeydown(ev: KeyboardEvent) {
 	if (ev.key === 'm') visibility.value = 'public';
 	if (ev.key === ',') visibility.value = 'home';
 	if (ev.key === '.') visibility.value = 'followers';
+	if (ev.key === '/') localOnly.value = !localOnly.value;
 	if (ev.key === 'Escape') emit('esc');
 }
 
