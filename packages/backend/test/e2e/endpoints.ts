@@ -405,7 +405,7 @@ describe('Endpoints', () => {
 		});
 	});
 
-	describe('channels/search', async () => {
+	describe('channels/search', () => {
 		let application;
 		beforeAll(async () => {
 			application = await role(bob, {}, {
