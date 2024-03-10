@@ -4986,6 +4986,7 @@ export type operations = {
             description: string | null;
             disableRegistration: boolean;
             disableAntiSpam: boolean | null;
+            disableAccountDelete: boolean;
             impressumUrl: string | null;
             maintainerEmail: string | null;
             maintainerName: string | null;
@@ -8957,6 +8958,7 @@ export type operations = {
         'application/json': {
           disableRegistration?: boolean;
           disableAntiSpam?: boolean;
+          disableAccountDelete?: boolean | null;
           pinnedUsers?: string[] | null;
           hiddenTags?: string[] | null;
           blockedHosts?: string[] | null;

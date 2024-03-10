@@ -1001,7 +1001,7 @@ describe('Timelines', () => {
 
 			const res = await api('notes/user-list-timeline', { listId: list.id }, alice);
 
-			assert.strictEqual(res.body.some((note: any) => note.id === bobNote.id), false);
+			assert.strictEqual(res.body.some((note: any) => note.id === bobNote.id), true);
 		});
 		*/
 
@@ -1121,7 +1121,7 @@ describe('Timelines', () => {
 
 			const res = await api('users/notes', { userId: bob.id }, alice);
 
-			assert.strictEqual(res.body.some((note: any) => note.id === bobNote.id), false);
+			assert.strictEqual(res.body.some((note: any) => note.id === bobNote.id), true);
 		});
 		*/
 
@@ -1209,13 +1209,17 @@ describe('Timelines', () => {
 
 			const res = await api('users/notes', { userId: bob.id, withChannelNotes: true }, alice);
 
-			assert.strictEqual(res.body.some((note: any) => note.id === bobNote.id), false);
+			assert.strictEqual(res.body.some((note: any) => note.id === bobNote.id), true);
 		});
 		*/
 
 		/*
 		test.concurrent('[withChannelNotes: true] 自分が取得した場合センシティブチャンネル投稿が含まれる', async () => {
 			const [bob] = await Promise.all([signup()]);
+			const application = await role(bob, {}, {
+				canUseChannels: true,
+			});
+			application;
 
 			const channel = await api('channels/create', { name: 'channel', isSensitive: true }, bob).then(x => x.body);
 			const bobNote = await post(bob, { text: 'hi', channelId: channel.id });
