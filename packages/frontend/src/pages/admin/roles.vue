@@ -109,6 +109,14 @@ SPDX-License-Identifier: AGPL-3.0-only
 							</MkSwitch>
 						</MkFolder>
 
+						<MkFolder v-if="matchQuery([i18n.ts._role._options.canUseHighlight, 'canUseHighlight'])">
+							<template #label>{{ i18n.ts._role._options.canUseHighlight }}</template>
+							<template #suffix>{{ policies.canUseHighlight ? i18n.ts.yes : i18n.ts.no }}</template>
+							<MkSwitch v-model="policies.canUseHighlight">
+								<template #label>{{ i18n.ts.enable }}</template>
+							</MkSwitch>
+						</MkFolder>
+
 						<MkFolder v-if="matchQuery([i18n.ts._role._options.canManageCustomEmojis, 'canManageCustomEmojis'])">
 							<template #label>{{ i18n.ts._role._options.canManageCustomEmojis }}</template>
 							<template #suffix>{{ policies.canManageCustomEmojis ? i18n.ts.yes : i18n.ts.no }}</template>
