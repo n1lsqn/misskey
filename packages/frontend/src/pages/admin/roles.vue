@@ -94,7 +94,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 							</MkSwitch>
 						</MkFolder>
 
-						<MkFolder v-if="matchQuery([i18n.ts._role._options.remoteLocalTimelineAnyLimit, 'remoteLocalTimelineAnyLimit'])" class="_margin">
+						<MkFolder v-if="matchQuery([i18n.ts._role._options.remoteLocalTimelineAnyLimit, 'remoteLocalTimelineAnyLimit'])">
 							<template #label>{{ i18n.ts._role._options.remoteLocalTimelineAnyLimit }}</template>
 							<template #suffix>{{ policies.remoteLocalTimelineAnyLimit }}</template>
 							<MkInput v-model="policies.remoteLocalTimelineAnyLimit" type="number">
