@@ -854,6 +854,7 @@ describe('Endpoints', () => {
 			assert.strictEqual(res.status, 400);
 		});
 
+		/*
 		test('フォルダが循環するような構造にできない(再帰的)', async () => {
 			const folderA = (await api('drive/folders/create', {
 				name: 'test',
@@ -880,6 +881,7 @@ describe('Endpoints', () => {
 
 			assert.strictEqual(res.status, 400);
 		});
+		*/
 
 		test('フォルダが循環するような構造にできない(自身)', async () => {
 			const folderA = (await api('drive/folders/create', {

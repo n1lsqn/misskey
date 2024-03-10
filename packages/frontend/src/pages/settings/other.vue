@@ -110,7 +110,7 @@ const devMode = computed(defaultStore.makeGetterSetter('devMode'));
 const defaultWithReplies = computed(defaultStore.makeGetterSetter('defaultWithReplies'));
 
 async function deleteAccount() {
-	if (instance.disableAccountDelete === false) {
+	if (!instance.disableAccountDelete) {
 		{
 			const { canceled } = await os.confirm({
 				type: 'warning',

@@ -1485,6 +1485,14 @@ export interface Locale extends ILocale {
      */
     "enableAntiSpamDescription": string;
     /**
+     * アカウントの削除を有効にする
+     */
+    "enableAccountDelete": string;
+    /**
+     * 負荷が増える可能性があります
+     */
+    "enableAccountDeleteDescription": string;
+    /**
      * 招待
      */
     "invite": string;
