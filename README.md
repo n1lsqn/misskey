@@ -1,4 +1,4 @@
-[![n-master Test](https://github.com/n1lsqn/misskey/actions/workflows/n-master.yml/badge.svg)](https://github.com/n1lsqn/misskey/actions/workflows/n-master.yml)
+[![n-master Test](https://github.com/n1lsqn/misskey/actions/workflows/n-master.yml/badge.svg)](https://github.com/n1lsqn/misskey/actions/workflows/n-master.yml) [![codecov](https://codecov.io/gh/n1lsqn/misskey/graph/badge.svg?token=A8DM4J993U)](https://codecov.io/gh/n1lsqn/misskey)
 <div align="center">
 <a href="https://misskey-hub.net">
 	<img src="./assets/title_float.svg" alt="Misskey logo" style="border-radius:50%" width="300"/>
