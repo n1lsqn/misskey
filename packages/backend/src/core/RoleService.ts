@@ -42,6 +42,8 @@ export type RolePolicies = {
 	inviteExpirationTime: number;
 	canManageCustomEmojis: boolean;
 	canManageAvatarDecorations: boolean;
+	canUseChannel: boolean;
+	canUseHighlight: boolean;
 	canSearchNotes: boolean;
 	canUseTranslator: boolean;
 	canHideAds: boolean;
@@ -57,6 +59,7 @@ export type RolePolicies = {
 	userEachUserListsLimit: number;
 	rateLimitFactor: number;
 	avatarDecorationLimit: number;
+	remoteLocalTimelineAnyLimit: number;
 };
 
 export const DEFAULT_POLICIES: RolePolicies = {
@@ -70,6 +73,8 @@ export const DEFAULT_POLICIES: RolePolicies = {
 	inviteExpirationTime: 0,
 	canManageCustomEmojis: false,
 	canManageAvatarDecorations: false,
+	canUseChannel: false,
+	canUseHighlight: true,
 	canSearchNotes: false,
 	canUseTranslator: true,
 	canHideAds: false,
@@ -85,6 +90,7 @@ export const DEFAULT_POLICIES: RolePolicies = {
 	userEachUserListsLimit: 50,
 	rateLimitFactor: 1,
 	avatarDecorationLimit: 1,
+	remoteLocalTimelineAnyLimit: 5,
 };
 
 @Injectable()
@@ -337,6 +343,8 @@ export class RoleService implements OnApplicationShutdown, OnModuleInit {
 			inviteExpirationTime: calc('inviteExpirationTime', vs => Math.max(...vs)),
 			canManageCustomEmojis: calc('canManageCustomEmojis', vs => vs.some(v => v === true)),
 			canManageAvatarDecorations: calc('canManageAvatarDecorations', vs => vs.some(v => v === true)),
+			canUseChannel: calc('canUseChannel', vs => vs.some(v => v === true)),
+			canUseHighlight: calc('canUseHighlight', vs => vs.some(v => v === true)),
 			canSearchNotes: calc('canSearchNotes', vs => vs.some(v => v === true)),
 			canUseTranslator: calc('canUseTranslator', vs => vs.some(v => v === true)),
 			canHideAds: calc('canHideAds', vs => vs.some(v => v === true)),
@@ -352,6 +360,7 @@ export class RoleService implements OnApplicationShutdown, OnModuleInit {
 			userEachUserListsLimit: calc('userEachUserListsLimit', vs => Math.max(...vs)),
 			rateLimitFactor: calc('rateLimitFactor', vs => Math.max(...vs)),
 			avatarDecorationLimit: calc('avatarDecorationLimit', vs => Math.max(...vs)),
+			remoteLocalTimelineAnyLimit: calc('remoteLocalTimelineAnyLimit', vs => Math.max(...vs)),
 		};
 	}
 

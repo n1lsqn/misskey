@@ -82,6 +82,8 @@ export const ROLE_POLICIES = [
 	'inviteExpirationTime',
 	'canManageCustomEmojis',
 	'canManageAvatarDecorations',
+	'canUseChannel',
+	'canUseHighlight',
 	'canSearchNotes',
 	'canUseTranslator',
 	'canHideAds',
@@ -97,6 +99,7 @@ export const ROLE_POLICIES = [
 	'userEachUserListsLimit',
 	'rateLimitFactor',
 	'avatarDecorationLimit',
+	'remoteLocalTimelineAnyLimit',
 ] as const;
 
 // なんか動かない
@@ -126,7 +129,7 @@ export const MFM_PARAMS: Record<typeof MFM_TAGS[number], string[]> = {
 	position: ['x=', 'y='],
 	fg: ['color='],
 	bg: ['color='],
-  border: ['width=', 'style=', 'color=', 'radius=', 'noclip'],
+	border: ['width=', 'style=', 'color=', 'radius=', 'noclip'],
 	font: ['serif', 'monospace', 'cursive', 'fantasy', 'emoji', 'math'],
 	blur: [],
 	rainbow: ['speed=', 'delay='],

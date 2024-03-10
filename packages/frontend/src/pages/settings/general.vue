@@ -56,6 +56,8 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<MkSwitch v-model="advancedMfm">{{ i18n.ts.enableAdvancedMfm }}</MkSwitch>
 				<MkSwitch v-if="advancedMfm" v-model="animatedMfm">{{ i18n.ts.enableAnimatedMfm }}</MkSwitch>
 				<MkSwitch v-if="advancedMfm" v-model="enableQuickAddMfmFunction">{{ i18n.ts.enableQuickAddMfmFunction }}</MkSwitch>
+				<MkSwitch v-model="showRepliesCount">{{ i18n.ts.showRepliesCount }}</MkSwitch>
+				<MkSwitch v-model="showRenotesCount">{{ i18n.ts.showRenotesCount }}</MkSwitch>
 				<MkSwitch v-model="showReactionsCount">{{ i18n.ts.showReactionsCount }}</MkSwitch>
 				<MkSwitch v-model="showGapBetweenNotesInTimeline">{{ i18n.ts.showGapBetweenNotesInTimeline }}</MkSwitch>
 				<MkSwitch v-model="loadRawImages">{{ i18n.ts.loadRawImages }}</MkSwitch>
@@ -176,6 +178,44 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<template #caption>{{ i18n.ts.numberOfPageCacheDescription }}</template>
 			</MkRange>
 
+			<MkSwitch v-model="enableDataSaverMode" :disabled="autoDataSaver">{{ i18n.ts.dataSaver }}</MkSwitch>
+
+			<MkSwitch v-model="autoDataSaver" :disabled="!supportAutoDataSaver">
+				<template #caption>{{ i18n.ts.autoDataSaverDescription }}</template>
+				{{ i18n.ts.autoDataSaver }}
+			</MkSwitch>
+
+			<MkFolder v-if="enableDataSaverMode">
+				<template #label>{{ i18n.ts.dataSaverAdvancedSettings }}</template>
+
+				<div class="_gaps_m">
+					<MkInfo>{{ i18n.ts.reloadRequiredToApplySettings }}</MkInfo>
+
+					<div class="_buttons">
+						<MkButton inline @click="enableAllDataSaver">{{ i18n.ts.enableAll }}</MkButton>
+						<MkButton inline @click="disableAllDataSaver">{{ i18n.ts.disableAll }}</MkButton>
+					</div>
+					<div class="_gaps_m">
+						<MkSwitch v-model="dataSaver.media">
+							{{ i18n.ts._dataSaver._media.title }}
+							<template #caption>{{ i18n.ts._dataSaver._media.description }}</template>
+						</MkSwitch>
+						<MkSwitch v-model="dataSaver.avatar">
+							{{ i18n.ts._dataSaver._avatar.title }}
+							<template #caption>{{ i18n.ts._dataSaver._avatar.description }}</template>
+						</MkSwitch>
+						<MkSwitch v-model="dataSaver.urlPreview">
+							{{ i18n.ts._dataSaver._urlPreview.title }}
+							<template #caption>{{ i18n.ts._dataSaver._urlPreview.description }}</template>
+						</MkSwitch>
+						<MkSwitch v-model="dataSaver.code">
+							{{ i18n.ts._dataSaver._code.title }}
+							<template #caption>{{ i18n.ts._dataSaver._code.description }}</template>
+						</MkSwitch>
+					</div>
+				</div>
+			</MkFolder>
+			<!--
 			<MkFolder>
 				<template #label>{{ i18n.ts.dataSaver }}</template>
 
@@ -206,7 +246,110 @@ SPDX-License-Identifier: AGPL-3.0-only
 					</div>
 				</div>
 			</MkFolder>
+			-->
 		</div>
+	</FormSection>
+
+	<FormSection>
+		<MkFolder>
+			<template #label>他のサーバーのローカルタイムラインを覗けるようにする</template>
+
+			<div class="_gaps_m">
+				<FormSection v-if="maxLocalTimeline >= 1">
+					<div v-if="maxLocalTimeline >= 1" class="_gaps_s">
+						<MkInput v-model="remoteLocalTimelineName1" placeholder="hostDomain">
+							<template #label>{{ i18n.ts.name }}</template>
+						</MkInput>
+						<MkInput v-model="remoteLocalTimelineDomain1" placeholder="hostDomain">
+							<template #label>サーバーURL</template>
+						</MkInput>
+						<MkInput v-model="remoteLocalTimelineToken1" placeholder="">
+							<template #prefix><i class="ti ti-key"></i></template>
+							<template #label>{{ i18n.ts.accessToken }}</template>
+						</MkInput>
+						<MkSwitch v-model="remoteLocalTimelineEnable1">
+							{{ i18n.ts.enable }}
+						</MkSwitch>
+					</div>
+				</FormSection>
+
+				<FormSection v-if="maxLocalTimeline >= 2">
+					<div v-if="maxLocalTimeline >= 2" class="_gaps_m">
+						<MkInput v-model="remoteLocalTimelineName2" placeholder="hostDomain">
+							<template #label>{{ i18n.ts.name }}</template>
+						</MkInput>
+						<MkInput v-model="remoteLocalTimelineDomain2" placeholder="hostDomain">
+							<template #label>サーバーURL</template>
+						</MkInput>
+						<MkInput v-model="remoteLocalTimelineToken2" placeholder="">
+							<template #prefix><i class="ti ti-key"></i></template>
+							<template #label>{{ i18n.ts.accessToken }}</template>
+						</MkInput>
+						<MkSwitch v-model="remoteLocalTimelineEnable2">
+							{{ i18n.ts.enable }}
+						</MkSwitch>
+					</div>
+				</FormSection>
+
+				<FormSection v-if="maxLocalTimeline >= 3">
+					<div v-if="maxLocalTimeline >= 3" class="_gaps_m">
+						<MkInput v-model="remoteLocalTimelineName3" placeholder="hostDomain">
+							<template #label>{{ i18n.ts.name }}</template>
+						</MkInput>
+						<MkInput v-model="remoteLocalTimelineDomain3" placeholder="hostDomain">
+							<template #label>サーバーURL</template>
+						</MkInput>
+						<MkInput v-model="remoteLocalTimelineToken3" placeholder="">
+							<template #prefix><i class="ti ti-key"></i></template>
+							<template #label>{{ i18n.ts.accessToken }}</template>
+						</MkInput>
+						<MkSwitch v-model="remoteLocalTimelineEnable3">
+							{{ i18n.ts.enable }}
+						</MkSwitch>
+					</div>
+				</FormSection>
+
+				<FormSection v-if="maxLocalTimeline >= 4">
+					<div v-if="maxLocalTimeline >= 4" class="_gaps_m">
+						<MkInput v-model="remoteLocalTimelineName4" placeholder="hostDomain">
+							<template #label>{{ i18n.ts.name }}</template>
+						</MkInput>
+						<MkInput v-model="remoteLocalTimelineDomain4" placeholder="hostDomain">
+							<template #label>サーバーURL</template>
+						</MkInput>
+						<MkInput v-model="remoteLocalTimelineToken4" placeholder="">
+							<template #prefix><i class="ti ti-key"></i></template>
+							<template #label>{{ i18n.ts.accessToken }}</template>
+						</MkInput>
+						<MkSwitch v-model="remoteLocalTimelineEnable4">
+							{{ i18n.ts.enable }}
+						</MkSwitch>
+					</div>
+				</FormSection>
+
+				<FormSection v-if="maxLocalTimeline >= 5">
+					<div v-if="maxLocalTimeline >= 5" class="_gaps_m">
+						<MkInput v-model="remoteLocalTimelineName5" placeholder="hostDomain">
+							<template #label>{{ i18n.ts.name }}</template>
+						</MkInput>
+						<MkInput v-model="remoteLocalTimelineDomain5" placeholder="hostDomain">
+							<template #label>サーバーURL</template>
+						</MkInput>
+						<MkInput v-model="remoteLocalTimelineToken5" placeholder="">
+							<template #prefix><i class="ti ti-key"></i></template>
+							<template #label>{{ i18n.ts.accessToken }}</template>
+						</MkInput>
+						<MkSwitch v-model="remoteLocalTimelineEnable5">
+							{{ i18n.ts.enable }}
+						</MkSwitch>
+					</div>
+				</FormSection>
+
+				<MkButton @click="remoteLocaltimelineSave">
+					{{ i18n.ts.save }}
+				</MkButton>
+			</div>
+		</MkFolder>
 	</FormSection>
 
 	<FormSection>
@@ -238,6 +381,7 @@ import MkRadios from '@/components/MkRadios.vue';
 import MkRange from '@/components/MkRange.vue';
 import MkFolder from '@/components/MkFolder.vue';
 import MkButton from '@/components/MkButton.vue';
+import MkInput from '@/components/MkInput.vue';
 import FormSection from '@/components/form/section.vue';
 import FormLink from '@/components/form/link.vue';
 import MkLink from '@/components/MkLink.vue';
@@ -252,6 +396,8 @@ import { definePageMetadata } from '@/scripts/page-metadata.js';
 import { miLocalStorage } from '@/local-storage.js';
 import { globalEvents } from '@/events.js';
 import { claimAchievement } from '@/scripts/achievements.js';
+import { signinRequired } from '@/account.js';
+import { isSupportNavigatorConnection } from '@/scripts/datasaver.js';
 
 const lang = ref(miLocalStorage.getItem('lang'));
 const fontSize = ref(miLocalStorage.getItem('fontSize'));
@@ -282,11 +428,15 @@ const useBlurEffect = computed(defaultStore.makeGetterSetter('useBlurEffect'));
 const showGapBetweenNotesInTimeline = computed(defaultStore.makeGetterSetter('showGapBetweenNotesInTimeline'));
 const animatedMfm = computed(defaultStore.makeGetterSetter('animatedMfm'));
 const advancedMfm = computed(defaultStore.makeGetterSetter('advancedMfm'));
+const showRepliesCount = computed(defaultStore.makeGetterSetter('showRepliesCount'));
+const showRenotesCount = computed(defaultStore.makeGetterSetter('showRenotesCount'));
 const showReactionsCount = computed(defaultStore.makeGetterSetter('showReactionsCount'));
 const enableQuickAddMfmFunction = computed(defaultStore.makeGetterSetter('enableQuickAddMfmFunction'));
 const emojiStyle = computed(defaultStore.makeGetterSetter('emojiStyle'));
 const disableDrawer = computed(defaultStore.makeGetterSetter('disableDrawer'));
 const disableShowingAnimatedImages = computed(defaultStore.makeGetterSetter('disableShowingAnimatedImages'));
+const autoDataSaver = computed(defaultStore.makeGetterSetter('autoDataSaver'));
+const enableDataSaverMode = computed(defaultStore.makeGetterSetter('enableDataSaverMode'));
 const forceShowAds = computed(defaultStore.makeGetterSetter('forceShowAds'));
 const loadRawImages = computed(defaultStore.makeGetterSetter('loadRawImages'));
 const highlightSensitiveMedia = computed(defaultStore.makeGetterSetter('highlightSensitiveMedia'));
@@ -308,6 +458,35 @@ const disableStreamingTimeline = computed(defaultStore.makeGetterSetter('disable
 const useGroupedNotifications = computed(defaultStore.makeGetterSetter('useGroupedNotifications'));
 const enableSeasonalScreenEffect = computed(defaultStore.makeGetterSetter('enableSeasonalScreenEffect'));
 const enableHorizontalSwipe = computed(defaultStore.makeGetterSetter('enableHorizontalSwipe'));
+
+const remoteLocalTimelineName1 = ref(defaultStore.state['remoteLocalTimelineName1']);
+const remoteLocalTimelineDomain1 = ref(defaultStore.state['remoteLocalTimelineDomain1']);
+const remoteLocalTimelineToken1 = ref(defaultStore.state['remoteLocalTimelineToken1']);
+
+const remoteLocalTimelineName2 = ref(defaultStore.state['remoteLocalTimelineName2']);
+const remoteLocalTimelineDomain2 = ref(defaultStore.state['remoteLocalTimelineDomain2']);
+const remoteLocalTimelineToken2 = ref(defaultStore.state['remoteLocalTimelineToken2']);
+
+const remoteLocalTimelineName3 = ref(defaultStore.state['remoteLocalTimelineName3']);
+const remoteLocalTimelineDomain3 = ref(defaultStore.state['remoteLocalTimelineDomain3']);
+const remoteLocalTimelineToken3 = ref(defaultStore.state['remoteLocalTimelineToken3']);
+
+const remoteLocalTimelineName4 = ref(defaultStore.state['remoteLocalTimelineName4']);
+const remoteLocalTimelineDomain4 = ref(defaultStore.state['remoteLocalTimelineDomain4']);
+const remoteLocalTimelineToken4 = ref(defaultStore.state['remoteLocalTimelineToken4']);
+
+const remoteLocalTimelineName5 = ref(defaultStore.state['remoteLocalTimelineName5']);
+const remoteLocalTimelineDomain5 = ref(defaultStore.state['remoteLocalTimelineDomain5']);
+const remoteLocalTimelineToken5 = ref(defaultStore.state['remoteLocalTimelineToken5']);
+
+const remoteLocalTimelineEnable1 = computed(defaultStore.makeGetterSetter('remoteLocalTimelineEnable1'));
+const remoteLocalTimelineEnable2 = computed(defaultStore.makeGetterSetter('remoteLocalTimelineEnable2'));
+const remoteLocalTimelineEnable3 = computed(defaultStore.makeGetterSetter('remoteLocalTimelineEnable3'));
+const remoteLocalTimelineEnable4 = computed(defaultStore.makeGetterSetter('remoteLocalTimelineEnable4'));
+const remoteLocalTimelineEnable5 = computed(defaultStore.makeGetterSetter('remoteLocalTimelineEnable5'));
+
+const $i = signinRequired();
+const maxLocalTimeline = $i.policies.remoteLocalTimelineAnyLimit;
 
 watch(lang, () => {
 	miLocalStorage.setItem('lang', lang.value as string);
@@ -349,10 +528,42 @@ watch([
 	keepScreenOn,
 	disableStreamingTimeline,
 	enableSeasonalScreenEffect,
+	showReactionsCount,
+	showRenotesCount,
+	showRepliesCount,
 ], async () => {
 	await reloadAsk();
 });
 
+async function remoteLocaltimelineSave() {
+	os.alert({
+		type: 'success',
+		text: i18n.ts.saved,
+	});
+	defaultStore.set('remoteLocalTimelineName1', remoteLocalTimelineName1.value);
+	defaultStore.set('remoteLocalTimelineDomain1', remoteLocalTimelineDomain1.value);
+	defaultStore.set('remoteLocalTimelineToken1', remoteLocalTimelineToken1.value);
+	defaultStore.set('remoteLocalTimelineEnable1', remoteLocalTimelineEnable1.value);
+	defaultStore.set('remoteLocalTimelineName2', remoteLocalTimelineName2.value);
+	defaultStore.set('remoteLocalTimelineDomain2', remoteLocalTimelineDomain2.value);
+	defaultStore.set('remoteLocalTimelineToken2', remoteLocalTimelineToken2.value);
+	defaultStore.set('remoteLocalTimelineEnable2', remoteLocalTimelineEnable2.value);
+	defaultStore.set('remoteLocalTimelineName3', remoteLocalTimelineName3.value);
+	defaultStore.set('remoteLocalTimelineDomain3', remoteLocalTimelineDomain3.value);
+	defaultStore.set('remoteLocalTimelineToken3', remoteLocalTimelineToken3.value);
+	defaultStore.set('remoteLocalTimelineEnable3', remoteLocalTimelineEnable3.value);
+	defaultStore.set('remoteLocalTimelineName4', remoteLocalTimelineName4.value);
+	defaultStore.set('remoteLocalTimelineDomain4', remoteLocalTimelineDomain4.value);
+	defaultStore.set('remoteLocalTimelineToken4', remoteLocalTimelineToken4.value);
+	defaultStore.set('remoteLocalTimelineEnable4', remoteLocalTimelineEnable4.value);
+	defaultStore.set('remoteLocalTimelineName5', remoteLocalTimelineName5.value);
+	defaultStore.set('remoteLocalTimelineDomain5', remoteLocalTimelineDomain5.value);
+	defaultStore.set('remoteLocalTimelineToken5', remoteLocalTimelineToken5.value);
+	defaultStore.set('remoteLocalTimelineEnable5', remoteLocalTimelineEnable5.value);
+	await reloadAsk();
+}
+
+const supportAutoDataSaver = computed(() => isSupportNavigatorConnection());
 const emojiIndexLangs = ['en-US', 'ja-JP', 'ja-JP_hira'] as const;
 
 function getEmojiIndexLangName(targetLang: typeof emojiIndexLangs[number]) {

@@ -7,13 +7,13 @@ SPDX-License-Identifier: AGPL-3.0-only
 <MkStickyContainer>
 	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
 	<MkSpacer :contentMax="700" :marginMin="16" :marginMax="32">
-		<FormSuspense :p="init">
+		<FormSuspense :p="init" class="_gaps_s">
 			<MkInfo>{{ i18n.ts.proxyAccountDescription }}</MkInfo>
+
 			<MkKeyValue>
 				<template #key>{{ i18n.ts.proxyAccount }}</template>
 				<template #value>{{ proxyAccount ? `@${proxyAccount.username}` : i18n.ts.none }}</template>
 			</MkKeyValue>
-
 			<MkButton primary @click="chooseProxyAccount">{{ i18n.ts.selectAccount }}</MkButton>
 		</FormSuspense>
 	</MkSpacer>
