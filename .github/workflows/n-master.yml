@@ -1,6 +1,9 @@
 name: n-master Test
 
 on:
+  push:
+    branches:
+      - n-master
   pull_request:
     branches:
       - n-master
