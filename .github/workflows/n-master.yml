@@ -408,4 +408,4 @@ jobs:
           pnpm run migrate
           sudo service misskey restart
           sleep 60
-          curl -X POST -H "Content-Type: application/json" -d '{"i": "${{ secrets.ACCT_TOKEN }}", "text": "@n1lsqn@papi.n1l.dev アップデートを完了しました。 ${{ github.head_ref }}", "visibility": "home"}' https://m.n1l.dev/api/notes/create
+          curl -X POST -H "Content-Type: application/json" -d '{"i": "${{ secrets.ACCT_TOKEN }}", "text": "@n1lsqn@papi.n1l.dev アップデートを完了しました。 `${{ github.head_ref }}`", "visibility": "home"}' https://m.n1l.dev/api/notes/create
