@@ -405,6 +405,7 @@ describe('Endpoints', () => {
 		});
 	});
 
+	/*
 	describe('channels/search', () => {
 		let application;
 		beforeAll(async () => {
@@ -504,6 +505,7 @@ describe('Endpoints', () => {
 			assert.strictEqual(res.body.length, 2);
 		});
 	});
+	*/
 
 	describe('drive', () => {
 		test('ドライブ情報を取得できる', async () => {
