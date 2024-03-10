@@ -22,6 +22,7 @@ export const paramDef = {
 	properties: {
 		disableRegistration: { type: 'boolean', nullable: false },
 		disableAntiSpam: { type: 'boolean', nullable: false },
+		disableAccountDelete: { type: 'boolean', nullable: true },
 
 		pinnedUsers: {
 			type: 'array', nullable: true, items: {
@@ -181,6 +182,10 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 
 			if (typeof ps.disableAntiSpam === 'boolean') {
 				set.disableAntiSpam = ps.disableAntiSpam;
+			}
+
+			if (typeof ps.disableAccountDelete === 'boolean') {
+				set.disableAccountDelete = ps.disableAccountDelete;
 			}
 
 			if (Array.isArray(ps.pinnedUsers)) {

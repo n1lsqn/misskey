@@ -52,9 +52,14 @@ export class MiMeta {
 	public disableRegistration: boolean;
 
 	@Column('boolean', {
-		default: false,
+		default: true,
 	})
 	public disableAntiSpam: boolean;
+
+	@Column('boolean', {
+		default: false,
+	})
+	public disableAccountDelete: boolean;
 
 	@Column('varchar', {
 		length: 1024, array: true, default: '{}',
