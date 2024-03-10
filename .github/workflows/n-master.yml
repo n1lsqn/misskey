@@ -4,9 +4,19 @@ on:
   push:
     branches:
       - n-master
+    paths:
+      - packages/backend/**
+      - packages/frontend/**
+      - packages/sw/**
+      - packages/misskey-js/**
   pull_request:
     branches:
       - n-master
+    paths:
+      - packages/backend/**
+      - packages/frontend/**
+      - packages/sw/**
+      - packages/misskey-js/**
 
 jobs:
 
