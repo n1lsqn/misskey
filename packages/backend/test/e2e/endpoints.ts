@@ -10,7 +10,7 @@ import * as assert from 'assert';
 // https://github.com/node-fetch/node-fetch/pull/1664
 import { Blob } from 'node-fetch';
 import { MiUser } from '@/models/_.js';
-import { api, initTestDb, post, signup, simpleGet, uploadFile } from '../utils.js';
+import { api, initTestDb, post, role, signup, simpleGet, uploadFile } from '../utils.js';
 import type * as misskey from 'misskey-js';
 
 describe('Endpoints', () => {
@@ -405,8 +405,11 @@ describe('Endpoints', () => {
 		});
 	});
 
-	/*
-	describe('channels/search', () => {
+	describe('channels/search', async () => {
+		const application = await role(bob, {}, {
+			canUseChannels: true,
+		});
+		application;
 		test('空白検索で一覧を取得できる', async () => {
 			await api('channels/create', {
 				name: 'aaa',
@@ -499,7 +502,6 @@ describe('Endpoints', () => {
 			assert.strictEqual(res.body.length, 2);
 		});
 	});
-	*/
 
 	describe('drive', () => {
 		test('ドライブ情報を取得できる', async () => {
