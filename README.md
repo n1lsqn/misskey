@@ -4,7 +4,9 @@
 </a>
 
 このリポジトリはMisskeyサーバー「[隠れ家](https://misskey.yukineko.me)」で使用している本家Misskeyのフォークです。  
-本家との相違点は[こちら](DIFFERENCE.md)をご覧ください。
+詳細については[こちらのドキュメント](./docs/index.md)をご覧ください。  
+  
+Dockerを用いたセットアップ方法は[こちら](./docs/setup/docker.md)
 	
 **🌎 **[Misskey](https://misskey-hub.net/)** is an open source, decentralized social media platform that's free forever! 🚀**
 

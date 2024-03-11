@@ -63,6 +63,9 @@ SPDX-License-Identifier: AGPL-3.0-only
 					<MkSwitch v-model="devMode">
 						<template #label>{{ i18n.ts.devMode }}</template>
 					</MkSwitch>
+					<MkSwitch v-model="showConnectionStatus">
+						<template #label>Show connection status</template>
+					</MkSwitch>
 					<MkInput v-if="devMode" v-model="overrideAddress" manualSave>
 						<template #label>Override instance address</template>
 					</MkInput>
@@ -113,6 +116,7 @@ const reportError = computed(defaultStore.makeGetterSetter('optoutStatistics'));
 const enableCondensedLineForAcct = computed(defaultStore.makeGetterSetter('enableCondensedLineForAcct'));
 const devMode = computed(defaultStore.makeGetterSetter('devMode'));
 const defaultWithReplies = computed(defaultStore.makeGetterSetter('defaultWithReplies'));
+const showConnectionStatus = computed(defaultStore.makeGetterSetter('showConnectionStatus'));
 
 const overrideAddress = ref(miLocalStorage.getItem('overrideAddress') ?? '');
 

@@ -232,7 +232,11 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	serverDisconnectedBehavior: {
 		where: 'device',
-		default: 'quiet' as 'quiet' | 'reload' | 'dialog',
+		default: 'quiet' as 'none' | 'quiet' | 'reload' | 'dialog',
+	},
+	showConnectionStatus: {
+		where: 'device',
+		default: false,
 	},
 	nsfw: {
 		where: 'device',

@@ -6,9 +6,9 @@ SPDX-License-Identifier: AGPL-3.0-only
 <template>
 <button
 	ref="buttonEl"
-	v-ripple="canToggle"
+	v-ripple="canToggle || targetEmoji"
 	class="_button"
-	:class="[$style.root, { [$style.reacted]: note.myReaction == reaction, [$style.canToggle]: (canToggle || targetEmoji), [$style.small]: defaultStore.state.reactionsDisplaySize === 'small', [$style.large]: defaultStore.state.reactionsDisplaySize === 'large' }]"
+	:class="[$style.root, { [$style.reacted]: note.myReaction == reaction, [$style.canToggle]: canToggle, [$style.canToggleFallback]: targetEmoji, [$style.small]: defaultStore.state.reactionsDisplaySize === 'small', [$style.large]: defaultStore.state.reactionsDisplaySize === 'large' }]"
 	@click="toggleReaction()"
 	@contextmenu.prevent.stop="menu"
 >
@@ -67,10 +67,7 @@ const reactionName = computed(() => {
 const targetEmoji = computed(() => customEmojisMap.get(reactionName.value)?.name ?? null);
 
 async function toggleReaction() {
-	if (!canToggle.value) {
-		chooseSelfInstance();
-		return;
-	}
+	if (!canToggle.value && !targetEmoji.value) return;
 
 	const oldReaction = props.note.myReaction;
 	if (oldReaction) {
@@ -109,21 +106,14 @@ async function toggleReaction() {
 
 		misskeyApi('notes/reactions/create', {
 			noteId: props.note.id,
-			reaction: props.reaction,
+			reaction: canToggle.value ? props.reaction : `:${targetEmoji.value}:`,
 		});
+
 		if (props.note.text && props.note.text.length > 100 && (Date.now() - new Date(props.note.createdAt).getTime() < 1000 * 3)) {
 			claimAchievement('reactWithoutRead');
 		}
 	}
 }
-
-const chooseSelfInstance = () => {
-	if (!targetEmoji.value) return;
-	misskeyApi('notes/reactions/create', {
-		noteId: props.note.id,
-		reaction: `:${targetEmoji.value}:`,
-	});
-};
 
 async function menu(ev) {
 	if (!canGetInfo.value) return;
@@ -199,7 +189,21 @@ if (!mock) {
 		}
 	}
 
-	&:not(.canToggle) {
+	&.canToggleFallback:not(.canToggle):not(.reacted) {
+		box-sizing: border-box;
+		border: 2px dashed var(--switchBg);
+
+		&.small {
+			border-width: 1px;
+			border-color: var(--buttonBgSub);
+		}
+
+		&:hover {
+			background: rgba(0, 0, 0, 0.1);
+		}
+	}
+
+	&:not(.canToggle):not(.canToggleFallback) {
 		cursor: default;
 	}
 
