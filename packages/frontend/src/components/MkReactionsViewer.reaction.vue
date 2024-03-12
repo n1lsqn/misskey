@@ -6,9 +6,9 @@ SPDX-License-Identifier: AGPL-3.0-only
 <template>
 <button
 	ref="buttonEl"
-	v-ripple="canToggle || targetEmoji"
+	v-ripple="canToggle"
 	class="_button"
-	:class="[$style.root, { [$style.reacted]: note.myReaction == reaction, [$style.canToggle]: canToggle, [$style.canToggleFallback]: targetEmoji, [$style.small]: defaultStore.state.reactionsDisplaySize === 'small', [$style.large]: defaultStore.state.reactionsDisplaySize === 'large' }]"
+	:class="[$style.root, { [$style.reacted]: note.myReaction == reaction, [$style.canToggle]: (isLocal && canToggle), [$style.canToggleFallback]: (!isLocal && isAvailable), [$style.small]: defaultStore.state.reactionsDisplaySize === 'small', [$style.large]: defaultStore.state.reactionsDisplaySize === 'large' }]"
 	@click="toggleReaction()"
 	@contextmenu.prevent.stop="menu"
 >
@@ -54,38 +54,47 @@ const buttonEl = shallowRef<HTMLElement>();
 const emojiName = computed(() => props.reaction.replace(/:/g, '').replace(/@\./, ''));
 const emoji = computed(() => customEmojisMap.get(emojiName.value) ?? getUnicodeEmoji(props.reaction));
 
+function getReactionName(reaction: string, formated = false) {
+	const r = reaction.replaceAll(':', '').replace(/@.*/, '');
+	return formated ? `:${r}:` : r;
+}
+
+const isLocal = computed(() => !props.reaction.match(/@\w/));
+const isAvailable = computed(() => isLocal.value ? true : customEmojisMap.has(getReactionName(props.reaction)));
+
 const canToggle = computed(() => {
-	return !props.reaction.match(/@\w/) && $i && emoji.value && checkReactionPermissions($i, props.note, emoji.value);
+	return isAvailable.value && $i && emoji.value && checkReactionPermissions($i, props.note, emoji.value);
 });
 const canGetInfo = computed(() => !props.reaction.match(/@\w/) && props.reaction.includes(':'));
 
 async function toggleReaction() {
-	if (!canToggle.value && !targetEmoji.value) return;
+	if (!canToggle.value) return;
 
-	const oldReaction = props.note.myReaction;
+	const reaction = getReactionName(props.reaction, true);
+	const oldReaction = props.note.myReaction ? getReactionName(props.note.myReaction, true) : null;
 	if (oldReaction) {
 		const confirm = await os.confirm({
 			type: 'warning',
-			text: oldReaction !== props.reaction ? i18n.ts.changeReactionConfirm : i18n.ts.cancelReactionConfirm,
+			text: oldReaction !== reaction ? i18n.ts.changeReactionConfirm : i18n.ts.cancelReactionConfirm,
 		});
 		if (confirm.canceled) return;
 
-		if (oldReaction !== props.reaction) {
+		if (oldReaction !== reaction) {
 			sound.playMisskeySfx('reaction');
 		}
 
 		if (mock) {
-			emit('reactionToggled', props.reaction, (props.count - 1));
+			emit('reactionToggled', reaction, (props.count - 1));
 			return;
 		}
 
 		misskeyApi('notes/reactions/delete', {
 			noteId: props.note.id,
 		}).then(() => {
-			if (oldReaction !== props.reaction) {
+			if (oldReaction !== reaction) {
 				misskeyApi('notes/reactions/create', {
 					noteId: props.note.id,
-					reaction: props.reaction,
+					reaction: reaction,
 				});
 			}
 		});
@@ -93,13 +102,13 @@ async function toggleReaction() {
 		sound.playMisskeySfx('reaction');
 
 		if (mock) {
-			emit('reactionToggled', props.reaction, (props.count + 1));
+			emit('reactionToggled', reaction, (props.count + 1));
 			return;
 		}
 
 		misskeyApi('notes/reactions/create', {
 			noteId: props.note.id,
-			reaction: canToggle.value ? props.reaction : `:${targetEmoji.value}:`,
+			reaction: reaction,
 		});
 
 		if (props.note.text && props.note.text.length > 100 && (Date.now() - new Date(props.note.createdAt).getTime() < 1000 * 3)) {
