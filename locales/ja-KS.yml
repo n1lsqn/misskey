@@ -1643,6 +1643,7 @@ _role:
     canManageCustomEmojis: "カスタム絵文字の管理"
     canUseChannel: "チャンネルの利用"
     canUseHighlight: "ハイライトの利用"
+    canUseRemoteIconDecorations: "リモートアイコンデコの利用"
     canManageAvatarDecorations: "アバターを飾るモンの管理"
     driveCapacity: "ドライブ容量"
     alwaysMarkNsfw: "勝手にファイルにNSFWをくっつける"
