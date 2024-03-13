@@ -341,7 +341,7 @@ export interface Locale extends ILocale {
      */
     "noLists": string;
     /**
-     * ノート
+     * 投書
      */
     "note": string;
     /**
