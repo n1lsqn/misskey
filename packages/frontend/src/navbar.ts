@@ -1,9 +1,11 @@
 /*
- * SPDX-FileCopyrightText: syuilo and other misskey contributors
+ * SPDX-FileCopyrightText: syuilo and misskey-project
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
 import { computed, reactive } from 'vue';
+import { clearCache } from './scripts/clear-cache.js';
+import { defaultStore } from './store.js';
 import { $i } from '@/account.js';
 import { miLocalStorage } from '@/local-storage.js';
 import { openInstanceMenu, openToolsMenu } from '@/ui/_common_/common.js';
@@ -12,7 +14,6 @@ import * as os from '@/os.js';
 import { i18n } from '@/i18n.js';
 import { ui } from '@/config.js';
 import { unisonReload } from '@/scripts/unison-reload.js';
-import { clearCache } from './scripts/clear-cache.js';
 
 export const navbarItemDef = reactive({
 	notifications: {
@@ -46,6 +47,7 @@ export const navbarItemDef = reactive({
 	},
 	explore: {
 		title: i18n.ts.explore,
+		show: computed(() => $i != null && $i.policies.canUseHighlight),
 		icon: 'ti ti-hash',
 		to: '/explore',
 	},
@@ -108,6 +110,7 @@ export const navbarItemDef = reactive({
 	},
 	channels: {
 		title: i18n.ts.channel,
+		show: computed(() => $i != null && ($i.isAdmin || $i.policies.canUseChannel)),
 		icon: 'ti ti-device-tv',
 		to: '/channels',
 	},
@@ -116,6 +119,11 @@ export const navbarItemDef = reactive({
 		icon: 'ti ti-medal',
 		show: computed(() => $i != null),
 		to: '/my/achievements',
+	},
+	games: {
+		title: 'Misskey Games',
+		icon: 'ti ti-device-gamepad',
+		to: '/games',
 	},
 	ui: {
 		title: i18n.ts.switchUi,
@@ -142,6 +150,87 @@ export const navbarItemDef = reactive({
 					miLocalStorage.setItem('ui', 'classic');
 					unisonReload();
 				},
+			}], ev.currentTarget ?? ev.target);
+		},
+	},
+	quickSettings: {
+		title: i18n.ts.quickSettings,
+		icon: 'ti ti-tool',
+		action: (ev) => {
+			os.popupMenu([{
+				type: 'parent',
+				text: i18n.ts.withSensitive,
+				children: [{
+					text: i18n.ts.on,
+					active: defaultStore.state.tl.filter.withSensitive,
+					action: () => {
+						const out = { ...defaultStore.state.tl };
+						// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+						if (!out.filter) {
+							out.filter = {
+								withRenotes: true,
+								withReplies: true,
+								withSensitive: true,
+								onlyFiles: false,
+							};
+						}
+						out.filter.withSensitive = true;
+						defaultStore.set('tl', out);
+						unisonReload();
+					},
+				}, {
+					text: i18n.ts.off,
+					active: !defaultStore.state.tl.filter.withSensitive,
+					action: () => {
+						const out = { ...defaultStore.state.tl };
+						// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+						if (!out.filter) {
+							out.filter = {
+								withRenotes: true,
+								withReplies: true,
+								withSensitive: true,
+								onlyFiles: false,
+							};
+						}
+						out.filter.withSensitive = false;
+						defaultStore.set('tl', out);
+						unisonReload();
+					},
+				}],
+			}, {
+				type: 'parent',
+				text: i18n.ts.dataSaver,
+				children: [{
+					text: i18n.ts.on,
+					active: defaultStore.state.enableDataSaverMode,
+					action: () => {
+						if (!defaultStore.state.enableDataSaverMode) {
+							defaultStore.set('enableDataSaverMode', true);
+							defaultStore.set('dataSaver', {
+								media: true,
+								avatar: true,
+								urlPreview: true,
+								code: true,
+							});
+							unisonReload();
+						}
+					},
+				}, {
+					text: i18n.ts.off,
+					active: !defaultStore.state.enableDataSaverMode,
+					action: () => {
+						if (defaultStore.state.enableDataSaverMode) {
+							defaultStore.set('enableDataSaverMode', false);
+							defaultStore.set('dataSaver', {
+								media: false,
+								avatar: false,
+								urlPreview: false,
+								code: false,
+							});
+							unisonReload();
+						}
+					},
+				}],
 			}], ev.currentTarget ?? ev.target);
 		},
 	},
@@ -178,5 +267,21 @@ export const navbarItemDef = reactive({
 		action: (ev) => {
 			clearCache();
 		},
+	},
+	bubbleGame: {
+		title: i18n.ts.bubbleGame,
+		icon: 'ti ti-apple',
+		to: '/bubble-game',
+	},
+	clicker: {
+		title: '🍪👈',
+		icon: 'ti ti-cookie',
+		to: '/clicker',
+	},
+	manageCustomEmojis: {
+		title: i18n.ts.manageCustomEmojis,
+		icon: 'ti ti-icons',
+		show: computed(() => $i != null && ($i.isAdmin || $i.policies.canManageCustomEmojis)),
+		to: '/custom-emojis-manager',
 	},
 });

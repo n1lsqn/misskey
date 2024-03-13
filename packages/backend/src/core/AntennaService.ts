@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: syuilo and other misskey contributors
+ * SPDX-FileCopyrightText: syuilo and misskey-project
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
@@ -55,23 +55,29 @@ export class AntennaService implements OnApplicationShutdown {
 			const { type, body } = obj.message as GlobalEvents['internal']['payload'];
 			switch (type) {
 				case 'antennaCreated':
-					this.antennas.push({
+					this.antennas.push({ // TODO: このあたりのデシリアライズ処理は各modelファイル内に関数としてexportしたい
 						...body,
 						lastUsedAt: new Date(body.lastUsedAt),
+						user: null, // joinなカラムは通常取ってこないので
+						userList: null, // joinなカラムは通常取ってこないので
 					});
 					break;
 				case 'antennaUpdated': {
 					const idx = this.antennas.findIndex(a => a.id === body.id);
 					if (idx >= 0) {
-						this.antennas[idx] = {
+						this.antennas[idx] = { // TODO: このあたりのデシリアライズ処理は各modelファイル内に関数としてexportしたい
 							...body,
 							lastUsedAt: new Date(body.lastUsedAt),
+							user: null, // joinなカラムは通常取ってこないので
+							userList: null, // joinなカラムは通常取ってこないので
 						};
 					} else {
 						// サーバ起動時にactiveじゃなかった場合、リストに持っていないので追加する必要あり
-						this.antennas.push({
+						this.antennas.push({ // TODO: このあたりのデシリアライズ処理は各modelファイル内に関数としてexportしたい
 							...body,
 							lastUsedAt: new Date(body.lastUsedAt),
+							user: null, // joinなカラムは通常取ってこないので
+							userList: null, // joinなカラムは通常取ってこないので
 						});
 					}
 				}
@@ -107,6 +113,10 @@ export class AntennaService implements OnApplicationShutdown {
 	public async checkHitAntenna(antenna: MiAntenna, note: (MiNote | Packed<'Note'>), noteUser: { id: MiUser['id']; username: string; host: string | null; }): Promise<boolean> {
 		if (note.visibility === 'specified') return false;
 		if (note.visibility === 'followers') return false;
+		if (note.channelId != null) console.warn('Note with channel is not supported yet.');
+		if (note.channelId != null) return false;
+		if (note.channel != null) console.warn('Note with channel is not supported yet.');
+		if (note.channel != null) return false;
 
 		if (antenna.localOnly && noteUser.host != null) return false;
 

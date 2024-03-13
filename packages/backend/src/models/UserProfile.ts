@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: syuilo and other misskey contributors
+ * SPDX-FileCopyrightText: syuilo and misskey-project
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
@@ -36,6 +36,7 @@ export class MiUserProfile {
 	})
 	public birthday: string | null;
 
+	@Index() // using PGroonga
 	@Column('varchar', {
 		length: 2048, nullable: true,
 		comment: 'The description (bio) of the User.',
@@ -249,6 +250,8 @@ export class MiUserProfile {
 			type: 'follower';
 		} | {
 			type: 'mutualFollow';
+		} | {
+			type: 'followingOrFollower';
 		} | {
 			type: 'list';
 			userListId: MiUserList['id'];

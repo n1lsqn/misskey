@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: syuilo and other misskey contributors
+ * SPDX-FileCopyrightText: syuilo and misskey-project
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
@@ -20,7 +20,10 @@ export const meta = {
 export const paramDef = {
 	type: 'object',
 	properties: {
-		disableRegistration: { type: 'boolean', nullable: true },
+		disableRegistration: { type: 'boolean', nullable: false },
+		disableAntiSpam: { type: 'boolean', nullable: false },
+		disableAccountDelete: { type: 'boolean', nullable: true },
+
 		pinnedUsers: {
 			type: 'array', nullable: true, items: {
 				type: 'string',
@@ -37,6 +40,11 @@ export const paramDef = {
 			},
 		},
 		sensitiveWords: {
+			type: 'array', nullable: true, items: {
+				type: 'string',
+			},
+		},
+		prohibitedWords: {
 			type: 'array', nullable: true, items: {
 				type: 'string',
 			},
@@ -99,8 +107,8 @@ export const paramDef = {
 		swPublicKey: { type: 'string', nullable: true },
 		swPrivateKey: { type: 'string', nullable: true },
 		tosUrl: { type: 'string', nullable: true },
-		repositoryUrl: { type: 'string' },
-		feedbackUrl: { type: 'string' },
+		repositoryUrl: { type: 'string', nullable: true },
+		feedbackUrl: { type: 'string', nullable: true },
 		impressumUrl: { type: 'string', nullable: true },
 		privacyPolicyUrl: { type: 'string', nullable: true },
 		useObjectStorage: { type: 'boolean' },
@@ -145,6 +153,16 @@ export const paramDef = {
 				type: 'string',
 			},
 		},
+		enableEmergencyAnnouncementIntegration: { type: 'boolean' },
+		emergencyAnnouncementIntegrationConfig: {
+			type: 'object',
+			nullable: true,
+			properties: {
+				type: {
+					type: 'string', enum: ['none', 'p2pquake'],
+				},
+			},
+		},
 	},
 	required: [],
 } as const;
@@ -162,6 +180,14 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				set.disableRegistration = ps.disableRegistration;
 			}
 
+			if (typeof ps.disableAntiSpam === 'boolean') {
+				set.disableAntiSpam = ps.disableAntiSpam;
+			}
+
+			if (typeof ps.disableAccountDelete === 'boolean') {
+				set.disableAccountDelete = ps.disableAccountDelete;
+			}
+
 			if (Array.isArray(ps.pinnedUsers)) {
 				set.pinnedUsers = ps.pinnedUsers.filter(Boolean);
 			}
@@ -176,6 +202,9 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 
 			if (Array.isArray(ps.sensitiveWords)) {
 				set.sensitiveWords = ps.sensitiveWords.filter(Boolean);
+			}
+			if (Array.isArray(ps.prohibitedWords)) {
+				set.prohibitedWords = ps.prohibitedWords.filter(Boolean);
 			}
 			if (Array.isArray(ps.silencedHosts)) {
 				let lastValue = '';
@@ -394,7 +423,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 			}
 
 			if (ps.repositoryUrl !== undefined) {
-				set.repositoryUrl = ps.repositoryUrl;
+				set.repositoryUrl = URL.canParse(ps.repositoryUrl!) ? ps.repositoryUrl : null;
 			}
 
 			if (ps.feedbackUrl !== undefined) {
@@ -571,6 +600,19 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 
 			if (ps.bannedEmailDomains !== undefined) {
 				set.bannedEmailDomains = ps.bannedEmailDomains;
+			}
+
+			if (ps.enableEmergencyAnnouncementIntegration !== undefined) {
+				set.enableEmergencyAnnouncementIntegration = ps.enableEmergencyAnnouncementIntegration;
+			}
+
+			if (ps.emergencyAnnouncementIntegrationConfig && ps.emergencyAnnouncementIntegrationConfig.type !== undefined) {
+				set.emergencyAnnouncementIntegrationConfig = {
+					...ps.emergencyAnnouncementIntegrationConfig,
+					type: ps.emergencyAnnouncementIntegrationConfig.type,
+				};
+			} else {
+				set.emergencyAnnouncementIntegrationConfig = { type: 'none' };
 			}
 
 			const before = await this.metaService.fetch(true);

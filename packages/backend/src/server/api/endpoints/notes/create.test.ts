@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: syuilo and other misskey contributors
+ * SPDX-FileCopyrightText: syuilo and misskey-project
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
@@ -68,7 +68,7 @@ describe('api:notes/create', () => {
 
 			test('0 characters cw', () => {
 				expect(v({ text: 'Body', cw: '' }))
-					.toBe(INVALID);
+					.toBe(VALID);
 			});
 
 			test('reject only cw', () => {

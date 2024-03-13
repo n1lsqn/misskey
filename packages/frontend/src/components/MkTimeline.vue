@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: syuilo and other misskey contributors
+SPDX-FileCopyrightText: syuilo and misskey-project
 SPDX-License-Identifier: AGPL-3.0-only
 -->
 
@@ -18,7 +18,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 <script lang="ts" setup>
 import { computed, watch, onUnmounted, provide, ref, shallowRef } from 'vue';
-import { Connection } from 'misskey-js/built/streaming.js';
+import * as Misskey from 'misskey-js';
 import MkNotes from '@/components/MkNotes.vue';
 import MkPullToRefresh from '@/components/MkPullToRefresh.vue';
 import { useStream } from '@/stream.js';
@@ -29,9 +29,9 @@ import { defaultStore } from '@/store.js';
 import { Paging } from '@/components/MkPagination.vue';
 
 const props = withDefaults(defineProps<{
-	src: string;
-	list?: string;
-	antenna?: string;
+	src: 'home' | 'local' | 'social' | 'global' | 'mentions' | 'directs' | 'list' | 'antenna' | 'channel' | 'role' | string;
+	list?: string | unknown;
+	antenna?: string | unknown;
 	channel?: string;
 	role?: string;
 	sound?: boolean;
@@ -49,6 +49,7 @@ const emit = defineEmits<{
 	(ev: 'queue', count: number): void;
 }>();
 
+provide('inTimeline', true);
 provide('inChannel', computed(() => props.src === 'channel'));
 
 type TimelineQueryType = {
@@ -60,6 +61,8 @@ type TimelineQueryType = {
   listId?: string,
   channelId?: string,
   roleId?: string
+	host?: string,
+	remoteToken?: string,
 }
 
 const prComponent = shallowRef<InstanceType<typeof MkPullToRefresh>>();
@@ -85,16 +88,17 @@ function prepend(note) {
 	}
 }
 
-let connection: Connection;
-let connection2: Connection;
+let connection: Misskey.ChannelConnection | null = null;
+let connection2: Misskey.ChannelConnection | null = null;
 let paginationQuery: Paging | null = null;
 
 const stream = useStream();
 
 function connectChannel() {
 	if (props.src === 'antenna') {
+		if (props.antenna == null) return;
 		connection = stream.useChannel('antenna', {
-			antennaId: props.antenna,
+			antennaId: props.antenna as string,
 		});
 	} else if (props.src === 'home') {
 		connection = stream.useChannel('homeTimeline', {
@@ -131,21 +135,24 @@ function connectChannel() {
 		connection = stream.useChannel('main');
 		connection.on('mention', onNote);
 	} else if (props.src === 'list') {
+		if (props.list == null) return;
 		connection = stream.useChannel('userList', {
 			withRenotes: props.withRenotes,
 			withFiles: props.onlyFiles ? true : undefined,
-			listId: props.list,
+			listId: props.list as string,
 		});
 	} else if (props.src === 'channel') {
+		if (props.channel == null) return;
 		connection = stream.useChannel('channel', {
 			channelId: props.channel,
 		});
 	} else if (props.src === 'role') {
+		if (props.role == null) return;
 		connection = stream.useChannel('roleTimeline', {
 			roleId: props.role,
 		});
 	}
-	if (props.src !== 'directs' || props.src !== 'mentions') connection.on('note', prepend);
+	if (props.src !== 'directs' && props.src !== 'mentions') connection?.on('note', prepend);
 }
 
 function disconnectChannel() {
@@ -154,13 +161,13 @@ function disconnectChannel() {
 }
 
 function updatePaginationQuery() {
-	let endpoint: string | null;
+	let endpoint: keyof Misskey.Endpoints | null;
 	let query: TimelineQueryType | null;
 
 	if (props.src === 'antenna') {
 		endpoint = 'antennas/notes';
 		query = {
-			antennaId: props.antenna,
+			antennaId: props.antenna as string,
 		};
 	} else if (props.src === 'home') {
 		endpoint = 'notes/timeline';
@@ -201,7 +208,7 @@ function updatePaginationQuery() {
 		query = {
 			withRenotes: props.withRenotes,
 			withFiles: props.onlyFiles ? true : undefined,
-			listId: props.list,
+			listId: props.list as string,
 		};
 	} else if (props.src === 'channel') {
 		endpoint = 'channels/timeline';
@@ -212,6 +219,12 @@ function updatePaginationQuery() {
 		endpoint = 'roles/notes';
 		query = {
 			roleId: props.role,
+		};
+	} else if (props.src.startsWith('custom-timeline')) {
+		endpoint = 'notes/any-local-timeline';
+		query = {
+			host: defaultStore.state[`remoteLocalTimelineDomain${props.src.split('-')[2]}`],
+			remoteToken: defaultStore.state[`remoteLocalTimelineToken${props.src.split('-')[2]}`],
 		};
 	} else {
 		endpoint = null;

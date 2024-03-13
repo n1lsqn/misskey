@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: syuilo and other misskey contributors
+SPDX-FileCopyrightText: syuilo and misskey-project
 SPDX-License-Identifier: AGPL-3.0-only
 -->
 
@@ -51,6 +51,10 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<template #label>{{ i18n.ts.enableAutoSensitive }}<span class="_beta">{{ i18n.ts.beta }}</span></template>
 				<template #caption>{{ i18n.ts.enableAutoSensitiveDescription }}</template>
 			</MkSwitch>
+			<MkSwitch v-model="filenameRandomize">
+				<template #label>{{ i18n.ts.filenameRandomize }}</template>
+				<template #caption>{{ i18n.ts.filenameRandomizeDescription }}</template>
+			</MkSwitch>
 		</div>
 	</FormSection>
 </div>
@@ -96,6 +100,7 @@ const meterStyle = computed(() => {
 });
 
 const keepOriginalUploading = computed(defaultStore.makeGetterSetter('keepOriginalUploading'));
+const filenameRandomize = computed(defaultStore.makeGetterSetter('filenameRandomize'));
 
 misskeyApi('drive').then(info => {
 	capacity.value = info.capacity;
@@ -113,7 +118,7 @@ if (defaultStore.state.uploadFolder) {
 
 function chooseUploadFolder() {
 	os.selectDriveFolder(false).then(async folder => {
-		defaultStore.set('uploadFolder', folder ? folder.id : null);
+		defaultStore.set('uploadFolder', folder[0] ? folder[0].id : null);
 		os.success();
 		if (defaultStore.state.uploadFolder) {
 			uploadFolder.value = await misskeyApi('drive/folders/show', {
@@ -143,10 +148,10 @@ const headerActions = computed(() => []);
 
 const headerTabs = computed(() => []);
 
-definePageMetadata({
+definePageMetadata(() => ({
 	title: i18n.ts.drive,
 	icon: 'ti ti-cloud',
-});
+}));
 </script>
 
 <style lang="scss" module>

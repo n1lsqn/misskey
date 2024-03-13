@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: syuilo and other misskey contributors
+ * SPDX-FileCopyrightText: syuilo and misskey-project
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
@@ -14,7 +14,8 @@ export const meta = {
 	tags: ['channels'],
 
 	requireCredential: false,
-
+	requireRolePolicy: 'canUseChannel',
+	
 	res: {
 		type: 'object',
 		optional: false, nullable: false,

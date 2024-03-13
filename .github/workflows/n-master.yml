@@ -1,0 +1,411 @@
+name: n-master Test
+
+on:
+  push:
+    branches:
+      - n-master
+  pull_request:
+    branches:
+      - n-master
+
+jobs:
+
+  # install
+  pnpm_install:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4.1.1
+      with:
+        fetch-depth: 0
+        submodules: true
+    - uses: pnpm/action-setup@v3
+      with:
+        version: 8
+        run_install: false
+    - uses: actions/setup-node@v4.0.2
+      with:
+        node-version-file: '.node-version'
+        cache: 'pnpm'
+    - run: corepack enable
+    - run: pnpm i --frozen-lockfile
+
+  # report
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+      - run: corepack enable
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version-file: '.node-version'
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm i --frozen-lockfile
+      - name: Build
+        run: pnpm --filter misskey-js build
+      - name: Check files
+        run: ls packages/misskey-js/built
+      - name: API report
+        run: pnpm --filter misskey-js api-prod
+      - name: Show report
+        if: always()
+        run: cat packages/misskey-js/temp/misskey-js.api.md
+
+  # lint
+  lint:
+    needs: [pnpm_install]
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      matrix:
+        workspace:
+        - backend
+        - frontend
+        - sw
+        - misskey-js
+    steps:
+    - uses: actions/checkout@v4.1.1
+      with:
+        fetch-depth: 0
+        submodules: true
+    - uses: pnpm/action-setup@v3
+      with:
+        version: 7
+        run_install: false
+    - uses: actions/setup-node@v4.0.2
+      with:
+        node-version-file: '.node-version'
+        cache: 'pnpm'
+    - run: corepack enable
+    - run: pnpm i --frozen-lockfile
+    - run: pnpm --filter ${{ matrix.workspace }} run eslint
+
+  # typecheck
+  typecheck:
+    needs: [pnpm_install]
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      matrix:
+        workspace:
+        - backend
+        - misskey-js
+    steps:
+    - uses: actions/checkout@v4.1.1
+      with:
+        fetch-depth: 0
+        submodules: true
+    - uses: pnpm/action-setup@v3
+      with:
+        version: 7
+        run_install: false
+    - uses: actions/setup-node@v4.0.2
+      with:
+        node-version-file: '.node-version'
+        cache: 'pnpm'
+    - run: corepack enable
+    - run: pnpm i --frozen-lockfile
+    - run: pnpm --filter misskey-js run build
+      if: ${{ matrix.workspace == 'backend' }}
+    - run: pnpm --filter misskey-reversi run build:tsc
+      if: ${{ matrix.workspace == 'backend' }}
+    - run: pnpm --filter ${{ matrix.workspace }} run typecheck
+
+  # unit
+  unit:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.10.0]
+    services:
+      postgres:
+        image: groonga/pgroonga:latest
+        ports:
+          - 54312:5432
+        env:
+          POSTGRES_DB: test-misskey
+          POSTGRES_HOST_AUTH_METHOD: trust
+      redis:
+        image: redis:7
+        ports:
+          - 56312:6379
+    steps:
+    - uses: actions/checkout@v4.1.1
+      with:
+        submodules: true
+    - name: Install pnpm
+      uses: pnpm/action-setup@v3
+      with:
+        version: 8
+        run_install: false
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4.0.2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'pnpm'
+    - run: corepack enable
+    - run: pnpm i --frozen-lockfile
+    - name: Check pnpm-lock.yaml
+      run: git diff --exit-code pnpm-lock.yaml
+    - name: Copy Configure
+      run: cp .github/misskey/test.yml .config
+    - name: Build
+      run: pnpm build
+    - name: Test
+      run: pnpm --filter backend test-and-coverage
+    - name: Upload to Codecov
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: ./packages/backend/coverage/coverage-final.json
+
+  # test
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.10.0]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4.1.1
+      - run: corepack enable
+      - name: Setup Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+      - name: Install dependencies
+        run: pnpm i --frozen-lockfile
+      - name: Check pnpm-lock.yaml
+        run: git diff --exit-code pnpm-lock.yaml
+      - name: Build
+        run: pnpm --filter misskey-js build
+      - name: Test
+        run: pnpm --filter misskey-js test
+        env:
+          CI: true
+      - name: Upload Coverage
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./packages/misskey-js/coverage/coverage-final.json
+
+  # validate-api-json
+  validate-api-json:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.10.0]
+    steps:
+    - uses: actions/checkout@v4.1.1
+      with:
+        submodules: true
+    - name: Install pnpm
+      uses: pnpm/action-setup@v3
+      with:
+        version: 8
+        run_install: false
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4.0.2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'pnpm'
+    - name: Install Redocly CLI
+      run: npm i -g @redocly/cli
+    - run: corepack enable
+    - run: pnpm i --frozen-lockfile
+    - name: Check pnpm-lock.yaml
+      run: git diff --exit-code pnpm-lock.yaml
+    - name: Copy Configure
+      run: cp .config/example.yml .config/default.yml
+    - name: Build and generate
+      run: pnpm build && pnpm --filter backend generate-api-json
+    - name: Validation
+      run: npx @redocly/cli lint --extends=minimal ./packages/backend/built/api.json
+
+  # vitest
+  vitest:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.10.0]
+    steps:
+    - uses: actions/checkout@v4.1.1
+      with:
+        submodules: true
+    - name: Install pnpm
+      uses: pnpm/action-setup@v3
+      with:
+        version: 8
+        run_install: false
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4.0.2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'pnpm'
+    - run: corepack enable
+    - run: pnpm i --frozen-lockfile
+    - name: Check pnpm-lock.yaml
+      run: git diff --exit-code pnpm-lock.yaml
+    - name: Copy Configure
+      run: cp .github/misskey/test.yml .config
+    - name: Build
+      run: pnpm build
+    - name: Test
+      run: pnpm --filter frontend test-and-coverage
+    - name: Upload Coverage
+      uses: codecov/codecov-action@v4
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: ./packages/frontend/coverage/coverage-final.json
+
+  # e2e-back
+  e2e-back:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.10.0]
+    services:
+      postgres:
+        image: groonga/pgroonga:latest
+        ports:
+          - 54312:5432
+        env:
+          POSTGRES_DB: test-misskey
+          POSTGRES_HOST_AUTH_METHOD: trust
+      redis:
+        image: redis:7
+        ports:
+          - 56312:6379
+    steps:
+      - uses: actions/checkout@v4.1.1
+        with:
+          submodules: true
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 8
+          run_install: false
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4.0.2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+      - run: corepack enable
+      - run: pnpm i --frozen-lockfile
+      - name: Check pnpm-lock.yaml
+        run: git diff --exit-code pnpm-lock.yaml
+      - name: Copy Configure
+        run: cp .github/misskey/test.yml .config
+      - name: Build
+        run: pnpm build
+      - name: Test
+        run: pnpm --filter backend test-and-coverage:e2e
+      - name: Upload to Codecov
+        uses: codecov/codecov-action@v4
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./packages/backend/coverage/coverage-final.json
+
+  # e2e-front
+  e2e-front:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node-version: [20.10.0]
+        browser: [chrome]
+    services:
+      postgres:
+        image: groonga/pgroonga:latest
+        ports:
+          - 54312:5432
+        env:
+          POSTGRES_DB: test-misskey
+          POSTGRES_HOST_AUTH_METHOD: trust
+      redis:
+        image: redis:7
+        ports:
+          - 56312:6379
+    steps:
+    - uses: actions/checkout@v4.1.1
+      with:
+        submodules: true
+    # https://github.com/cypress-io/cypress-docker-images/issues/150
+    #- name: Install mplayer for FireFox
+    #  run: sudo apt install mplayer -y
+    #  if: ${{ matrix.browser == 'firefox' }}
+    #- uses: browser-actions/setup-firefox@latest
+    #  if: ${{ matrix.browser == 'firefox' }}
+    - name: Install pnpm
+      uses: pnpm/action-setup@v3
+      with:
+        version: 7
+        run_install: false
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4.0.2
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'pnpm'
+    - run: corepack enable
+    - run: pnpm i --frozen-lockfile
+    - name: Copy Configure
+      run: cp .github/misskey/test.yml .config
+    - name: Build
+      run: pnpm build
+    # https://github.com/cypress-io/cypress/issues/4351#issuecomment-559489091
+    - name: ALSA Env
+      run: echo -e 'pcm.!default {\n type hw\n card 0\n}\n\nctl.!default {\n type hw\n card 0\n}' > ~/.asoundrc
+    # XXX: This tries reinstalling Cypress if the binary is not cached
+    # Remove this when the cache issue is fixed
+    - name: Cypress install
+      run: pnpm exec cypress install
+    - name: Cypress run
+      uses: cypress-io/github-action@v6
+      timeout-minutes: 15
+      with:
+        install: false
+        start: pnpm start:test
+        wait-on: 'http://localhost:61812'
+        headed: true
+        browser: ${{ matrix.browser }}
+    - uses: actions/upload-artifact@v4
+      if: failure()
+      with:
+        name: ${{ matrix.browser }}-cypress-screenshots
+        path: cypress/screenshots
+    - uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: ${{ matrix.browser }}-cypress-videos
+        path: cypress/videos
+
+  # deploy to server
+  deploy_to_server:
+    runs-on: ubuntu-latest
+    needs: [pnpm_install, report, lint, typecheck, unit, test, validate-api-json, vitest, e2e-back, e2e-front]
+    steps:
+    - name: Deploy
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.SSH_IP }}
+        username: ${{ secrets.SSH_USERNAME }}
+        # key: ${{ secrets.SSH_PRIVATE_KEY }}
+        # passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        port: ${{ secrets.SSH_PORT }}
+        script: |
+          curl -X POST -H "Content-Type: application/json" -d '{"i": "${{ secrets.ACCT_TOKEN }}", "text": "@n1lsqn@papi.n1l.dev アップデートを開始しました。 `${{ github.head_ref }}`", "visibility": "home"}' https://m.n1l.dev/api/notes/create
+          cd /home/misskey/misskey
+          git pull origin
+          git checkout ${{ github.head_ref }}
+          git submodule update --init
+          NODE_ENV=production pnpm install --frozen-lockfile
+          NODE_ENV=production pnpm run build
+          pnpm run migrate
+          sudo service misskey restart
+          sleep 60
+          curl -X POST -H "Content-Type: application/json" -d '{"i": "${{ secrets.ACCT_TOKEN }}", "text": "@n1lsqn@papi.n1l.dev アップデートを完了しました。 `${{ github.head_ref }}`", "visibility": "home"}' https://m.n1l.dev/api/notes/create

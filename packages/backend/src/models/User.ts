@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: syuilo and other misskey contributors
+ * SPDX-FileCopyrightText: syuilo and misskey-project
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
@@ -49,6 +49,7 @@ export class MiUser {
 	})
 	public usernameLower: string;
 
+	@Index()
 	@Column('varchar', {
 		length: 128, nullable: true,
 		comment: 'The name of the User.',

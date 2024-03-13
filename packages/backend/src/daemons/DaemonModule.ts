@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: syuilo and other misskey contributors
+ * SPDX-FileCopyrightText: syuilo and misskey-project
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
@@ -8,6 +8,7 @@ import { CoreModule } from '@/core/CoreModule.js';
 import { GlobalModule } from '@/GlobalModule.js';
 import { QueueStatsService } from './QueueStatsService.js';
 import { ServerStatsService } from './ServerStatsService.js';
+import { EmergencyAnnouncementService } from './EmergencyAnnouncementService.js';
 
 @Module({
 	imports: [
@@ -17,10 +18,12 @@ import { ServerStatsService } from './ServerStatsService.js';
 	providers: [
 		QueueStatsService,
 		ServerStatsService,
+		EmergencyAnnouncementService,
 	],
 	exports: [
 		QueueStatsService,
 		ServerStatsService,
+		EmergencyAnnouncementService,
 	],
 })
 export class DaemonModule {}

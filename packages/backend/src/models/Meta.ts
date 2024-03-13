@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: syuilo and other misskey contributors
+ * SPDX-FileCopyrightText: syuilo and misskey-project
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
@@ -51,6 +51,16 @@ export class MiMeta {
 	})
 	public disableRegistration: boolean;
 
+	@Column('boolean', {
+		default: true,
+	})
+	public disableAntiSpam: boolean;
+
+	@Column('boolean', {
+		default: false,
+	})
+	public disableAccountDelete: boolean;
+
 	@Column('varchar', {
 		length: 1024, array: true, default: '{}',
 	})
@@ -75,6 +85,11 @@ export class MiMeta {
 		length: 1024, array: true, default: '{}',
 	})
 	public sensitiveWords: string[];
+
+	@Column('varchar', {
+		length: 1024, array: true, default: '{}',
+	})
+	public prohibitedWords: string[];
 
 	@Column('varchar', {
 		length: 1024, array: true, default: '{}',
@@ -248,6 +263,8 @@ export class MiMeta {
 	})
 	public turnstileSecretKey: string | null;
 
+	// chaptcha系を追加した際にはnodeinfoのレスポンスに追加するのを忘れないようにすること
+
 	@Column('enum', {
 		enum: ['none', 'all', 'local', 'remote'],
 		default: 'none',
@@ -352,9 +369,9 @@ export class MiMeta {
 	@Column('varchar', {
 		length: 1024,
 		default: 'https://github.com/misskey-dev/misskey',
-		nullable: false,
+		nullable: true,
 	})
-	public repositoryUrl: string;
+	public repositoryUrl: string | null;
 
 	@Column('varchar', {
 		length: 1024,
@@ -581,4 +598,22 @@ export class MiMeta {
 		default: 0,
 	})
 	public notesPerOneAd: number;
+
+	@Column('boolean', {
+		default: false,
+	})
+	public enableEmergencyAnnouncementIntegration: boolean;
+
+	// p2pquake以外のプロバイダーを追加する場合は、この型を拡張する
+	// 必要に応じて型内にフィールドを追加する
+	@Column('jsonb', {
+		default: {
+			type: 'none',
+		},
+	})
+	public emergencyAnnouncementIntegrationConfig: {
+		type: 'none',
+	} | {
+		type: 'p2pquake',
+	};
 }

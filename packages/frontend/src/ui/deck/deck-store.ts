@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: syuilo and other misskey contributors
+ * SPDX-FileCopyrightText: syuilo and misskey-project
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
@@ -29,7 +29,16 @@ export type Column = {
 	channelId?: string;
 	roleId?: string;
 	excludeTypes?: typeof notificationTypes[number][];
-	tl?: 'home' | 'local' | 'social' | 'global';
+	tl?:
+	'home' |
+	'local' |
+	'social' |
+	'global' |
+	'custom-timeline-1' |
+	'custom-timeline-2' |
+	'custom-timeline-3' |
+	'custom-timeline-4' |
+	'custom-timeline-5';
 	withRenotes?: boolean;
 	withReplies?: boolean;
 	onlyFiles?: boolean;

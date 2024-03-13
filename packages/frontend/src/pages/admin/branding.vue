@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: syuilo and other misskey contributors
+SPDX-FileCopyrightText: syuilo and misskey-project
 SPDX-License-Identifier: AGPL-3.0-only
 -->
 
@@ -19,10 +19,10 @@ SPDX-License-Identifier: AGPL-3.0-only
 						<template #prefix><i class="ti ti-link"></i></template>
 						<template #label>{{ i18n.ts._serverSettings.iconUrl }} (App/192px)</template>
 						<template #caption>
-							<div>{{ i18n.t('_serverSettings.appIconDescription', { host: instance.name ?? host }) }}</div>
+							<div>{{ i18n.tsx._serverSettings.appIconDescription({ host: instance.name ?? host }) }}</div>
 							<div>({{ i18n.ts._serverSettings.appIconUsageExample }})</div>
 							<div>{{ i18n.ts._serverSettings.appIconStyleRecommendation }}</div>
-							<div><strong>{{ i18n.t('_serverSettings.appIconResolutionMustBe', { resolution: '192x192px' }) }}</strong></div>
+							<div><strong>{{ i18n.tsx._serverSettings.appIconResolutionMustBe({ resolution: '192x192px' }) }}</strong></div>
 						</template>
 					</MkInput>
 
@@ -30,10 +30,10 @@ SPDX-License-Identifier: AGPL-3.0-only
 						<template #prefix><i class="ti ti-link"></i></template>
 						<template #label>{{ i18n.ts._serverSettings.iconUrl }} (App/512px)</template>
 						<template #caption>
-							<div>{{ i18n.t('_serverSettings.appIconDescription', { host: instance.name ?? host }) }}</div>
+							<div>{{ i18n.tsx._serverSettings.appIconDescription({ host: instance.name ?? host }) }}</div>
 							<div>({{ i18n.ts._serverSettings.appIconUsageExample }})</div>
 							<div>{{ i18n.ts._serverSettings.appIconStyleRecommendation }}</div>
-							<div><strong>{{ i18n.t('_serverSettings.appIconResolutionMustBe', { resolution: '512x512px' }) }}</strong></div>
+							<div><strong>{{ i18n.tsx._serverSettings.appIconResolutionMustBe({ resolution: '512x512px' }) }}</strong></div>
 						</template>
 					</MkInput>
 
@@ -75,6 +75,16 @@ SPDX-License-Identifier: AGPL-3.0-only
 						<template #label>{{ i18n.ts.instanceDefaultDarkTheme }}</template>
 						<template #caption>{{ i18n.ts.instanceDefaultThemeDescription }}</template>
 					</MkTextarea>
+
+					<MkInput v-model="repositoryUrl" type="url">
+						<template #prefix><i class="ti ti-link"></i></template>
+						<template #label>{{ i18n.ts.repositoryUrl }}</template>
+					</MkInput>
+
+					<MkInput v-model="feedbackUrl" type="url">
+						<template #prefix><i class="ti ti-link"></i></template>
+						<template #label>{{ i18n.ts.feedbackUrl }}</template>
+					</MkInput>
 
 					<MkTextarea v-model="manifestJsonOverride">
 						<template #label>{{ i18n.ts._serverSettings.manifestJsonOverride }}</template>
@@ -120,6 +130,8 @@ const defaultDarkTheme = ref<string | null>(null);
 const serverErrorImageUrl = ref<string | null>(null);
 const infoImageUrl = ref<string | null>(null);
 const notFoundImageUrl = ref<string | null>(null);
+const repositoryUrl = ref<string | null>(null);
+const feedbackUrl = ref<string | null>(null);
 const manifestJsonOverride = ref<string>('{}');
 
 async function init() {
@@ -135,6 +147,8 @@ async function init() {
 	serverErrorImageUrl.value = meta.serverErrorImageUrl;
 	infoImageUrl.value = meta.infoImageUrl;
 	notFoundImageUrl.value = meta.notFoundImageUrl;
+	repositoryUrl.value = meta.repositoryUrl;
+	feedbackUrl.value = meta.feedbackUrl;
 	manifestJsonOverride.value = meta.manifestJsonOverride === '' ? '{}' : JSON.stringify(JSON.parse(meta.manifestJsonOverride), null, '\t');
 }
 
@@ -148,21 +162,23 @@ function save() {
 		themeColor: themeColor.value === '' ? null : themeColor.value,
 		defaultLightTheme: defaultLightTheme.value === '' ? null : defaultLightTheme.value,
 		defaultDarkTheme: defaultDarkTheme.value === '' ? null : defaultDarkTheme.value,
-		infoImageUrl: infoImageUrl.value,
-		notFoundImageUrl: notFoundImageUrl.value,
-		serverErrorImageUrl: serverErrorImageUrl.value,
+		infoImageUrl: infoImageUrl.value === '' ? null : infoImageUrl.value,
+		notFoundImageUrl: notFoundImageUrl.value === '' ? null : notFoundImageUrl.value,
+		serverErrorImageUrl: serverErrorImageUrl.value === '' ? null : serverErrorImageUrl.value,
+		repositoryUrl: repositoryUrl.value === '' ? null : repositoryUrl.value,
+		feedbackUrl: feedbackUrl.value === '' ? null : feedbackUrl.value,
 		manifestJsonOverride: manifestJsonOverride.value === '' ? '{}' : JSON.stringify(JSON5.parse(manifestJsonOverride.value)),
 	}).then(() => {
-		fetchInstance();
+		fetchInstance(true);
 	});
 }
 
 const headerTabs = computed(() => []);
 
-definePageMetadata({
+definePageMetadata(() => ({
 	title: i18n.ts.branding,
 	icon: 'ti ti-paint',
-});
+}));
 </script>
 
 <style lang="scss" module>

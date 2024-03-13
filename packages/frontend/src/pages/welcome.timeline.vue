@@ -1,9 +1,10 @@
 <!--
-SPDX-FileCopyrightText: syuilo and other misskey contributors
+SPDX-FileCopyrightText: syuilo and misskey-project
 SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 <template>
+<!--
 <div :class="$style.root">
 	<div ref="scrollEl" :class="[$style.scrollbox, { [$style.scroll]: isScrolling }]">
 		<div v-for="note in notes" :key="note.id" :class="$style.note">
@@ -17,13 +18,15 @@ SPDX-License-Identifier: AGPL-3.0-only
 					<MkMediaList :mediaList="note.files"/>
 				</div>
 				<div v-if="note.poll">
-					<MkPoll :note="note" :readOnly="true"/>
+					<MkPoll :noteId="note.id" :poll="note.poll" :readOnly="true"/>
 				</div>
 			</div>
 			<MkReactionsViewer ref="reactionsViewer" :note="note"/>
 		</div>
 	</div>
 </div>
+-->
+<div></div>
 </template>
 
 <script lang="ts" setup>

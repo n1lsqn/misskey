@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: syuilo and other misskey contributors
+ * SPDX-FileCopyrightText: syuilo and misskey-project
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
@@ -7,7 +7,9 @@ import { markRaw, ref } from 'vue';
 import * as Misskey from 'misskey-js';
 import { miLocalStorage } from './local-storage.js';
 import type { SoundType } from '@/scripts/sound.js';
+import type { BuiltinTheme as ShikiBuiltinTheme } from 'shiki';
 import { Storage } from '@/pizzax.js';
+import { hemisphere } from '@/scripts/intl-const.js';
 
 interface PostFormAction {
 	title: string,
@@ -111,6 +113,10 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'account',
 		default: false,
 	},
+	filenameRandomize: {
+		where: 'account',
+		default: true,
+	},
 	memo: {
 		where: 'account',
 		default: null,
@@ -184,6 +190,12 @@ export const defaultStore = markRaw(new Storage('base', {
 		default: {
 			src: 'home' as 'home' | 'local' | 'social' | 'global' | `list:${string}`,
 			userList: null as Misskey.entities.UserList | null,
+			filter: {
+				withReplies: true,
+				withRenotes: true,
+				withSensitive: true,
+				onlyFiles: false,
+			},
 		},
 	},
 	pinnedUserLists: {
@@ -219,6 +231,18 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: true,
 	},
+	showRepliesCount: {
+		where: 'device',
+		default: true,
+	},
+	showRenotesCount: {
+		where: 'device',
+		default: true,
+	},
+	showReactionsCount: {
+		where: 'device',
+		default: true,
+	},
 	enableQuickAddMfmFunction: {
 		where: 'device',
 		default: false,
@@ -228,6 +252,14 @@ export const defaultStore = markRaw(new Storage('base', {
 		default: false,
 	},
 	imageNewTab: {
+		where: 'device',
+		default: false,
+	},
+	enableDataSaverMode: {
+		where: 'device',
+		default: false,
+	},
+	autoDataSaver: {
 		where: 'device',
 		default: false,
 	},
@@ -339,6 +371,86 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: 3,
 	},
+	remoteLocalTimelineName1: {
+		where: 'device',
+		default: 'custom timeline 1',
+	},
+	remoteLocalTimelineDomain1: {
+		where: 'account',
+		default: '',
+	},
+	remoteLocalTimelineToken1: {
+		where: 'account',
+		default: '',
+	},
+	remoteLocalTimelineEnable1: {
+		where: 'account',
+		default: false,
+	},
+	remoteLocalTimelineName2: {
+		where: 'device',
+		default: 'custom timeline 2',
+	},
+	remoteLocalTimelineDomain2: {
+		where: 'account',
+		default: '',
+	},
+	remoteLocalTimelineToken2: {
+		where: 'account',
+		default: '',
+	},
+	remoteLocalTimelineEnable2: {
+		where: 'account',
+		default: false,
+	},
+	remoteLocalTimelineName3: {
+		where: 'device',
+		default: 'custom timeline 3',
+	},
+	remoteLocalTimelineDomain3: {
+		where: 'account',
+		default: '',
+	},
+	remoteLocalTimelineToken3: {
+		where: 'account',
+		default: '',
+	},
+	remoteLocalTimelineEnable3: {
+		where: 'account',
+		default: false,
+	},
+	remoteLocalTimelineName4: {
+		where: 'device',
+		default: 'custom timeline 4',
+	},
+	remoteLocalTimelineDomain4: {
+		where: 'account',
+		default: '',
+	},
+	remoteLocalTimelineToken4: {
+		where: 'account',
+		default: '',
+	},
+	remoteLocalTimelineEnable4: {
+		where: 'account',
+		default: false,
+	},
+	remoteLocalTimelineName5: {
+		where: 'device',
+		default: 'custom timeline 5',
+	},
+	remoteLocalTimelineDomain5: {
+		where: 'account',
+		default: '',
+	},
+	remoteLocalTimelineToken5: {
+		where: 'account',
+		default: '',
+	},
+	remoteLocalTimelineEnable5: {
+		where: 'account',
+		default: false,
+	},
 	showNoteActionsOnlyHover: {
 		where: 'device',
 		default: false,
@@ -391,10 +503,6 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: false,
 	},
-	tlWithReplies: {
-		where: 'device',
-		default: false,
-	},
 	defaultWithReplies: {
 		where: 'account',
 		default: false,
@@ -427,6 +535,14 @@ export const defaultStore = markRaw(new Storage('base', {
 			sfxVolume: 1,
 		},
 	},
+	hemisphere: {
+		where: 'device',
+		default: hemisphere as 'N' | 'S',
+	},
+	enableHorizontalSwipe: {
+		where: 'device',
+		default: true,
+	},
 
 	sound_masterVolume: {
 		where: 'device',
@@ -442,11 +558,11 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	sound_note: {
 		where: 'device',
-		default: { type: 'syuilo/n-aec', volume: 1 } as SoundStore,
+		default: { type: 'syuilo/n-aec', volume: 0 } as SoundStore,
 	},
 	sound_noteMy: {
 		where: 'device',
-		default: { type: 'syuilo/n-cea-4va', volume: 1 } as SoundStore,
+		default: { type: 'syuilo/n-cea-4va', volume: 0 } as SoundStore,
 	},
 	sound_notification: {
 		where: 'device',
@@ -501,6 +617,7 @@ export class ColdDeviceStorage {
 		lightTheme,
 		darkTheme,
 		syncDeviceDarkMode: true,
+		syncTimeDarkMode: false,
 		plugins: [] as Plugin[],
 	};
 

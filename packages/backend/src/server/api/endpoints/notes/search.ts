@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: syuilo and other misskey contributors
+ * SPDX-FileCopyrightText: syuilo and misskey-project
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
@@ -30,6 +30,11 @@ export const meta = {
 			message: 'Search of notes unavailable.',
 			code: 'UNAVAILABLE',
 			id: '0b44998d-77aa-4427-80d0-d2c9b8523011',
+		},
+		queryIsEmpty: {
+			message: 'Query is Empty.',
+			code: 'QUERY_IS_EMPTY',
+			id: '2f2c7202-c089-11ee-ac8c-00155d9884c8',
 		},
 	},
 } as const;
@@ -63,6 +68,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 	) {
 		super(meta, paramDef, async (ps, me) => {
 			const policies = await this.roleService.getUserPolicies(me ? me.id : null);
+			if (ps.query.length === 0) throw new ApiError(meta.errors.queryIsEmpty);
 			if (!policies.canSearchNotes) {
 				throw new ApiError(meta.errors.unavailable);
 			}

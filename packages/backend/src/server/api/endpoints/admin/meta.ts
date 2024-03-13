@@ -1,5 +1,5 @@
 /*
- * SPDX-FileCopyrightText: syuilo and other misskey contributors
+ * SPDX-FileCopyrightText: syuilo and misskey-project
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
@@ -150,6 +150,13 @@ export const meta = {
 				},
 			},
 			sensitiveWords: {
+				type: 'array',
+				optional: false, nullable: false,
+				items: {
+					type: 'string',
+				},
+			},
+			prohibitedWords: {
 				type: 'array',
 				optional: false, nullable: false,
 				items: {
@@ -392,6 +399,14 @@ export const meta = {
 				type: 'boolean',
 				optional: false, nullable: false,
 			},
+			disableAntiSpam: {
+				type: 'boolean',
+				optional: false, nullable: true,
+			},
+			disableAccountDelete: {
+				type: 'boolean',
+				optional: false, nullable: false,
+			},
 			impressumUrl: {
 				type: 'string',
 				optional: false, nullable: true,
@@ -422,7 +437,7 @@ export const meta = {
 			},
 			repositoryUrl: {
 				type: 'string',
-				optional: false, nullable: false,
+				optional: false, nullable: true,
 			},
 			summalyProxy: {
 				type: 'string',
@@ -443,6 +458,20 @@ export const meta = {
 			version: {
 				type: 'string',
 				optional: false, nullable: false,
+			},
+			enableEmergencyAnnouncementIntegration: {
+				type: 'boolean',
+				optional: false, nullable: false,
+			},
+			emergencyAnnouncementIntegrationConfig: {
+				type: 'object',
+				optional: false, nullable: false,
+				properties: {
+					type: {
+						type: 'string',
+						optional: false, nullable: false,
+					},
+				},
 			},
 		},
 	},
@@ -481,6 +510,8 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				impressumUrl: instance.impressumUrl,
 				privacyPolicyUrl: instance.privacyPolicyUrl,
 				disableRegistration: instance.disableRegistration,
+				disableAntiSpam: instance.disableAntiSpam,
+				disableAccountDelete: instance.disableAccountDelete,
 				emailRequiredForSignup: instance.emailRequiredForSignup,
 				enableHcaptcha: instance.enableHcaptcha,
 				hcaptchaSiteKey: instance.hcaptchaSiteKey,
@@ -515,6 +546,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				blockedHosts: instance.blockedHosts,
 				silencedHosts: instance.silencedHosts,
 				sensitiveWords: instance.sensitiveWords,
+				prohibitedWords: instance.prohibitedWords,
 				preservedUsernames: instance.preservedUsernames,
 				hcaptchaSecretKey: instance.hcaptchaSecretKey,
 				mcaptchaSecretKey: instance.mcaptchaSecretKey,
@@ -569,6 +601,8 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				perUserHomeTimelineCacheMax: instance.perUserHomeTimelineCacheMax,
 				perUserListTimelineCacheMax: instance.perUserListTimelineCacheMax,
 				notesPerOneAd: instance.notesPerOneAd,
+				enableEmergencyAnnouncementIntegration: instance.enableEmergencyAnnouncementIntegration,
+				emergencyAnnouncementIntegrationConfig: instance.emergencyAnnouncementIntegrationConfig,
 			};
 		});
 	}

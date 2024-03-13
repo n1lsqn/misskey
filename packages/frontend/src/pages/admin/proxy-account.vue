@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: syuilo and other misskey contributors
+SPDX-FileCopyrightText: syuilo and misskey-project
 SPDX-License-Identifier: AGPL-3.0-only
 -->
 
@@ -7,13 +7,13 @@ SPDX-License-Identifier: AGPL-3.0-only
 <MkStickyContainer>
 	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
 	<MkSpacer :contentMax="700" :marginMin="16" :marginMax="32">
-		<FormSuspense :p="init">
+		<FormSuspense :p="init" class="_gaps_s">
 			<MkInfo>{{ i18n.ts.proxyAccountDescription }}</MkInfo>
+
 			<MkKeyValue>
 				<template #key>{{ i18n.ts.proxyAccount }}</template>
 				<template #value>{{ proxyAccount ? `@${proxyAccount.username}` : i18n.ts.none }}</template>
 			</MkKeyValue>
-
 			<MkButton primary @click="chooseProxyAccount">{{ i18n.ts.selectAccount }}</MkButton>
 		</FormSuspense>
 	</MkSpacer>
@@ -45,7 +45,7 @@ async function init() {
 }
 
 function chooseProxyAccount() {
-	os.selectUser().then(user => {
+	os.selectUser({ localOnly: true }).then(user => {
 		proxyAccount.value = user;
 		proxyAccountId.value = user.id;
 		save();
@@ -56,7 +56,7 @@ function save() {
 	os.apiWithDialog('admin/update-meta', {
 		proxyAccountId: proxyAccountId.value,
 	}).then(() => {
-		fetchInstance();
+		fetchInstance(true);
 	});
 }
 
@@ -64,8 +64,8 @@ const headerActions = computed(() => []);
 
 const headerTabs = computed(() => []);
 
-definePageMetadata({
+definePageMetadata(() => ({
 	title: i18n.ts.proxyAccount,
 	icon: 'ti ti-ghost',
-});
+}));
 </script>

@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: syuilo and other misskey contributors
+SPDX-FileCopyrightText: syuilo and misskey-project
 SPDX-License-Identifier: AGPL-3.0-only
 -->
 
@@ -42,6 +42,10 @@ SPDX-License-Identifier: AGPL-3.0-only
 	<MkSwitch v-model="isExplorable" @update:modelValue="save()">
 		{{ i18n.ts.makeExplorable }}
 		<template #caption>{{ i18n.ts.makeExplorableDescription }}</template>
+	</MkSwitch>
+	<MkSwitch v-model="filenameRandomize">
+		<template #label>{{ i18n.ts.filenameRandomize }}</template>
+		<template #caption>{{ i18n.ts.filenameRandomizeDescription }}</template>
 	</MkSwitch>
 
 	<FormSection>
@@ -99,6 +103,7 @@ const defaultNoteVisibility = computed(defaultStore.makeGetterSetter('defaultNot
 const defaultNoteLocalOnly = computed(defaultStore.makeGetterSetter('defaultNoteLocalOnly'));
 const rememberNoteVisibility = computed(defaultStore.makeGetterSetter('rememberNoteVisibility'));
 const keepCw = computed(defaultStore.makeGetterSetter('keepCw'));
+const filenameRandomize = computed(defaultStore.makeGetterSetter('filenameRandomize'));
 
 function save() {
 	misskeyApi('i/update', {
@@ -118,8 +123,8 @@ const headerActions = computed(() => []);
 
 const headerTabs = computed(() => []);
 
-definePageMetadata({
+definePageMetadata(() => ({
 	title: i18n.ts.privacy,
 	icon: 'ti ti-lock-open',
-});
+}));
 </script>
