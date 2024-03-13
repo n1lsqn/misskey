@@ -6555,6 +6555,10 @@ export interface Locale extends ILocale {
              */
             "canUseHighlight": string;
             /**
+             * リモートアイコンデコレーションの利用
+             */
+            "canUseRemoteIconDecorations": string;
+            /**
              * ドライブ容量
              */
             "driveCapacity": string;
