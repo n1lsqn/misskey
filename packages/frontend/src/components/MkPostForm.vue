@@ -132,6 +132,7 @@ import { miLocalStorage } from '@/local-storage.js';
 import { claimAchievement } from '@/scripts/achievements.js';
 import { emojiPicker } from '@/scripts/emoji-picker.js';
 import { mfmFunctionPicker } from '@/scripts/mfm-function-picker.js';
+import { deviceKind } from '@/scripts/device-kind';
 
 const $i = signinRequired();
 
@@ -574,12 +575,14 @@ function clear() {
 }
 
 function onKeydown(ev: KeyboardEvent) {
-	if (ev.key === 'Enter' && (ev.ctrlKey || ev.metaKey) && canPost.value) post();
-	if (ev.key === 'm' && (ev.ctrlKey || ev.metaKey)) visibility.value = 'public';
-	if (ev.key === ',' && (ev.ctrlKey || ev.metaKey)) visibility.value = 'home';
-	if (ev.key === '.' && (ev.ctrlKey || ev.metaKey)) visibility.value = 'followers';
-	if (ev.key === '/' && (ev.ctrlKey || ev.metaKey)) localOnly.value = !localOnly.value;
-	if (ev.key === 'Escape') emit('esc');
+	if (['desktop'].includes(deviceKind)) {
+		if (ev.key === 'Enter' && (ev.ctrlKey || ev.metaKey) && canPost.value) post();
+		if (ev.key === 'm' && (ev.ctrlKey || ev.metaKey)) visibility.value = 'public';
+		if (ev.key === ',' && (ev.ctrlKey || ev.metaKey)) visibility.value = 'home';
+		if (ev.key === '.' && (ev.ctrlKey || ev.metaKey)) visibility.value = 'followers';
+		if (ev.key === '/' && (ev.ctrlKey || ev.metaKey)) localOnly.value = !localOnly.value;
+		if (ev.key === 'Escape') emit('esc');
+	}
 }
 
 function onCompositionUpdate(ev: CompositionEvent) {
