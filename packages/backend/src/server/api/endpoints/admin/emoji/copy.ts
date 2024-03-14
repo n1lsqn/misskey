@@ -51,7 +51,7 @@ export const paramDef = {
 	properties: {
 		emojiId: { type: 'string', format: 'misskey:id' },
 	},
-	required: ['emojiId', 'lisence'],
+	required: ['emojiId'],
 } as const;
 
 // TODO: ロジックをサービスに切り出す
