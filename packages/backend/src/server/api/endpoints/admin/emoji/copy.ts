@@ -50,7 +50,6 @@ export const paramDef = {
 	type: 'object',
 	properties: {
 		emojiId: { type: 'string', format: 'misskey:id' },
-		lisence: { type: 'string', nullable: true },
 	},
 	required: ['emojiId', 'lisence'],
 } as const;
