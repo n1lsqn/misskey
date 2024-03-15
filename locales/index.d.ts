@@ -9940,6 +9940,2358 @@ export interface Locale extends ILocale {
             };
         };
     };
+    "_villageMode": {
+        /**
+         * 投書でつながるネットワーク
+         */
+        "headlineMisskey": string;
+        /**
+         * ようこそ！Misskeyは、オープンソースの分散型マイクロブログサービスです。
+         * 「投書」を作成して、いま起こっていることを共有したり、あなたについて皆に発信しよう📡
+         * 「はんこ」機能で、皆の投書に素早く反応を追加することもできます👍
+         * 新しい世界を探検しよう🚀
+         */
+        "introMisskey": string;
+        /**
+         * {name}は、オープンソースのプラットフォーム<b>Misskey</b>の村のひとつです。
+         */
+        "poweredByMisskeyDescription": ParameterizedString<"name">;
+        /**
+         * おたより
+         */
+        "notifications": string;
+        /**
+         * {user}が再投書
+         */
+        "renotedBy": ParameterizedString<"user">;
+        /**
+         * 投書はありません
+         */
+        "noNotes": string;
+        /**
+         * おたよりはありません
+         */
+        "noNotifications": string;
+        /**
+         * 村
+         */
+        "instance": string;
+        /**
+         * おたよりの設定
+         */
+        "notificationSettings": string;
+        /**
+         * 集会所
+         */
+        "timeline": string;
+        /**
+         * 再投書のリンクをコピー
+         */
+        "copyLinkRenote": string;
+        /**
+         * この投書を削除してもう一度編集しますか？この投書へのはんこ、再投書、返信も全て削除されます。
+         */
+        "deleteAndEditConfirm": string;
+        /**
+         * 投書IDをコピー
+         */
+        "copyNoteId": string;
+        /**
+         * 届いたお野菜されました
+         */
+        "youGotNewFollower": string;
+        /**
+         * 届いたお野菜リクエストされました
+         */
+        "receiveFollowRequest": string;
+        /**
+         * 届いたお野菜が承認されました
+         */
+        "followRequestAccepted": string;
+        /**
+         * {name}の届いたお野菜を解除しますか？
+         */
+        "unfollowConfirm": ParameterizedString<"name">;
+        /**
+         * 投書
+         */
+        "note": string;
+        /**
+         * 投書
+         */
+        "notes": string;
+        /**
+         * 届いたお野菜
+         */
+        "following": string;
+        /**
+         * おすそ分け先
+         */
+        "followers": string;
+        /**
+         * 届いたお野菜されています
+         */
+        "followsYou": string;
+        /**
+         * 村の応答がありません。しばらく待ってから再度試してください。
+         */
+        "serverIsDead": string;
+        /**
+         * 届いたお野菜を承認制にする
+         */
+        "makeFollowManuallyApprove": string;
+        /**
+         * 届いたお野菜
+         */
+        "follow": string;
+        /**
+         * 届いたお野菜申請
+         */
+        "followRequest": string;
+        /**
+         * 届いたお野菜申請
+         */
+        "followRequests": string;
+        /**
+         * 届いたお野菜解除
+         */
+        "unfollow": string;
+        /**
+         * 届いたお野菜許可待ち
+         */
+        "followRequestPending": string;
+        /**
+         * 再投書
+         */
+        "renote": string;
+        /**
+         * 再投書解除
+         */
+        "unrenote": string;
+        /**
+         * 再投書しました。
+         */
+        "renoted": string;
+        /**
+         * この投稿は再投書できません。
+         */
+        "cantRenote": string;
+        /**
+         * 再投書を再投書することはできません。
+         */
+        "cantReRenote": string;
+        /**
+         * チャンネル内再投書
+         */
+        "inChannelRenote": string;
+        /**
+         * ピン留めされた投書
+         */
+        "pinnedNote": string;
+        /**
+         * はんこ
+         */
+        "reaction": string;
+        /**
+         * はんこ
+         */
+        "reactions": string;
+        /**
+         * はんこ時にピン留め表示する絵文字を設定できます
+         */
+        "pinnedEmojisForReactionSettingDescription": string;
+        /**
+         * はんこ設定から上書きする
+         */
+        "overwriteFromPinnedEmojisForReaction": string;
+        /**
+         * 神隠し
+         */
+        "mute": string;
+        /**
+         * 神隠し解除
+         */
+        "unmute": string;
+        /**
+         * 再投書を神隠し
+         */
+        "renoteMute": string;
+        /**
+         * 再投書の神隠しを解除
+         */
+        "renoteUnmute": string;
+        /**
+         * 村八分
+         */
+        "block": string;
+        /**
+         * 村八分解除
+         */
+        "unblock": string;
+        /**
+         * 村八分しますか？
+         */
+        "blockConfirm": string;
+        /**
+         * 村八分解除しますか？
+         */
+        "unblockConfirm": string;
+        /**
+         * この設定を有効にすると、リモートファイルをこの村のストレージにキャッシュするようになります。画像の表示が高速になりますが、村のストレージを多く消費します。リモート村人がどれほどキャッシュを保持するかは、ロールによるドライブ容量制限によって決定されます。この制限を超えた場合、古いファイルからキャッシュが削除されリンクになります。この設定が無効の場合、リモートのファイルを最初からリンクとして保持しますが、画像のサムネイル生成や村人のプライバシー保護のために、default.ymlでproxyRemoteFilesをtrueにすることをお勧めします。
+         */
+        "cacheRemoteFilesDescription": string;
+        /**
+         * 集会所に投書への返信を表示する
+         */
+        "flagShowTimelineReplies": string;
+        /**
+         * オンにすると、集会所に村人の投書以外にもその村人の他の投書への返信を表示します。
+         */
+        "flagShowTimelineRepliesDescription": string;
+        /**
+         * 届いたお野菜中村人からのフォロリクを自動承認
+         */
+        "autoAcceptFollowed": string;
+        /**
+         * {name}を届いたお野菜しますか？
+         */
+        "followConfirm": ParameterizedString<"name">;
+        /**
+         * プロキシアカウントは、特定の条件下で村人のリモート届いたお野菜を代行するアカウントです。例えば、村人がリモート村人をリストに入れたとき、リストに入れられた村人を誰も届いたお野菜していないとアクティビティが村に配達されないため、代わりにプロキシアカウントが届いたお野菜するようにします。
+         */
+        "proxyAccountDescription": string;
+        /**
+         * 村
+         */
+        "instances": string;
+        /**
+         * この村を村八分
+         */
+        "blockThisInstance": string;
+        /**
+         * 村をサイレンス
+         */
+        "silenceThisInstance": string;
+        /**
+         * 村情報
+         */
+        "instanceInfo": string;
+        /**
+         * 村八分した村
+         */
+        "blockedInstances": string;
+        /**
+         * 村八分したい村のホストを改行で区切って設定します。村八分された村は、このインスタンスとやり取りできなくなります。
+         */
+        "blockedInstancesDescription": string;
+        /**
+         * サイレンスした村
+         */
+        "silencedInstances": string;
+        /**
+         * サイレンスしたい村のホストを改行で区切って設定します。サイレンスされた村に所属するアカウントはすべて「サイレンス」として扱われ、届いたお野菜がすべてリクエストになり、おすそ分け先でないローカルアカウントにはメンションできなくなります。村八分したインスタンスには影響しません。
+         */
+        "silencedInstancesDescription": string;
+        /**
+         * 神隠しと村八分
+         */
+        "muteAndBlock": string;
+        /**
+         * 神隠しした村人
+         */
+        "mutedUsers": string;
+        /**
+         * 村八分した村人
+         */
+        "blockedUsers": string;
+        /**
+         * この投書を削除しますか？
+         */
+        "noteDeleteConfirm": string;
+        /**
+         * Misskeyのインストールが完了しました！村長アカウントを作成しましょう。
+         */
+        "intro": string;
+        /**
+         * 村八分中
+         */
+        "blocked": string;
+        /**
+         * 村の届いたお野菜
+         */
+        "instanceFollowing": string;
+        /**
+         * 村のおすそ分け先
+         */
+        "instanceFollowers": string;
+        /**
+         * 村の村人
+         */
+        "instanceUsers": string;
+        /**
+         * 村との接続が失われたとき
+         */
+        "whenServerDisconnected": string;
+        /**
+         * 村から切断されました
+         */
+        "disconnectedFromServer": string;
+        /**
+         * 村名
+         */
+        "instanceName": string;
+        /**
+         * 村の紹介
+         */
+        "instanceDescription": string;
+        /**
+         * 村長の名前
+         */
+        "maintainerName": string;
+        /**
+         * 村長のメールアドレス
+         */
+        "maintainerEmail": string;
+        /**
+         * ローカル集会所を有効にする
+         */
+        "enableLocalTimeline": string;
+        /**
+         * グローバル集会所を有効にする
+         */
+        "enableGlobalTimeline": string;
+        /**
+         * これらの集会所を無効化しても、利便性のため村長およびモデレーターは引き続き利用することができます。
+         */
+        "disablingTimelinesInfo": string;
+        /**
+         * 本村から届いたお野菜されていない村人のメンションが届かなくなります
+         */
+        "enableAntiSpamDescription": string;
+        /**
+         * 村のトップページにピン留めしたいページのパスを改行で区切って記述します。
+         */
+        "pinnedPagesDescription": string;
+        /**
+         * ピン留めされた投書
+         */
+        "pinnedNotes": string;
+        /**
+         * 新しい投書をおたよりする
+         */
+        "notifyAntenna": string;
+        /**
+         * ファイルが添付された投書のみ
+         */
+        "withFileAntenna": string;
+        /**
+         * ブラウザへのプッシュおたよりを有効にする
+         */
+        "enableServiceworker": string;
+        /**
+         * 村長
+         */
+        "administrator": string;
+        /**
+         * モデレーション投書
+         */
+        "moderationNote": string;
+        /**
+         * モデレーション投書を追加する
+         */
+        "addModerationNote": string;
+        /**
+         * すべてのおたよりを既読にする
+         */
+        "markAsReadAllNotifications": string;
+        /**
+         * {user}の投書
+         */
+        "noteOf": ParameterizedString<"user">;
+        /**
+         * 投書のアクションをホバー時のみ表示する
+         */
+        "showNoteActionsOnlyHover": string;
+        /**
+         * 投書の返信数を表示する
+         */
+        "showRepliesCount": string;
+        /**
+         * 投書の再投書数を表示する
+         */
+        "showRenotesCount": string;
+        /**
+         * 投書のはんこ数を表示する
+         */
+        "showReactionsCount": string;
+        /**
+         * 届いたお野菜申請はありません
+         */
+        "noFollowRequests": string;
+        /**
+         * この投書を非表示
+         */
+        "hideThisNote": string;
+        /**
+         * 集会所におすすめの投書を表示する
+         */
+        "showFeaturedNotesInTimeline": string;
+        /**
+         * 村ログ
+         */
+        "serverLogs": string;
+        /**
+         * 集会所上部に投稿フォームを表示する
+         */
+        "showFixedPostForm": string;
+        /**
+         * 集会所上部に投稿フォームを表示する(チャンネル)
+         */
+        "showFixedPostFormInChannel": string;
+        /**
+         * 届いたお野菜する際、デフォルトで返信をTLに含むようにする
+         */
+        "withRepliesByDefaultForNewlyFollowed": string;
+        /**
+         * 新しい投書があります
+         */
+        "newNoteRecived": string;
+        /**
+         * リモート村人情報の更新
+         */
+        "updateRemoteUser": string;
+        /**
+         * 届いたお野菜を全解除
+         */
+        "removeAllFollowing": string;
+        /**
+         * {host}からの届いたお野菜をすべて解除します。その村がもう存在しなくなった場合などに実行してください。
+         */
+        "removeAllFollowingDescription": ParameterizedString<"host">;
+        /**
+         * この村人は凍結されています。
+         */
+        "userSuspended": string;
+        /**
+         * この村人はサイレンスされています。
+         */
+        "userSilenced": string;
+        /**
+         * このアカウントは、村の利用規約に違反したなどの理由により、凍結されています。詳細については村長までお問い合わせください。新しいアカウントを作らないでください。
+         */
+        "yourAccountSuspendedDescription": string;
+        /**
+         * プッシュおたよりを行うには有効にする必要があります。
+         */
+        "serviceworkerInfo": string;
+        /**
+         * フル機能はんこピッカーを使用
+         */
+        "useFullReactionPicker": string;
+        /**
+         * 村長権限
+         */
+        "adminPermission": string;
+        /**
+         * おたよりの種類
+         */
+        "notificationType": string;
+        /**
+         * メール村
+         */
+        "emailServer": string;
+        /**
+         * SMTP 村の設定
+         */
+        "smtpConfig": string;
+        /**
+         * 村人名
+         */
+        "smtpUser": string;
+        /**
+         * 村人名とパスワードを空欄にすることで、SMTP認証を無効化出来ます
+         */
+        "emptyToDisableSmtpAuth": string;
+        /**
+         * ワード神隠し
+         */
+        "wordMute": string;
+        /**
+         * ハードワード神隠し
+         */
+        "hardWordMute": string;
+        /**
+         * {tab}ワード神隠しの{line}行目の正規表現にエラーが発生しました:
+         */
+        "regexpErrorDescription": ParameterizedString<"tab" | "line">;
+        /**
+         * 村神隠し
+         */
+        "instanceMute": string;
+        /**
+         * おたより設定
+         */
+        "notificationSetting": string;
+        /**
+         * 表示するおたよりの種別を選択してください。
+         */
+        "notificationSettingDesc": string;
+        /**
+         * オンにすると、アカウントのおたより設定が使用されます。オフにすると、個別に設定できるようになります。
+         */
+        "useGlobalSettingDesc": string;
+        /**
+         * 再投書を通報
+         */
+        "reportAbuseRenote": string;
+        /**
+         * 通報理由の詳細を記入してください。対象の投書がある場合はそのURLも記入してください。
+         */
+        "fillAbuseReportDescription": string;
+        /**
+         * リモート村に通報を転送する
+         */
+        "forwardReport": string;
+        /**
+         * リモート村からはあなたの情報は見れず、匿名のシステムアカウントとして表示されます。
+         */
+        "forwardReportIsAnonymous": string;
+        /**
+         * 投書の村情報
+         */
+        "instanceTicker": string;
+        /**
+         * この投書はすでにクリップ「{name}」に含まれています。投書をこのクリップから除外しますか？
+         */
+        "confirmToUnclipAlreadyClippedNote": ParameterizedString<"name">;
+        /**
+         * 投書の数
+         */
+        "notesCount": string;
+        /**
+         * 再投書した数
+         */
+        "renotesCount": string;
+        /**
+         * 再投書された数
+         */
+        "renotedCount": string;
+        /**
+         * 届いたお野菜数
+         */
+        "followingCount": string;
+        /**
+         * おすそ分け先数
+         */
+        "followersCount": string;
+        /**
+         * はんこした数
+         */
+        "sentReactionsCount": string;
+        /**
+         * はんこされた数
+         */
+        "receivedReactionsCount": string;
+        /**
+         * 外部の検索エンジンにあなたの村人ページ、投書、Pagesなどのコンテンツを登録(インデックス)しないよう要求します。
+         */
+        "noCrawleDescription": string;
+        /**
+         * 届いたお野菜を承認制にしても、投書の公開範囲を「おすそ分け先」にしない限り、誰でもあなたの投書を見ることができます。
+         */
+        "lockedAccountInfo": string;
+        /**
+         * お気に入り投書の数
+         */
+        "noteFavoritesCount": string;
+        /**
+         * 集会所の投書を離して表示
+         */
+        "showGapBetweenNotesInTimeline": string;
+        /**
+         * {n}村人
+         */
+        "nUsers": ParameterizedString<"n">;
+        /**
+         * {n}投書
+         */
+        "nNotes": ParameterizedString<"n">;
+        /**
+         * 村からのお知らせを受け取る
+         */
+        "receiveAnnouncementFromInstance": string;
+        /**
+         * メールおたより
+         */
+        "emailNotification": string;
+        /**
+         * 右クリックではんこピッカーを開く
+         */
+        "useReactionPickerForContextMenu": string;
+        /**
+         * 過去の集会所を表示しています
+         */
+        "showingPastTimeline": string;
+        /**
+         * 個々の投書のメニューから「ピン留め」を選択することで、ここに投書を表示しておくことができます。
+         */
+        "userPagePinTip": string;
+        /**
+         * 村人情報
+         */
+        "userInfo": string;
+        /**
+         * 村村八分・サイレンス
+         */
+        "instanceBlocking": string;
+        /**
+         * 村人
+         */
+        "user": string;
+        /**
+         * 村長情報が設定されていません。
+         */
+        "noMaintainerInformationWarning": string;
+        /**
+         * 投書で共有
+         */
+        "shareWithNote": string;
+        /**
+         * 村上であなたのアカウントを一意に識別するための名前。アルファベット(a~z, A~Z)、数字(0~9)、およびアンダーバー(_)が使用できます。村人名は後から変更することは出来ません。
+         */
+        "usernameInfo": string;
+        /**
+         * おすそ分け先を解除
+         */
+        "breakFollow": string;
+        /**
+         * おすそ分け先解除しますか？
+         */
+        "breakFollowConfirm": string;
+        /**
+         * はんこ一覧を公開する
+         */
+        "makeReactionsPublic": string;
+        /**
+         * あなたがしたはんこ一覧を誰でも見れるようにします。
+         */
+        "makeReactionsPublicDescription": string;
+        /**
+         * スレッドを神隠し
+         */
+        "muteThread": string;
+        /**
+         * スレッドの神隠しを解除
+         */
+        "unmuteThread": string;
+        /**
+         * 届いたお野菜の公開範囲
+         */
+        "followingVisibility": string;
+        /**
+         * おすそ分け先の公開範囲
+         */
+        "followersVisibility": string;
+        /**
+         * 村デフォルトのライトテーマ
+         */
+        "instanceDefaultLightTheme": string;
+        /**
+         * 村デフォルトのダークテーマ
+         */
+        "instanceDefaultDarkTheme": string;
+        /**
+         * 神隠しする期限
+         */
+        "mutePeriod": string;
+        /**
+         * メール村の設定がされていません。
+         */
+        "noEmailServerWarning": string;
+        /**
+         * この村人のドライブ容量上限を変更
+         */
+        "driveCapOverrideLabel": string;
+        /**
+         * 閲覧するには村長アカウントでログインしている必要があります。
+         */
+        "requireAdminForView": string;
+        /**
+         * 利用可能な場合は、機械学習を利用して自動でメディアにセンシティブフラグを設定します。この機能をオフにしても、村によっては自動で設定されることがあります。
+         */
+        "enableAutoSensitiveDescription": string;
+        /**
+         * 村人のメールアドレスのバリデーションを、捨てアドかどうかや実際に通信可能かどうかなどを判定しより積極的に行います。オフにすると単に文字列として正しいかどうかのみチェッ クされます。
+         */
+        "activeEmailValidationDescription": string;
+        /**
+         * プッシュおたより
+         */
+        "pushNotification": string;
+        /**
+         * プッシュおたよりを有効化
+         */
+        "subscribePushNotification": string;
+        /**
+         * プッシュおたよりを停止する
+         */
+        "unsubscribePushNotification": string;
+        /**
+         * プッシュおたよりは有効です
+         */
+        "pushNotificationAlreadySubscribed": string;
+        /**
+         * ブラウザか村がプッシュおたよりに非対応
+         */
+        "pushNotificationNotSupported": string;
+        /**
+         * おたよりが既読になったらプッシュおたよりを削除する
+         */
+        "sendPushNotificationReadMessage": string;
+        /**
+         * 一般村人
+         */
+        "normalUser": string;
+        /**
+         * 村の応答が無効です
+         */
+        "gotInvalidResponseError": string;
+        /**
+         * 村がダウンまたはメンテナンスしている可能性があります。しばらくしてから再度お試しください。
+         */
+        "gotInvalidResponseErrorDescription": string;
+        /**
+         * 見たことのある再投書を省略して表示
+         */
+        "collapseRenotes": string;
+        /**
+         * 村内部エラー
+         */
+        "internalServerError": string;
+        /**
+         * 村内部で予期しないエラーが発生しました。
+         */
+        "internalServerErrorDescription": string;
+        /**
+         * この村に登録する
+         */
+        "joinThisServer": string;
+        /**
+         * 他の村を探す
+         */
+        "exploreOtherServers": string;
+        /**
+         * 集会所を見てみる
+         */
+        "letsLookAtTimeline": string;
+        /**
+         * 現在この村は招待制です。招待コードをお持ちの方のみ登録できます。
+         */
+        "invitationRequiredToRegister": string;
+        /**
+         * この村ではメール配信はサポートされていません
+         */
+        "emailNotSupported": string;
+        /**
+         * はんこの受け入れ
+         */
+        "reactionAcceptance": string;
+        /**
+         * 設定したワードが含まれる投書の公開範囲をホームにします。改行で区切って複数設定できます。
+         */
+        "sensitiveWordsDescription": string;
+        /**
+         * 設定したワードが含まれる投書を投稿しようとした際、エラーとなるようにします。改行で区切って複数設定できます。
+         */
+        "prohibitedWordsDescription": string;
+        /**
+         * 投書検索は利用できません。
+         */
+        "notesSearchNotAvailable": string;
+        /**
+         * 一時的に村の負荷が増大することがあります。
+         */
+        "retryAllQueuesConfirmText": string;
+        /**
+         * リモート村人のチャートを生成
+         */
+        "enableChartsForRemoteUser": string;
+        /**
+         * リモート村のチャートを生成
+         */
+        "enableChartsForFederatedInstances": string;
+        /**
+         * 投書のアクションにクリップを追加
+         */
+        "showClipButtonInNoteFooter": string;
+        /**
+         * はんこの表示サイズ
+         */
+        "reactionsDisplaySize": string;
+        /**
+         * はんこの最大横幅を制限し、縮小して表示する
+         */
+        "limitWidthOfReaction": string;
+        /**
+         * 投書IDまたはURL
+         */
+        "noteIdOrUrl": string;
+        /**
+         * この村人は新しいアカウントに移行しました：
+         */
+        "accountMoved": string;
+        /**
+         * はんこ一覧
+         */
+        "reactionsList": string;
+        /**
+         * 再投書一覧
+         */
+        "renotesList": string;
+        /**
+         * おたよりの表示
+         */
+        "notificationDisplay": string;
+        /**
+         * この村に登録するには、以下の内容を確認し同意する必要があります。
+         */
+        "pleaseConfirmBelowBeforeSignup": string;
+        /**
+         * 予約村人名
+         */
+        "preservedUsernames": string;
+        /**
+         * 予約する村人名を改行で列挙します。ここで指定された村人名はアカウント作成時に使えなくなりますが、村長によるアカウント作成時はこの制限を受けません。また、既に存在するアカ  ウ  ントも影響を受けません。
+         */
+        "preservedUsernamesDescription": string;
+        /**
+         * このファイルから投書を作成
+         */
+        "createNoteFromTheFile": string;
+        /**
+         * 投書の表示
+         */
+        "displayOfNote": string;
+        /**
+         * 届いたお野菜中
+         */
+        "youFollowing": string;
+        /**
+         * 外部の文章生成AIや画像生成AIに対して、投稿した投書や画像などのコンテンツを学習の対象にしないように要求します。これはnoaiフラグをHTMLレスポンスに含めることによって実現され ますが、この要求に従うかはそのAI次第であるため、学習を完全に防止するものではありません。
+         */
+        "preventAiLearningDescription": string;
+        /**
+         * 村人指定
+         */
+        "specifyUser": string;
+        /**
+         * はんことして使えるロール
+         */
+        "rolesThatCanBeUsedThisEmojiAsReaction": string;
+        /**
+         * ロールの指定が一つもない場合、誰でもはんことして使えます。
+         */
+        "rolesThatCanBeUsedThisEmojiAsReactionEmptyDescription": string;
+        /**
+         * はんこを取り消しますか？
+         */
+        "cancelReactionConfirm": string;
+        /**
+         * はんこを変更しますか？
+         */
+        "changeReactionConfirm": string;
+        /**
+         * 村のマシン情報を公開する
+         */
+        "enableServerMachineStats": string;
+        /**
+         * 村人ごとのIdenticon生成を有効にする
+         */
+        "enableIdenticonGeneration": string;
+        /**
+         * 招待コードを使用した村人
+         */
+        "registeredUserUsingInviteCode": string;
+        /**
+         * 招待コードを作成した村人
+         */
+        "inviteCodeCreator": string;
+        /**
+         * 再投書
+         */
+        "renotes": string;
+        /**
+         * 投稿をおたより
+         */
+        "notifyNotes": string;
+        /**
+         * 投稿のおたよりを解除
+         */
+        "unnotifyNotes": string;
+        /**
+         * 再投書を表示
+         */
+        "showRenotes": string;
+        /**
+         * おたよりの受信設定
+         */
+        "notificationRecieveConfig": string;
+        /**
+         * 相互届いたお野菜
+         */
+        "mutualFollow": string;
+        /**
+         * 届いたお野菜中またはおすそ分け先
+         */
+        "followingOrFollower": string;
+        /**
+         * TLに現在届いたお野菜中の人全員の返信を含めるようにする
+         */
+        "showRepliesToOthersInTimelineAll": string;
+        /**
+         * TLに現在届いたお野菜中の人全員の返信を含めないようにする
+         */
+        "hideRepliesToOthersInTimelineAll": string;
+        /**
+         * この操作は元に戻せません。本当にTLに現在届いたお野菜中の人全員の返信を含めるようにしますか？
+         */
+        "confirmShowRepliesAll": string;
+        /**
+         * この操作は元に戻せません。本当にTLに現在届いたお野菜中の人全員の返信を含めないようにしますか？
+         */
+        "confirmHideRepliesAll": string;
+        /**
+         * ソースコードはまだ提供されていません。この問題の修正について村長に問い合わせてください。
+         */
+        "sourceCodeIsNotYetProvided": string;
+        /**
+         * 集会所のリアルタイム更新を無効にする
+         */
+        "disableStreamingTimeline": string;
+        /**
+         * おたよりをグルーピングして表示する
+         */
+        "useGroupedNotifications": string;
+        /**
+         * はんこする
+         */
+        "doReaction": string;
+        /**
+         * センシティブなファイルを含む投書を表示
+         */
+        "withSensitive": string;
+        /**
+         * 投書の自己消滅
+         */
+        "scheduledNoteDelete": string;
+        /**
+         * この投書は{time}に消滅します
+         */
+        "noteDeletationAt": ParameterizedString<"time">;
+        "_announcement": {
+            /**
+             * 既存村人のみ
+             */
+            "forExistingUsers": string;
+            /**
+             * 有効にすると、このお知らせ作成時点で存在する村人にのみお知らせが表示されます。無効にすると、このお知らせ作成後にアカウントを作成した村人にもお知らせが表示されます。
+             */
+            "forExistingUsersDescription": string;
+            /**
+             * 特に新規村人のUXを損ねる可能性が高いため、常時掲示するための情報ではなく、即時性が求められる情報の掲示のためにお知らせを使用することを推奨します。
+             */
+            "shouldNotBeUsedToPresentPermanentInfo": string;
+            /**
+             * 非おたより
+             */
+            "silence": string;
+            /**
+             * オンにすると、このお知らせはおたよりされず、既読にする必要もなくなります。
+             */
+            "silenceDescription": string;
+        };
+        "_initialAccountSetting": {
+            /**
+             * 集会所を構築するため、気になる村人を届いたお野菜してみましょう。
+             */
+            "followUsers": string;
+            /**
+             * プッシュおたよりを有効にすると{name}のおたよりをお使いのデバイスで受け取ることができます。
+             */
+            "pushNotificationDescription": ParameterizedString<"name">;
+        };
+        "_initialTutorial": {
+            "_note": {
+                /**
+                 * 投書って何？
+                 */
+                "title": string;
+                /**
+                 * Misskeyでの投稿は「投書」と呼びます。投書は集会所に時系列で並んでいて、リアルタイムで更新されていきます。
+                 */
+                "description": string;
+                /**
+                 * その投書を自分の集会所に流して共有することができます。テキストを追加して引用することも可能です。
+                 */
+                "renote": string;
+                /**
+                 * はんこをつけることができます。詳しくは次のページで解説します。
+                 */
+                "reaction": string;
+                /**
+                 * 投書の詳細を表示したり、リンクをコピーしたりなどの様々な操作が行えます。
+                 */
+                "menu": string;
+            };
+            "_reaction": {
+                /**
+                 * はんこって何？
+                 */
+                "title": string;
+                /**
+                 * 投書には「はんこ」をつけることができます。「いいね」では伝わらないニュアンスも、はんこで簡単・気軽に表現できます。
+                 */
+                "description": string;
+                /**
+                 * はんこは、投書の「＋」ボタンをクリックするとつけられます。試しにこのサンプルの投書にはんこをつけてみてください！
+                 */
+                "letsTryReacting": string;
+                /**
+                 * はんこをつけると先に進めるようになります。
+                 */
+                "reactToContinue": string;
+                /**
+                 * あなたの投書が誰かにはんこされると、リアルタイムでおたよりを受け取ります。
+                 */
+                "reactNotification": string;
+                /**
+                 * 「ー」ボタンを押すとはんこを取り消すことができます。
+                 */
+                "reactDone": string;
+            };
+            "_timeline": {
+                /**
+                 * 集会所のしくみ
+                 */
+                "title": string;
+                /**
+                 * Misskeyには、使い方に応じて複数の集会所が用意されています（村によってはいずれかが無効になっていることがあります）。
+                 */
+                "description1": string;
+                /**
+                 * あなたが届いたお野菜しているアカウントの投稿を見られます。
+                 */
+                "home": string;
+                /**
+                 * この村にいる村人全員の投稿を見られます。
+                 */
+                "local": string;
+                /**
+                 * ホーム集会所とローカル集会所の投稿が両方表示されます。
+                 */
+                "social": string;
+                /**
+                 * 接続している他のすべての村からの投稿を見られます。
+                 */
+                "global": string;
+                /**
+                 * それぞれの集会所は、画面上部でいつでも切り替えられます。
+                 */
+                "description2": string;
+                /**
+                 * その他にも、リスト集会所やチャンネル集会所などがあります。詳しくは{link}をご覧ください。
+                 */
+                "description3": ParameterizedString<"link">;
+            };
+            "_postNote": {
+                /**
+                 * 投書の投稿設定
+                 */
+                "title": string;
+                /**
+                 * Misskeyに投書を投稿する際には、様々なオプションの設定が可能です。投稿フォームはこのようになっています。
+                 */
+                "description1": string;
+                "_visibility": {
+                    /**
+                     * 投書を表示できる相手を制限できます。
+                     */
+                    "description": string;
+                    /**
+                     * すべての村人に公開。
+                     */
+                    "public": string;
+                    /**
+                     * ホーム集会所のみに公開。おすそ分け先・プロフィールを見に来た人・再投書から、他の村人も見ることができます。
+                     */
+                    "home": string;
+                    /**
+                     * おすそ分け先にのみ公開。本人以外が再投書することはできず、またおすそ分け先以外は閲覧できません。
+                     */
+                    "followers": string;
+                    /**
+                     * 指定した村人にのみ公開され、また相手におたよりが入ります。ダイレクトメッセージのかわりにお使いいただけます。
+                     */
+                    "direct": string;
+                    /**
+                     * 機密情報は送信する際は注意してください。
+                     */
+                    "doNotSendConfidencialOnDirect1": string;
+                    /**
+                     * 送信先の村の村長は投稿内容を見ることが可能なので、信頼できない村の村人にダイレクト投稿を送信する場合は、機密情報の扱いに注意が必要です。
+                     */
+                    "doNotSendConfidencialOnDirect2": string;
+                    /**
+                     * 他の村に投稿を連合しません。上記の公開範囲に関わらず、他の村の村人は、この設定がついた投書を直接閲覧することができなくなります。
+                     */
+                    "localOnly": string;
+                };
+                "_cw": {
+                    /**
+                     * 村のガイドラインにより必要とされる投書に指定したり、ネタバレ投稿やセンシティブな文章を自主規制したりするときに使います。
+                     */
+                    "useCases": string;
+                };
+            };
+            "_howToMakeAttachmentsSensitive": {
+                /**
+                 * 村のガイドラインにより必要とされる際や、そのまま見れる状態にしておくべきではない添付ファイルには、「センシティブ」設定を付けます。
+                 */
+                "description": string;
+                /**
+                 * ファイルを添付する際は、村のガイドラインに従ってセンシティブを適切に設定してください。
+                 */
+                "sensitiveSucceeded": string;
+            };
+        };
+        "_timelineDescription": {
+            /**
+             * ホーム集会所では、あなたが届いたお野菜しているアカウントの投稿を見られます。
+             */
+            "home": string;
+            /**
+             * ローカル集会所では、この村にいる村人全員の投稿を見られます。
+             */
+            "local": string;
+            /**
+             * ソーシャル集会所には、ホーム集会所とローカル集会所の投稿が両方表示されます。
+             */
+            "social": string;
+            /**
+             * グローバル集会所では、接続している他のすべての村からの投稿を見られます。
+             */
+            "global": string;
+        };
+        "_serverRules": {
+            /**
+             * 新規登録前に表示する、村の簡潔なルールを設定します。内容は利用規約の要約とすることを推奨します。
+             */
+            "description": string;
+        };
+        "_serverSettings": {
+            /**
+             * 村の正式名称が長い場合に、代わりに表示することのできる略称や通称。
+             */
+            "shortNameDescription": string;
+            /**
+             * 有効にすると、各種集会所を取得する際のパフォーマンスが大幅に向上し、データベースへの負荷を軽減することが可能です。ただし、Redisのメモリ使用量は増加します。村のメモリ容量が 少ない場合、または動作が不安定な場合は無効にすることができます。
+             */
+            "fanoutTimelineDescription": string;
+            /**
+             * 有効にすると、集会所がキャッシュされていない場合にDBへ追加で問い合わせを行うフォールバック処理を行います。無効にすると、フォールバック処理を行わないことでさら  に村  の負荷を軽減することができますが、集会所が取得できる範囲に制限が生じます。
+             */
+            "fanoutTimelineDbFallbackDescription": string;
+        };
+        "_accountMigration": {
+            /**
+             * 新しいアカウントへ移行します。
+             * 　・おすそ分け先が新しいアカウントを自動で届いたお野菜します
+             * 　・このアカウントからの届いたお野菜は全て解除されます
+             * 　・このアカウントでは投 書の作成などができなくなります
+             *
+             * おすそ分け先の移行は自動ですが、届いたお野菜の移行は手動で行う必要があります。移行前にこのアカウントで届いたお野菜エクスポートし、移行後すぐに移行先アカウントでインポ ートを行なってください。
+             * リスト・神隠し・村八分についても同様ですので、手動で移行する必要があります。
+             *
+             * （この説明はこの村（Misskey v13.12.0以降）の仕様です。Mastodonなどの他のActivityPubソフトウェ  アでは挙動が異なる場合があります。）
+             */
+            "moveAccountDescription": string;
+            /**
+             * このアカウントからの届いたお野菜解除は移行操作から24時間後に実行されます。
+             * このアカウントの届いたお野菜・おすそ分け先数は0になっています。おすそ分け先の解除はされないため、あな た のおすそ分け先はこのアカウントのおすそ分け先向け投稿を引き続き閲覧できます。
+             */
+            "postMigrationNote": string;
+        };
+        "_achievements": {
+            "_types": {
+                "_notes1": {
+                    /**
+                     * 初めて投書を投稿した
+                     */
+                    "description": string;
+                };
+                "_notes10": {
+                    /**
+                     * いくつかの投書
+                     */
+                    "title": string;
+                    /**
+                     * 投書を10回投稿した
+                     */
+                    "description": string;
+                };
+                "_notes100": {
+                    /**
+                     * たくさんの投書
+                     */
+                    "title": string;
+                    /**
+                     * 投書を100回投稿した
+                     */
+                    "description": string;
+                };
+                "_notes500": {
+                    /**
+                     * 投書まみれ
+                     */
+                    "title": string;
+                    /**
+                     * 投書を500回投稿した
+                     */
+                    "description": string;
+                };
+                "_notes1000": {
+                    /**
+                     * 投書の山
+                     */
+                    "title": string;
+                    /**
+                     * 投書を1,000回投稿した
+                     */
+                    "description": string;
+                };
+                "_notes5000": {
+                    /**
+                     * 湧き出る投書
+                     */
+                    "title": string;
+                    /**
+                     * 投書を5,000回投稿した
+                     */
+                    "description": string;
+                };
+                "_notes10000": {
+                    /**
+                     * スーパー投書
+                     */
+                    "title": string;
+                    /**
+                     * 投書を10,000回投稿した
+                     */
+                    "description": string;
+                };
+                "_notes20000": {
+                    /**
+                     * ニードモア投書
+                     */
+                    "title": string;
+                    /**
+                     * 投書を20,000回投稿した
+                     */
+                    "description": string;
+                };
+                "_notes30000": {
+                    /**
+                     * 投書投書投書
+                     */
+                    "title": string;
+                    /**
+                     * 投書を30,000回投稿した
+                     */
+                    "description": string;
+                };
+                "_notes40000": {
+                    /**
+                     * 投書工場
+                     */
+                    "title": string;
+                    /**
+                     * 投書を40,000回投稿した
+                     */
+                    "description": string;
+                };
+                "_notes50000": {
+                    /**
+                     * 投書の惑星
+                     */
+                    "title": string;
+                    /**
+                     * 投書を50,000回投稿した
+                     */
+                    "description": string;
+                };
+                "_notes60000": {
+                    /**
+                     * 投書クエーサー
+                     */
+                    "title": string;
+                    /**
+                     * 投書を60,000回投稿した
+                     */
+                    "description": string;
+                };
+                "_notes70000": {
+                    /**
+                     * ブラック投書ホール
+                     */
+                    "title": string;
+                    /**
+                     * 投書を70,000回投稿した
+                     */
+                    "description": string;
+                };
+                "_notes80000": {
+                    /**
+                     * 投書ギャラクシー
+                     */
+                    "title": string;
+                    /**
+                     * 投書を80,000回投稿した
+                     */
+                    "description": string;
+                };
+                "_notes90000": {
+                    /**
+                     * 投書バース
+                     */
+                    "title": string;
+                    /**
+                     * 投書を90,000回投稿した
+                     */
+                    "description": string;
+                };
+                "_notes100000": {
+                    /**
+                     * 投書を100,000回投稿した
+                     */
+                    "description": string;
+                };
+                "_login100": {
+                    /**
+                     * その村人、ミスキストにつき
+                     */
+                    "flavor": string;
+                };
+                "_login500": {
+                    /**
+                     * 諸君、私は投書が好きだ
+                     */
+                    "flavor": string;
+                };
+                "_login800": {
+                    /**
+                     * 投書マスターⅠ
+                     */
+                    "title": string;
+                };
+                "_login900": {
+                    /**
+                     * 投書マスターⅡ
+                     */
+                    "title": string;
+                };
+                "_login1000": {
+                    /**
+                     * 投書マスターⅢ
+                     */
+                    "title": string;
+                };
+                "_noteClipped1": {
+                    /**
+                     * 初めて投書をクリップした
+                     */
+                    "description": string;
+                };
+                "_noteFavorited1": {
+                    /**
+                     * 初めて投書をお気に入りに登録した
+                     */
+                    "description": string;
+                };
+                "_myNoteFavorited1": {
+                    /**
+                     * 自分の投書が他の人からお気に入りに登録された
+                     */
+                    "description": string;
+                };
+                "_following1": {
+                    /**
+                     * はじめての届いたお野菜
+                     */
+                    "title": string;
+                    /**
+                     * 初めて届いたお野菜した
+                     */
+                    "description": string;
+                };
+                "_following10": {
+                    /**
+                     * 届いたお野菜が10人を超した
+                     */
+                    "description": string;
+                };
+                "_following50": {
+                    /**
+                     * 届いたお野菜が50人を超した
+                     */
+                    "description": string;
+                };
+                "_following100": {
+                    /**
+                     * 届いたお野菜が100人を超した
+                     */
+                    "description": string;
+                };
+                "_following300": {
+                    /**
+                     * 届いたお野菜が300人を超した
+                     */
+                    "description": string;
+                };
+                "_followers1": {
+                    /**
+                     * はじめてのおすそ分け先
+                     */
+                    "title": string;
+                    /**
+                     * 初めて届いたお野菜された
+                     */
+                    "description": string;
+                };
+                "_followers10": {
+                    /**
+                     * 届いたお野菜ミー！
+                     */
+                    "title": string;
+                    /**
+                     * おすそ分け先が10人を超した
+                     */
+                    "description": string;
+                };
+                "_followers50": {
+                    /**
+                     * おすそ分け先が50人を超した
+                     */
+                    "description": string;
+                };
+                "_followers100": {
+                    /**
+                     * おすそ分け先が100人を超した
+                     */
+                    "description": string;
+                };
+                "_followers300": {
+                    /**
+                     * おすそ分け先が300人を超した
+                     */
+                    "description": string;
+                };
+                "_followers500": {
+                    /**
+                     * おすそ分け先が500人を超した
+                     */
+                    "description": string;
+                };
+                "_followers1000": {
+                    /**
+                     * おすそ分け先が1,000人を超した
+                     */
+                    "description": string;
+                };
+                "_postedAtLateNight": {
+                    /**
+                     * 深夜に投書を投稿した
+                     */
+                    "description": string;
+                };
+                "_postedAt0min0sec": {
+                    /**
+                     * 0分0秒に投書を投稿した
+                     */
+                    "description": string;
+                };
+                "_selfQuote": {
+                    /**
+                     * 自分の投書を引用した
+                     */
+                    "description": string;
+                };
+                "_htl20npm": {
+                    /**
+                     * ホーム集会所の流速が20npmを越す
+                     */
+                    "description": string;
+                };
+                "_viewInstanceChart": {
+                    /**
+                     * 村のチャートを表示した
+                     */
+                    "description": string;
+                };
+                "_reactWithoutRead": {
+                    /**
+                     * 100文字以上のテキストを含む投書に投稿されてから3秒以内にはんこした
+                     */
+                    "description": string;
+                };
+                "_loggedInOnNewYearsDay": {
+                    /**
+                     * 今年も弊村をよろしくお願いします
+                     */
+                    "flavor": string;
+                };
+                "_smashTestNotificationButton": {
+                    /**
+                     * おたよりのテストをごく短時間のうちに連続して行った
+                     */
+                    "description": string;
+                };
+            };
+        };
+        "_role": {
+            /**
+             * <b>モデレーター</b>は基本的なモデレーションに関する操作を行えます。
+             * <b>村長</b>は村の全ての設定を変更できます。
+             */
+            "descriptionOfPermission": string;
+            /**
+             * <b>マニュアル</b>は誰がこのロールに含まれるかを手動で管理します。
+             * <b>コンディショナル</b>は条件を設定し、それに合致する村人が自動で含まれるようになります。
+             */
+            "descriptionOfAssignTarget": string;
+            /**
+             * 村人のプロフィールでこのロールが表示されます。
+             */
+            "descriptionOfIsPublic": string;
+            /**
+             * オンにすると、村人名の横にロールのアイコンが表示されます。
+             */
+            "descriptionOfAsBadge": string;
+            /**
+             * 村人を見つけやすくする
+             */
+            "isExplorable": string;
+            /**
+             * オンにすると、「みつける」でメンバー一覧が公開されるほか、ロールの集会所が利用可能になります。
+             */
+            "descriptionOfIsExplorable": string;
+            /**
+             * オンにすると、村長に加えてモデレーターもこのロールへ村人をアサイン/アサイン解除できるようになります。オフにすると村長のみが行えます。
+             */
+            "descriptionOfCanEditMembersByModerator": string;
+            "_options": {
+                /**
+                 * グローバル集会所の閲覧
+                 */
+                "gtlAvailable": string;
+                /**
+                 * ローカル集会所の閲覧
+                 */
+                "ltlAvailable": string;
+                /**
+                 * 投書内の最大メンション数
+                 */
+                "mentionMax": string;
+                /**
+                 * 村招待コードの発行
+                 */
+                "canInvite": string;
+                /**
+                 * 投書のピン留めの最大数
+                 */
+                "pinMax": string;
+                /**
+                 * ワード神隠しの最大文字数
+                 */
+                "wordMuteMax": string;
+                /**
+                 * クリップ内の投書の最大数
+                 */
+                "noteEachClipsMax": string;
+                /**
+                 * 村人リストの作成可能数
+                 */
+                "userListMax": string;
+                /**
+                 * 村人リスト内の村人の最大数
+                 */
+                "userEachUserListsMax": string;
+                /**
+                 * 投書検索の利用
+                 */
+                "canSearchNotes": string;
+                /**
+                 * 他の村のLTLを覗けるやつ(最大数5)
+                 */
+                "remoteLocalTimelineAnyLimit": string;
+            };
+            "_condition": {
+                /**
+                 * ローカル村人
+                 */
+                "isLocal": string;
+                /**
+                 * リモート村人
+                 */
+                "isRemote": string;
+                /**
+                 * おすそ分け先数が～以下
+                 */
+                "followersLessThanOrEq": string;
+                /**
+                 * おすそ分け先数が～以上
+                 */
+                "followersMoreThanOrEq": string;
+                /**
+                 * 届いたお野菜数が～以下
+                 */
+                "followingLessThanOrEq": string;
+                /**
+                 * 届いたお野菜数が～以上
+                 */
+                "followingMoreThanOrEq": string;
+            };
+        };
+        "_sensitiveMediaDetection": {
+            /**
+             * 機械学習を使って自動でセンシティブなメディアを検出し、モデレーションに役立てることができます。村の負荷が少し増えます。
+             */
+            "description": string;
+            /**
+             * 静止画に加えて動画も解析するようにします。村の負荷が少し増えます。
+             */
+            "analyzeVideosDescription": string;
+        };
+        "_emailUnavailable": {
+            /**
+             * 正しいメール村ではありません
+             */
+            "mx": string;
+            /**
+             * メール村が応答しません
+             */
+            "smtp": string;
+        };
+        "_ffVisibility": {
+            /**
+             * おすそ分け先だけに公開
+             */
+            "followers": string;
+        };
+        "_accountDelete": {
+            /**
+             * アカウントの削除が完了する際は、登録してあったメールアドレス宛におたよりを送信します。
+             */
+            "sendEmail": string;
+        };
+        "_ad": {
+            /**
+             * 曜日は村のタイムゾーンを元に指定されます。
+             */
+            "timezoneinfo": string;
+            /**
+             * リアルタイム更新中に広告を配信する間隔（投書の個数）
+             */
+            "notesPerOneAd": string;
+            /**
+             * 広告の配信間隔が極めて短いため、村人体験が著しく損われる可能性があります。
+             */
+            "adsTooClose": string;
+        };
+        "_forgotPassword": {
+            /**
+             * メールアドレスを登録していない場合は、村長までお問い合わせください。
+             */
+            "ifNoEmail": string;
+            /**
+             * この村ではメールがサポートされていないため、パスワードリセットを行う場合は村長までお問い合わせください。
+             */
+            "contactAdmin": string;
+        };
+        "_email": {
+            "_follow": {
+                /**
+                 * 届いたお野菜されました
+                 */
+                "title": string;
+            };
+            "_receiveFollowRequest": {
+                /**
+                 * 届いたお野菜リクエストを受け取りました
+                 */
+                "title": string;
+            };
+        };
+        "_preferencesBackups": {
+            /**
+             * バックアップはありません。「新規保存」で現在のクライアント設定を村に保存できます。
+             */
+            "noBackups": string;
+        };
+        "_instanceTicker": {
+            /**
+             * リモート村人に表示
+             */
+            "remote": string;
+        };
+        "_channel": {
+            /**
+             * 届いたお野菜中
+             */
+            "following": string;
+            /**
+             * チャンネル外への再投書と引用再投書を許可する
+             */
+            "allowRenoteToExternal": string;
+        };
+        "_wordMute": {
+            /**
+             * 神隠しするワード
+             */
+            "muteWords": string;
+        };
+        "_instanceMute": {
+            /**
+             * 神隠しした村の村人への返信を含めて、設定した村の全ての投書とRenoteを神隠しします。
+             */
+            "instanceMuteDescription": string;
+            /**
+             * 設定した村の投書を隠します。
+             */
+            "title": string;
+            /**
+             * 神隠しする村
+             */
+            "heading": string;
+        };
+        "_theme": {
+            "keys": {
+                /**
+                 * おたよりトーストの背景
+                 */
+                "toastBg": string;
+                /**
+                 * おたよりトーストの文字
+                 */
+                "toastFg": string;
+            };
+        };
+        "_sfx": {
+            /**
+             * 投書
+             */
+            "note": string;
+            /**
+             * 投書(自分)
+             */
+            "noteMy": string;
+            /**
+             * おたより
+             */
+            "notification": string;
+            /**
+             * チャンネルおたより
+             */
+            "channel": string;
+            /**
+             * はんこ選択時
+             */
+            "reaction": string;
+        };
+        "_permissions": {
+            /**
+             * 村八分を見る
+             */
+            "read:blocks": string;
+            /**
+             * 村八分を操作する
+             */
+            "write:blocks": string;
+            /**
+             * 届いたお野菜の情報を見る
+             */
+            "read:following": string;
+            /**
+             * 届いたお野菜・届いたお野菜解除する
+             */
+            "write:following": string;
+            /**
+             * 神隠しを見る
+             */
+            "read:mutes": string;
+            /**
+             * 神隠しを操作する
+             */
+            "write:mutes": string;
+            /**
+             * 投書を作成・削除する
+             */
+            "write:notes": string;
+            /**
+             * おたよりを見る
+             */
+            "read:notifications": string;
+            /**
+             * おたよりを操作する
+             */
+            "write:notifications": string;
+            /**
+             * はんこを見る
+             */
+            "read:reactions": string;
+            /**
+             * はんこを操作する
+             */
+            "write:reactions": string;
+            /**
+             * 村人グループを見る
+             */
+            "read:user-groups": string;
+            /**
+             * 村人グループを操作する
+             */
+            "write:user-groups": string;
+            /**
+             * 村人からの通報を見る
+             */
+            "read:admin:abuse-user-reports": string;
+            /**
+             * 村人アカウントを削除する
+             */
+            "write:admin:delete-account": string;
+            /**
+             * 村人のすべてのファイルを削除する
+             */
+            "write:admin:delete-all-files-of-a-user": string;
+            /**
+             * 村人のIPアドレスを見る
+             */
+            "read:admin:user-ips": string;
+            /**
+             * 村人のパスワードをリセットする
+             */
+            "write:admin:reset-password": string;
+            /**
+             * 村人からの通報を解決する
+             */
+            "write:admin:resolve-abuse-user-report": string;
+            /**
+             * 村の情報を見る
+             */
+            "read:admin:server-info": string;
+            /**
+             * 村人のプライベートな情報を見る
+             */
+            "read:admin:show-user": string;
+            /**
+             * 村人のプライベートな情報を見る
+             */
+            "read:admin:show-users": string;
+            /**
+             * 村人を凍結する
+             */
+            "write:admin:suspend-user": string;
+            /**
+             * 村人のアバターを削除する
+             */
+            "write:admin:unset-user-avatar": string;
+            /**
+             * 村人のバーナーを削除する
+             */
+            "write:admin:unset-user-banner": string;
+            /**
+             * 村人の凍結を解除する
+             */
+            "write:admin:unsuspend-user": string;
+            /**
+             * モデレーション投書を操作する
+             */
+            "write:admin:user-note": string;
+            /**
+             * 村人アカウントを操作する
+             */
+            "write:admin:account": string;
+            /**
+             * 村人に関する情報を見る
+             */
+            "read:admin:account": string;
+            /**
+             * プロモーション投書を操作する
+             */
+            "write:admin:promo": string;
+            /**
+             * 村人のドライブを操作する
+             */
+            "write:admin:drive": string;
+            /**
+             * 村人のドライブの関する情報を見る
+             */
+            "read:admin:drive": string;
+            /**
+             * 村長用のWebsocket APIを使う
+             */
+            "read:admin:stream": string;
+        };
+        "_antennaSources": {
+            /**
+             * 全ての投書
+             */
+            "all": string;
+            /**
+             * 届いたお野菜している村人の投書
+             */
+            "homeTimeline": string;
+            /**
+             * 指定した一人または複数の村人の投書
+             */
+            "users": string;
+            /**
+             * 指定したリストの村人の投書
+             */
+            "userList": string;
+            /**
+             * 指定した一人または複数の村人を除いた全ての投書
+             */
+            "userBlacklist": string;
+        };
+        "_widgets": {
+            /**
+             * 村情報
+             */
+            "instanceInfo": string;
+            /**
+             * おたより
+             */
+            "notifications": string;
+            /**
+             * 集会所
+             */
+            "timeline": string;
+            /**
+             * 村クラウド
+             */
+            "instanceCloud": string;
+            /**
+             * オンライン村人
+             */
+            "onlineUsers": string;
+            /**
+             * 村メトリクス
+             */
+            "serverMetric": string;
+            /**
+             * 村人リスト
+             */
+            "userList": string;
+            /**
+             * 今日誕生日の村人
+             */
+            "birthdayFollowings": string;
+        };
+        "_visibility": {
+            /**
+             * 全ての村人に公開
+             */
+            "publicDescription": string;
+            /**
+             * ホーム集会所のみに公開
+             */
+            "homeDescription": string;
+            /**
+             * おすそ分け先
+             */
+            "followers": string;
+            /**
+             * 自分のおすそ分け先のみに公開
+             */
+            "followersDescription": string;
+            /**
+             * 指定した村人のみに公開
+             */
+            "specifiedDescription": string;
+            /**
+             * 他村への配信を行いません
+             */
+            "disableFederationDescription": string;
+        };
+        "_postForm": {
+            /**
+             * この投書に返信...
+             */
+            "replyPlaceholder": string;
+            /**
+             * この投書を引用...
+             */
+            "quotePlaceholder": string;
+        };
+        "_profile": {
+            /**
+             * 村人名
+             */
+            "username": string;
+        };
+        "_exportOrImport": {
+            /**
+             * 全ての投書
+             */
+            "allNotes": string;
+            /**
+             * お気に入りにした投書
+             */
+            "favoritedNotes": string;
+            /**
+             * 届いたお野菜
+             */
+            "followingList": string;
+            /**
+             * 神隠し
+             */
+            "muteList": string;
+            /**
+             * 村八分
+             */
+            "blockingList": string;
+            /**
+             * 神隠ししている村人を除外
+             */
+            "excludeMutingUsers": string;
+        };
+        "_charts": {
+            /**
+             * 村人の増減
+             */
+            "usersIncDec": string;
+            /**
+             * 村人の合計
+             */
+            "usersTotal": string;
+            /**
+             * アクティブ村人数
+             */
+            "activeUsers": string;
+            /**
+             * 投書の増減
+             */
+            "notesIncDec": string;
+            /**
+             * ローカルの投書の増減
+             */
+            "localNotesIncDec": string;
+            /**
+             * リモートの投書の増減
+             */
+            "remoteNotesIncDec": string;
+            /**
+             * 投書の合計
+             */
+            "notesTotal": string;
+        };
+        "_instanceCharts": {
+            /**
+             * 村人の増減
+             */
+            "users": string;
+            /**
+             * 村人の累積
+             */
+            "usersTotal": string;
+            /**
+             * 投書の増減
+             */
+            "notes": string;
+            /**
+             * 投書の累積
+             */
+            "notesTotal": string;
+            /**
+             * 届いたお野菜/おすそ分け先の増減
+             */
+            "ff": string;
+            /**
+             * 届いたお野菜/おすそ分け先の累積
+             */
+            "ffTotal": string;
+        };
+        "_pages": {
+            /**
+             * ページ村八分
+             */
+            "content": string;
+            /**
+             * 村八分を追加
+             */
+            "chooseBlock": string;
+            "blocks": {
+                /**
+                 * 投書埋め込み
+                 */
+                "note": string;
+                "_note": {
+                    /**
+                     * 投書ID
+                     */
+                    "id": string;
+                    /**
+                     * 投書URLをペーストして設定することもできます。
+                     */
+                    "idDescription": string;
+                };
+            };
+        };
+        "_notification": {
+            /**
+             * {name}からのおへんじ
+             */
+            "youGotReply": ParameterizedString<"name">;
+            /**
+             * 届いたお野菜されました
+             */
+            "youWereFollowed": string;
+            /**
+             * 届いたお野菜リクエストが来ました
+             */
+            "youReceivedFollowRequest": string;
+            /**
+             * 届いたお野菜リクエストが承認されました
+             */
+            "yourFollowRequestAccepted": string;
+            /**
+             * プッシュおたよりの更新をしました
+             */
+            "emptyPushNotificationMessage": string;
+            /**
+             * おたよりテスト
+             */
+            "testNotification": string;
+            /**
+             * おたよりの表示を確かめる
+             */
+            "checkNotificationBehavior": string;
+            /**
+             * テストおたよりを送信する
+             */
+            "sendTestNotification": string;
+            /**
+             * おたよりはこのように表示されます
+             */
+            "notificationWillBeDisplayedLikeThis": string;
+            /**
+             * {n}人がはんこしました
+             */
+            "reactedBySomeUsers": ParameterizedString<"n">;
+            /**
+             * {n}人が再投書しました
+             */
+            "renotedBySomeUsers": ParameterizedString<"n">;
+            /**
+             * {n}人に届いたお野菜されました
+             */
+            "followedBySomeUsers": ParameterizedString<"n">;
+            /**
+             * おたよりの履歴をリセットする
+             */
+            "flushNotification": string;
+            "_types": {
+                /**
+                 * 村人の新規投稿
+                 */
+                "note": string;
+                /**
+                 * 届いたお野菜
+                 */
+                "follow": string;
+                /**
+                 * おへんじ
+                 */
+                "reply": string;
+                /**
+                 * はんこ
+                 */
+                "reaction": string;
+                /**
+                 * 届いたお野菜申請を受け取った
+                 */
+                "receiveFollowRequest": string;
+                /**
+                 * 届いたお野菜が受理された
+                 */
+                "followRequestAccepted": string;
+                /**
+                 * 連携アプリからのおたより
+                 */
+                "app": string;
+            };
+            "_actions": {
+                /**
+                 * 届いたお野菜バック
+                 */
+                "followBack": string;
+            };
+        };
+        "_deck": {
+            "_columns": {
+                /**
+                 * おたより
+                 */
+                "notifications": string;
+                /**
+                 * 集会所
+                 */
+                "tl": string;
+                /**
+                 * ロール集会所
+                 */
+                "roleTimeline": string;
+            };
+        };
+        "_disabledTimeline": {
+            /**
+             * 無効化された集会所
+             */
+            "title": string;
+            /**
+             * 現在のロールでは、この集会所を使用することはできません。
+             */
+            "description": string;
+        };
+        "_webhookSettings": {
+            "_events": {
+                /**
+                 * 届いたお野菜したとき
+                 */
+                "follow": string;
+                /**
+                 * 届いたお野菜されたとき
+                 */
+                "followed": string;
+                /**
+                 * 投書を投稿したとき
+                 */
+                "note": string;
+                /**
+                 * はんこがあったとき
+                 */
+                "reaction": string;
+            };
+        };
+        "_moderationLogTypes": {
+            /**
+             * 村設定更新
+             */
+            "updateServerSettings": string;
+            /**
+             * 村人のモデレーション投書更新
+             */
+            "updateUserNote": string;
+            /**
+             * 投書を削除
+             */
+            "deleteNote": string;
+            /**
+             * 村人へお知らせを作成
+             */
+            "createUserAnnouncement": string;
+            /**
+             * 村人のお知らせを更新
+             */
+            "updateUserAnnouncement": string;
+            /**
+             * 村人のお知らせを削除
+             */
+            "deleteUserAnnouncement": string;
+            /**
+             * リモート村を停止
+             */
+            "suspendRemoteInstance": string;
+            /**
+             * リモート村を再開
+             */
+            "unsuspendRemoteInstance": string;
+            /**
+             * リモート村のモデレーション投書更新
+             */
+            "updateRemoteInstanceNote": string;
+            /**
+             * 村人のアイコンを解除
+             */
+            "unsetUserAvatar": string;
+            /**
+             * 村人のバナーを解除
+             */
+            "unsetUserBanner": string;
+        };
+        "_fileViewer": {
+            /**
+             * 添付されている投書
+             */
+            "attachedNotes": string;
+            /**
+             * このページは、このファイルをアップロードした村人しか閲覧できません。
+             */
+            "thisPageCanBeSeenFromTheAuthor": string;
+        };
+        "_externalResourceInstaller": {
+            "_errors": {
+                "_resourceTypeNotSupported": {
+                    /**
+                     * この外部サイトから取得したリソースの種別には対応していません。サイト村長にお問い合わせください。
+                     */
+                    "description": string;
+                };
+                "_failedToFetch": {
+                    /**
+                     * 外部サイトとの通信に失敗しました。もう一度試しても改善しない場合、サイト村長にお問い合わせください。
+                     */
+                    "fetchErrorDescription": string;
+                    /**
+                     * 外部サイトから取得したデータが読み取れませんでした。サイト村長にお問い合わせください。
+                     */
+                    "parseErrorDescription": string;
+                };
+                "_hashUnmatched": {
+                    /**
+                     * 提供されたデータの整合性の確認に失敗しました。セキュリティ上、インストールは続行できません。サイト村長にお問い合わせください。
+                     */
+                    "description": string;
+                };
+            };
+        };
+        "_reversi": {
+            /**
+             * 開始時に対局を集会所に投稿
+             */
+            "shareToTlTheGameWhenStart": string;
+        };
+        "_offlineScreen": {
+            /**
+             * オフライン - 村に接続できません
+             */
+            "title": string;
+            /**
+             * 村に接続できません
+             */
+            "header": string;
+        };
+        "_emergencyAnnouncement": {
+            "_misskeyInEmergency": {
+                "_doNotUseMisskey": {
+                    /**
+                     * 災害時は村がアクティブになり、新着投書の量が増え、それにより電池やデータ通信量を通常より多く消費してしまうことが予想されます。安全な場所で確実に充電が可能になるまでは、Misskeyの利用をなるべく控えてください。
+                     */
+                    "description": string;
+                };
+            };
+        };
+    };
 }
 declare const locales: {
     [lang: string]: Locale;
