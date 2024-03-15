@@ -1485,6 +1485,14 @@ export interface Locale extends ILocale {
      */
     "enableAntiSpamDescription": string;
     /**
+     * 村モードを有効にする
+     */
+    "enableVillageMode": string;
+    /**
+     * のどかな村になります
+     */
+    "enableVillageModeDescription": string;
+    /**
      * アカウントの削除を有効にする
      */
     "enableAccountDelete": string;
