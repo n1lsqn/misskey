@@ -186,6 +186,10 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				set.disableAntiSpam = ps.disableAntiSpam;
 			}
 
+			if (typeof ps.disableVillageMode === 'boolean') {
+				set.disableVillageMode = ps.disableVillageMode;
+			}
+
 			if (typeof ps.disableAccountDelete === 'boolean') {
 				set.disableAccountDelete = ps.disableAccountDelete;
 			}

@@ -13,6 +13,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 					<MkSwitch v-model="enableRegistration">
 						<template #label>{{ i18n.ts.enableRegistration }}</template>
 					</MkSwitch>
+					
 					<MkSwitch v-model="enableAntiSpam">
 						<template #label>{{ i18n.ts.enableAntiSpam }}</template>
 						<template #caption>{{ i18n.ts.enableAntiSpamDescription }}</template>
