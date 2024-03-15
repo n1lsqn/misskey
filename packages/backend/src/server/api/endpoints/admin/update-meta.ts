@@ -17,11 +17,13 @@ export const meta = {
 	kind: 'write:admin:meta',
 } as const;
 
+// TODO: me psの参考になりそう
 export const paramDef = {
 	type: 'object',
 	properties: {
 		disableRegistration: { type: 'boolean', nullable: false },
 		disableAntiSpam: { type: 'boolean', nullable: false },
+		disableVillageMode: { type: 'boolean', nullable: false },
 		disableAccountDelete: { type: 'boolean', nullable: true },
 
 		pinnedUsers: {

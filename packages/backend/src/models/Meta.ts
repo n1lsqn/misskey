@@ -59,6 +59,11 @@ export class MiMeta {
 	@Column('boolean', {
 		default: false,
 	})
+	public disableVillageMode: boolean;
+
+	@Column('boolean', {
+		default: false,
+	})
 	public disableAccountDelete: boolean;
 
 	@Column('varchar', {
