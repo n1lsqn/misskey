@@ -56,6 +56,13 @@ export class MiMeta {
 	})
 	public disableAntiSpam: boolean;
 
+	/*
+	@Column('boolean', {
+		default: false,
+	})
+	public disableVillageMode: boolean;
+	*/
+
 	@Column('boolean', {
 		default: false,
 	})

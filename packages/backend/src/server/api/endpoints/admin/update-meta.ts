@@ -17,11 +17,13 @@ export const meta = {
 	kind: 'write:admin:meta',
 } as const;
 
+// TODO: me psの参考になりそう
 export const paramDef = {
 	type: 'object',
 	properties: {
 		disableRegistration: { type: 'boolean', nullable: false },
 		disableAntiSpam: { type: 'boolean', nullable: false },
+		// disableVillageMode: { type: 'boolean', nullable: false },
 		disableAccountDelete: { type: 'boolean', nullable: true },
 
 		pinnedUsers: {
@@ -183,6 +185,12 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 			if (typeof ps.disableAntiSpam === 'boolean') {
 				set.disableAntiSpam = ps.disableAntiSpam;
 			}
+
+			/*
+			if (typeof ps.disableVillageMode === 'boolean') {
+				set.disableVillageMode = ps.disableVillageMode;
+			}
+			*/
 
 			if (typeof ps.disableAccountDelete === 'boolean') {
 				set.disableAccountDelete = ps.disableAccountDelete;
