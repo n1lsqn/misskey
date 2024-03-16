@@ -403,10 +403,12 @@ export const meta = {
 				type: 'boolean',
 				optional: false, nullable: false,
 			},
+			/*
 			disableVillageMode: {
 				type: 'boolean',
 				optional: false, nullable: false,
 			},
+			*/
 			disableAccountDelete: {
 				type: 'boolean',
 				optional: false, nullable: false,
@@ -515,7 +517,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				privacyPolicyUrl: instance.privacyPolicyUrl,
 				disableRegistration: instance.disableRegistration,
 				disableAntiSpam: instance.disableAntiSpam,
-				disableVillageMode: instance.disableVillageMode,
+				// disableVillageMode: instance.disableVillageMode,
 				disableAccountDelete: instance.disableAccountDelete,
 				emailRequiredForSignup: instance.emailRequiredForSignup,
 				enableHcaptcha: instance.enableHcaptcha,

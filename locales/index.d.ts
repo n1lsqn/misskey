@@ -25,7 +25,7 @@ export interface Locale extends ILocale {
      */
     "introMisskey": string;
     /**
-     * {name}は、オープンソースのプラットフォーム<b>Misskey</b>の村のひとつです。
+     * {name}は、オープンソースのプラットフォーム<b>Misskey</b>のサーバーのひとつです。
      */
     "poweredByMisskeyDescription": ParameterizedString<"name">;
     /**
@@ -149,7 +149,7 @@ export interface Locale extends ILocale {
      */
     "save": string;
     /**
-     * 村人
+     * ユーザー
      */
     "users": string;
     /**
@@ -345,7 +345,7 @@ export interface Locale extends ILocale {
      */
     "note": string;
     /**
-     * 村役場への投書
+     * ノート
      */
     "notes": string;
     /**
@@ -869,7 +869,7 @@ export interface Locale extends ILocale {
      */
     "instanceInfo": string;
     /**
-     * 村の統計
+     * 統計
      */
     "statistics": string;
     /**
@@ -1745,7 +1745,7 @@ export interface Locale extends ILocale {
      */
     "aboutMisskey": string;
     /**
-     * 村長
+     * 管理者
      */
     "administrator": string;
     /**
@@ -4425,7 +4425,7 @@ export interface Locale extends ILocale {
      */
     "position": string;
     /**
-     * 村の掟
+     * サーバールール
      */
     "serverRules": string;
     /**
@@ -6897,6 +6897,10 @@ export interface Locale extends ILocale {
          * ソースを表示
          */
         "viewSource": string;
+        /**
+         * ログを表示
+         */
+        "viewLog": string;
     };
     "_preferencesBackups": {
         /**
@@ -8723,6 +8727,10 @@ export interface Locale extends ILocale {
          * 説明
          */
         "summary": string;
+        /**
+         * 非公開に設定するとプロフィールに表示されなくなりますが、URLを知っている人は引き続きアクセスできます。
+         */
+        "visibilityDescription": string;
     };
     "_pages": {
         /**

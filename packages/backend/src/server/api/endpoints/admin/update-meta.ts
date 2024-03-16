@@ -23,7 +23,7 @@ export const paramDef = {
 	properties: {
 		disableRegistration: { type: 'boolean', nullable: false },
 		disableAntiSpam: { type: 'boolean', nullable: false },
-		disableVillageMode: { type: 'boolean', nullable: false },
+		// disableVillageMode: { type: 'boolean', nullable: false },
 		disableAccountDelete: { type: 'boolean', nullable: true },
 
 		pinnedUsers: {
@@ -186,9 +186,11 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				set.disableAntiSpam = ps.disableAntiSpam;
 			}
 
+			/*
 			if (typeof ps.disableVillageMode === 'boolean') {
 				set.disableVillageMode = ps.disableVillageMode;
 			}
+			*/
 
 			if (typeof ps.disableAccountDelete === 'boolean') {
 				set.disableAccountDelete = ps.disableAccountDelete;
