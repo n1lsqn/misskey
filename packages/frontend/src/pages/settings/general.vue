@@ -261,7 +261,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 							<template #label>{{ i18n.ts.name }}</template>
 						</MkInput>
 						<MkInput v-model="remoteLocalTimelineDomain1" placeholder="hostDomain.jp">
-							<template #label>サーバーURL</template>
+							<template #label>{{ i18n.ts.serverUrl }}</template>
 						</MkInput>
 						<MkInput v-model="remoteLocalTimelineToken1" placeholder="accessToken">
 							<template #prefix><i class="ti ti-api"></i></template>
@@ -279,7 +279,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 							<template #label>{{ i18n.ts.name }}</template>
 						</MkInput>
 						<MkInput v-model="remoteLocalTimelineDomain2" placeholder="hostDomain.jp">
-							<template #label>サーバーURL</template>
+							<template #label>{{ i18n.ts.serverUrl }}</template>
 						</MkInput>
 						<MkInput v-model="remoteLocalTimelineToken2" placeholder="accessToken">
 							<template #prefix><i class="ti ti-api"></i></template>
@@ -297,7 +297,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 							<template #label>{{ i18n.ts.name }}</template>
 						</MkInput>
 						<MkInput v-model="remoteLocalTimelineDomain3" placeholder="hostDomain.jp">
-							<template #label>サーバーURL</template>
+							<template #label>{{ i18n.ts.serverUrl }}</template>
 						</MkInput>
 						<MkInput v-model="remoteLocalTimelineToken3" placeholder="accessToken">
 							<template #prefix><i class="ti ti-api"></i></template>
@@ -315,7 +315,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 							<template #label>{{ i18n.ts.name }}</template>
 						</MkInput>
 						<MkInput v-model="remoteLocalTimelineDomain4" placeholder="hostDomain.jp">
-							<template #label>サーバーURL</template>
+							<template #label>{{ i18n.ts.serverUrl }}</template>
 						</MkInput>
 						<MkInput v-model="remoteLocalTimelineToken4" placeholder="accessToken">
 							<template #prefix><i class="ti ti-api"></i></template>
@@ -333,7 +333,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 							<template #label>{{ i18n.ts.name }}</template>
 						</MkInput>
 						<MkInput v-model="remoteLocalTimelineDomain5" placeholder="hostDomain.jp">
-							<template #label>サーバーURL</template>
+							<template #label>{{ i18n.ts.serverUrl }}</template>
 						</MkInput>
 						<MkInput v-model="remoteLocalTimelineToken5" placeholder="accessToken">
 							<template #prefix><i class="ti ti-api"></i></template>

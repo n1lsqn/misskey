@@ -61,6 +61,14 @@ export interface Locale extends ILocale {
      */
     "ok": string;
     /**
+     * アクセストークン
+     */
+    "accessToken": string;
+    /**
+     * サーバーURL
+     */
+    "serverUrl": string;
+    /**
      * わかった
      */
     "gotIt": string;
