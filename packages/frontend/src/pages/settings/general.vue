@@ -257,14 +257,14 @@ SPDX-License-Identifier: AGPL-3.0-only
 			<div class="_gaps_m">
 				<FormSection v-if="maxLocalTimeline >= 1">
 					<div v-if="maxLocalTimeline >= 1" class="_gaps_s">
-						<MkInput v-model="remoteLocalTimelineName1" placeholder="hostDomain">
+						<MkInput v-model="remoteLocalTimelineName1" placeholder="hostName">
 							<template #label>{{ i18n.ts.name }}</template>
 						</MkInput>
-						<MkInput v-model="remoteLocalTimelineDomain1" placeholder="hostDomain">
+						<MkInput v-model="remoteLocalTimelineDomain1" placeholder="hostDomain.jp">
 							<template #label>サーバーURL</template>
 						</MkInput>
-						<MkInput v-model="remoteLocalTimelineToken1" placeholder="">
-							<template #prefix><i class="ti ti-key"></i></template>
+						<MkInput v-model="remoteLocalTimelineToken1" placeholder="accessToken">
+							<template #prefix><i class="ti ti-api"></i></template>
 							<template #label>{{ i18n.ts.accessToken }}</template>
 						</MkInput>
 						<MkSwitch v-model="remoteLocalTimelineEnable1">
@@ -275,14 +275,14 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 				<FormSection v-if="maxLocalTimeline >= 2">
 					<div v-if="maxLocalTimeline >= 2" class="_gaps_m">
-						<MkInput v-model="remoteLocalTimelineName2" placeholder="hostDomain">
+						<MkInput v-model="remoteLocalTimelineName2" placeholder="hostName">
 							<template #label>{{ i18n.ts.name }}</template>
 						</MkInput>
-						<MkInput v-model="remoteLocalTimelineDomain2" placeholder="hostDomain">
+						<MkInput v-model="remoteLocalTimelineDomain2" placeholder="hostDomain.jp">
 							<template #label>サーバーURL</template>
 						</MkInput>
-						<MkInput v-model="remoteLocalTimelineToken2" placeholder="">
-							<template #prefix><i class="ti ti-key"></i></template>
+						<MkInput v-model="remoteLocalTimelineToken2" placeholder="accessToken">
+							<template #prefix><i class="ti ti-api"></i></template>
 							<template #label>{{ i18n.ts.accessToken }}</template>
 						</MkInput>
 						<MkSwitch v-model="remoteLocalTimelineEnable2">
@@ -293,14 +293,14 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 				<FormSection v-if="maxLocalTimeline >= 3">
 					<div v-if="maxLocalTimeline >= 3" class="_gaps_m">
-						<MkInput v-model="remoteLocalTimelineName3" placeholder="hostDomain">
+						<MkInput v-model="remoteLocalTimelineName3" placeholder="hostName">
 							<template #label>{{ i18n.ts.name }}</template>
 						</MkInput>
-						<MkInput v-model="remoteLocalTimelineDomain3" placeholder="hostDomain">
+						<MkInput v-model="remoteLocalTimelineDomain3" placeholder="hostDomain.jp">
 							<template #label>サーバーURL</template>
 						</MkInput>
-						<MkInput v-model="remoteLocalTimelineToken3" placeholder="">
-							<template #prefix><i class="ti ti-key"></i></template>
+						<MkInput v-model="remoteLocalTimelineToken3" placeholder="accessToken">
+							<template #prefix><i class="ti ti-api"></i></template>
 							<template #label>{{ i18n.ts.accessToken }}</template>
 						</MkInput>
 						<MkSwitch v-model="remoteLocalTimelineEnable3">
@@ -311,14 +311,14 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 				<FormSection v-if="maxLocalTimeline >= 4">
 					<div v-if="maxLocalTimeline >= 4" class="_gaps_m">
-						<MkInput v-model="remoteLocalTimelineName4" placeholder="hostDomain">
+						<MkInput v-model="remoteLocalTimelineName4" placeholder="hostName">
 							<template #label>{{ i18n.ts.name }}</template>
 						</MkInput>
-						<MkInput v-model="remoteLocalTimelineDomain4" placeholder="hostDomain">
+						<MkInput v-model="remoteLocalTimelineDomain4" placeholder="hostDomain.jp">
 							<template #label>サーバーURL</template>
 						</MkInput>
-						<MkInput v-model="remoteLocalTimelineToken4" placeholder="">
-							<template #prefix><i class="ti ti-key"></i></template>
+						<MkInput v-model="remoteLocalTimelineToken4" placeholder="accessToken">
+							<template #prefix><i class="ti ti-api"></i></template>
 							<template #label>{{ i18n.ts.accessToken }}</template>
 						</MkInput>
 						<MkSwitch v-model="remoteLocalTimelineEnable4">
@@ -329,14 +329,14 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 				<FormSection v-if="maxLocalTimeline >= 5">
 					<div v-if="maxLocalTimeline >= 5" class="_gaps_m">
-						<MkInput v-model="remoteLocalTimelineName5" placeholder="hostDomain">
+						<MkInput v-model="remoteLocalTimelineName5" placeholder="hostName">
 							<template #label>{{ i18n.ts.name }}</template>
 						</MkInput>
-						<MkInput v-model="remoteLocalTimelineDomain5" placeholder="hostDomain">
+						<MkInput v-model="remoteLocalTimelineDomain5" placeholder="hostDomain.jp">
 							<template #label>サーバーURL</template>
 						</MkInput>
-						<MkInput v-model="remoteLocalTimelineToken5" placeholder="">
-							<template #prefix><i class="ti ti-key"></i></template>
+						<MkInput v-model="remoteLocalTimelineToken5" placeholder="accessToken">
+							<template #prefix><i class="ti ti-api"></i></template>
 							<template #label>{{ i18n.ts.accessToken }}</template>
 						</MkInput>
 						<MkSwitch v-model="remoteLocalTimelineEnable5">
