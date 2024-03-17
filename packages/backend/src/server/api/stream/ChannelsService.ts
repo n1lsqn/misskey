@@ -22,6 +22,7 @@ import { RoleTimelineChannelService } from './channels/role-timeline.js';
 import { ReversiChannelService } from './channels/reversi.js';
 import { ReversiGameChannelService } from './channels/reversi-game.js';
 import { type MiChannelService } from './channel.js';
+import { CustomTimelineChannelService } from './channels/custom-timeline.js';
 
 @Injectable()
 export class ChannelsService {
@@ -29,6 +30,7 @@ export class ChannelsService {
 		private mainChannelService: MainChannelService,
 		private homeTimelineChannelService: HomeTimelineChannelService,
 		private localTimelineChannelService: LocalTimelineChannelService,
+		private customTimelineChannelService: CustomTimelineChannelService,
 		private hybridTimelineChannelService: HybridTimelineChannelService,
 		private globalTimelineChannelService: GlobalTimelineChannelService,
 		private userListChannelService: UserListChannelService,
@@ -51,6 +53,7 @@ export class ChannelsService {
 			case 'main': return this.mainChannelService;
 			case 'homeTimeline': return this.homeTimelineChannelService;
 			case 'localTimeline': return this.localTimelineChannelService;
+			case 'customTimeline': return this.customTimelineChannelService;
 			case 'hybridTimeline': return this.hybridTimelineChannelService;
 			case 'globalTimeline': return this.globalTimelineChannelService;
 			case 'userList': return this.userListChannelService;

@@ -45,6 +45,7 @@ import { UserListChannelService } from './api/stream/channels/user-list.js';
 import { RoleTimelineChannelService } from './api/stream/channels/role-timeline.js';
 import { ReversiChannelService } from './api/stream/channels/reversi.js';
 import { ReversiGameChannelService } from './api/stream/channels/reversi-game.js';
+import { CustomTimelineChannelService } from './api/stream/channels/custom-timeline.js';
 
 @Module({
 	imports: [
@@ -85,6 +86,7 @@ import { ReversiGameChannelService } from './api/stream/channels/reversi-game.js
 		HomeTimelineChannelService,
 		HybridTimelineChannelService,
 		LocalTimelineChannelService,
+		CustomTimelineChannelService,
 		QueueStatsChannelService,
 		ServerStatsChannelService,
 		UserListChannelService,

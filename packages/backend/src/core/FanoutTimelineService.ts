@@ -19,6 +19,9 @@ export type FanoutTimelineName =
 	| `localTimelineWithReplies` // only replies are included
 	| `localTimelineWithReplyTo:${string}` // Only replies to specific local user are included. Parameter is reply user id.
 
+	| `customTimeline:${string}` // replies are not included
+	| `customTimelineWithFiles:${string}` // only non-reply notes with files are included
+
 	// antenna
 	| `antennaTimeline:${string}`
 

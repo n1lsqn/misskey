@@ -112,6 +112,11 @@ function connectChannel() {
 			withReplies: props.withReplies,
 			withFiles: props.onlyFiles ? true : undefined,
 		});
+	} else if (props.src.startsWith('custom-timeline')) {
+		connection = stream.useChannel('remoteLocalTimeline', {
+			withRenotes: props.withRenotes,
+			withFiles: props.onlyFiles ? true : undefined,
+		});
 	} else if (props.src === 'social') {
 		connection = stream.useChannel('hybridTimeline', {
 			withRenotes: props.withRenotes,
@@ -125,7 +130,7 @@ function connectChannel() {
 		});
 	} else if (props.src === 'mentions') {
 		connection = stream.useChannel('main');
-		connection.on('mention', prepend);
+		connection?.on('mention', prepend);
 	} else if (props.src === 'directs') {
 		const onNote = note => {
 			if (note.visibility === 'specified') {
@@ -133,7 +138,7 @@ function connectChannel() {
 			}
 		};
 		connection = stream.useChannel('main');
-		connection.on('mention', onNote);
+		connection?.on('mention', onNote);
 	} else if (props.src === 'list') {
 		if (props.list == null) return;
 		connection = stream.useChannel('userList', {

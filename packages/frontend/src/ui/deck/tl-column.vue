@@ -124,7 +124,7 @@ async function setType() {
 			value: 'custom-timeline-5' as const,
 			text: defaultStore.state['remoteLocalTimelineName5'],
 		}] : []),
-	],
+		],
 	});
 	if (canceled) {
 		if (props.column.tl == null) {
