@@ -180,12 +180,14 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 					})).json() as string[];
 
 					if (remoteTimeline.length > 0) {
-						for (const note of remoteTimeline) {
-							const uri = `https://${ps.host}/notes/${note.id}`;
-							const note_ = await this.fetchAny(uri, me);
-							if (note_ == null) continue;
-							noteIds.push(note_.id);
-						}
+						setInterval(async () => {
+							for (const note of remoteTimeline) {
+								const uri = `https://${ps.host}/notes/${note.id}`;
+								const note_ = await this.fetchAny(uri, me);
+								if (note_ == null) continue;
+								noteIds.push(note_.id);
+							}
+						}, 10000);
 					}
 				}
 
@@ -196,6 +198,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 			}
 		});
 	}
+
 	@bindThis
 	private async fetchAny(uri: string, me: MiLocalUser | null | undefined) {
 		// ブロックしてたら中断
