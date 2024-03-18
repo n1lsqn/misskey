@@ -4693,6 +4693,8 @@ export type components = {
       canManageCustomEmojis: boolean;
       canManageAvatarDecorations: boolean;
       canUseChannel: boolean;
+      canUseHighlight: boolean;
+      canUseRemoteIconDecorations: boolean;
       canSearchNotes: boolean;
       canUseTranslator: boolean;
       canHideAds: boolean;
@@ -4985,7 +4987,7 @@ export type operations = {
             defaultLightTheme: string | null;
             description: string | null;
             disableRegistration: boolean;
-            disableAntiSpam: boolean | null;
+            disableAntiSpam: boolean;
             disableAccountDelete: boolean;
             impressumUrl: string | null;
             maintainerEmail: string | null;
@@ -6598,6 +6600,7 @@ export type operations = {
           'application/json': {
             /** Format: id */
             id: string;
+            license: string | null;
           };
         };
       };
@@ -6828,6 +6831,7 @@ export type operations = {
               /** @description The local host is represented with `null`. */
               host: string | null;
               url: string;
+              license: string | null;
             })[];
         };
       };

@@ -1403,6 +1403,7 @@ const $reversi_verify: Provider = { provide: 'ep:reversi/verify', useClass: ep__
 		$notes_globalTimeline,
 		$notes_hybridTimeline,
 		$notes_localTimeline,
+		$notes_anyLocalTimeline,
 		$notes_mentions,
 		$notes_polls_recommendation,
 		$notes_polls_vote,
