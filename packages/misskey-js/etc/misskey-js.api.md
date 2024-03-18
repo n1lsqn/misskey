@@ -598,6 +598,16 @@ export type Channels = {
         };
         receives: null;
     };
+    remoteLocalTimeline: {
+        params: {
+            withRenotes?: boolean;
+            withFiles?: boolean;
+        };
+        events: {
+            note: (payload: Note) => void;
+        };
+        receives: null;
+    };
     userList: {
         params: {
             listId: string;
