@@ -95,106 +95,109 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 		private apNoteService: ApNoteService,
 	) {
 		super(meta, paramDef, async (ps, me) => {
-			const untilId = ps.untilId ?? (ps.untilDate ? this.idService.gen(ps.untilDate!) : null);
-			const sinceId = ps.sinceId ?? (ps.sinceDate ? this.idService.gen(ps.sinceDate!) : null);
-			if (ps.host === undefined) throw new ApiError(meta.errors.hostIsNull);
-			if (ps.remoteToken === undefined) throw new ApiError(meta.errors.remoteTokenIsNull);
-			const i = await this.federatedInstanceService.fetch(ps.host);
-			const noteIds = [];
+			{
+				const untilId = ps.untilId ?? (ps.untilDate ? this.idService.gen(ps.untilDate!) : null);
+				const sinceId = ps.sinceId ?? (ps.sinceDate ? this.idService.gen(ps.sinceDate!) : null);
+				if (ps.host === undefined) throw new ApiError(meta.errors.hostIsNull);
+				if (ps.remoteToken === undefined) throw new ApiError(meta.errors.remoteTokenIsNull);
+				const i = await this.federatedInstanceService.fetch(ps.host);
+				const noteIds = [];
 
-			if (i.softwareName === 'misskey') {
-				// プロパティ 'id' は型 'string' に存在しません。
-				const remoteTimeline: any[] = await (await this.httpRequestService.send('https://' + ps.host + '/api/notes/local-timeline', {
-					method: 'POST',
-					headers: {
-						'Content-Type': 'application/json',
-					},
-					body: JSON.stringify({
-						i: ps.remoteToken,
-						withFiles: ps.withFiles,
-						withRenotes: ps.withRenotes,
-						withReplies: ps.withReplies,
-						limit: ps.limit,
-					}),
-				})).json() as string[];
-
-				if (remoteTimeline.length > 0) {
-					for (const note of remoteTimeline) {
-						const uri = `https://${ps.host}/notes/${note.id}`;
-						const note_ = await this.fetchAny(uri, me);
-						if (note_ == null) continue;
-						noteIds.push(note_.id);
-					}
-				}
-
-				let notes = await this.notesRepository.findBy({ id: In(noteIds) });
-				let packedNote: any[] = await this.noteEntityService.packMany(notes, me, { detail: true });
-				if (untilId) {
-					let lastRemoteId;
-					const lastUri = packedNote[packedNote.length - 1].uri;
-					lastRemoteId = lastUri.split('/')[lastUri.split('/').length - 1];
-					do {
+				if (i.softwareName === 'misskey') {
+					if (document.visibilityState === 'visible') {
+						window.setInterval(async () => {
 						// プロパティ 'id' は型 'string' に存在しません。
-						const remoteTimeline: any[] = await (await this.httpRequestService.send('https://' + ps.host + '/api/notes/local-timeline', {
-							method: 'POST',
-							headers: {
-								'Content-Type': 'application/json',
-							},
-							body: JSON.stringify({
-								i: ps.remoteToken,
-								withFiles: ps.withFiles,
-								withRenotes: ps.withRenotes,
-								withReplies: ps.withReplies,
-								untilId: lastRemoteId,
-								limit: ps.limit,
-							}),
-						})).json() as string[];
+							const remoteTimeline: any[] = await (await this.httpRequestService.send('https://' + ps.host + '/api/notes/local-timeline', {
+								method: 'POST',
+								headers: {
+									'Content-Type': 'application/json',
+								},
+								body: JSON.stringify({
+									i: ps.remoteToken,
+									withFiles: ps.withFiles,
+									withRenotes: ps.withRenotes,
+									withReplies: ps.withReplies,
+									limit: ps.limit,
+								}),
+							})).json() as string[];
 
-						if (remoteTimeline.length > 0) {
-							for (const note of remoteTimeline) {
-								const uri = `https://${ps.host}/notes/${note.id}`;
-								const note_ = await this.fetchAny(uri, me);
-								if (note_ == null) continue;
-								//noteIds.push(note_.id);
-								lastRemoteId = note_.id;
-								if (lastRemoteId === ps.untilId) {
-									break;
+							if (remoteTimeline.length > 0) {
+								for (const note of remoteTimeline) {
+									const uri = `https://${ps.host}/notes/${note.id}`;
+									const note_ = await this.fetchAny(uri, me);
+									if (note_ == null) continue;
+									noteIds.push(note_.id);
+								}
+							}
+						}, 1000 * 60);
+
+						let notes = await this.notesRepository.findBy({ id: In(noteIds) });
+						let packedNote: any[] = await this.noteEntityService.packMany(notes, me, { detail: true });
+						if (untilId) {
+							let lastRemoteId;
+							const lastUri = packedNote[packedNote.length - 1].uri;
+							lastRemoteId = lastUri.split('/')[lastUri.split('/').length - 1];
+							do {
+							// プロパティ 'id' は型 'string' に存在しません。
+								const remoteTimeline: any[] = await (await this.httpRequestService.send('https://' + ps.host + '/api/notes/local-timeline', {
+									method: 'POST',
+									headers: {
+										'Content-Type': 'application/json',
+									},
+									body: JSON.stringify({
+										i: ps.remoteToken,
+										withFiles: ps.withFiles,
+										withRenotes: ps.withRenotes,
+										withReplies: ps.withReplies,
+										untilId: lastRemoteId,
+										limit: ps.limit,
+									}),
+								})).json() as string[];
+
+								if (remoteTimeline.length > 0) {
+									for (const note of remoteTimeline) {
+										const uri = `https://${ps.host}/notes/${note.id}`;
+										const note_ = await this.fetchAny(uri, me);
+										if (note_ == null) continue;
+										//noteIds.push(note_.id);
+										lastRemoteId = note_.id;
+										if (lastRemoteId === ps.untilId) {
+											break;
+										}
+									}
+								}
+							} while (lastRemoteId !== ps.untilId);
+							// プロパティ 'id' は型 'string' に存在しません。
+							const remoteTimeline: any[] = await (await this.httpRequestService.send('https://' + ps.host + '/api/notes/local-timeline', {
+								method: 'POST',
+								headers: {
+									'Content-Type': 'application/json',
+								},
+								body: JSON.stringify({
+									i: ps.remoteToken,
+									withFiles: ps.withFiles,
+									withRenotes: ps.withRenotes,
+									withReplies: ps.withReplies,
+									untilId: lastRemoteId,
+									limit: ps.limit,
+								}),
+							})).json() as string[];
+
+							if (remoteTimeline.length > 0) {
+								for (const note of remoteTimeline) {
+									const uri = `https://${ps.host}/notes/${note.id}`;
+									const note_ = await this.fetchAny(uri, me);
+									if (note_ == null) continue;
+									noteIds.push(note_.id);
 								}
 							}
 						}
-					} while (lastRemoteId !== ps.untilId);
-					// プロパティ 'id' は型 'string' に存在しません。
-					const remoteTimeline: any[] = await (await this.httpRequestService.send('https://' + ps.host + '/api/notes/local-timeline', {
-						method: 'POST',
-						headers: {
-							'Content-Type': 'application/json',
-						},
-						body: JSON.stringify({
-							i: ps.remoteToken,
-							withFiles: ps.withFiles,
-							withRenotes: ps.withRenotes,
-							withReplies: ps.withReplies,
-							untilId: lastRemoteId,
-							limit: ps.limit,
-						}),
-					})).json() as string[];
-
-					if (remoteTimeline.length > 0) {
-						setInterval(async () => {
-							for (const note of remoteTimeline) {
-								const uri = `https://${ps.host}/notes/${note.id}`;
-								const note_ = await this.fetchAny(uri, me);
-								if (note_ == null) continue;
-								noteIds.push(note_.id);
-							}
-						}, 10000);
+						notes = await this.notesRepository.findBy({ id: In(noteIds) });
+						packedNote = await this.noteEntityService.packMany(notes, me, { detail: true });
+						// 型 '(ps: { limit: number; withFiles: SchemaType<{ readonly type: "boolean"; readonly default: false; }>; withRenotes: SchemaType<{ readonly type: "boolean"; readonly default: true; }>; withReplies: SchemaType<...>; allowPartial: SchemaType<...>; } & {} & { ...; }, me: MiLocalUser | null) => Promise<...>' の引数を型 'Executor<{ readonly tags: readonly ["notes"]; readonly res: { readonly type: "array"; readonly optional: false; readonly nullable: false; readonly items: { readonly type: "object"; readonly optional: false; readonly nullable: false; readonly ref: "Note"; }; }; readonly errors: { ...; }; }, { ...; }>' のパラメーターに割り当てることはできません。
+						return packedNote.reverse() as any;
 					}
 				}
-
-				notes = await this.notesRepository.findBy({ id: In(noteIds) });
-				packedNote = await this.noteEntityService.packMany(notes, me, { detail: true });
-				// 型 '(ps: { limit: number; withFiles: SchemaType<{ readonly type: "boolean"; readonly default: false; }>; withRenotes: SchemaType<{ readonly type: "boolean"; readonly default: true; }>; withReplies: SchemaType<...>; allowPartial: SchemaType<...>; } & {} & { ...; }, me: MiLocalUser | null) => Promise<...>' の引数を型 'Executor<{ readonly tags: readonly ["notes"]; readonly res: { readonly type: "array"; readonly optional: false; readonly nullable: false; readonly items: { readonly type: "object"; readonly optional: false; readonly nullable: false; readonly ref: "Note"; }; }; readonly errors: { ...; }; }, { ...; }>' のパラメーターに割り当てることはできません。
-				return packedNote.reverse() as any;
 			}
 		});
 	}
