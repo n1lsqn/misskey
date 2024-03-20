@@ -389,6 +389,7 @@ jobs:
     needs: [pnpm_install, report, lint, typecheck, unit, test, validate-api-json, vitest, e2e-back, e2e-front]
     steps:
     - name: Deploy
+      if: success()
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_IP }}
