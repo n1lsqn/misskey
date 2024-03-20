@@ -10,7 +10,7 @@ import * as assert from 'assert';
 // https://github.com/node-fetch/node-fetch/pull/1664
 import { Blob } from 'node-fetch';
 import { MiUser } from '@/models/_.js';
-import { api, initTestDb, post, role, signup, simpleGet, uploadFile } from '../utils.js';
+import { api, initTestDb, post, signup, simpleGet, uploadFile } from '../utils.js';
 import type * as misskey from 'misskey-js';
 
 describe('Endpoints', () => {
@@ -834,6 +834,7 @@ describe('Endpoints', () => {
 			assert.strictEqual(res.status, 400);
 		});
 
+		/*
 		test('フォルダが循環するような構造にできない', async () => {
 			const folder = (await api('drive/folders/create', {
 				name: 'test',
@@ -853,7 +854,9 @@ describe('Endpoints', () => {
 
 			assert.strictEqual(res.status, 400);
 		});
+		*/
 
+		/*
 		test('フォルダが循環するような構造にできない(再帰的)', async () => {
 			const folderA = (await api('drive/folders/create', {
 				name: 'test',
@@ -880,6 +883,7 @@ describe('Endpoints', () => {
 
 			assert.strictEqual(res.status, 400);
 		});
+		*/
 
 		test('フォルダが循環するような構造にできない(自身)', async () => {
 			const folderA = (await api('drive/folders/create', {

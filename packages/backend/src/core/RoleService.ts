@@ -43,6 +43,8 @@ export type RolePolicies = {
 	canManageCustomEmojis: boolean;
 	canManageAvatarDecorations: boolean;
 	canUseChannel: boolean;
+	canUseHighlight: boolean;
+	canUseRemoteIconDecorations: boolean;
 	canSearchNotes: boolean;
 	canUseTranslator: boolean;
 	canHideAds: boolean;
@@ -73,6 +75,8 @@ export const DEFAULT_POLICIES: RolePolicies = {
 	canManageCustomEmojis: false,
 	canManageAvatarDecorations: false,
 	canUseChannel: false,
+	canUseRemoteIconDecorations: true,
+	canUseHighlight: true,
 	canSearchNotes: false,
 	canUseTranslator: true,
 	canHideAds: false,
@@ -342,6 +346,8 @@ export class RoleService implements OnApplicationShutdown, OnModuleInit {
 			canManageCustomEmojis: calc('canManageCustomEmojis', vs => vs.some(v => v === true)),
 			canManageAvatarDecorations: calc('canManageAvatarDecorations', vs => vs.some(v => v === true)),
 			canUseChannel: calc('canUseChannel', vs => vs.some(v => v === true)),
+			canUseHighlight: calc('canUseHighlight', vs => vs.some(v => v === true)),
+			canUseRemoteIconDecorations: calc('canUseRemoteIconDecorations', vs => vs.some(v => v === true)),
 			canSearchNotes: calc('canSearchNotes', vs => vs.some(v => v === true)),
 			canUseTranslator: calc('canUseTranslator', vs => vs.some(v => v === true)),
 			canHideAds: calc('canHideAds', vs => vs.some(v => v === true)),

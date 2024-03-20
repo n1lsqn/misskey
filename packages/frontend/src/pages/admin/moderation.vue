@@ -13,9 +13,22 @@ SPDX-License-Identifier: AGPL-3.0-only
 					<MkSwitch v-model="enableRegistration">
 						<template #label>{{ i18n.ts.enableRegistration }}</template>
 					</MkSwitch>
+
 					<MkSwitch v-model="enableAntiSpam">
-						<template #label>{{ i18n.ts.enableAntiSpam || "アンチスパムモードを有効にする" }}</template>
-						<template #caption>{{ i18n.ts.enableAntiSpamDescription || "本サーバーからフォローされていないユーザーのメンションが届かなくなります" }}</template>
+						<template #label>{{ i18n.ts.enableAntiSpam }}</template>
+						<template #caption>{{ i18n.ts.enableAntiSpamDescription }}</template>
+					</MkSwitch>
+
+					<!--
+					<MkSwitch v-model="enableVillageMode">
+						<template #label>{{ i18n.ts.enableVillageMode }}</template>
+						<template #caption>{{ i18n.ts.enableVillageModeDescription }}</template>
+					</MkSwitch>
+					-->
+
+					<MkSwitch v-model="enableAccountDelete">
+						<template #label>{{ i18n.ts.enableAccountDelete }}</template>
+						<template #caption>{{ i18n.ts.enableAccountDeleteDescription }}</template>
 					</MkSwitch>
 
 					<MkSwitch v-model="enableAccountDelete">
@@ -89,6 +102,7 @@ import FormLink from '@/components/form/link.vue';
 
 const enableRegistration = ref<boolean>(false);
 const enableAntiSpam = ref<boolean>(false);
+const enableVillageMode = ref<boolean>(false);
 const enableAccountDelete = ref<boolean>(false);
 const emailRequiredForSignup = ref<boolean>(false);
 const sensitiveWords = ref<string>('');
@@ -102,6 +116,7 @@ async function init() {
 	const meta = await misskeyApi('admin/meta');
 	enableRegistration.value = !meta.disableRegistration;
 	enableAntiSpam.value = !meta.disableAntiSpam;
+	// enableVillageMode.value = !meta.disableVillageMode;
 	enableAccountDelete.value = !meta.disableAccountDelete;
 	emailRequiredForSignup.value = meta.emailRequiredForSignup;
 	sensitiveWords.value = meta.sensitiveWords.join('\n');
@@ -116,6 +131,7 @@ function save() {
 	os.apiWithDialog('admin/update-meta', {
 		disableRegistration: !enableRegistration.value,
 		disableAntiSpam: !enableAntiSpam.value,
+		// disableVillageMode: !enableVillageMode.value,
 		disableAccountDelete: !enableAccountDelete.value,
 		emailRequiredForSignup: emailRequiredForSignup.value,
 		tosUrl: tosUrl.value,

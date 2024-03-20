@@ -110,8 +110,7 @@ const devMode = computed(defaultStore.makeGetterSetter('devMode'));
 const defaultWithReplies = computed(defaultStore.makeGetterSetter('defaultWithReplies'));
 
 async function deleteAccount() {
-	console.log('deleteAccount');
-	if (instance.disableAccountDelete === false) {
+	if (!instance.disableAccountDelete) {
 		{
 			const { canceled } = await os.confirm({
 				type: 'warning',
@@ -125,7 +124,13 @@ async function deleteAccount() {
 			password: auth.result.password,
 			token: auth.result.token,
 		});
-	} else console.log('Account delete is disabled');
+
+		await os.alert({
+			title: i18n.ts._accountDelete.started,
+		});
+
+		await signout();
+	} else console.log('deleteAccount');
 }
 
 async function reloadAsk() {

@@ -195,6 +195,14 @@ export const packedRolePoliciesSchema = {
 			type: 'boolean',
 			optional: false, nullable: false,
 		},
+		canUseHighlight: {
+			type: 'boolean',
+			optional: false, nullable: false,
+		},
+		canUseRemoteIconDecorations: {
+			type: 'boolean',
+			optional: false, nullable: false,
+		},
 		canSearchNotes: {
 			type: 'boolean',
 			optional: false, nullable: false,

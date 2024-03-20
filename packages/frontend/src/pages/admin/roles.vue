@@ -94,7 +94,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 							</MkSwitch>
 						</MkFolder>
 
-						<MkFolder v-if="matchQuery([i18n.ts._role._options.remoteLocalTimelineAnyLimit, 'remoteLocalTimelineAnyLimit'])" class="_margin">
+						<MkFolder v-if="matchQuery([i18n.ts._role._options.remoteLocalTimelineAnyLimit, 'remoteLocalTimelineAnyLimit'])">
 							<template #label>{{ i18n.ts._role._options.remoteLocalTimelineAnyLimit }}</template>
 							<template #suffix>{{ policies.remoteLocalTimelineAnyLimit }}</template>
 							<MkInput v-model="policies.remoteLocalTimelineAnyLimit" type="number">
@@ -105,6 +105,22 @@ SPDX-License-Identifier: AGPL-3.0-only
 							<template #label>{{ i18n.ts._role._options.canUseChannel }}</template>
 							<template #suffix>{{ policies.canUseChannel ? i18n.ts.yes : i18n.ts.no }}</template>
 							<MkSwitch v-model="policies.canUseChannel">
+								<template #label>{{ i18n.ts.enable }}</template>
+							</MkSwitch>
+						</MkFolder>
+
+						<MkFolder v-if="matchQuery([i18n.ts._role._options.canUseHighlight, 'canUseHighlight'])">
+							<template #label>{{ i18n.ts._role._options.canUseHighlight }}</template>
+							<template #suffix>{{ policies.canUseHighlight ? i18n.ts.yes : i18n.ts.no }}</template>
+							<MkSwitch v-model="policies.canUseHighlight">
+								<template #label>{{ i18n.ts.enable }}</template>
+							</MkSwitch>
+						</MkFolder>
+
+						<MkFolder v-if="matchQuery([i18n.ts._role._options.canUseRemoteIconDecorations, 'canUseRemoteIconDecorations'])">
+							<template #label>{{ i18n.ts._role._options.canUseRemoteIconDecorations }}</template>
+							<template #suffix>{{ policies.canUseRemoteIconDecorations ? i18n.ts.yes : i18n.ts.no }}</template>
+							<MkSwitch v-model="policies.canUseRemoteIconDecorations">
 								<template #label>{{ i18n.ts.enable }}</template>
 							</MkSwitch>
 						</MkFolder>

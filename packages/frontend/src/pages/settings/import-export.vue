@@ -48,10 +48,12 @@ SPDX-License-Identifier: AGPL-3.0-only
 			<MkFolder v-if="$i && !$i.movedTo">
 				<template #label>{{ i18n.ts.import }}</template>
 				<template #icon><i class="ti ti-upload"></i></template>
-				<MkSwitch v-model="withReplies">
-					{{ i18n.ts._exportOrImport.withReplies }}
-				</MkSwitch>
-				<MkButton primary :class="$style.button" inline @click="importFollowing($event)"><i class="ti ti-upload"></i> {{ i18n.ts.import }}</MkButton>
+				<div class="_gaps_s">
+					<MkSwitch v-model="withReplies">
+						{{ i18n.ts._exportOrImport.withReplies }}
+					</MkSwitch>
+					<MkButton primary :class="$style.button" inline @click="importFollowing($event)"><i class="ti ti-upload"></i> {{ i18n.ts.import }}</MkButton>
+				</div>
 			</MkFolder>
 		</div>
 	</FormSection>
