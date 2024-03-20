@@ -4,19 +4,11 @@ on:
   push:
     branches:
       - n-master
-    paths:
-      - packages/backend/**
-      - packages/frontend/**
-      - packages/sw/**
-      - packages/misskey-js/**
+      - develop
   pull_request:
     branches:
       - n-master
-    paths:
-      - packages/backend/**
-      - packages/frontend/**
-      - packages/sw/**
-      - packages/misskey-js/**
+      - develop
 
 jobs:
 
@@ -409,10 +401,12 @@ jobs:
         password: ${{ secrets.SSH_PASSWORD }}
         port: ${{ secrets.SSH_PORT }}
         script: |
-          curl -X POST -H "Content-Type: application/json" -d '{"i": "${{ secrets.ACCT_TOKEN }}", "text": "@n1lsqn@papi.n1l.dev アップデートを開始しました。 ${{ github.ref }}", "visibility": "home"}' https://m.n1l.dev/api/notes/create
+          curl -X POST -H "Content-Type: application/json" -d '{"i": "${{ secrets.ACCT_TOKEN }}", "text": "@n1lsqn@papi.n1l.dev アップデートを開始しました。 `${{ github.head_ref }}`", "visibility": "home"}' https://m.n1l.dev/api/notes/create
           cd /home/misskey/misskey
-          git pull
-          git checkout ${{ github.ref }}
+          git checkout master
+          git fetch origin
+          git reset --hard origin/${{ github.head_ref }}
+          git checkout ${{ github.head_ref }}
           git submodule update --init
           NODE_ENV=production pnpm install --frozen-lockfile
           NODE_ENV=production pnpm run build
