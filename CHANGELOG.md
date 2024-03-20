@@ -1,16 +1,21 @@
 ## Unreleased
 
 ### General
--
+- Fix: Play作成時に設定した公開範囲が機能していない問題を修正
 
 ### Client
 - Enhance: 自分のノートの添付ファイルから直接ファイルの詳細ページに飛べるように
 - Enhance: リアクション・いいねの総数を表示するように
 - Enhance: リアクション受け入れが「いいねのみ」の場合はリアクション絵文字一覧を表示しないように
+- Enhance: 設定>プラグインのページからプラグインの簡易的なログやエラーを見られるように
+  - 実装の都合により、プラグインは１つエラーを起こした時に即時停止するようになりました
+- Enhance: ページのデザインを変更	
 - Fix: 一部のページ内リンクが正しく動作しない問題を修正
 
 ### Server
--
+- Enhance: エンドポイント`antennas/update`の必須項目を`antennaId`のみに
+- Fix: フォローリクエストを作成する際に既存のものは削除するように  
+  (Cherry-picked from https://activitypub.software/TransFem-org/Sharkey/-/merge_requests/440)
 
 ## 2024.3.1
 
@@ -24,7 +29,7 @@
 - Fix: カスタム絵文字の画像読み込みに失敗した際はテキストではなくダミー画像を表示 #13487
 
 ### Server
-- Enhance: エンドポイント`antennas/update`の必須項目を`antennaId`のみに
+-
 
 ## 2024.3.0
 
