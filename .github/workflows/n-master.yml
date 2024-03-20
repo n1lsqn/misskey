@@ -6,9 +6,6 @@ on:
       - n-master
       - develop
   pull_request:
-    branches:
-      - n-master
-      - develop
 
 jobs:
 
@@ -391,6 +388,7 @@ jobs:
     needs: [pnpm_install, report, lint, typecheck, unit, test, validate-api-json, vitest, e2e-back, e2e-front]
     steps:
     - name: Deploy
+      if: success()
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_IP }}
@@ -412,4 +410,5 @@ jobs:
           pnpm run migrate
           sudo service misskey restart
           sleep 60
-          curl -X POST -H "Content-Type: application/json" -d '{"i": "${{ secrets.ACCT_TOKEN }}", "text": "@n1lsqn@papi.n1l.dev アップデートを完了しました。 `${{ github.head_ref }}`", "visibility": "home"}' https://m.n1l.dev/api/notes/create
+          curl -X POST -H "Content-Type: application/json" -d '{"i": "${{ secrets.ACCT_TOKEN }}", "text": "@n1lsqn@papi.n1l.dev アップデートを完了しました。 ${{ github.ref }}", "visibility": "home"}' https://m.n1l.dev/api/notes/create
+

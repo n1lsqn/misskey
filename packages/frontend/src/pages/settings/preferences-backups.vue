@@ -70,6 +70,8 @@ const defaultStoreSaveKeys: (keyof typeof defaultStore['state'])[] = [
 	'animation',
 	'animatedMfm',
 	'advancedMfm',
+	'showRepliesCount',
+	'showRenotesCount',
 	'showReactionsCount',
 	'loadRawImages',
 	'imageNewTab',
@@ -120,6 +122,7 @@ const coldDeviceStorageSaveKeys: (keyof typeof ColdDeviceStorage.default)[] = [
 	'lightTheme',
 	'darkTheme',
 	'syncDeviceDarkMode',
+	'syncTimeDarkMode',
 	'plugins',
 ];
 

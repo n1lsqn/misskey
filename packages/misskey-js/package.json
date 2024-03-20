@@ -1,7 +1,7 @@
 {
 	"type": "module",
 	"name": "misskey-js",
-	"version": "2024.3.1",
+	"version": "2024.3.1-n.5",
 	"description": "Misskey SDK for JavaScript",
 	"types": "./built/dts/index.d.ts",
 	"exports": {
@@ -48,8 +48,8 @@
 		"jest-websocket-mock": "2.5.0",
 		"mock-socket": "9.3.1",
 		"ncp": "2.0.0",
-		"nodemon": "3.1.0",
-		"tsd": "0.30.7",
+		"nodemon": "3.0.3",
+		"tsd": "0.30.4",
 		"typescript": "5.3.3"
 	},
 	"files": [

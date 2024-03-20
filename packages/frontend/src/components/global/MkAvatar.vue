@@ -49,6 +49,7 @@ import { extractAvgColorFromBlurhash } from '@/scripts/extract-avg-color-from-bl
 import { acct, userPage } from '@/filters/user.js';
 import MkUserOnlineIndicator from '@/components/MkUserOnlineIndicator.vue';
 import { defaultStore } from '@/store.js';
+import { getDataSaverState } from '@/scripts/datasaver.js';
 
 const animation = ref(defaultStore.state.animation);
 const squareAvatars = ref(defaultStore.state.squareAvatars);
@@ -83,7 +84,7 @@ const bound = computed(() => props.link
 
 const url = computed(() => {
 	if (props.user.avatarUrl == null) return null;
-	if (defaultStore.state.disableShowingAnimatedImages || defaultStore.state.dataSaver.avatar) return getStaticImageUrl(props.user.avatarUrl);
+	if (defaultStore.state.disableShowingAnimatedImages || getDataSaverState('avatar')) return getStaticImageUrl(props.user.avatarUrl);
 	return props.user.avatarUrl;
 });
 

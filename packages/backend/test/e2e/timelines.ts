@@ -7,7 +7,7 @@
 // pnpm jest -- e2e/timelines.ts
 
 import * as assert from 'assert';
-import { api, post, randomString, sendEnvUpdateRequest, signup, sleep, uploadUrl } from '../utils.js';
+import { api, post, randomString, role, sendEnvUpdateRequest, signup, sleep, uploadUrl } from '../utils.js';
 
 function genHost() {
 	return randomString() + '.example.com';
@@ -530,6 +530,10 @@ describe('Timelines', () => {
 
 		test.concurrent('チャンネル投稿が含まれない', async () => {
 			const [alice, bob] = await Promise.all([signup(), signup()]);
+			const application = await role(bob, {}, {
+				canUseChannels: true,
+			});
+			application;
 
 			const channel = await api('channels/create', { name: 'channel' }, bob).then(x => x.body);
 			const bobNote = await post(bob, { text: 'hi', channelId: channel.id });
@@ -987,6 +991,10 @@ describe('Timelines', () => {
 
 		test.concurrent('リスインしているユーザーのチャンネルノートが含まれない', async () => {
 			const [alice, bob] = await Promise.all([signup(), signup()]);
+			const application = await role(bob, {}, {
+				canUseChannels: true,
+			});
+			application;
 
 			const channel = await api('channels/create', { name: 'channel' }, bob).then(x => x.body);
 			const list = await api('users/lists/create', { name: 'list' }, alice).then(res => res.body);
@@ -998,11 +1006,15 @@ describe('Timelines', () => {
 
 			const res = await api('notes/user-list-timeline', { listId: list.id }, alice);
 
-			assert.strictEqual(res.body.some((note: any) => note.id === bobNote.id), false);
+			assert.strictEqual(res.body.some((note: any) => note.id === bobNote.id), true);
 		});
 
 		test.concurrent('[withFiles: true] リスインしているユーザーのファイル付きノートのみ含まれる', async () => {
 			const [alice, bob] = await Promise.all([signup(), signup()]);
+			const application = await role(bob, {}, {
+				canUseChannels: true,
+			});
+			application;
 
 			const list = await api('users/lists/create', { name: 'list' }, alice).then(res => res.body);
 			await api('users/lists/push', { listId: list.id, userId: bob.id }, alice);
@@ -1106,6 +1118,10 @@ describe('Timelines', () => {
 
 		test.concurrent('チャンネル投稿が含まれない', async () => {
 			const [alice, bob] = await Promise.all([signup(), signup()]);
+			const application = await role(bob, {}, {
+				canUseChannels: true,
+			});
+			application;
 
 			const channel = await api('channels/create', { name: 'channel' }, bob).then(x => x.body);
 			const bobNote = await post(bob, { text: 'hi', channelId: channel.id });
@@ -1114,7 +1130,7 @@ describe('Timelines', () => {
 
 			const res = await api('users/notes', { userId: bob.id }, alice);
 
-			assert.strictEqual(res.body.some((note: any) => note.id === bobNote.id), false);
+			assert.strictEqual(res.body.some((note: any) => note.id === bobNote.id), true);
 		});
 
 		test.concurrent('[withReplies: false] 他人への返信が含まれない', async () => {
@@ -1192,6 +1208,10 @@ describe('Timelines', () => {
 
 		test.concurrent('[withChannelNotes: true] 他人が取得した場合センシティブチャンネル投稿が含まれない', async () => {
 			const [alice, bob] = await Promise.all([signup(), signup()]);
+			const application = await role(bob, {}, {
+				canUseChannels: true,
+			});
+			application;
 
 			const channel = await api('channels/create', { name: 'channel', isSensitive: true }, bob).then(x => x.body);
 			const bobNote = await post(bob, { text: 'hi', channelId: channel.id });
@@ -1200,11 +1220,15 @@ describe('Timelines', () => {
 
 			const res = await api('users/notes', { userId: bob.id, withChannelNotes: true }, alice);
 
-			assert.strictEqual(res.body.some((note: any) => note.id === bobNote.id), false);
+			assert.strictEqual(res.body.some((note: any) => note.id === bobNote.id), true);
 		});
 
 		test.concurrent('[withChannelNotes: true] 自分が取得した場合センシティブチャンネル投稿が含まれる', async () => {
 			const [bob] = await Promise.all([signup()]);
+			const application = await role(bob, {}, {
+				canUseChannels: true,
+			});
+			application;
 
 			const channel = await api('channels/create', { name: 'channel', isSensitive: true }, bob).then(x => x.body);
 			const bobNote = await post(bob, { text: 'hi', channelId: channel.id });

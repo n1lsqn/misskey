@@ -20,7 +20,10 @@ export const meta = {
 export const paramDef = {
 	type: 'object',
 	properties: {
-		disableRegistration: { type: 'boolean', nullable: true },
+		disableRegistration: { type: 'boolean', nullable: false },
+		disableAntiSpam: { type: 'boolean', nullable: false },
+		disableAccountDelete: { type: 'boolean', nullable: false },
+
 		pinnedUsers: {
 			type: 'array', nullable: true, items: {
 				type: 'string',
@@ -150,6 +153,16 @@ export const paramDef = {
 				type: 'string',
 			},
 		},
+		enableEmergencyAnnouncementIntegration: { type: 'boolean' },
+		emergencyAnnouncementIntegrationConfig: {
+			type: 'object',
+			nullable: true,
+			properties: {
+				type: {
+					type: 'string', enum: ['none', 'p2pquake'],
+				},
+			},
+		},
 	},
 	required: [],
 } as const;
@@ -167,6 +180,14 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				set.disableRegistration = ps.disableRegistration;
 			}
 
+			if (typeof ps.disableAntiSpam === 'boolean') {
+				set.disableAntiSpam = ps.disableAntiSpam;
+			}
+
+			if (typeof ps.disableAccountDelete === 'boolean') {
+				set.disableAccountDelete = ps.disableAccountDelete;
+			}
+			
 			if (Array.isArray(ps.pinnedUsers)) {
 				set.pinnedUsers = ps.pinnedUsers.filter(Boolean);
 			}
@@ -579,6 +600,19 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 
 			if (ps.bannedEmailDomains !== undefined) {
 				set.bannedEmailDomains = ps.bannedEmailDomains;
+			}
+
+			if (ps.enableEmergencyAnnouncementIntegration !== undefined) {
+				set.enableEmergencyAnnouncementIntegration = ps.enableEmergencyAnnouncementIntegration;
+			}
+
+			if (ps.emergencyAnnouncementIntegrationConfig && ps.emergencyAnnouncementIntegrationConfig.type !== undefined) {
+				set.emergencyAnnouncementIntegrationConfig = {
+					...ps.emergencyAnnouncementIntegrationConfig,
+					type: ps.emergencyAnnouncementIntegrationConfig.type,
+				};
+			} else {
+				set.emergencyAnnouncementIntegrationConfig = { type: 'none' };
 			}
 
 			const before = await this.metaService.fetch(true);

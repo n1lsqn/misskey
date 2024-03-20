@@ -427,6 +427,26 @@ export type paths = {
      */
     post: operations['admin/invite/list'];
   };
+  '/admin/root/add': {
+    /**
+     * admin/root/add
+     * @description No description provided.
+     *
+     * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
+     * **Credential required**: *Yes*
+     */
+    post: operations['admin/root/add'];
+  };
+  '/admin/root/remove': {
+    /**
+     * admin/root/remove
+     * @description No description provided.
+     *
+     * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
+     * **Credential required**: *Yes*
+     */
+    post: operations['admin/root/remove'];
+  };
   '/admin/promo/create': {
     /**
      * admin/promo/create
@@ -2601,6 +2621,15 @@ export type paths = {
      */
     post: operations['notes/mentions'];
   };
+  '/notes/any-local-timeline': {
+    /**
+     * notes/any-local-timeline
+     * @description No description provided.
+     *
+     * **Credential required**: *No*
+     */
+    post: operations['notes/any-local-timeline'];
+  };
   '/notes/polls/recommendation': {
     /**
      * notes/polls/recommendation
@@ -3904,7 +3933,7 @@ export type components = {
       /** @enum {string} */
       icon: 'info' | 'warning' | 'error' | 'success';
       /** @enum {string} */
-      display: 'dialog' | 'normal' | 'banner';
+      display: 'dialog' | 'normal' | 'banner' | 'emergency';
       needConfirmationToRead: boolean;
       silence: boolean;
       forYou: boolean;
@@ -3963,6 +3992,8 @@ export type components = {
             votes: number;
           }[];
       }) | null;
+      /** Format: date-time */
+      deleteAt?: string | null;
       emojis?: {
         [key: string]: string;
       };
@@ -4661,6 +4692,7 @@ export type components = {
       inviteExpirationTime: number;
       canManageCustomEmojis: boolean;
       canManageAvatarDecorations: boolean;
+      canUseChannel: boolean;
       canSearchNotes: boolean;
       canUseTranslator: boolean;
       canHideAds: boolean;
@@ -4676,6 +4708,7 @@ export type components = {
       userEachUserListsLimit: number;
       rateLimitFactor: number;
       avatarDecorationLimit: number;
+      remoteLocalTimelineAnyLimit: number;
     };
     ReversiGameLite: {
       /** Format: id */
@@ -4952,6 +4985,8 @@ export type operations = {
             defaultLightTheme: string | null;
             description: string | null;
             disableRegistration: boolean;
+            disableAntiSpam: boolean;
+            disableAccountDelete: boolean;
             impressumUrl: string | null;
             maintainerEmail: string | null;
             maintainerName: string | null;
@@ -4965,6 +5000,10 @@ export type operations = {
             tosUrl: string | null;
             uri: string;
             version: string;
+            enableEmergencyAnnouncementIntegration: boolean;
+            emergencyAnnouncementIntegrationConfig: {
+              type: string;
+            };
           };
         };
       };
@@ -5507,7 +5546,7 @@ export type operations = {
            * @default normal
            * @enum {string}
            */
-          display?: 'normal' | 'banner' | 'dialog';
+          display?: 'normal' | 'banner' | 'dialog' | 'emergency';
           /** @default false */
           forExistingUsers?: boolean;
           /** @default false */
@@ -5718,7 +5757,7 @@ export type operations = {
           /** @enum {string} */
           icon?: 'info' | 'warning' | 'error' | 'success';
           /** @enum {string} */
-          display?: 'normal' | 'banner' | 'dialog';
+          display?: 'normal' | 'banner' | 'dialog' | 'emergency';
           forExistingUsers?: boolean;
           silence?: boolean;
           needConfirmationToRead?: boolean;
@@ -7648,6 +7687,112 @@ export type operations = {
     };
   };
   /**
+   * admin/root/add
+   * @description No description provided.
+   *
+   * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
+   * **Credential required**: *Yes*
+   */
+  'admin/root/add': {
+    requestBody: {
+      content: {
+        'application/json': {
+          /** Format: misskey:id */
+          userId: string;
+        };
+      };
+    };
+    responses: {
+      /** @description OK (without any results) */
+      204: {
+        content: never;
+      };
+      /** @description Client error */
+      400: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Authentication error */
+      401: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Forbidden error */
+      403: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description I'm Ai */
+      418: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Internal server error */
+      500: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+    };
+  };
+  /**
+   * admin/root/remove
+   * @description No description provided.
+   *
+   * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
+   * **Credential required**: *Yes*
+   */
+  'admin/root/remove': {
+    requestBody: {
+      content: {
+        'application/json': {
+          /** Format: misskey:id */
+          userId: string;
+        };
+      };
+    };
+    responses: {
+      /** @description OK (without any results) */
+      204: {
+        content: never;
+      };
+      /** @description Client error */
+      400: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Authentication error */
+      401: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Forbidden error */
+      403: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description I'm Ai */
+      418: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Internal server error */
+      500: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+    };
+  };
+  /**
    * admin/promo/create
    * @description No description provided.
    *
@@ -8811,7 +8956,9 @@ export type operations = {
     requestBody: {
       content: {
         'application/json': {
-          disableRegistration?: boolean | null;
+          disableRegistration?: boolean;
+          disableAntiSpam?: boolean;
+          disableAccountDelete?: boolean;
           pinnedUsers?: string[] | null;
           hiddenTags?: string[] | null;
           blockedHosts?: string[] | null;
@@ -8914,6 +9061,11 @@ export type operations = {
           perUserListTimelineCacheMax?: number;
           notesPerOneAd?: number;
           silencedHosts?: string[] | null;
+          enableEmergencyAnnouncementIntegration?: boolean;
+          emergencyAnnouncementIntegrationConfig?: ({
+            /** @enum {string} */
+            type?: 'none' | 'p2pquake';
+          }) | null;
         };
       };
     };
@@ -9586,6 +9738,8 @@ export type operations = {
         'application/json': {
           /** @default 10 */
           limit?: number;
+          /** @enum {string|null} */
+          display?: 'normal' | 'banner' | 'dialog' | 'emergency';
           /** Format: misskey:id */
           sinceId?: string;
           /** Format: misskey:id */
@@ -20434,6 +20588,10 @@ export type operations = {
             expiresAt?: number | null;
             expiredAfter?: number | null;
           }) | null;
+          scheduledDelete?: ({
+            deleteAt?: number | null;
+            deleteAfter?: number | null;
+          }) | null;
         };
       };
     };
@@ -20935,6 +21093,76 @@ export type operations = {
           /** Format: misskey:id */
           untilId?: string;
           visibility?: string;
+        };
+      };
+    };
+    responses: {
+      /** @description OK (with results) */
+      200: {
+        content: {
+          'application/json': components['schemas']['Note'][];
+        };
+      };
+      /** @description Client error */
+      400: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Authentication error */
+      401: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Forbidden error */
+      403: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description I'm Ai */
+      418: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Internal server error */
+      500: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+    };
+  };
+  /**
+   * notes/any-local-timeline
+   * @description No description provided.
+   *
+   * **Credential required**: *No*
+   */
+  'notes/any-local-timeline': {
+    requestBody: {
+      content: {
+        'application/json': {
+          /** @default false */
+          withFiles?: boolean;
+          /** @default true */
+          withRenotes?: boolean;
+          /** @default false */
+          withReplies?: boolean;
+          /** @default 10 */
+          limit?: number;
+          /** Format: misskey:id */
+          sinceId?: string;
+          /** Format: misskey:id */
+          untilId?: string;
+          /** @default false */
+          allowPartial?: boolean;
+          sinceDate?: number;
+          untilDate?: number;
+          host?: string;
+          remoteToken?: string;
         };
       };
     };

@@ -100,6 +100,7 @@ import { i18n } from '@/i18n.js';
 import { definePageMetadata } from '@/scripts/page-metadata.js';
 import { unisonReload } from '@/scripts/unison-reload.js';
 import FormSection from '@/components/form/section.vue';
+import { instance } from '@/instance';
 
 const $i = signinRequired();
 
@@ -109,27 +110,22 @@ const devMode = computed(defaultStore.makeGetterSetter('devMode'));
 const defaultWithReplies = computed(defaultStore.makeGetterSetter('defaultWithReplies'));
 
 async function deleteAccount() {
-	{
-		const { canceled } = await os.confirm({
-			type: 'warning',
-			text: i18n.ts.deleteAccountConfirm,
+	console.log('deleteAccount');
+	if (instance.disableAccountDelete === false) {
+		{
+			const { canceled } = await os.confirm({
+				type: 'warning',
+				text: i18n.ts.deleteAccountConfirm,
+			});
+			if (canceled) return;
+		}
+		const auth = await os.authenticateDialog();
+		if (auth.canceled) return;
+		await os.apiWithDialog('i/delete-account', {
+			password: auth.result.password,
+			token: auth.result.token,
 		});
-		if (canceled) return;
-	}
-
-	const auth = await os.authenticateDialog();
-	if (auth.canceled) return;
-
-	await os.apiWithDialog('i/delete-account', {
-		password: auth.result.password,
-		token: auth.result.token,
-	});
-
-	await os.alert({
-		title: i18n.ts._accountDelete.started,
-	});
-
-	await signout();
+	} else console.log('Account delete is disabled');
 }
 
 async function reloadAsk() {
