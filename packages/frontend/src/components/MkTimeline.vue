@@ -113,7 +113,7 @@ function connectChannel() {
 			withFiles: props.onlyFiles ? true : undefined,
 		});
 	} else if (props.src.startsWith('custom-timeline')) {
-		connection = stream.useChannel('remoteLocalTimeline', {
+		connection = stream.useChannel('customTimeline', {
 			withRenotes: props.withRenotes,
 			withFiles: props.onlyFiles ? true : undefined,
 		});
