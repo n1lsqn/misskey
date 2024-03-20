@@ -191,6 +191,18 @@ export const packedRolePoliciesSchema = {
 			type: 'boolean',
 			optional: false, nullable: false,
 		},
+		canUseChannel: {
+			type: 'boolean',
+			optional: false, nullable: false,
+		},
+		canUseHighlight: {
+			type: 'boolean',
+			optional: false, nullable: false,
+		},
+		canUseRemoteIconDecorations: {
+			type: 'boolean',
+			optional: false, nullable: false,
+		},
 		canSearchNotes: {
 			type: 'boolean',
 			optional: false, nullable: false,
@@ -248,6 +260,10 @@ export const packedRolePoliciesSchema = {
 			optional: false, nullable: false,
 		},
 		avatarDecorationLimit: {
+			type: 'integer',
+			optional: false, nullable: false,
+		},
+		remoteLocalTimelineAnyLimit: {
 			type: 'integer',
 			optional: false, nullable: false,
 		},

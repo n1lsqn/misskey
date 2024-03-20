@@ -17,8 +17,8 @@ SPDX-License-Identifier: AGPL-3.0-only
 >
 	<button v-if="hide" :class="$style.hidden" @click="hide = false">
 		<div :class="$style.hiddenTextWrapper">
-			<b v-if="video.isSensitive" style="display: block;"><i class="ti ti-eye-exclamation"></i> {{ i18n.ts.sensitive }}{{ defaultStore.state.dataSaver.media ? ` (${i18n.ts.video}${video.size ? ' ' + bytes(video.size) : ''})` : '' }}</b>
-			<b v-else style="display: block;"><i class="ti ti-photo"></i> {{ defaultStore.state.dataSaver.media && video.size ? bytes(video.size) : i18n.ts.video }}</b>
+			<b v-if="video.isSensitive" style="display: block;"><i class="ti ti-eye-exclamation"></i> {{ i18n.ts.sensitive }}{{ getDataSaverState('media') ? ` (${i18n.ts.video}${video.size ? ' ' + bytes(video.size) : ''})` : '' }}</b>
+			<b v-else style="display: block;"><i class="ti ti-photo"></i> {{ getDataSaverState('media') && video.size ? bytes(video.size) : i18n.ts.video }}</b>
 			<span style="display: block;">{{ i18n.ts.clickToShow }}</span>
 		</div>
 	</button>
@@ -95,13 +95,14 @@ import { isFullscreenNotSupported } from '@/scripts/device-kind.js';
 import hasAudio from '@/scripts/media-has-audio.js';
 import MkMediaRange from '@/components/MkMediaRange.vue';
 import { $i, iAmModerator } from '@/account.js';
+import { getDataSaverState } from '@/scripts/datasaver';
 
 const props = defineProps<{
 	video: Misskey.entities.DriveFile;
 }>();
 
 // eslint-disable-next-line vue/no-setup-props-destructure
-const hide = ref((defaultStore.state.nsfw === 'force' || defaultStore.state.dataSaver.media) ? true : (props.video.isSensitive && defaultStore.state.nsfw !== 'ignore'));
+const hide = ref((defaultStore.state.nsfw === 'force' || getDataSaverState('media')) ? true : (props.video.isSensitive && defaultStore.state.nsfw !== 'ignore'));
 
 // Menu
 const menuShowing = ref(false);

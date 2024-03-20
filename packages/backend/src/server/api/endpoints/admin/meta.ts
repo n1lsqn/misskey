@@ -399,6 +399,20 @@ export const meta = {
 				type: 'boolean',
 				optional: false, nullable: false,
 			},
+			disableAntiSpam: {
+				type: 'boolean',
+				optional: false, nullable: false,
+			},
+			/*
+			disableVillageMode: {
+				type: 'boolean',
+				optional: false, nullable: false,
+			},
+			*/
+			disableAccountDelete: {
+				type: 'boolean',
+				optional: false, nullable: false,
+			},
 			impressumUrl: {
 				type: 'string',
 				optional: false, nullable: true,
@@ -451,6 +465,20 @@ export const meta = {
 				type: 'string',
 				optional: false, nullable: false,
 			},
+			enableEmergencyAnnouncementIntegration: {
+				type: 'boolean',
+				optional: false, nullable: false,
+			},
+			emergencyAnnouncementIntegrationConfig: {
+				type: 'object',
+				optional: false, nullable: false,
+				properties: {
+					type: {
+						type: 'string',
+						optional: false, nullable: false,
+					},
+				},
+			},
 		},
 	},
 } as const;
@@ -488,6 +516,9 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				impressumUrl: instance.impressumUrl,
 				privacyPolicyUrl: instance.privacyPolicyUrl,
 				disableRegistration: instance.disableRegistration,
+				disableAntiSpam: instance.disableAntiSpam,
+				// disableVillageMode: instance.disableVillageMode,
+				disableAccountDelete: instance.disableAccountDelete,
 				emailRequiredForSignup: instance.emailRequiredForSignup,
 				enableHcaptcha: instance.enableHcaptcha,
 				hcaptchaSiteKey: instance.hcaptchaSiteKey,
@@ -577,6 +608,8 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				perUserHomeTimelineCacheMax: instance.perUserHomeTimelineCacheMax,
 				perUserListTimelineCacheMax: instance.perUserListTimelineCacheMax,
 				notesPerOneAd: instance.notesPerOneAd,
+				enableEmergencyAnnouncementIntegration: instance.enableEmergencyAnnouncementIntegration,
+				emergencyAnnouncementIntegrationConfig: instance.emergencyAnnouncementIntegrationConfig,
 			};
 		});
 	}

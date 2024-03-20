@@ -55,7 +55,7 @@ export default defineComponent({
 		if (props.items.length === 0) return;
 
 		const renderChildrenImpl = () => props.items.map((item, i) => {
-			if (!slots || !slots.default) return;
+			if (!slots || !slots.default) return [];
 
 			const el = slots.default({
 				item: item,
@@ -90,7 +90,11 @@ export default defineComponent({
 					]),
 				]));
 
-				return [el, separator];
+				if (el) {
+					return [el, separator];
+				} else {
+					return separator;
+				}
 			} else {
 				if (props.ad && item._shouldInsertAd_) {
 					return [h(MkAd, {

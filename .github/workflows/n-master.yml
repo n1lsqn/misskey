@@ -4,11 +4,9 @@ on:
   push:
     branches:
       - n-master
-      - develop
   pull_request:
     branches:
       - n-master
-      - develop
 
 jobs:
 

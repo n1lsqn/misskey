@@ -8,15 +8,17 @@ SPDX-License-Identifier: AGPL-3.0-only
 	<template #header><XHeader v-model:tab="tab" :actions="headerActions" :tabs="headerTabs"/></template>
 	<MkSpacer :contentMax="700" :marginMin="16" :marginMax="32">
 		<FormSuspense :p="init">
-			<MkTextarea v-if="tab === 'block'" v-model="blockedHosts">
-				<span>{{ i18n.ts.blockedInstances }}</span>
-				<template #caption>{{ i18n.ts.blockedInstancesDescription }}</template>
-			</MkTextarea>
-			<MkTextarea v-else-if="tab === 'silence'" v-model="silencedHosts" class="_formBlock">
-				<span>{{ i18n.ts.silencedInstances }}</span>
-				<template #caption>{{ i18n.ts.silencedInstancesDescription }}</template>
-			</MkTextarea>
-			<MkButton primary @click="save"><i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}</MkButton>
+			<div class="_gaps_s">
+				<MkTextarea v-if="tab === 'block'" v-model="blockedHosts">
+					<span>{{ i18n.ts.blockedInstances }}</span>
+					<template #caption>{{ i18n.ts.blockedInstancesDescription }}</template>
+				</MkTextarea>
+				<MkTextarea v-else-if="tab === 'silence'" v-model="silencedHosts" class="_formBlock">
+					<span>{{ i18n.ts.silencedInstances }}</span>
+					<template #caption>{{ i18n.ts.silencedInstancesDescription }}</template>
+				</MkTextarea>
+				<MkButton primary @click="save"><i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}</MkButton>
+			</div>
 		</FormSuspense>
 	</MkSpacer>
 </MkStickyContainer>

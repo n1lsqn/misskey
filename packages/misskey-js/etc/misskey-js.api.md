@@ -281,6 +281,12 @@ type AdminRolesUsersRequest = operations['admin/roles/users']['requestBody']['co
 type AdminRolesUsersResponse = operations['admin/roles/users']['responses']['200']['content']['application/json'];
 
 // @public (undocumented)
+type AdminRootAddRequest = operations['admin/root/add']['requestBody']['content']['application/json'];
+
+// @public (undocumented)
+type AdminRootRemoveRequest = operations['admin/root/remove']['requestBody']['content']['application/json'];
+
+// @public (undocumented)
 type AdminSendEmailRequest = operations['admin/send-email']['requestBody']['content']['application/json'];
 
 // @public (undocumented)
@@ -1185,6 +1191,8 @@ declare namespace entities {
         AdminInviteCreateResponse,
         AdminInviteListRequest,
         AdminInviteListResponse,
+        AdminRootAddRequest,
+        AdminRootRemoveRequest,
         AdminPromoCreateRequest,
         AdminQueueDeliverDelayedResponse,
         AdminQueueInboxDelayedResponse,
@@ -1524,6 +1532,8 @@ declare namespace entities {
         NotesLocalTimelineResponse,
         NotesMentionsRequest,
         NotesMentionsResponse,
+        NotesAnyLocalTimelineRequest,
+        NotesAnyLocalTimelineResponse,
         NotesPollsRecommendationRequest,
         NotesPollsRecommendationResponse,
         NotesPollsVoteRequest,
@@ -2410,6 +2420,12 @@ type NoteFavorite = components['schemas']['NoteFavorite'];
 
 // @public (undocumented)
 type NoteReaction = components['schemas']['NoteReaction'];
+
+// @public (undocumented)
+type NotesAnyLocalTimelineRequest = operations['notes/any-local-timeline']['requestBody']['content']['application/json'];
+
+// @public (undocumented)
+type NotesAnyLocalTimelineResponse = operations['notes/any-local-timeline']['responses']['200']['content']['application/json'];
 
 // @public (undocumented)
 type NotesChildrenRequest = operations['notes/children']['requestBody']['content']['application/json'];

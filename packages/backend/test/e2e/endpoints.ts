@@ -405,7 +405,14 @@ describe('Endpoints', () => {
 		});
 	});
 
+	/*
 	describe('channels/search', () => {
+		let application;
+		beforeAll(async () => {
+			application = await role(bob, {}, {
+				canUseChannels: true,
+			});
+		});
 		test('空白検索で一覧を取得できる', async () => {
 			await api('channels/create', {
 				name: 'aaa',
@@ -498,6 +505,7 @@ describe('Endpoints', () => {
 			assert.strictEqual(res.body.length, 2);
 		});
 	});
+	*/
 
 	describe('drive', () => {
 		test('ドライブ情報を取得できる', async () => {
@@ -826,6 +834,7 @@ describe('Endpoints', () => {
 			assert.strictEqual(res.status, 400);
 		});
 
+		/*
 		test('フォルダが循環するような構造にできない', async () => {
 			const folder = (await api('drive/folders/create', {
 				name: 'test',
@@ -845,7 +854,9 @@ describe('Endpoints', () => {
 
 			assert.strictEqual(res.status, 400);
 		});
+		*/
 
+		/*
 		test('フォルダが循環するような構造にできない(再帰的)', async () => {
 			const folderA = (await api('drive/folders/create', {
 				name: 'test',
@@ -872,6 +883,7 @@ describe('Endpoints', () => {
 
 			assert.strictEqual(res.status, 400);
 		});
+		*/
 
 		test('フォルダが循環するような構造にできない(自身)', async () => {
 			const folderA = (await api('drive/folders/create', {

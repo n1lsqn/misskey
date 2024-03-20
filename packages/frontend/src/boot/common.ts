@@ -23,6 +23,8 @@ import { deckStore } from '@/ui/deck/deck-store.js';
 import { miLocalStorage } from '@/local-storage.js';
 import { fetchCustomEmojis } from '@/custom-emojis.js';
 import { setupRouter } from '@/router/definition.js';
+import { initializeDetectNetworkChange, isMobileData } from '@/scripts/datasaver.js';
+import { initializeTimeBasedDarkmode, isTimeDarkmode } from '@/scripts/is-time-darkmode.js';
 
 export async function common(createVue: () => App<Element>) {
 	console.info(`Misskey v${version}`);
@@ -166,8 +168,13 @@ export async function common(createVue: () => App<Element>) {
 	});
 
 	//#region Sync dark mode
-	if (ColdDeviceStorage.get('syncDeviceDarkMode')) {
+	if (ColdDeviceStorage.get('syncDeviceDarkMode') && !ColdDeviceStorage.get('syncTimeDarkMode')) {
 		defaultStore.set('darkMode', isDeviceDarkmode());
+	}
+
+	if (ColdDeviceStorage.get('syncTimeDarkMode')) {
+		defaultStore.set('darkMode', isTimeDarkmode());
+		initializeTimeBasedDarkmode();
 	}
 
 	window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (mql) => {
@@ -175,6 +182,13 @@ export async function common(createVue: () => App<Element>) {
 			defaultStore.set('darkMode', mql.matches);
 		}
 	});
+	//#endregion
+
+	//#region Auto data saver
+	if (defaultStore.state.autoDataSaver) {
+		defaultStore.set('enableDataSaverMode', isMobileData());
+		initializeDetectNetworkChange();
+	}
 	//#endregion
 
 	fetchInstanceMetaPromise.then(() => {

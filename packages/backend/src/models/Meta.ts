@@ -51,6 +51,23 @@ export class MiMeta {
 	})
 	public disableRegistration: boolean;
 
+	@Column('boolean', {
+		default: true,
+	})
+	public disableAntiSpam: boolean;
+
+	/*
+	@Column('boolean', {
+		default: false,
+	})
+	public disableVillageMode: boolean;
+	*/
+
+	@Column('boolean', {
+		default: false,
+	})
+	public disableAccountDelete: boolean;
+
 	@Column('varchar', {
 		length: 1024, array: true, default: '{}',
 	})
@@ -588,4 +605,22 @@ export class MiMeta {
 		default: 0,
 	})
 	public notesPerOneAd: number;
+
+	@Column('boolean', {
+		default: false,
+	})
+	public enableEmergencyAnnouncementIntegration: boolean;
+
+	// p2pquake以外のプロバイダーを追加する場合は、この型を拡張する
+	// 必要に応じて型内にフィールドを追加する
+	@Column('jsonb', {
+		default: {
+			type: 'none',
+		},
+	})
+	public emergencyAnnouncementIntegrationConfig: {
+		type: 'none',
+	} | {
+		type: 'p2pquake',
+	};
 }
