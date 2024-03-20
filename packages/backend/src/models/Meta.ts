@@ -56,6 +56,11 @@ export class MiMeta {
 	})
 	public disableAntiSpam: boolean;
 
+	@Column('boolean', {
+		default: false,
+	})
+	public disableAccountDelete: boolean;
+
 	@Column('varchar', {
 		length: 1024, array: true, default: '{}',
 	})

@@ -401,7 +401,11 @@ export const meta = {
 			},
 			disableAntiSpam: {
 				type: 'boolean',
-				optional: false, nullable: true,
+				optional: false, nullable: false,
+			},
+			disableAccountDelete: {
+				type: 'boolean',
+				optional: false, nullable: false,
 			},
 			impressumUrl: {
 				type: 'string',
@@ -507,6 +511,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				privacyPolicyUrl: instance.privacyPolicyUrl,
 				disableRegistration: instance.disableRegistration,
 				disableAntiSpam: instance.disableAntiSpam,
+				disableAccountDelete: instance.disableAccountDelete,
 				emailRequiredForSignup: instance.emailRequiredForSignup,
 				enableHcaptcha: instance.enableHcaptcha,
 				hcaptchaSiteKey: instance.hcaptchaSiteKey,
