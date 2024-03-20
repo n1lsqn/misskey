@@ -4985,7 +4985,8 @@ export type operations = {
             defaultLightTheme: string | null;
             description: string | null;
             disableRegistration: boolean;
-            disableAntiSpam: boolean | null;
+            disableAntiSpam: boolean;
+            disableAccountDelete: boolean;
             impressumUrl: string | null;
             maintainerEmail: string | null;
             maintainerName: string | null;
@@ -8957,6 +8958,7 @@ export type operations = {
         'application/json': {
           disableRegistration?: boolean;
           disableAntiSpam?: boolean;
+          disableAccountDelete?: boolean;
           pinnedUsers?: string[] | null;
           hiddenTags?: string[] | null;
           blockedHosts?: string[] | null;
