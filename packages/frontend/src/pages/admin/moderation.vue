@@ -31,11 +31,6 @@ SPDX-License-Identifier: AGPL-3.0-only
 						<template #caption>{{ i18n.ts.enableAccountDeleteDescription }}</template>
 					</MkSwitch>
 
-					<MkSwitch v-model="enableAccountDelete">
-						<template #label>{{ i18n.ts.enableAccountDelete }}</template>
-						<template #caption>{{ i18n.ts.enableAccountDeleteDescription }}</template>
-					</MkSwitch>
-
 					<MkSwitch v-model="emailRequiredForSignup">
 						<template #label>{{ i18n.ts.emailRequiredForSignup }}</template>
 					</MkSwitch>

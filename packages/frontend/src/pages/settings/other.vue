@@ -34,7 +34,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 				</div>
 			</MkFolder>
 
-			<MkFolder>
+			<MkFolder v-if="instance.disableAccountDelete">
 				<template #icon><i class="ti ti-alert-triangle"></i></template>
 				<template #label>{{ i18n.ts.closeAccount }}</template>
 
@@ -101,6 +101,7 @@ import { definePageMetadata } from '@/scripts/page-metadata.js';
 import { unisonReload } from '@/scripts/unison-reload.js';
 import FormSection from '@/components/form/section.vue';
 import { instance } from '@/instance';
+import MkInstanceStats from '@/components/MkInstanceStats.vue';
 
 const $i = signinRequired();
 
@@ -110,7 +111,7 @@ const devMode = computed(defaultStore.makeGetterSetter('devMode'));
 const defaultWithReplies = computed(defaultStore.makeGetterSetter('defaultWithReplies'));
 
 async function deleteAccount() {
-	if (!instance.disableAccountDelete) {
+	if (instance.disableAccountDelete) {
 		{
 			const { canceled } = await os.confirm({
 				type: 'warning',
@@ -133,6 +134,7 @@ async function deleteAccount() {
 
 		await signout();
 	} else console.log('deleteAccount');
+	console.log('deleteAccount');
 }
 
 async function reloadAsk() {
