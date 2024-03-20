@@ -598,7 +598,7 @@ export type Channels = {
         };
         receives: null;
     };
-    remoteLocalTimeline: {
+    customTimeline: {
         params: {
             withRenotes?: boolean;
             withFiles?: boolean;
