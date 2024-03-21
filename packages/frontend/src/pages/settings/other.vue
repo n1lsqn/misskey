@@ -6,14 +6,14 @@ SPDX-License-Identifier: AGPL-3.0-only
 <template>
 <div class="_gaps_m">
 	<!--
-	<MkSwitch v-model="$i.injectFeaturedNote" @update:model-value="onChangeInjectFeaturedNote">
-		<template #label>{{ i18n.ts.showFeaturedNotesInTimeline }}</template>
-	</MkSwitch>
-	-->
+		<MkSwitch v-model="$i.injectFeaturedNote" @update:model-value="onChangeInjectFeaturedNote">
+			<template #label>{{ i18n.ts.showFeaturedNotesInTimeline }}</template>
+		</MkSwitch>
+		-->
 
 	<!--
-	<MkSwitch v-model="reportError">{{ i18n.ts.sendErrorReports }}<template #caption>{{ i18n.ts.sendErrorReportsDescription }}</template></MkSwitch>
-	-->
+		<MkSwitch v-model="reportError">{{ i18n.ts.sendErrorReports }}<template #caption>{{ i18n.ts.sendErrorReportsDescription }}</template></MkSwitch>
+		-->
 
 	<FormSection first>
 		<div class="_gaps_s">
@@ -34,7 +34,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 				</div>
 			</MkFolder>
 
-			<MkFolder>
+			<MkFolder v-if="instance.disableAccountDelete">
 				<template #icon><i class="ti ti-alert-triangle"></i></template>
 				<template #label>{{ i18n.ts.closeAccount }}</template>
 
@@ -110,7 +110,7 @@ const devMode = computed(defaultStore.makeGetterSetter('devMode'));
 const defaultWithReplies = computed(defaultStore.makeGetterSetter('defaultWithReplies'));
 
 async function deleteAccount() {
-	if (!instance.disableAccountDelete) {
+	if (instance.disableAccountDelete) {
 		{
 			const { canceled } = await os.confirm({
 				type: 'warning',
@@ -118,8 +118,10 @@ async function deleteAccount() {
 			});
 			if (canceled) return;
 		}
+
 		const auth = await os.authenticateDialog();
 		if (auth.canceled) return;
+
 		await os.apiWithDialog('i/delete-account', {
 			password: auth.result.password,
 			token: auth.result.token,
