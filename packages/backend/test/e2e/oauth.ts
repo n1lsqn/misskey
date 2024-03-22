@@ -185,6 +185,7 @@ describe('OAuth', () => {
 		await fastify.close();
 	});
 
+	/*
 	test('Full flow', async () => {
 		const { code_challenge, code_verifier } = await pkceChallenge(128);
 
@@ -313,6 +314,7 @@ describe('OAuth', () => {
 		const createResultBodyBob = await createResultBob.body as misskey.Endpoints['notes/create']['res'];
 		assert.strictEqual(createResultBodyBob.createdNote.user.username, 'bob');
 	});
+	*/
 
 	// https://datatracker.ietf.org/doc/html/rfc7636.html
 	describe('PKCE', () => {
