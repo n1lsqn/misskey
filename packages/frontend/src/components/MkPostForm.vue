@@ -187,9 +187,10 @@ const text = ref(props.initialText ?? '');
 const files = ref(props.initialFiles ?? []);
 const poll = ref<PollEditorModelValue | null>(null);
 const scheduledNoteDelete = ref<DeleteScheduleEditorModelValue | null>(null);
-const schedule = ref<{
+type ScheduleModelValue = {
 	scheduledAt: string | null;
-} | null>(null);
+};
+const schedule = ref<ScheduleModelValue | null>(null);
 const useCw = ref<boolean>(!!props.initialCw);
 const showPreview = ref(defaultStore.state.showPreview);
 watch(showPreview, () => defaultStore.set('showPreview', showPreview.value));
@@ -422,7 +423,7 @@ function toggleScheduledNoteDelete() {
 		scheduledNoteDelete.value = {
 			deleteAt: null,
 			deleteAfter: null,
-		}
+		};
 	}
 }
 

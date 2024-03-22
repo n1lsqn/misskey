@@ -118,36 +118,6 @@ class NotificationManager {
 	}
 }
 
-type MinimumUser = {
-	id: MiUser['id'];
-	host: MiUser['host'];
-	username: MiUser['username'];
-	uri: MiUser['uri'];
-};
-
-type Option = {
-	createdAt?: Date | null;
-	name?: string | null;
-	text?: string | null;
-	reply?: MiNote | null;
-	renote?: MiNote | null;
-	files?: MiDriveFile[] | null;
-	poll?: IPoll | null;
-	localOnly?: boolean | null;
-	reactionAcceptance?: MiNote['reactionAcceptance'];
-	cw?: string | null;
-	visibility?: string;
-	visibleUsers?: MinimumUser[] | null;
-	channel?: MiChannel | null;
-	apMentions?: MinimumUser[] | null;
-	apHashtags?: string[] | null;
-	apEmojis?: string[] | null;
-	uri?: string | null;
-	url?: string | null;
-	app?: MiApp | null;
-	deleteAt?: Date | null;
-};
-
 @Injectable()
 export class NoteCreateService implements OnApplicationShutdown {
 	#shutdownController = new AbortController();

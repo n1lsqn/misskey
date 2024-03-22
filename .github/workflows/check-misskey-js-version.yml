@@ -2,15 +2,9 @@ name: Check Misskey JS version
 
 on:
   push:
-    branches: [ develop ]
-    paths:
-      - packages/misskey-js/package.json
-      - package.json
+    branches: [ master ]
   pull_request:
-    branches: [ develop ]
-    paths:
-      - packages/misskey-js/package.json
-      - package.json
+    branches: [ master ]
 
 jobs:
   check-version:

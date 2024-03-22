@@ -6555,15 +6555,13 @@ export interface Locale extends ILocale {
              */
             "canPublicNote": string;
             /**
-<<<<<<< HEAD
              * ノート内の最大メンション数
              */
             "mentionMax": string;
-=======
+            /**
              * 予約投稿の許可
              */
             "canScheduleNote": string;
->>>>>>> mattyatea/schedule-note
             /**
              * サーバー招待コードの発行
              */

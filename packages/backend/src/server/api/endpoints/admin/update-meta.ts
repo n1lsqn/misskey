@@ -24,7 +24,7 @@ export const paramDef = {
 		disableRegistration: { type: 'boolean', nullable: false },
 		disableAntiSpam: { type: 'boolean', nullable: false },
 		// disableVillageMode: { type: 'boolean', nullable: false },
-		disableAccountDelete: { type: 'boolean', nullable: true },
+		disableAccountDelete: { type: 'boolean', nullable: false },
 
 		pinnedUsers: {
 			type: 'array', nullable: true, items: {

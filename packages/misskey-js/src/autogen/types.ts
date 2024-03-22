@@ -4706,11 +4706,8 @@ export type components = {
       gtlAvailable: boolean;
       ltlAvailable: boolean;
       canPublicNote: boolean;
-<<<<<<< HEAD
       mentionLimit: number;
-=======
       canScheduleNote: boolean;
->>>>>>> mattyatea/schedule-note
       canInvite: boolean;
       inviteLimit: number;
       inviteLimitCycle: number;
@@ -8998,7 +8995,7 @@ export type operations = {
         'application/json': {
           disableRegistration?: boolean;
           disableAntiSpam?: boolean;
-          disableAccountDelete?: boolean | null;
+          disableAccountDelete?: boolean;
           pinnedUsers?: string[] | null;
           hiddenTags?: string[] | null;
           blockedHosts?: string[] | null;
@@ -17902,13 +17899,8 @@ export type operations = {
           untilId?: string;
           /** @default true */
           markAsRead?: boolean;
-<<<<<<< HEAD
-          includeTypes?: ('note' | 'follow' | 'mention' | 'reply' | 'renote' | 'quote' | 'reaction' | 'pollEnded' | 'receiveFollowRequest' | 'followRequestAccepted' | 'roleAssigned' | 'achievementEarned' | 'app' | 'test' | 'reaction:grouped' | 'renote:grouped' | 'pollVote' | 'groupInvited')[];
-          excludeTypes?: ('note' | 'follow' | 'mention' | 'reply' | 'renote' | 'quote' | 'reaction' | 'pollEnded' | 'receiveFollowRequest' | 'followRequestAccepted' | 'roleAssigned' | 'achievementEarned' | 'app' | 'test' | 'reaction:grouped' | 'renote:grouped' | 'pollVote' | 'groupInvited')[];
-=======
-          includeTypes?: ('note' | 'follow' | 'mention' | 'reply' | 'renote' | 'quote' | 'reaction' | 'pollEnded' | 'receiveFollowRequest' | 'followRequestAccepted' | 'roleAssigned' | 'achievementEarned' | 'noteSchedulingFailed' | 'app' | 'test' | 'pollVote' | 'groupInvited')[];
-          excludeTypes?: ('note' | 'follow' | 'mention' | 'reply' | 'renote' | 'quote' | 'reaction' | 'pollEnded' | 'receiveFollowRequest' | 'followRequestAccepted' | 'roleAssigned' | 'achievementEarned' | 'noteSchedulingFailed' | 'app' | 'test' | 'pollVote' | 'groupInvited')[];
->>>>>>> mattyatea/schedule-note
+          includeTypes?: ('note' | 'follow' | 'mention' | 'reply' | 'renote' | 'quote' | 'reaction' | 'pollEnded' | 'receiveFollowRequest' | 'followRequestAccepted' | 'roleAssigned' | 'achievementEarned' | 'noteSchedulingFailed' | 'app' | 'test' | 'reaction:grouped' | 'renote:grouped' | 'pollVote' | 'groupInvited')[];
+          excludeTypes?: ('note' | 'follow' | 'mention' | 'reply' | 'renote' | 'quote' | 'reaction' | 'pollEnded' | 'receiveFollowRequest' | 'followRequestAccepted' | 'roleAssigned' | 'achievementEarned' | 'noteSchedulingFailed' | 'app' | 'test' | 'reaction:grouped' | 'renote:grouped' | 'pollVote' | 'groupInvited')[];
         };
       };
     };
@@ -20642,16 +20634,13 @@ export type operations = {
             expiresAt?: number | null;
             expiredAfter?: number | null;
           }) | null;
-<<<<<<< HEAD
           scheduledDelete?: ({
             deleteAt?: number | null;
             deleteAfter?: number | null;
           }) | null;
-=======
           schedule?: {
             scheduledAt?: string;
           } | null;
->>>>>>> mattyatea/schedule-note
         };
       };
     };

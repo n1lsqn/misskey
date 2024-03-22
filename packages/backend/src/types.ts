@@ -302,6 +302,7 @@ export type MiMinimumUser = {
 
 export type MiNoteCreateOption = {
 	createdAt?: Date | null;
+	deleteAt?: Date | null;
 	name?: string | null;
 	text?: string | null;
 	reply?: MiNote | null;
