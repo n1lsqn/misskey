@@ -32,6 +32,7 @@ import type {
 	InboxQueue,
 	ObjectStorageQueue,
 	ScheduleNotePostQueue,
+	ScheduledNoteDeleteQueue,
 	SystemQueue,
 	WebhookDeliverQueue,
 } from '@/core/QueueModule.js';
