@@ -284,4 +284,12 @@ export const navbarItemDef = reactive({
 		show: computed(() => $i != null && ($i.isAdmin || $i.policies.canManageCustomEmojis)),
 		to: '/custom-emojis-manager',
 	},
+	scheduledNotes: {
+		title: i18n.ts._schedulePost.list,
+		icon: 'ti ti-calendar-event',
+		show: computed(() => $i && $i.policies?.canScheduleNote),
+		action: (ev) => {
+			os.listSchedulePost();
+		},
+	},
 });
