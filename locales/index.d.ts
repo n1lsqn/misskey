@@ -1657,6 +1657,10 @@ export interface Locale extends ILocale {
      */
     "antennaExcludeKeywords": string;
     /**
+     * Botアカウントを除外
+     */
+    "antennaExcludeBots": string;
+    /**
      * スペースで区切るとAND指定になり、改行で区切るとOR指定になります
      */
     "antennaKeywordsDescription": string;
@@ -4996,6 +5000,18 @@ export interface Locale extends ILocale {
      * このノートは{time}に消滅します
      */
     "noteDeletationAt": ParameterizedString<"time">;
+		/**
+     * 使用しない場合は空欄にしてください
+     */
+    "notUsePleaseLeaveBlank": string;
+    /**
+     * ワンタイムパスワードを使う
+     */
+    "useTotp": string;
+    /**
+     * バックアップコードを使う
+     */
+    "useBackupCode": string;
     "_bubbleGame": {
         /**
          * 遊び方
