@@ -627,7 +627,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 			} else {
 				set.emergencyAnnouncementIntegrationConfig = { type: 'none' };
 			}
-			
+
 			if (ps.urlPreviewEnabled !== undefined) {
 				set.urlPreviewEnabled = ps.urlPreviewEnabled;
 			}
