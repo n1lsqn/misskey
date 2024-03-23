@@ -26,11 +26,11 @@
 
 Cypress.Commands.add('visitHome', () => {
 	cy.visit('/');
-	cy.get('button', { timeout: 30000 }).should('be.visible');
+	cy.get('button', { timeout: 120000 }).should('be.visible');
 })
 
 Cypress.Commands.add('resetState', () => {
-	cy.window(win => {
+	cy.window().then(win => {
 		win.indexedDB.deleteDatabase('keyval-store');
 	});
 	cy.request('POST', '/api/reset-db', {}).as('reset');

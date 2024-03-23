@@ -1519,6 +1519,9 @@ declare namespace entities {
         NotesConversationResponse,
         NotesCreateRequest,
         NotesCreateResponse,
+        NotesScheduleDeleteRequest,
+        NotesScheduleListRequest,
+        NotesScheduleListResponse,
         NotesDeleteRequest,
         NotesFavoritesCreateRequest,
         NotesFavoritesDeleteRequest,
@@ -2530,6 +2533,15 @@ type NotesRequest = operations['notes']['requestBody']['content']['application/j
 type NotesResponse = operations['notes']['responses']['200']['content']['application/json'];
 
 // @public (undocumented)
+type NotesScheduleDeleteRequest = operations['notes/schedule/delete']['requestBody']['content']['application/json'];
+
+// @public (undocumented)
+type NotesScheduleListRequest = operations['notes/schedule/list']['requestBody']['content']['application/json'];
+
+// @public (undocumented)
+type NotesScheduleListResponse = operations['notes/schedule/list']['responses']['200']['content']['application/json'];
+
+// @public (undocumented)
 type NotesSearchByTagRequest = operations['notes/search-by-tag']['requestBody']['content']['application/json'];
 
 // @public (undocumented)
@@ -2590,7 +2602,7 @@ type Notification_2 = components['schemas']['Notification'];
 type NotificationsCreateRequest = operations['notifications/create']['requestBody']['content']['application/json'];
 
 // @public (undocumented)
-export const notificationTypes: readonly ["note", "follow", "mention", "reply", "renote", "quote", "reaction", "pollVote", "pollEnded", "receiveFollowRequest", "followRequestAccepted", "groupInvited", "app", "roleAssigned", "achievementEarned"];
+export const notificationTypes: readonly ["note", "follow", "mention", "reply", "renote", "quote", "reaction", "pollVote", "pollEnded", "receiveFollowRequest", "followRequestAccepted", "groupInvited", "app", "roleAssigned", "achievementEarned", "noteSchedulingFailed"];
 
 // @public (undocumented)
 type Page = components['schemas']['Page'];

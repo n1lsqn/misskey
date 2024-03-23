@@ -3,8 +3,7 @@ name: Publish Docker image (develop)
 on:
   push:
     branches:
-      - develop
-  workflow_dispatch:
+      - master
 
 env:
   REGISTRY_IMAGE: misskey/misskey
