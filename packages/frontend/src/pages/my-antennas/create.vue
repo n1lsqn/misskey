@@ -26,7 +26,6 @@ const draft = ref({
 	users: [],
 	keywords: [],
 	excludeKeywords: [],
-	excludeBots: false,
 	withReplies: false,
 	caseSensitive: false,
 	localOnly: false,

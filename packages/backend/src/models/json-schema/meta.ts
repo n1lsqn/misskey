@@ -207,10 +207,6 @@ export const packedMetaLiteSchema = {
 			type: 'string',
 			optional: false, nullable: false,
 		},
-		enableUrlPreview: {
-			type: 'boolean',
-			optional: false, nullable: false,
-		},
 		backgroundImageUrl: {
 			type: 'string',
 			optional: false, nullable: true,
