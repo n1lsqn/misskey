@@ -11,6 +11,7 @@ import type Logger from '@/logger.js';
 import { bindThis } from '@/decorators.js';
 import { WebhookDeliverProcessorService } from './processors/WebhookDeliverProcessorService.js';
 import { EndedPollNotificationProcessorService } from './processors/EndedPollNotificationProcessorService.js';
+import { ScheduleNotePostProcessorService } from './processors/ScheduleNotePostProcessorService.js';
 import { DeliverProcessorService } from './processors/DeliverProcessorService.js';
 import { InboxProcessorService } from './processors/InboxProcessorService.js';
 import { DeleteDriveFilesProcessorService } from './processors/DeleteDriveFilesProcessorService.js';
@@ -81,6 +82,7 @@ export class QueueProcessorService implements OnApplicationShutdown {
 	private objectStorageQueueWorker: Bull.Worker;
 	private endedPollNotificationQueueWorker: Bull.Worker;
 	private scheduledNoteDeleteQueueWorker: Bull.Worker;
+	private schedulerNotePostQueueWorker: Bull.Worker;
 
 	constructor(
 		@Inject(DI.config)
@@ -90,6 +92,7 @@ export class QueueProcessorService implements OnApplicationShutdown {
 		private webhookDeliverProcessorService: WebhookDeliverProcessorService,
 		private endedPollNotificationProcessorService: EndedPollNotificationProcessorService,
 		private scheduledNoteDeleteProcessorService: ScheduledNoteDeleteProcessorService,
+		private scheduleNotePostProcessorService: ScheduleNotePostProcessorService,
 		private deliverProcessorService: DeliverProcessorService,
 		private inboxProcessorService: InboxProcessorService,
 		private deleteDriveFilesProcessorService: DeleteDriveFilesProcessorService,
@@ -326,6 +329,13 @@ export class QueueProcessorService implements OnApplicationShutdown {
 			.on('stalled', (jobId) => objectStorageLogger.warn(`stalled id=${jobId}`));
 		//#endregion
 
+		//#region schedule note post
+		this.schedulerNotePostQueueWorker = new Bull.Worker(QUEUE.SCHEDULE_NOTE_POST, (job) => this.scheduleNotePostProcessorService.process(job), {
+			...baseQueueOptions(this.config, QUEUE.SCHEDULE_NOTE_POST),
+			autorun: false,
+		});
+		//#endregion
+
 		//#region ended poll notification
 		this.endedPollNotificationQueueWorker = new Bull.Worker(QUEUE.ENDED_POLL_NOTIFICATION, (job) => this.endedPollNotificationProcessorService.process(job), {
 			...baseQueueOptions(this.config, QUEUE.ENDED_POLL_NOTIFICATION),
@@ -352,6 +362,7 @@ export class QueueProcessorService implements OnApplicationShutdown {
 			this.objectStorageQueueWorker.run(),
 			this.endedPollNotificationQueueWorker.run(),
 			this.scheduledNoteDeleteQueueWorker.run(),
+			this.schedulerNotePostQueueWorker.run(),
 		]);
 	}
 
@@ -367,6 +378,7 @@ export class QueueProcessorService implements OnApplicationShutdown {
 			this.objectStorageQueueWorker.close(),
 			this.endedPollNotificationQueueWorker.close(),
 			this.scheduledNoteDeleteQueueWorker.close(),
+			this.schedulerNotePostQueueWorker.close(),
 		]);
 	}
 
