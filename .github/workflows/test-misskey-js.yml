@@ -5,14 +5,9 @@ name: Test (misskey.js)
 
 on:
   push:
-    branches: [ develop ]
-    paths:
-      - packages/misskey-js/**
+    branches: [ master ]
   pull_request:
-    branches: [ develop ]
-    paths:
-      - packages/misskey-js/**
-
+    branches: [ master ]
 jobs:
   test:
 
