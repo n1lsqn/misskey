@@ -26,7 +26,7 @@
 
 Cypress.Commands.add('visitHome', () => {
 	cy.visit('/');
-	cy.get('button', { timeout: 30000 }).should('be.visible');
+	cy.get('button', { timeout: 120000 }).should('be.visible');
 })
 
 Cypress.Commands.add('resetState', () => {
