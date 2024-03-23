@@ -617,7 +617,7 @@ export class MiMeta {
 	} | {
 		type: 'p2pquake',
 	};
-	
+
 	@Column('boolean', {
 		default: true,
 	})

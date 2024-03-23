@@ -120,6 +120,8 @@ export class AntennaService implements OnApplicationShutdown {
 
 		if (antenna.excludeBots && noteUser.isBot) return false;
 
+		if (antenna.excludeBots && noteUser.isBot) return false;
+
 		if (antenna.localOnly && noteUser.host != null) return false;
 
 		if (!antenna.withReplies && note.replyId != null) return false;
