@@ -199,6 +199,7 @@ import MkRippleEffect from '@/components/MkRippleEffect.vue';
 import { showMovedDialog } from '@/scripts/show-moved-dialog.js';
 import { shouldCollapsed } from '@/scripts/collapsed.js';
 import { isEnabledUrlPreview } from '@/instance.js';
+import MkInstanceTickerMini from '@/components/MkInstanceTickerMini.vue';
 
 const props = withDefaults(defineProps<{
 	note: Misskey.entities.Note;
