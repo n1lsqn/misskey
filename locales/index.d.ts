@@ -2873,6 +2873,10 @@ export interface Locale extends ILocale {
      */
     "instanceTicker": string;
     /**
+     * ノートのサーバー情報の表示形式
+     */
+    "instanceTickerStyle": string;
+    /**
      * {x}を待っています
      */
     "waitingFor": ParameterizedString<"x">;
@@ -7103,6 +7107,20 @@ export interface Locale extends ILocale {
          * 常に表示
          */
         "always": string;
+    };
+    "_instanceTickerStyle": {
+        /**
+         * デフォルト
+         */
+        "default": string;
+        /**
+         * 小さく表示
+         */
+        "minimal": string;
+        /**
+         * アイコンを表示
+         */
+        "icon": string;
     };
     "_serverDisconnectedBehavior": {
         /**

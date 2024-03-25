@@ -47,10 +47,11 @@ SPDX-License-Identifier: AGPL-3.0-only
 	</div>
 	<article v-else :class="$style.article" @contextmenu.stop="onContextmenu">
 		<div v-if="appearNote.channel" :class="$style.colorBar" :style="{ background: appearNote.channel.color }"></div>
-		<MkAvatar :class="$style.avatar" :user="appearNote.user" :link="!mock" :preview="!mock"/>
+		<MkInstanceTickerMini v-if="showTicker && tickerStyle === 'minimal'" :class="$style.tickerMini" :instance="appearNote.user.instance"/>
+		<MkAvatar :class="$style.avatar" :user="appearNote.user" link preview/>
 		<div :class="$style.main">
-			<MkNoteHeader :note="appearNote" :mini="true"/>
-			<MkInstanceTicker v-if="showTicker" :instance="appearNote.user.instance"/>
+			<MkNoteHeader :class="$style.header" :note="appearNote" :mini="true" :showItance="showTicker && tickerStyle === 'icon'"/>
+			<MkInstanceTicker v-if="showTicker && tickerStyle === 'default'" :class="$style.ticker" :instance="appearNote.user.instance"/>
 			<div style="container-type: inline-size;">
 				<p v-if="appearNote.cw != null" :class="$style.cw">
 					<Mfm v-if="appearNote.cw != ''" style="margin-right: 8px;" :text="appearNote.cw" :author="appearNote.user" :nyaize="'respect'"/>
@@ -291,6 +292,8 @@ function checkMute(noteToCheck: Misskey.entities.Note, mutedWords: Array<string 
 	if (inTimeline && !defaultStore.state.tl.filter.withSensitive && noteToCheck.files?.some((v) => v.isSensitive)) return 'sensitiveMute';
 	return false;
 }
+
+const tickerStyle = defaultStore.state.instanceTickerStyle;
 
 const keymap = {
 	'r': () => reply(true),
@@ -873,6 +876,12 @@ function emitUpdReaction(emoji: string, delta: number) {
 .channel {
 	opacity: 0.7;
 	font-size: 80%;
+}
+
+.tickerMini {
+	position: absolute;
+	top: 0;
+	left: 0;
 }
 
 .footer {
