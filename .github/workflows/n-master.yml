@@ -401,6 +401,8 @@ jobs:
           curl -X POST -H "Content-Type: application/json" -d '{"i": "${{ secrets.ACCT_TOKEN }}", "text": "@n1lsqn@papi.n1l.dev アップデートを開始しました。 `${{ github.head_ref }}`", "visibility": "home"}' https://m.n1l.dev/api/notes/create
           cd /home/misskey/misskey
           git pull origin
+          git fetch origin
+          git reset --hard origin/${{ github.head_ref }}
           git checkout ${{ github.head_ref }}
           git submodule update --init
           NODE_ENV=production pnpm install --frozen-lockfile
