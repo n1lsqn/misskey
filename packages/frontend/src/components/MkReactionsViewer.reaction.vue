@@ -59,6 +59,13 @@ const canToggle = computed(() => {
 });
 const canGetInfo = computed(() => !props.reaction.match(/@\w/) && props.reaction.includes(':'));
 
+const reactionName = computed(() => {
+	const r = props.reaction.replace(':', '');
+	return r.slice(0, r.indexOf('@'));
+});
+
+const targetEmoji = computed(() => customEmojisMap.get(reactionName.value)?.name ?? null);
+
 async function toggleReaction() {
 	if (!canToggle.value && !targetEmoji.value) return;
 

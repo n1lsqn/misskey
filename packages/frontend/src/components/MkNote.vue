@@ -50,7 +50,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 		<MkInstanceTickerMini v-if="showTicker && tickerStyle === 'minimal'" :class="$style.tickerMini" :instance="appearNote.user.instance"/>
 		<MkAvatar :class="$style.avatar" :user="appearNote.user" link preview/>
 		<div :class="$style.main">
-			<MkNoteHeader :class="$style.header" :note="appearNote" :mini="true" :show-instance="showTicker && tickerStyle === 'icon'"/>
+			<MkNoteHeader :class="$style.header" :note="appearNote" :mini="true" :showItance="showTicker && tickerStyle === 'icon'"/>
 			<MkInstanceTicker v-if="showTicker && tickerStyle === 'default'" :class="$style.ticker" :instance="appearNote.user.instance"/>
 			<div style="container-type: inline-size;">
 				<p v-if="appearNote.cw != null" :class="$style.cw">
@@ -292,6 +292,7 @@ function checkMute(noteToCheck: Misskey.entities.Note, mutedWords: Array<string 
 	if (inTimeline && !defaultStore.state.tl.filter.withSensitive && noteToCheck.files?.some((v) => v.isSensitive)) return 'sensitiveMute';
 	return false;
 }
+
 const tickerStyle = defaultStore.state.instanceTickerStyle;
 
 const keymap = {

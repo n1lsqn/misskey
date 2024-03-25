@@ -6,6 +6,7 @@
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue';
 import { instance as Instance } from '@/instance';
 import { getProxiedImageUrlNullable } from '@/scripts/media-proxy';
 
@@ -16,7 +17,7 @@ const props = defineProps<{
 	}
 }>();
 
-const faviconUrl = $computed(() => props.instance ? getProxiedImageUrlNullable(props.instance.faviconUrl, 'preview') : getProxiedImageUrlNullable(Instance.iconUrl, 'preview') ?? getProxiedImageUrlNullable(Instance.faviconUrl, 'preview') ?? '/favicon.ico');
+const faviconUrl = computed(() => props.instance ? getProxiedImageUrlNullable(props.instance.faviconUrl, 'preview') : getProxiedImageUrlNullable(Instance.iconUrl, 'preview') ?? getProxiedImageUrlNullable(Instance.iconUrl, 'preview') ?? '/favicon.ico');
 </script>
 
 <style lang="scss" module>
