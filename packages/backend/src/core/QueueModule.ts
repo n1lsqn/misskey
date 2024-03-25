@@ -10,12 +10,11 @@ import type { Config } from '@/config.js';
 import { QUEUE, baseQueueOptions } from '@/queue/const.js';
 import { allSettled } from '@/misc/promise-tracker.js';
 import type { Provider } from '@nestjs/common';
-import { DeliverJobData, EndedPollNotificationJobData, InboxJobData, RelationshipJobData, ScheduleNotePostJobData, ScheduledNoteDeleteJobData, WebhookDeliverJobData } from '@/queue/types.js';
+import type { DeliverJobData, InboxJobData, EndedPollNotificationJobData, WebhookDeliverJobData, RelationshipJobData, ScheduledNoteDeleteJobData } from '../queue/types.js';
 
-export type ScheduledNoteDeleteQueue = Bull.Queue<ScheduledNoteDeleteJobData>
 export type SystemQueue = Bull.Queue<Record<string, unknown>>;
 export type EndedPollNotificationQueue = Bull.Queue<EndedPollNotificationJobData>;
-export type ScheduleNotePostQueue = Bull.Queue<ScheduleNotePostJobData>;
+export type ScheduledNoteDeleteQueue = Bull.Queue<ScheduledNoteDeleteJobData>
 export type DeliverQueue = Bull.Queue<DeliverJobData>;
 export type InboxQueue = Bull.Queue<InboxJobData>;
 export type DbQueue = Bull.Queue;
@@ -38,12 +37,6 @@ const $endedPollNotification: Provider = {
 const $scheduledNoteDeleted: Provider = {
 	provide: 'queue:scheduledNoteDelete',
 	useFactory: (config: Config) => new Bull.Queue(QUEUE.SCHEDULED_NOTE_DELETE, baseQueueOptions(config, QUEUE.SCHEDULED_NOTE_DELETE)),
-	inject: [DI.config],
-};
-
-const $scheduleNotePost: Provider = {
-	provide: 'queue:scheduleNotePost',
-	useFactory: (config: Config) => new Bull.Queue(QUEUE.SCHEDULE_NOTE_POST, baseQueueOptions(config, QUEUE.SCHEDULE_NOTE_POST)),
 	inject: [DI.config],
 };
 
@@ -90,7 +83,6 @@ const $webhookDeliver: Provider = {
 		$system,
 		$endedPollNotification,
 		$scheduledNoteDeleted,
-		$scheduleNotePost,
 		$deliver,
 		$inbox,
 		$db,
@@ -102,7 +94,6 @@ const $webhookDeliver: Provider = {
 		$system,
 		$endedPollNotification,
 		$scheduledNoteDeleted,
-		$scheduleNotePost,
 		$deliver,
 		$inbox,
 		$db,
@@ -116,7 +107,6 @@ export class QueueModule implements OnApplicationShutdown {
 		@Inject('queue:system') public systemQueue: SystemQueue,
 		@Inject('queue:endedPollNotification') public endedPollNotificationQueue: EndedPollNotificationQueue,
 		@Inject('queue:scheduledNoteDelete') public scheduledNoteDeleteQueue: ScheduledNoteDeleteQueue,
-		@Inject('queue:scheduleNotePost') public scheduleNotePostQueue: ScheduleNotePostQueue,
 		@Inject('queue:deliver') public deliverQueue: DeliverQueue,
 		@Inject('queue:inbox') public inboxQueue: InboxQueue,
 		@Inject('queue:db') public dbQueue: DbQueue,
@@ -133,7 +123,6 @@ export class QueueModule implements OnApplicationShutdown {
 			this.systemQueue.close(),
 			this.endedPollNotificationQueue.close(),
 			this.scheduledNoteDeleteQueue.close(),
-			this.scheduleNotePostQueue.close(),
 			this.deliverQueue.close(),
 			this.inboxQueue.close(),
 			this.dbQueue.close(),

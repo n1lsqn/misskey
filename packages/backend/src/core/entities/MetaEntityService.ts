@@ -68,7 +68,6 @@ export class MetaEntityService {
 			impressumUrl: instance.impressumUrl,
 			privacyPolicyUrl: instance.privacyPolicyUrl,
 			disableRegistration: instance.disableRegistration,
-			disableAccountDelete: instance.disableAccountDelete,
 			emailRequiredForSignup: instance.emailRequiredForSignup,
 			enableHcaptcha: instance.enableHcaptcha,
 			hcaptchaSiteKey: instance.hcaptchaSiteKey,
@@ -112,7 +111,6 @@ export class MetaEntityService {
 			policies: { ...DEFAULT_POLICIES, ...instance.policies },
 
 			mediaProxy: this.config.mediaProxy,
-			enableUrlPreview: instance.urlPreviewEnabled,
 		};
 
 		return packed;

@@ -4,6 +4,9 @@ on:
   pull_request_target:
     branches:
       - master
+      - develop
+    paths:
+      - packages/backend/**
 
 jobs:
   check-misskey-js-autogen:

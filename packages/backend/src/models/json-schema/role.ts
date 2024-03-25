@@ -167,10 +167,6 @@ export const packedRolePoliciesSchema = {
 			type: 'integer',
 			optional: false, nullable: false,
 		},
-		canScheduleNote: {
-			type: 'boolean',
-			optional: false, nullable: false,
-		},
 		canInvite: {
 			type: 'boolean',
 			optional: false, nullable: false,
