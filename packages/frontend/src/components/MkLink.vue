@@ -18,7 +18,6 @@ import { defineAsyncComponent, ref } from 'vue';
 import { url as local } from '@/config.js';
 import { useTooltip } from '@/scripts/use-tooltip.js';
 import * as os from '@/os.js';
-import { isEnabledUrlPreview } from '@/instance.js';
 
 const props = withDefaults(defineProps<{
 	url: string;
@@ -30,17 +29,15 @@ const self = props.url.startsWith(local);
 const attr = self ? 'to' : 'href';
 const target = self ? null : '_blank';
 
-const el = ref<HTMLElement | { $el: HTMLElement }>();
+const el = ref<HTMLElement>();
 
-if (isEnabledUrlPreview.value) {
-	useTooltip(el, (showing) => {
-		os.popup(defineAsyncComponent(() => import('@/components/MkUrlPreviewPopup.vue')), {
-			showing,
-			url: props.url,
-			source: el.value instanceof HTMLElement ? el.value : el.value?.$el,
-		}, {}, 'closed');
-	});
-}
+useTooltip(el, (showing) => {
+	os.popup(defineAsyncComponent(() => import('@/components/MkUrlPreviewPopup.vue')), {
+		showing,
+		url: props.url,
+		source: el.value,
+	}, {}, 'closed');
+});
 </script>
 
 <style lang="scss" module>

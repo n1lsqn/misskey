@@ -15,4 +15,3 @@
 - Feat: キー入力で公開範囲を変えれるようにする [#79](https://github.com/n1lsqn/misskey/pull/79)
 - 投稿画面でCtrl+mでパブリック、Ctrl+,でホーム、Ctrl+.でフォロワー。Ctrl+/で連合なしに変更
 - Feat: ハイライトを利用するかどうかのロールの追加 [#86](https://github.com/n1lsqn/misskey/pull/86)
-- Feat: 予約投稿機能 [#109](https://github.com/n1lsqn/misskey/pull/109)

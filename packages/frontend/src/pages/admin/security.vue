@@ -118,6 +118,19 @@ SPDX-License-Identifier: AGPL-3.0-only
 						</MkSwitch>
 					</div>
 				</MkFolder>
+
+				<MkFolder>
+					<template #label>Summaly Proxy</template>
+
+					<div class="_gaps_m">
+						<MkInput v-model="summalyProxy">
+							<template #prefix><i class="ti ti-link"></i></template>
+							<template #label>Summaly Proxy URL</template>
+						</MkInput>
+
+						<MkButton primary @click="save"><i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}</MkButton>
+					</div>
+				</MkFolder>
 			</div>
 		</FormSuspense>
 	</MkSpacer>
@@ -142,6 +155,7 @@ import { fetchInstance } from '@/instance.js';
 import { i18n } from '@/i18n.js';
 import { definePageMetadata } from '@/scripts/page-metadata.js';
 
+const summalyProxy = ref<string>('');
 const enableHcaptcha = ref<boolean>(false);
 const enableMcaptcha = ref<boolean>(false);
 const enableRecaptcha = ref<boolean>(false);
@@ -161,6 +175,7 @@ const bannedEmailDomains = ref<string>('');
 
 async function init() {
 	const meta = await misskeyApi('admin/meta');
+	summalyProxy.value = meta.summalyProxy;
 	enableHcaptcha.value = meta.enableHcaptcha;
 	enableMcaptcha.value = meta.enableMcaptcha;
 	enableRecaptcha.value = meta.enableRecaptcha;
@@ -186,6 +201,7 @@ async function init() {
 
 function save() {
 	os.apiWithDialog('admin/update-meta', {
+		summalyProxy: summalyProxy.value,
 		sensitiveMediaDetection: sensitiveMediaDetection.value,
 		sensitiveMediaDetectionSensitivity:
 			sensitiveMediaDetectionSensitivity.value === 0 ? 'veryLow' :

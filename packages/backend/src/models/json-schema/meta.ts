@@ -75,10 +75,6 @@ export const packedMetaLiteSchema = {
 			type: 'boolean',
 			optional: false, nullable: false,
 		},
-		disableAccountDelete: {
-			type: 'boolean',
-			optional: false, nullable: false,
-		},
 		emailRequiredForSignup: {
 			type: 'boolean',
 			optional: false, nullable: false,
@@ -209,10 +205,6 @@ export const packedMetaLiteSchema = {
 		},
 		mediaProxy: {
 			type: 'string',
-			optional: false, nullable: false,
-		},
-		enableUrlPreview: {
-			type: 'boolean',
 			optional: false, nullable: false,
 		},
 		backgroundImageUrl: {

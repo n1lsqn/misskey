@@ -78,11 +78,6 @@ export type MiNotification = {
 	createdAt: string;
 	achievement: string;
 } | {
-	type: 'noteSchedulingFailed';
-	id: string;
-	createdAt: string;
-	scheduledNoteId: MiNote['id'];
-} | {
 	type: 'app';
 	id: string;
 	createdAt: string;
