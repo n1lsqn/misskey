@@ -25,7 +25,6 @@ SPDX-License-Identifier: AGPL-3.0-only
 		<MkA v-else :to="notePage(note)">
 			<MkTime :time="note.createdAt" colored/>
 		</MkA>
-		<MkInstanceTickerIcon v-if="showInstance" style="margin-left: 0.5em;" :instance="note.user.instance"/>
 		<span v-if="note.visibility !== 'public'" style="margin-left: 0.5em;" :title="i18n.ts._visibility[note.visibility]">
 			<i v-if="note.visibility === 'home'" class="ti ti-home"></i>
 			<i v-else-if="note.visibility === 'followers'" class="ti ti-lock"></i>
@@ -34,6 +33,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 		<span v-if="note.localOnly" style="margin-left: 0.5em;" :title="i18n.ts._visibility['disableFederation']"><i class="ti ti-rocket-off"></i></span>
 		<span v-if="note.channel" style="margin-left: 0.5em;" :title="note.channel.name"><i class="ti ti-device-tv"></i></span>
 		<span v-if="note.deleteAt" style="margin-left: 0.5em;" :title="i18n.tsx.noteDeletationAt({ time: dateTimeFormat.format(new Date(note.deleteAt)) })"><i class="ti ti-bomb"></i></span>
+		<MkInstanceTickerIcon v-if="showInstance" style="margin-left: 0.5em;" :instance="note.user.instance"/>
 	</div>
 </header>
 </template>
@@ -44,11 +44,13 @@ import * as Misskey from 'misskey-js';
 import { i18n } from '@/i18n.js';
 import { notePage } from '@/filters/note.js';
 import { userPage } from '@/filters/user.js';
+import MkInstanceTickerIcon from '@/components/MkInstanceTickerIcon.vue';
 import { dateTimeFormat } from '@/scripts/intl-const.js';
 
 defineProps<{
 	note: Misskey.entities.Note & {isSchedule? : boolean, isScheduled? : boolean};
   scheduled?: boolean;
+	showInstance?: boolean;
 }>();
 
 const mock = inject<boolean>('mock', false);

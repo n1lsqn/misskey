@@ -6,17 +6,14 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, defineProps } from 'vue';
+import * as Misskey from 'misskey-js';
 import { instanceName } from '@/config.js';
 import { instance as Instance } from '@/instance.js';
 import { getProxiedImageUrlNullable } from '@/scripts/media-proxy.js';
 
 const props = defineProps<{
-	instance?: {
-		faviconUrl?: string
-		name: string
-		themeColor?: string
-	}
+	instance?: Misskey.entities.User['instance'];
 }>();
 
 // if no instance data is given, this is for the local instance
@@ -25,8 +22,8 @@ const instance = props.instance ?? {
 	themeColor: (document.querySelector('meta[name="theme-color-orig"]') as HTMLMetaElement).content,
 };
 
-const faviconUrl = computed(() => props.instance ? getProxiedImageUrlNullable(props.instance.faviconUrl, 'preview') : getProxiedImageUrlNullable(Instance.iconUrl, 'preview') ?? getProxiedImageUrlNullable(Instance.faviconUrl, 'preview') ?? '/favicon.ico');
-const firstLetter = instance.name.slice(0, 1);
+const faviconUrl = computed(() => props.instance ? getProxiedImageUrlNullable(props.instance.faviconUrl, 'preview') : getProxiedImageUrlNullable(Instance.iconUrl, 'preview') ?? getProxiedImageUrlNullable(Instance.iconUrl, 'preview') ?? '/favicon.ico');
+const firstLetter = instance.name?.slice(0, 1);
 
 const themeColor = instance.themeColor ?? '#777777';
 
@@ -41,13 +38,13 @@ const bg = {
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	height: 3.5ex;
-	width: 3.5ex;
+	height: 2em;
+	width: 2em;
 	border-radius: 0 0 8px 0;
 }
 
 .icon {
-	height: 2ex;
+	height: 1em;
 	flex-shrink: 0;
 	border-radius: 25%;
 	filter: drop-shadow(0 0 1.5px rgba(0, 0, 0, 0.75));
