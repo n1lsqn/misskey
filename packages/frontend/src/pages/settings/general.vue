@@ -82,6 +82,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<option value="default">{{ i18n.ts._instanceTickerStyle.default }}</option>
 				<option value="minimal">{{ i18n.ts._instanceTickerStyle.minimal }}</option>
 				<option value="icon">{{ i18n.ts._instanceTickerStyle.icon }}</option>
+				<option value="iconColor">{{ i18n.ts._instanceTickerStyle.iconColor }}</option>
 			</MkSelect>
 
 			<MkSelect v-model="nsfw">
