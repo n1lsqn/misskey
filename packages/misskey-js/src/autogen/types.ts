@@ -435,7 +435,7 @@ export type paths = {
      * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
      * **Credential required**: *Yes*
      */
-    post: operations['admin/root/add'];
+    post: operations['admin___root___add'];
   };
   '/admin/root/remove': {
     /**
@@ -445,7 +445,7 @@ export type paths = {
      * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
      * **Credential required**: *Yes*
      */
-    post: operations['admin/root/remove'];
+    post: operations['admin___root___remove'];
   };
   '/admin/promo/create': {
     /**
@@ -2549,7 +2549,7 @@ export type paths = {
      *
      * **Credential required**: *Yes* / **Permission**: *write:notes*
      */
-    post: operations['notes/schedule/delete'];
+    post: operations['notes___schedule___delete'];
   };
   '/notes/schedule/list': {
     /**
@@ -2559,7 +2559,7 @@ export type paths = {
      * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
      * **Credential required**: *Yes* / **Permission**: *read:notes*
      */
-    post: operations['notes/schedule/list'];
+    post: operations['notes___schedule___list'];
   };
   '/notes/delete': {
     /**
@@ -2647,7 +2647,7 @@ export type paths = {
      *
      * **Credential required**: *No*
      */
-    post: operations['notes/any-local-timeline'];
+    post: operations['notes___any-local-timeline'];
   };
   '/notes/polls/recommendation': {
     /**
@@ -7731,7 +7731,7 @@ export type operations = {
    * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
    * **Credential required**: *Yes*
    */
-  'admin/root/add': {
+  admin___root___add: {
     requestBody: {
       content: {
         'application/json': {
@@ -7784,7 +7784,7 @@ export type operations = {
    * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
    * **Credential required**: *Yes*
    */
-  'admin/root/remove': {
+  admin___root___remove: {
     requestBody: {
       content: {
         'application/json': {
@@ -20700,7 +20700,7 @@ export type operations = {
    *
    * **Credential required**: *Yes* / **Permission**: *write:notes*
    */
-  'notes/schedule/delete': {
+  notes___schedule___delete: {
     requestBody: {
       content: {
         'application/json': {
@@ -20759,7 +20759,7 @@ export type operations = {
    * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
    * **Credential required**: *Yes* / **Permission**: *read:notes*
    */
-  'notes/schedule/list': {
+  notes___schedule___list: {
     requestBody: {
       content: {
         'application/json': {
@@ -21310,7 +21310,7 @@ export type operations = {
    *
    * **Credential required**: *No*
    */
-  'notes/any-local-timeline': {
+  'notes___any-local-timeline': {
     requestBody: {
       content: {
         'application/json': {

@@ -281,13 +281,12 @@ type AdminRolesUsersRequest = operations['admin___roles___users']['requestBody']
 type AdminRolesUsersResponse = operations['admin___roles___users']['responses']['200']['content']['application/json'];
 
 // @public (undocumented)
-type AdminRootAddRequest = operations['admin/root/add']['requestBody']['content']['application/json'];
+type AdminRootAddRequest = operations['admin___root___add']['requestBody']['content']['application/json'];
 
 // @public (undocumented)
-type AdminRootRemoveRequest = operations['admin/root/remove']['requestBody']['content']['application/json'];
+type AdminRootRemoveRequest = operations['admin___root___remove']['requestBody']['content']['application/json'];
 
 // @public (undocumented)
-type AdminSendEmailRequest = operations['admin/send-email']['requestBody']['content']['application/json'];
 type AdminSendEmailRequest = operations['admin___send-email']['requestBody']['content']['application/json'];
 
 // @public (undocumented)
@@ -2426,13 +2425,12 @@ type NoteFavorite = components['schemas']['NoteFavorite'];
 type NoteReaction = components['schemas']['NoteReaction'];
 
 // @public (undocumented)
-type NotesAnyLocalTimelineRequest = operations['notes/any-local-timeline']['requestBody']['content']['application/json'];
+type NotesAnyLocalTimelineRequest = operations['notes___any-local-timeline']['requestBody']['content']['application/json'];
 
 // @public (undocumented)
-type NotesAnyLocalTimelineResponse = operations['notes/any-local-timeline']['responses']['200']['content']['application/json'];
+type NotesAnyLocalTimelineResponse = operations['notes___any-local-timeline']['responses']['200']['content']['application/json'];
 
 // @public (undocumented)
-type NotesChildrenRequest = operations['notes/children']['requestBody']['content']['application/json'];
 type NotesChildrenRequest = operations['notes___children']['requestBody']['content']['application/json'];
 
 // @public (undocumented)
@@ -2535,16 +2533,15 @@ type NotesRequest = operations['notes']['requestBody']['content']['application/j
 type NotesResponse = operations['notes']['responses']['200']['content']['application/json'];
 
 // @public (undocumented)
-type NotesScheduleDeleteRequest = operations['notes/schedule/delete']['requestBody']['content']['application/json'];
+type NotesScheduleDeleteRequest = operations['notes___schedule___delete']['requestBody']['content']['application/json'];
 
 // @public (undocumented)
-type NotesScheduleListRequest = operations['notes/schedule/list']['requestBody']['content']['application/json'];
+type NotesScheduleListRequest = operations['notes___schedule___list']['requestBody']['content']['application/json'];
 
 // @public (undocumented)
-type NotesScheduleListResponse = operations['notes/schedule/list']['responses']['200']['content']['application/json'];
+type NotesScheduleListResponse = operations['notes___schedule___list']['responses']['200']['content']['application/json'];
 
 // @public (undocumented)
-type NotesSearchByTagRequest = operations['notes/search-by-tag']['requestBody']['content']['application/json'];
 type NotesSearchByTagRequest = operations['notes___search-by-tag']['requestBody']['content']['application/json'];
 
 // @public (undocumented)
