@@ -7121,6 +7121,10 @@ export interface Locale extends ILocale {
          * アイコンを表示
          */
         "icon": string;
+        /**
+         * アイコン(背景付き)を表示
+         */
+        "iconColor": string;
     };
     "_serverDisconnectedBehavior": {
         /**
