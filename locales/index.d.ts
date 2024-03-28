@@ -10114,6 +10114,44 @@ export interface Locale extends ILocale {
          */
         "summaryProxyDescription2": string;
     };
+    "_uniqueFeatures": {
+        /**
+         * 独自機能
+         */
+        "uniqueFeature": string;
+        /**
+         * リモート上のサーバーのローカルタイムラインを覗く機能
+         */
+        "remoteLocalTimeline": string;
+        /**
+         * プロフィールを非表示にする機能
+         */
+        "hiddenProfile": string;
+        /**
+         * プロフィール上からピン留めしたノートを非表示にします
+         */
+        "hiddenPinnedNotes": string;
+        /**
+         * ピン留めしたノートを非表示にすることで、プロフィールページをスッキリさせることができます。
+         */
+        "hiddenPinnedNotesDescription": string;
+        /**
+         * プロフィール上からアクティビティを非表示にします
+         */
+        "hiddenActivity": string;
+        /**
+         * プロフィール上からアクティビティを非表示にすることで、プロフィールページをスッキリさせることができます。
+         */
+        "hiddenActivityDescription": string;
+        /**
+         * プロフィール上からファイルを非表示にします。
+         */
+        "hiddenFiles": string;
+        /**
+         * ファイルを非表示にすることで、プロフィールページをスッキリさせることができます。
+         */
+        "hiddenFilesDescription": string;
+    };
 }
 declare const locales: {
     [lang: string]: Locale;
