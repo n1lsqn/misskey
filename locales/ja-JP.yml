@@ -1860,6 +1860,7 @@ _instanceTickerStyle:
   default: "デフォルト"
   minimal: "小さく表示"
   icon: "アイコンを表示"
+  iconColor: "アイコン(背景付き)を表示"
 
 _serverDisconnectedBehavior:
   reload: "自動でリロード"
