@@ -123,11 +123,13 @@ SPDX-License-Identifier: AGPL-3.0-only
 			</div>
 
 			<div class="contents _gaps">
-				<div v-if="user.pinnedNotes.length > 0" class="_gaps">
-					<MkNote v-for="note in user.pinnedNotes" :key="note.id" class="note _panel" :note="note" :pinned="true"/>
+				<div v-if="!hiddenActivityAndFiles">
+					<div v-if="user.pinnedNotes.length > 0" class="_gaps">
+						<MkNote v-for="note in user.pinnedNotes" :key="note.id" class="note _panel" :note="note" :pinned="true"/>
+					</div>
 				</div>
 				<MkInfo v-else-if="$i && $i.id === user.id">{{ i18n.ts.userPagePinTip }}</MkInfo>
-				<template v-if="!hiddenActivityAndFiles">
+				<div v-if="!hiddenActivityAndFiles">
 					<template v-if="narrow">
 						<MkLazy>
 							<XFiles :key="user.id" :user="user"/>
@@ -136,7 +138,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 							<XActivity :key="user.id" :user="user"/>
 						</MkLazy>
 					</template>
-				</template>
+				</div>
 				<div v-if="!disableNotes">
 					<MkLazy>
 						<XTimeline :user="user"/>
