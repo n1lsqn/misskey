@@ -261,12 +261,12 @@ SPDX-License-Identifier: AGPL-3.0-only
 	</FormSection>
 
 	<FormSection>
-		<template #label>{{ i18n.ts._uniqueFeatuers.uniqueFeature }}</template>
+		<template #label>{{ i18n.ts._uniqueFeatures.uniqueFeature }}</template>
 
 		<div class="_gaps_m">
 			<MkSwitch v-model="hiddenActivityAndFiles">
-				<template #caption>{{ i18n.ts._uniqueFeatuers.hiddenActivityAndFilesDescription }}</template>
-				{{ i18n.ts._uniqueFeatuers.hiddenActivityAndFiles }}
+				<template #caption>{{ i18n.ts._uniqueFeatures.hiddenActivityAndFilesDescription }}</template>
+				{{ i18n.ts._uniqueFeatures.hiddenActivityAndFiles }}
 			</MkSwitch>
 
 			<MkFolder>
