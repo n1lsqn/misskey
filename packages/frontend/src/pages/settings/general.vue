@@ -473,9 +473,13 @@ const disableDrawer = computed(defaultStore.makeGetterSetter('disableDrawer'));
 const disableShowingAnimatedImages = computed(defaultStore.makeGetterSetter('disableShowingAnimatedImages'));
 const autoDataSaver = computed(defaultStore.makeGetterSetter('autoDataSaver'));
 const enableDataSaverMode = computed(defaultStore.makeGetterSetter('enableDataSaverMode'));
+<<<<<<< HEAD
 const hiddenPinnedNotes = computed(defaultStore.makeGetterSetter('hiddenPinnedNotes'));
 const hiddenActivity = computed(defaultStore.makeGetterSetter('hiddenActivity'));
 const hiddenFiles = computed(defaultStore.makeGetterSetter('hiddenFiles'));
+=======
+const hiddenActivityAndFiles = computed(defaultStore.makeGetterSetter('hiddenActivityAndFiles'));
+>>>>>>> b088ae5bbb273835c6fa2af7c089ce3ce790d046
 const forceShowAds = computed(defaultStore.makeGetterSetter('forceShowAds'));
 const loadRawImages = computed(defaultStore.makeGetterSetter('loadRawImages'));
 const highlightSensitiveMedia = computed(defaultStore.makeGetterSetter('highlightSensitiveMedia'));

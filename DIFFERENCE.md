@@ -18,3 +18,5 @@
 - Feat: 予約投稿機能 [#109](https://github.com/n1lsqn/misskey/pull/109)
 - Feat: インスタンスティッカーの表示形式を追加[11d1e63](https://github.com/hideki0403/kakurega.app/commit/11d1e6354e5c56a77cbc5c86ff80397e1e2fcc8e)
 - Feat: リアクションがフォールバックする場合はリアクションボタンのデザインを変えるように[97b4d7c](https://github.com/hideki0403/kakurega.app/pull/41/commits/97b4d7cf609ea33ecf0a3d356693774455ef6e07)
+- Feat: プロフィールからアクティビティとファイルを隠す[#119](https://github.com/n1lsqn/misskey/pull/119)
+`設定 -> クライアント設定 -> プロフィールからアクティビティとファイルを隠す`からご利用いただけます
