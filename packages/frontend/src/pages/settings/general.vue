@@ -251,8 +251,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 	</FormSection>
 
 	<FormSection>
-		<MkFolder>
-			<template #label>他のサーバーのローカルタイムラインを覗けるようにする</template>
+		<template #label>{{ i18n.ts._uniqueFeatures.uniqueFeature }}</template>
 
 		<div class="_gaps_m">
 			<MkSelect v-model="instanceTickerStyle">
@@ -575,6 +574,9 @@ watch([
 	showReactionsCount,
 	showRenotesCount,
 	showRepliesCount,
+	hiddenPinnedNotes,
+	hiddenActivity,
+	hiddenFiles,
 ], async () => {
 	await reloadAsk();
 });
@@ -702,6 +704,18 @@ function enableAllDataSaver() {
 	Object.keys(g).forEach((key) => { g[key] = true; });
 
 	dataSaver.value = g;
+}
+
+function enableAllHidden() {
+	defaultStore.set('hiddenPinnedNotes', true);
+	defaultStore.set('hiddenActivity', true);
+	defaultStore.set('hiddenFiles', true);
+}
+
+function disableAllHidden() {
+	defaultStore.set('hiddenPinnedNotes', false);
+	defaultStore.set('hiddenActivity', false);
+	defaultStore.set('hiddenFiles', false);
 }
 
 function disableAllDataSaver() {

@@ -262,6 +262,18 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: false,
 	},
+	hiddenPinnedNotes: {
+		where: 'device',
+		default: false,
+	},
+	hiddenActivity: {
+		where: 'device',
+		default: false,
+	},
+	hiddenFiles: {
+		where: 'device',
+		default: false,
+	},
 	disableShowingAnimatedImages: {
 		where: 'device',
 		default: window.matchMedia('(prefers-reduced-motion)').matches,
