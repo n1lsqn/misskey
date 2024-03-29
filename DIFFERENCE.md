@@ -20,3 +20,4 @@
 - Feat: リアクションがフォールバックする場合はリアクションボタンのデザインを変えるように[97b4d7c](https://github.com/hideki0403/kakurega.app/pull/41/commits/97b4d7cf609ea33ecf0a3d356693774455ef6e07)
 - Feat: プロフィールからアクティビティとファイルを隠す[#119](https://github.com/n1lsqn/misskey/pull/119)
 `設定 -> クライアント設定 -> プロフィールからアクティビティとファイルを隠す`からご利用いただけます
+- Feat: フォロー通知にフォローボタンを出す [#112](https://github.com/n1lsqn/misskey/pull/122)
