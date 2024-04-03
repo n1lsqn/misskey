@@ -10163,7 +10163,7 @@ export interface Locale extends ILocale {
          * ファイルを非表示にすることで、プロフィールページをスッキリさせることができます。
          */
         "hiddenFilesDescription": string;
-		}
+    };
     "_mediaControls": {
         /**
          * ピクチャインピクチャ
