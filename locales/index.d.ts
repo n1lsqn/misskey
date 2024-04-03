@@ -8965,6 +8965,14 @@ export interface Locale extends ILocale {
              */
             "button": string;
             /**
+             * 動的ブロック
+             */
+            "dynamic": string;
+            /**
+             * このブロックは廃止されています。今後は{play}を利用してください。
+             */
+            "dynamicDescription": ParameterizedString<"play">;
+            /**
              * ノート埋め込み
              */
             "note": string;
