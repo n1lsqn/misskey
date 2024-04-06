@@ -1032,50 +1032,6 @@ importers:
         specifier: 1.8.27
         version: 1.8.27(typescript@5.3.3)
 
-    dependencies:
-      esbuild:
-        specifier: 0.19.11
-        version: 0.19.11
-      eventemitter3:
-        specifier: 5.0.1
-        version: 5.0.1
-      glob:
-        specifier: ^10.3.10
-        version: 10.3.10
-      matter-js:
-        specifier: 0.19.0
-        version: 0.19.0
-      seedrandom:
-        specifier: 3.0.5
-        version: 3.0.5
-    devDependencies:
-      '@misskey-dev/eslint-plugin':
-        specifier: 1.0.0
-        version: 1.0.0(@typescript-eslint/eslint-plugin@7.1.0)(@typescript-eslint/parser@7.1.0)(eslint-plugin-import@2.29.1)(eslint@8.57.0)
-      '@types/matter-js':
-        specifier: 0.19.6
-        version: 0.19.6
-      '@types/node':
-        specifier: 20.11.5
-        version: 20.11.5
-      '@types/seedrandom':
-        specifier: 3.0.8
-        version: 3.0.8
-      '@typescript-eslint/eslint-plugin':
-        specifier: 7.1.0
-        version: 7.1.0(@typescript-eslint/parser@7.1.0)(eslint@8.57.0)(typescript@5.3.3)
-      '@typescript-eslint/parser':
-        specifier: 7.1.0
-        version: 7.1.0(eslint@8.57.0)(typescript@5.3.3)
-      eslint:
-        specifier: 8.57.0
-        version: 8.57.0
-      nodemon:
-        specifier: 3.0.2
-        version: 3.0.2
-      typescript:
-        specifier: 5.3.3
-        version: 5.3.3
   packages/misskey-js:
     dependencies:
       '@swc/cli':
@@ -1176,38 +1132,6 @@ importers:
         specifier: 5.3.3
         version: 5.3.3
 
-    dependencies:
-      crc-32:
-        specifier: 1.2.2
-        version: 1.2.2
-      esbuild:
-        specifier: 0.19.11
-        version: 0.19.11
-      glob:
-        specifier: 10.3.10
-        version: 10.3.10
-    devDependencies:
-      '@misskey-dev/eslint-plugin':
-        specifier: 1.0.0
-        version: 1.0.0(@typescript-eslint/eslint-plugin@7.1.0)(@typescript-eslint/parser@7.1.0)(eslint-plugin-import@2.29.1)(eslint@8.57.0)
-      '@types/node':
-        specifier: 20.11.5
-        version: 20.11.5
-      '@typescript-eslint/eslint-plugin':
-        specifier: 7.1.0
-        version: 7.1.0(@typescript-eslint/parser@7.1.0)(eslint@8.57.0)(typescript@5.3.3)
-      '@typescript-eslint/parser':
-        specifier: 7.1.0
-        version: 7.1.0(eslint@8.57.0)(typescript@5.3.3)
-      eslint:
-        specifier: 8.57.0
-        version: 8.57.0
-      nodemon:
-        specifier: 3.0.2
-        version: 3.0.2
-      typescript:
-        specifier: 5.3.3
-        version: 5.3.3
   packages/sw:
     dependencies:
       esbuild:
@@ -6848,7 +6772,7 @@ packages:
       ts-dedent: 2.2.0
       type-fest: 2.19.0
       vue: 3.4.21(typescript@5.3.3)
-      vue-component-type-helpers: 2.0.6
+      vue-component-type-helpers: 2.0.10
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -7870,12 +7794,6 @@ packages:
       undici-types: 5.26.5
     dev: true
 
-  /@types/node@20.11.5:
-    resolution: {integrity: sha512-g557vgQjUUfN76MZAN/dt1z3dzcUsimuysco0KeluHgrPdJXkP/XdAURgyO2W9fZWHRtRBiVKzKn8vyOAwlG+w==}
-    dependencies:
-      undici-types: 5.26.5
-    dev: true
-
   /@types/node@20.9.1:
     resolution: {integrity: sha512-HhmzZh5LSJNS5O8jQKpJ/3ZcrrlG6L70hpGqMIAoM9YVD0YBRNWYsfwcXq8VnSjlNpCpgLzMXdiPo+dxcvSmiA==}
     dependencies:
@@ -8009,10 +7927,6 @@ packages:
     resolution: {integrity: sha512-AnxLHewubLVzoF/A4qdxBGHCKifw8cY32iro3DQX9TPcetE95zBeVt3jnsvtvAUf1vwzMfwzp4t/L2yqPlnjkQ==}
     requiresBuild: true
     dev: false
-
-  /@types/seedrandom@3.0.8:
-    resolution: {integrity: sha512-TY1eezMU2zH2ozQoAFAQFOPpvP15g+ZgSfTZt31AUUH/Rxtnz3H+A/Sv1Snw2/amp//omibc+AEkTaA8KUeOLQ==}
-    dev: true
 
   /@types/semver@7.5.6:
     resolution: {integrity: sha512-dn1l8LaMea/IjDoHNd9J52uBbInB796CDffS6VdIxvqYCPSG0V0DzHp76GpaWnlhg88uYyPbXCDIowa86ybd5A==}
@@ -15813,23 +15727,6 @@ packages:
     engines: {node: '>=6.0.0'}
     dev: false
 
-  /nodemon@3.0.2:
-    resolution: {integrity: sha512-9qIN2LNTrEzpOPBaWHTm4Asy1LxXLSickZStAQ4IZe7zsoIpD/A7LWxhZV3t4Zu352uBcqVnRsDXSMR2Sc3lTA==}
-    engines: {node: '>=10'}
-    hasBin: true
-    dependencies:
-      chokidar: 3.5.3
-      debug: 4.3.4(supports-color@5.5.0)
-      ignore-by-default: 1.0.1
-      minimatch: 3.1.2
-      pstree.remy: 1.1.8
-      semver: 7.5.4
-      simple-update-notifier: 2.0.0
-      supports-color: 5.5.0
-      touch: 3.1.0
-      undefsafe: 2.0.5
-    dev: true
-
   /nodemon@3.0.3:
     resolution: {integrity: sha512-7jH/NXbFPxVaMwmBCC2B9F/V6X1VkEdNgx3iu9jji8WxWcvhMWkmhNWhI5077zknOnZnBzba9hZP6bCPJLSReQ==}
     engines: {node: '>=10'}
@@ -19978,8 +19875,8 @@ packages:
     resolution: {integrity: sha512-6bnLkn8O0JJyiFSIF0EfCogzeqNXpnjJ0vW/SZzNHfe6sPx30lTtTXlE5TFs2qhJlAtDFybStVNpL73cPe3OMQ==}
     dev: true
 
-  /vue-component-type-helpers@2.0.6:
-    resolution: {integrity: sha512-qdGXCtoBrwqk1BT6r2+1Wcvl583ZVkuSZ3or7Y1O2w5AvWtlvvxwjGhmz5DdPJS9xqRdDlgTJ/38ehWnEi0tFA==}
+  /vue-component-type-helpers@2.0.10:
+    resolution: {integrity: sha512-FC5fKJjDks3Ue/KRSYBdsiCaZa0kUPQfs8yQpb8W9mlO6BenV8G1z58xobeRMzevnmEcDa09LLwuXDwb4f6NMQ==}
     dev: true
 
   /vue-demi@0.14.7(vue@3.4.21):
