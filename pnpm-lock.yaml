@@ -278,9 +278,6 @@ importers:
       misskey-js:
         specifier: workspace:*
         version: link:../misskey-js
-      misskey-reversi:
-        specifier: workspace:*
-        version: link:../misskey-reversi
       ms:
         specifier: 3.0.0-canary.1
         version: 3.0.0-canary.1
@@ -787,15 +784,9 @@ importers:
       mfm-js:
         specifier: 0.24.0
         version: 0.24.0
-      misskey-bubble-game:
-        specifier: workspace:*
-        version: link:../misskey-bubble-game
       misskey-js:
         specifier: workspace:*
         version: link:../misskey-js
-      misskey-reversi:
-        specifier: workspace:*
-        version: link:../misskey-reversi
       photoswipe:
         specifier: 5.4.3
         version: 5.4.3
@@ -1041,7 +1032,6 @@ importers:
         specifier: 1.8.27
         version: 1.8.27(typescript@5.3.3)
 
-  packages/misskey-bubble-game:
     dependencies:
       esbuild:
         specifier: 0.19.11
@@ -1086,7 +1076,6 @@ importers:
       typescript:
         specifier: 5.3.3
         version: 5.3.3
-
   packages/misskey-js:
     dependencies:
       '@swc/cli':
@@ -1187,7 +1176,6 @@ importers:
         specifier: 5.3.3
         version: 5.3.3
 
-  packages/misskey-reversi:
     dependencies:
       crc-32:
         specifier: 1.2.2
@@ -1220,7 +1208,6 @@ importers:
       typescript:
         specifier: 5.3.3
         version: 5.3.3
-
   packages/sw:
     dependencies:
       esbuild:

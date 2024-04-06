@@ -50,7 +50,6 @@ import {
 	packedRoleCondFormulaValueSchema,
 } from '@/models/json-schema/role.js';
 import { packedAdSchema } from '@/models/json-schema/ad.js';
-import { packedReversiGameLiteSchema, packedReversiGameDetailedSchema } from '@/models/json-schema/reversi-game.js';
 import {
 	packedMetaLiteSchema,
 	packedMetaDetailedOnlySchema,
@@ -104,8 +103,6 @@ export const refs = {
 	RoleLite: packedRoleLiteSchema,
 	Role: packedRoleSchema,
 	RolePolicies: packedRolePoliciesSchema,
-	ReversiGameLite: packedReversiGameLiteSchema,
-	ReversiGameDetailed: packedReversiGameDetailedSchema,
 	MetaLite: packedMetaLiteSchema,
 	MetaDetailedOnly: packedMetaDetailedOnlySchema,
 	MetaDetailed: packedMetaDetailedSchema,

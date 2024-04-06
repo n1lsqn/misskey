@@ -268,11 +268,6 @@ export const navbarItemDef = reactive({
 			clearCache();
 		},
 	},
-	bubbleGame: {
-		title: i18n.ts.bubbleGame,
-		icon: 'ti ti-apple',
-		to: '/bubble-game',
-	},
 	clicker: {
 		title: '🍪👈',
 		icon: 'ti ti-cookie',

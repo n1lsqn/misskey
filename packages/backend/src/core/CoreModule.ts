@@ -67,7 +67,6 @@ import { FeaturedService } from './FeaturedService.js';
 import { FanoutTimelineService } from './FanoutTimelineService.js';
 import { ChannelFollowingService } from './ChannelFollowingService.js';
 import { RegistryApiService } from './RegistryApiService.js';
-import { ReversiService } from './ReversiService.js';
 
 import { ChartLoggerService } from './chart/ChartLoggerService.js';
 import FederationChart from './chart/charts/federation.js';
@@ -116,7 +115,6 @@ import { UserListEntityService } from './entities/UserListEntityService.js';
 import { FlashEntityService } from './entities/FlashEntityService.js';
 import { FlashLikeEntityService } from './entities/FlashLikeEntityService.js';
 import { RoleEntityService } from './entities/RoleEntityService.js';
-import { ReversiGameEntityService } from './entities/ReversiGameEntityService.js';
 import { MetaEntityService } from './entities/MetaEntityService.js';
 
 import { ApAudienceService } from './activitypub/ApAudienceService.js';
@@ -207,7 +205,6 @@ const $FanoutTimelineService: Provider = { provide: 'FanoutTimelineService', use
 const $FanoutTimelineEndpointService: Provider = { provide: 'FanoutTimelineEndpointService', useExisting: FanoutTimelineEndpointService };
 const $ChannelFollowingService: Provider = { provide: 'ChannelFollowingService', useExisting: ChannelFollowingService };
 const $RegistryApiService: Provider = { provide: 'RegistryApiService', useExisting: RegistryApiService };
-const $ReversiService: Provider = { provide: 'ReversiService', useExisting: ReversiService };
 
 const $ChartLoggerService: Provider = { provide: 'ChartLoggerService', useExisting: ChartLoggerService };
 const $FederationChart: Provider = { provide: 'FederationChart', useExisting: FederationChart };
@@ -256,7 +253,6 @@ const $UserListEntityService: Provider = { provide: 'UserListEntityService', use
 const $FlashEntityService: Provider = { provide: 'FlashEntityService', useExisting: FlashEntityService };
 const $FlashLikeEntityService: Provider = { provide: 'FlashLikeEntityService', useExisting: FlashLikeEntityService };
 const $RoleEntityService: Provider = { provide: 'RoleEntityService', useExisting: RoleEntityService };
-const $ReversiGameEntityService: Provider = { provide: 'ReversiGameEntityService', useExisting: ReversiGameEntityService };
 const $MetaEntityService: Provider = { provide: 'MetaEntityService', useExisting: MetaEntityService };
 
 const $ApAudienceService: Provider = { provide: 'ApAudienceService', useExisting: ApAudienceService };
@@ -347,7 +343,6 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		FanoutTimelineEndpointService,
 		ChannelFollowingService,
 		RegistryApiService,
-		ReversiService,
 
 		ChartLoggerService,
 		FederationChart,
@@ -397,7 +392,6 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		FlashEntityService,
 		FlashLikeEntityService,
 		RoleEntityService,
-		ReversiGameEntityService,
 		MetaEntityService,
 
 		ApAudienceService,
@@ -484,7 +478,6 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		$FanoutTimelineEndpointService,
 		$ChannelFollowingService,
 		$RegistryApiService,
-		$ReversiService,
 
 		$ChartLoggerService,
 		$FederationChart,
@@ -534,7 +527,6 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		$FlashEntityService,
 		$FlashLikeEntityService,
 		$RoleEntityService,
-		$ReversiGameEntityService,
 		$MetaEntityService,
 
 		$ApAudienceService,
@@ -623,7 +615,6 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		FanoutTimelineEndpointService,
 		ChannelFollowingService,
 		RegistryApiService,
-		ReversiService,
 
 		FederationChart,
 		NotesChart,
@@ -671,7 +662,6 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		FlashEntityService,
 		FlashLikeEntityService,
 		RoleEntityService,
-		ReversiGameEntityService,
 		MetaEntityService,
 
 		ApAudienceService,
@@ -758,7 +748,6 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		$FanoutTimelineEndpointService,
 		$ChannelFollowingService,
 		$RegistryApiService,
-		$ReversiService,
 
 		$FederationChart,
 		$NotesChart,
@@ -807,7 +796,6 @@ const $ApQuestionService: Provider = { provide: 'ApQuestionService', useExisting
 		$FlashEntityService,
 		$FlashLikeEntityService,
 		$RoleEntityService,
-		$ReversiGameEntityService,
 		$MetaEntityService,
 
 		$ApAudienceService,

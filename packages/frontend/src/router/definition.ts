@@ -538,18 +538,6 @@ const routes: RouteDef[] = [{
 	component: page(() => import('@/pages/games.vue')),
 	loginRequired: false,
 }, {
-	path: '/bubble-game',
-	component: page(() => import('@/pages/drop-and-fusion.vue')),
-	loginRequired: true,
-}, {
-	path: '/reversi',
-	component: page(() => import('@/pages/reversi/index.vue')),
-	loginRequired: false,
-}, {
-	path: '/reversi/g/:gameId',
-	component: page(() => import('@/pages/reversi/game.vue')),
-	loginRequired: false,
-}, {
 	path: '/timeline',
 	component: page(() => import('@/pages/timeline.vue')),
 }, {
