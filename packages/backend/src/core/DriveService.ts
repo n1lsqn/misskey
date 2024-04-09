@@ -309,6 +309,10 @@ export class DriveService {
 			const metadata = await img.metadata();
 			isAnimated = !!(metadata.pages && metadata.pages > 1);
 
+			const maxSize = this.config.buiso?.maxWebImageSize ?? 8192;
+			// buiso Extension (ported from nirila): We want to keep original size as possible
+			// noinspection PointlessBooleanExpressionJS
+)
 			satisfyWebpublic = !!(
 				type !== 'image/svg+xml' && // security reason
 				type !== 'image/avif' && // not supported by Mastodon and MS Edge
