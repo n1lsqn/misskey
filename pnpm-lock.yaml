@@ -716,14 +716,14 @@ importers:
         specifier: 15.0.0
         version: 15.0.0
       '@vitejs/plugin-vue':
-        specifier: 5.0.3
-        version: 5.0.3(vite@5.1.4)(vue@3.4.21)
+        specifier: 5.0.4
+        version: 5.0.4(vite@5.1.4)(vue@3.4.21)
       '@vue/compiler-sfc':
-        specifier: 3.4.18
-        version: 3.4.18
+        specifier: 3.4.21
+        version: 3.4.21
       aiscript-vscode:
-        specifier: github:aiscript-dev/aiscript-vscode#v0.1.2
-        version: github.com/aiscript-dev/aiscript-vscode/793211d40243c8775f6b85f015c221c82cbffb07
+        specifier: github:aiscript-dev/aiscript-vscode#v0.1.4
+        version: github.com/aiscript-dev/aiscript-vscode/3f79d6f0550369267220aa67702287948d885424
       astring:
         specifier: 1.8.6
         version: 1.8.6
@@ -922,7 +922,7 @@ importers:
         version: 8.0.0-beta.2(react-dom@18.2.0)(react@18.2.0)(typescript@5.3.3)(vite@5.1.4)(vue@3.4.21)
       '@testing-library/vue':
         specifier: 8.0.2
-        version: 8.0.2(@vue/compiler-sfc@3.4.18)(vue@3.4.21)
+        version: 8.0.2(@vue/compiler-sfc@3.4.21)(vue@3.4.21)
       '@types/escape-regexp':
         specifier: 0.0.3
         version: 0.0.3
@@ -6876,7 +6876,7 @@ packages:
       ts-dedent: 2.2.0
       type-fest: 2.19.0
       vue: 3.4.21(typescript@5.3.3)
-      vue-component-type-helpers: 2.0.7
+      vue-component-type-helpers: 2.0.11
     transitivePeerDependencies:
       - encoding
       - supports-color
@@ -7347,7 +7347,7 @@ packages:
       '@testing-library/dom': 9.3.3
     dev: true
 
-  /@testing-library/vue@8.0.2(@vue/compiler-sfc@3.4.18)(vue@3.4.21):
+  /@testing-library/vue@8.0.2(@vue/compiler-sfc@3.4.21)(vue@3.4.21):
     resolution: {integrity: sha512-A8wWX+qQn0o0izpQWnGCpwQt8wAdpsVP8vPP2h5Q/jcGhZ5yKXz9PPUqhQv+45LTFaWlyRf8bArTVaB/KFFd5A==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -7359,7 +7359,7 @@ packages:
     dependencies:
       '@babel/runtime': 7.23.4
       '@testing-library/dom': 9.3.3
-      '@vue/compiler-sfc': 3.4.18
+      '@vue/compiler-sfc': 3.4.21
       '@vue/test-utils': 2.4.1(vue@3.4.21)
       vue: 3.4.21(typescript@5.3.3)
     transitivePeerDependencies:
@@ -8294,8 +8294,8 @@ packages:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
     dev: true
 
-  /@vitejs/plugin-vue@5.0.3(vite@5.1.4)(vue@3.4.21):
-    resolution: {integrity: sha512-b8S5dVS40rgHdDrw+DQi/xOM9ed+kSRZzfm1T74bMmBDCd8XO87NKlFYInzCtwvtWwXZvo1QxE2OSspTATWrbA==}
+  /@vitejs/plugin-vue@5.0.4(vite@5.1.4)(vue@3.4.21):
+    resolution: {integrity: sha512-WS3hevEszI6CEVEx28F8RjTX97k3KsrcY6kvTg7+Whm5y3oYvcqzVeGCU3hxSAn4uY2CLCkeokkGKpoctccilQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
     peerDependencies:
       vite: ^5.0.0
@@ -8431,15 +8431,6 @@ packages:
       source-map-js: 1.0.2
     dev: true
 
-  /@vue/compiler-core@3.4.18:
-    resolution: {integrity: sha512-F7YK8lMK0iv6b9/Gdk15A67wM0KKZvxDxed0RR60C1z9tIJTKta+urs4j0RTN5XqHISzI3etN3mX0uHhjmoqjQ==}
-    dependencies:
-      '@babel/parser': 7.23.9
-      '@vue/shared': 3.4.18
-      entities: 4.5.0
-      estree-walker: 2.0.2
-      source-map-js: 1.0.2
-
   /@vue/compiler-core@3.4.21:
     resolution: {integrity: sha512-MjXawxZf2SbZszLPYxaFCjxfibYrzr3eYbKxwpLR9EQN+oaziSu3qKVbwBERj1IFIB8OLUewxB5m/BFzi613og==}
     dependencies:
@@ -8456,30 +8447,11 @@ packages:
       '@vue/shared': 3.3.12
     dev: true
 
-  /@vue/compiler-dom@3.4.18:
-    resolution: {integrity: sha512-24Eb8lcMfInefvQ6YlEVS18w5Q66f4+uXWVA+yb7praKbyjHRNuKVWGuinfSSjM0ZIiPi++QWukhkgznBaqpEA==}
-    dependencies:
-      '@vue/compiler-core': 3.4.18
-      '@vue/shared': 3.4.18
-
   /@vue/compiler-dom@3.4.21:
     resolution: {integrity: sha512-IZC6FKowtT1sl0CR5DpXSiEB5ayw75oT2bma1BEhV7RRR1+cfwLrxc2Z8Zq/RGFzJ8w5r9QtCOvTjQgdn0IKmA==}
     dependencies:
       '@vue/compiler-core': 3.4.21
       '@vue/shared': 3.4.21
-
-  /@vue/compiler-sfc@3.4.18:
-    resolution: {integrity: sha512-rG5tqtnzwrVpMqAQ7FHtvHaV70G6LLfJIWLYZB/jZ9m/hrnZmIQh+H3ewnC5onwe/ibljm9+ZupxeElzqCkTAw==}
-    dependencies:
-      '@babel/parser': 7.23.9
-      '@vue/compiler-core': 3.4.18
-      '@vue/compiler-dom': 3.4.18
-      '@vue/compiler-ssr': 3.4.18
-      '@vue/shared': 3.4.18
-      estree-walker: 2.0.2
-      magic-string: 0.30.7
-      postcss: 8.4.33
-      source-map-js: 1.0.2
 
   /@vue/compiler-sfc@3.4.21:
     resolution: {integrity: sha512-me7epoTxYlY+2CUM7hy9PCDdpMPfIwrOvAXud2Upk10g4YLv9UBW7kL798TvMeDhPthkZ0CONNrK2GoeI1ODiQ==}
@@ -8493,12 +8465,6 @@ packages:
       magic-string: 0.30.7
       postcss: 8.4.35
       source-map-js: 1.0.2
-
-  /@vue/compiler-ssr@3.4.18:
-    resolution: {integrity: sha512-hSlv20oUhPxo2UYUacHgGaxtqP0tvFo6ixxxD6JlXIkwzwoZ9eKK6PFQN4hNK/R13JlNyldwWt/fqGBKgWJ6nQ==}
-    dependencies:
-      '@vue/compiler-dom': 3.4.18
-      '@vue/shared': 3.4.18
 
   /@vue/compiler-ssr@3.4.21:
     resolution: {integrity: sha512-M5+9nI2lPpAsgXOGQobnIueVqc9sisBFexh5yMIMRAPYLa7+5wEJs8iqOZc1WAa9WQbx9GR2twgznU8LTIiZ4Q==}
@@ -8576,6 +8542,7 @@ packages:
 
   /@vue/shared@3.4.18:
     resolution: {integrity: sha512-CxouGFxxaW5r1WbrSmWwck3No58rApXgRSBxrqgnY1K+jk20F6DrXJkHdH9n4HVT+/B6G2CAn213Uq3npWiy8Q==}
+    dev: true
 
   /@vue/shared@3.4.21:
     resolution: {integrity: sha512-PuJe7vDIi6VYSinuEbUIQgMIRZGgM8e4R+G+/dQTk0X1NEdvgvvgv7m+rfmDH1gZzyA1OjjoWskvHlfRNfQf3g==}
@@ -16842,6 +16809,7 @@ packages:
       nanoid: 3.3.7
       picocolors: 1.0.0
       source-map-js: 1.0.2
+    dev: false
 
   /postcss@8.4.35:
     resolution: {integrity: sha512-u5U8qYpBCpN13BsiEB0CbR1Hhh4Gc0zLFuedrHJKMctHCHAGrMdG0PRM/KErzAL3CU6/eckEtmHNB3x6e3c0vA==}
@@ -19888,8 +19856,8 @@ packages:
     resolution: {integrity: sha512-6bnLkn8O0JJyiFSIF0EfCogzeqNXpnjJ0vW/SZzNHfe6sPx30lTtTXlE5TFs2qhJlAtDFybStVNpL73cPe3OMQ==}
     dev: true
 
-  /vue-component-type-helpers@2.0.7:
-    resolution: {integrity: sha512-7e12Evdll7JcTIocojgnCgwocX4WzIYStGClBQ+QuWPinZo/vQolv2EMq4a3lg16TKfwWafLimG77bxb56UauA==}
+  /vue-component-type-helpers@2.0.11:
+    resolution: {integrity: sha512-8aluKz5oVC8PvVQAYgyIefOlqzKVmAOTCx2imbrFBVLbF7mnJvyMsE2A7rqX/4f4uT6ee9o8u3GcoRpUWc0xsw==}
     dev: true
 
   /vue-demi@0.14.7(vue@3.4.21):
@@ -19913,7 +19881,7 @@ packages:
       '@babel/parser': 7.23.9
       '@babel/types': 7.23.5
       '@vue/compiler-dom': 3.3.12
-      '@vue/compiler-sfc': 3.4.18
+      '@vue/compiler-sfc': 3.4.21
       ast-types: 0.14.2
       hash-sum: 2.0.0
       lru-cache: 8.0.4
@@ -20421,10 +20389,10 @@ packages:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}
     dev: true
 
-  '@github.com/aiscript-dev/aiscript-languageserver/releases/download/0.1.5/aiscript-dev-aiscript-languageserver-0.1.5.tgz':
-    resolution: {tarball: https://github.com/aiscript-dev/aiscript-languageserver/releases/download/0.1.5/aiscript-dev-aiscript-languageserver-0.1.5.tgz}
+  '@github.com/aiscript-dev/aiscript-languageserver/releases/download/0.1.6/aiscript-dev-aiscript-languageserver-0.1.6.tgz':
+    resolution: {tarball: https://github.com/aiscript-dev/aiscript-languageserver/releases/download/0.1.6/aiscript-dev-aiscript-languageserver-0.1.6.tgz}
     name: '@aiscript-dev/aiscript-languageserver'
-    version: 0.1.5
+    version: 0.1.6
     hasBin: true
     dependencies:
       seedrandom: 3.0.5
@@ -20434,13 +20402,13 @@ packages:
       vscode-languageserver-textdocument: 1.0.11
     dev: false
 
-  github.com/aiscript-dev/aiscript-vscode/793211d40243c8775f6b85f015c221c82cbffb07:
-    resolution: {tarball: https://codeload.github.com/aiscript-dev/aiscript-vscode/tar.gz/793211d40243c8775f6b85f015c221c82cbffb07}
+  github.com/aiscript-dev/aiscript-vscode/3f79d6f0550369267220aa67702287948d885424:
+    resolution: {tarball: https://codeload.github.com/aiscript-dev/aiscript-vscode/tar.gz/3f79d6f0550369267220aa67702287948d885424}
     name: aiscript-vscode
-    version: 0.1.2
+    version: 0.1.4
     engines: {vscode: ^1.83.0}
     dependencies:
-      '@aiscript-dev/aiscript-languageserver': '@github.com/aiscript-dev/aiscript-languageserver/releases/download/0.1.5/aiscript-dev-aiscript-languageserver-0.1.5.tgz'
+      '@aiscript-dev/aiscript-languageserver': '@github.com/aiscript-dev/aiscript-languageserver/releases/download/0.1.6/aiscript-dev-aiscript-languageserver-0.1.6.tgz'
       vscode-languageclient: 9.0.1
     dev: false
 
