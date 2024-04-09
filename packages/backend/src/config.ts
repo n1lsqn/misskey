@@ -174,6 +174,10 @@ export type Config = {
 	perUserNotificationsMaxCount: number;
 	deactivateAntennaThreshold: number;
 	pidFile: string;
+
+	buiso: {
+		maxWebImageSize?: number;
+	}
 };
 
 const _filename = fileURLToPath(import.meta.url);
