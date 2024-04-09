@@ -219,6 +219,7 @@ export function loadConfig(): Config {
 	const redis = convertRedisOptions(config.redis, host);
 
 	return {
+		buiso: config.buiso ?? {},
 		version,
 		publishTarballInsteadOfProvideRepositoryUrl: !!config.publishTarballInsteadOfProvideRepositoryUrl,
 		url: url.origin,
