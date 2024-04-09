@@ -77,6 +77,21 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<option value="always">{{ i18n.ts._instanceTicker.always }}</option>
 			</MkSelect>
 
+			<MkSelect v-model="instanceTickerStyle">
+				<template #label>
+					{{ i18n.ts.instanceTickerStyle }}
+					<span class="_beta">
+						{{ "originFeature" }}
+					</span>
+				</template>
+				<option value="default">{{ i18n.ts._instanceTickerStyle.default }}</option>
+				<option value="minimal">{{ i18n.ts._instanceTickerStyle.minimal }}</option>
+				<option value="icon">{{ i18n.ts._instanceTickerStyle.icon }}</option>
+				<!--
+					<option value="iconColor">{{ i18n.ts._instanceTickerStyle.iconColor }}</option>
+				-->
+			</MkSelect>
+
 			<MkSelect v-model="nsfw">
 				<template #label>{{ i18n.ts.displayOfSensitiveMedia }}</template>
 				<option value="respect">{{ i18n.ts._displayOfSensitiveMedia.respect }}</option>
@@ -252,18 +267,9 @@ SPDX-License-Identifier: AGPL-3.0-only
 	</FormSection>
 
 	<FormSection>
-		<template #label>{{ i18n.ts._uniqueFeatures.uniqueFeature || "独自機能"}}</template>
+		<template #label>{{ i18n.ts._uniqueFeatures.uniqueFeature || "独自機能" }}</template>
 
 		<div class="_gaps_m">
-			<MkSelect v-model="instanceTickerStyle">
-				<template #label>{{ i18n.ts.instanceTickerStyle }}</template>
-				<option value="default">{{ i18n.ts._instanceTickerStyle.default }}</option>
-				<option value="minimal">{{ i18n.ts._instanceTickerStyle.minimal }}</option>
-				<option value="icon">{{ i18n.ts._instanceTickerStyle.icon }}</option>
-				<!--
-					<option value="iconColor">{{ i18n.ts._instanceTickerStyle.iconColor }}</option>
-				-->
-			</MkSelect>
 			<MkFolder>
 				<template #label>{{ i18n.ts._uniqueFeatures.hiddenProfile || "プロフィールを非表示にする機能" }}</template>
 				<div class="_gaps_m">
@@ -276,116 +282,115 @@ SPDX-License-Identifier: AGPL-3.0-only
 						{{ i18n.ts._uniqueFeatures.hiddenPinnedNotes || "プロフィール上からピン留めしたノートを非表示にします" }}
 					</MkSwitch>
 					<MkSwitch v-model="hiddenActivity">
-						<template #caption>{{ i18n.ts._uniqueFeatures.hiddenActivityDescription || "プロフィール上からアクティビティを非表示にすることで、プロフィールページをスッキリさせることができます。"}}</template>
+						<template #caption>{{ i18n.ts._uniqueFeatures.hiddenActivityDescription || "プロフィール上からアクティビティを非表示にすることで、プロフィールページをスッキリさせることができます。" }}</template>
 						{{ i18n.ts._uniqueFeatures.hiddenActivity || "プロフィール上からアクティビティを非表示にします" }}
 					</MkSwitch>
 					<MkSwitch v-model="hiddenFiles">
-						<template #caption>{{ i18n.ts._uniqueFeatures.hiddenFilesDescription || "ファイルを非表示にすることで、プロフィールページをスッキリさせることができます。"}}</template>
+						<template #caption>{{ i18n.ts._uniqueFeatures.hiddenFilesDescription || "ファイルを非表示にすることで、プロフィールページをスッキリさせることができます。" }}</template>
 						{{ i18n.ts._uniqueFeatures.hiddenFiles || "プロフィール上からファイルを非表示にします。" }}
 					</MkSwitch>
 				</div>
 			</MkFolder>
 
 			<div class="_gaps_m">
-
 				<MkFolder>
 					<template #label>{{ i18n.ts._uniqueFeatures.remoteLocalTimeline || "リモート上のサーバーのローカルタイムラインを覗く機能" }}</template>
-						<div class="_gaps_m">
-							<FormSection v-if="maxLocalTimeline >= 1">
-								<div v-if="maxLocalTimeline >= 1" class="_gaps_s">
-									<MkInput v-model="remoteLocalTimelineName1" placeholder="hostName">
-										<template #label>{{ i18n.ts.name }}</template>
-									</MkInput>
-									<MkInput v-model="remoteLocalTimelineDomain1" placeholder="hostDomain.jp">
-										<template #label>{{ i18n.ts.serverUrl }}</template>
-									</MkInput>
-									<MkInput v-model="remoteLocalTimelineToken1" placeholder="accessToken">
-										<template #prefix><i class="ti ti-api"></i></template>
-										<template #label>{{ i18n.ts.accessToken }}</template>
-									</MkInput>
-									<MkSwitch v-model="remoteLocalTimelineEnable1">
-										{{ i18n.ts.enable }}
-									</MkSwitch>
-								</div>
-							</FormSection>
+					<div class="_gaps_m">
+						<FormSection v-if="maxLocalTimeline >= 1">
+							<div v-if="maxLocalTimeline >= 1" class="_gaps_s">
+								<MkInput v-model="remoteLocalTimelineName1" placeholder="hostName">
+									<template #label>{{ i18n.ts.name }}</template>
+								</MkInput>
+								<MkInput v-model="remoteLocalTimelineDomain1" placeholder="hostDomain.jp">
+									<template #label>{{ i18n.ts.serverUrl }}</template>
+								</MkInput>
+								<MkInput v-model="remoteLocalTimelineToken1" placeholder="accessToken">
+									<template #prefix><i class="ti ti-api"></i></template>
+									<template #label>{{ i18n.ts.accessToken }}</template>
+								</MkInput>
+								<MkSwitch v-model="remoteLocalTimelineEnable1">
+									{{ i18n.ts.enable }}
+								</MkSwitch>
+							</div>
+						</FormSection>
 
-							<FormSection v-if="maxLocalTimeline >= 2">
-								<div v-if="maxLocalTimeline >= 2" class="_gaps_m">
-									<MkInput v-model="remoteLocalTimelineName2" placeholder="hostName">
-										<template #label>{{ i18n.ts.name }}</template>
-									</MkInput>
-									<MkInput v-model="remoteLocalTimelineDomain2" placeholder="hostDomain.jp">
-										<template #label>{{ i18n.ts.serverUrl }}</template>
-									</MkInput>
-									<MkInput v-model="remoteLocalTimelineToken2" placeholder="accessToken">
-										<template #prefix><i class="ti ti-api"></i></template>
-										<template #label>{{ i18n.ts.accessToken }}</template>
-									</MkInput>
-									<MkSwitch v-model="remoteLocalTimelineEnable2">
-										{{ i18n.ts.enable }}
-									</MkSwitch>
-								</div>
-							</FormSection>
+						<FormSection v-if="maxLocalTimeline >= 2">
+							<div v-if="maxLocalTimeline >= 2" class="_gaps_m">
+								<MkInput v-model="remoteLocalTimelineName2" placeholder="hostName">
+									<template #label>{{ i18n.ts.name }}</template>
+								</MkInput>
+								<MkInput v-model="remoteLocalTimelineDomain2" placeholder="hostDomain.jp">
+									<template #label>{{ i18n.ts.serverUrl }}</template>
+								</MkInput>
+								<MkInput v-model="remoteLocalTimelineToken2" placeholder="accessToken">
+									<template #prefix><i class="ti ti-api"></i></template>
+									<template #label>{{ i18n.ts.accessToken }}</template>
+								</MkInput>
+								<MkSwitch v-model="remoteLocalTimelineEnable2">
+									{{ i18n.ts.enable }}
+								</MkSwitch>
+							</div>
+						</FormSection>
 
-							<FormSection v-if="maxLocalTimeline >= 3">
-								<div v-if="maxLocalTimeline >= 3" class="_gaps_m">
-									<MkInput v-model="remoteLocalTimelineName3" placeholder="hostName">
-										<template #label>{{ i18n.ts.name }}</template>
-									</MkInput>
-									<MkInput v-model="remoteLocalTimelineDomain3" placeholder="hostDomain.jp">
-										<template #label>{{ i18n.ts.serverUrl }}</template>
-									</MkInput>
-									<MkInput v-model="remoteLocalTimelineToken3" placeholder="accessToken">
-										<template #prefix><i class="ti ti-api"></i></template>
-										<template #label>{{ i18n.ts.accessToken }}</template>
-									</MkInput>
-									<MkSwitch v-model="remoteLocalTimelineEnable3">
-										{{ i18n.ts.enable }}
-									</MkSwitch>
-								</div>
-							</FormSection>
+						<FormSection v-if="maxLocalTimeline >= 3">
+							<div v-if="maxLocalTimeline >= 3" class="_gaps_m">
+								<MkInput v-model="remoteLocalTimelineName3" placeholder="hostName">
+									<template #label>{{ i18n.ts.name }}</template>
+								</MkInput>
+								<MkInput v-model="remoteLocalTimelineDomain3" placeholder="hostDomain.jp">
+									<template #label>{{ i18n.ts.serverUrl }}</template>
+								</MkInput>
+								<MkInput v-model="remoteLocalTimelineToken3" placeholder="accessToken">
+									<template #prefix><i class="ti ti-api"></i></template>
+									<template #label>{{ i18n.ts.accessToken }}</template>
+								</MkInput>
+								<MkSwitch v-model="remoteLocalTimelineEnable3">
+									{{ i18n.ts.enable }}
+								</MkSwitch>
+							</div>
+						</FormSection>
 
-							<FormSection v-if="maxLocalTimeline >= 4">
-								<div v-if="maxLocalTimeline >= 4" class="_gaps_m">
-									<MkInput v-model="remoteLocalTimelineName4" placeholder="hostName">
-										<template #label>{{ i18n.ts.name }}</template>
-									</MkInput>
-									<MkInput v-model="remoteLocalTimelineDomain4" placeholder="hostDomain.jp">
-										<template #label>{{ i18n.ts.serverUrl }}</template>
-									</MkInput>
-									<MkInput v-model="remoteLocalTimelineToken4" placeholder="accessToken">
-										<template #prefix><i class="ti ti-api"></i></template>
-										<template #label>{{ i18n.ts.accessToken }}</template>
-									</MkInput>
-									<MkSwitch v-model="remoteLocalTimelineEnable4">
-										{{ i18n.ts.enable }}
-									</MkSwitch>
-								</div>
-							</FormSection>
+						<FormSection v-if="maxLocalTimeline >= 4">
+							<div v-if="maxLocalTimeline >= 4" class="_gaps_m">
+								<MkInput v-model="remoteLocalTimelineName4" placeholder="hostName">
+									<template #label>{{ i18n.ts.name }}</template>
+								</MkInput>
+								<MkInput v-model="remoteLocalTimelineDomain4" placeholder="hostDomain.jp">
+									<template #label>{{ i18n.ts.serverUrl }}</template>
+								</MkInput>
+								<MkInput v-model="remoteLocalTimelineToken4" placeholder="accessToken">
+									<template #prefix><i class="ti ti-api"></i></template>
+									<template #label>{{ i18n.ts.accessToken }}</template>
+								</MkInput>
+								<MkSwitch v-model="remoteLocalTimelineEnable4">
+									{{ i18n.ts.enable }}
+								</MkSwitch>
+							</div>
+						</FormSection>
 
-							<FormSection v-if="maxLocalTimeline >= 5">
-								<div v-if="maxLocalTimeline >= 5" class="_gaps_m">
-									<MkInput v-model="remoteLocalTimelineName5" placeholder="hostName">
-										<template #label>{{ i18n.ts.name }}</template>
-									</MkInput>
-									<MkInput v-model="remoteLocalTimelineDomain5" placeholder="hostDomain.jp">
-										<template #label>{{ i18n.ts.serverUrl }}</template>
-									</MkInput>
-									<MkInput v-model="remoteLocalTimelineToken5" placeholder="accessToken">
-										<template #prefix><i class="ti ti-api"></i></template>
-										<template #label>{{ i18n.ts.accessToken }}</template>
-									</MkInput>
-									<MkSwitch v-model="remoteLocalTimelineEnable5">
-										{{ i18n.ts.enable }}
-									</MkSwitch>
-								</div>
-							</FormSection>
+						<FormSection v-if="maxLocalTimeline >= 5">
+							<div v-if="maxLocalTimeline >= 5" class="_gaps_m">
+								<MkInput v-model="remoteLocalTimelineName5" placeholder="hostName">
+									<template #label>{{ i18n.ts.name }}</template>
+								</MkInput>
+								<MkInput v-model="remoteLocalTimelineDomain5" placeholder="hostDomain.jp">
+									<template #label>{{ i18n.ts.serverUrl }}</template>
+								</MkInput>
+								<MkInput v-model="remoteLocalTimelineToken5" placeholder="accessToken">
+									<template #prefix><i class="ti ti-api"></i></template>
+									<template #label>{{ i18n.ts.accessToken }}</template>
+								</MkInput>
+								<MkSwitch v-model="remoteLocalTimelineEnable5">
+									{{ i18n.ts.enable }}
+								</MkSwitch>
+							</div>
+						</FormSection>
 
-							<MkButton @click="remoteLocaltimelineSave">
-								{{ i18n.ts.save }}
-							</MkButton>
-						</div>
-					</MkFolder>
+						<MkButton @click="remoteLocaltimelineSave">
+							{{ i18n.ts.save }}
+						</MkButton>
+					</div>
+				</MkFolder>
 			</div>
 		</div>
 	</FormSection>
