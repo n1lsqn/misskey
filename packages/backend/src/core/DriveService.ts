@@ -310,7 +310,7 @@ export class DriveService {
 			isAnimated = !!(metadata.pages && metadata.pages > 1);
 
 			const maxSize = this.config.buiso?.maxWebImageSize ?? 8192;
-			// nirila Extension: We want to keep original size as possible
+			// buiso Extension (ported from nirila): We want to keep original size as possible
 			// noinspection PointlessBooleanExpressionJS
 			satisfyWebpublic = !!(
 				type !== 'image/svg+xml' && // security reason
