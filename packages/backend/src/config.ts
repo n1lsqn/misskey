@@ -93,6 +93,10 @@ type Source = {
 	perUserNotificationsMaxCount?: number;
 	deactivateAntennaThreshold?: number;
 	pidFile: string;
+
+	buiso?: {
+		maxWebImageSize?: number;
+	}
 };
 
 export type Config = {
@@ -170,6 +174,10 @@ export type Config = {
 	perUserNotificationsMaxCount: number;
 	deactivateAntennaThreshold: number;
 	pidFile: string;
+
+	buiso: {
+		maxWebImageSize?: number;
+	}
 };
 
 const _filename = fileURLToPath(import.meta.url);
@@ -211,6 +219,7 @@ export function loadConfig(): Config {
 	const redis = convertRedisOptions(config.redis, host);
 
 	return {
+		buiso: config.buiso ?? {},
 		version,
 		publishTarballInsteadOfProvideRepositoryUrl: !!config.publishTarballInsteadOfProvideRepositoryUrl,
 		url: url.origin,
