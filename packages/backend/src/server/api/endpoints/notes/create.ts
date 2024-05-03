@@ -480,7 +480,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 						});
 
 						const delay = new Date(ps.schedule.scheduledAt).getTime() - Date.now();
-						await this.queueService.ScheduleNotePostQueue.add(delay.toString(), {
+						await this.queueService.scheduleNotePostQueue.add(delay.toString(), {
 								scheduledNoteId,
 						}, {
 								jobId: scheduledNoteId,

@@ -49,7 +49,7 @@ export function uploadFile(
 
 			const ctx = reactive<Uploading>({
 				id: id,
-				name: defaultStore.state.filenameRandomize ? uuid() : name ?? file.name ?? 'untitled' ?? defaultStore.state.keepOriginalFilename ? filename : id + extension,
+				name: defaultStore.state.keepOriginalFilename ? filename : id + extension,
 				progressMax: undefined,
 				progressValue: undefined,
 				img: window.URL.createObjectURL(file),
