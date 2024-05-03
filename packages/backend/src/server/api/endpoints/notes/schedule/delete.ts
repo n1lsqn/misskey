@@ -47,7 +47,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 		super(meta, paramDef, async (ps, me) => {
 			await this.scheduledNotesRepository.delete({ id: ps.scheduledNoteId });
 			if (ps.scheduledNoteId) {
-				await this.queueService.ScheduleNotePostQueue.remove(ps.scheduledNoteId);
+				await this.queueService.scheduleNotePostQueue.remove(ps.scheduledNoteId);
 			}
 		});
 	}

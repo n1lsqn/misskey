@@ -77,6 +77,21 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<option value="always">{{ i18n.ts._instanceTicker.always }}</option>
 			</MkSelect>
 
+			<MkSelect v-model="instanceTickerStyle">
+				<template #label>
+					{{ i18n.ts.instanceTickerStyle }}
+					<span class="_beta">
+						{{ "originFeature" }}
+					</span>
+				</template>
+				<option value="default">{{ i18n.ts._instanceTickerStyle.default }}</option>
+				<option value="minimal">{{ i18n.ts._instanceTickerStyle.minimal }}</option>
+				<option value="icon">{{ i18n.ts._instanceTickerStyle.icon }}</option>
+				<!--
+					<option value="iconColor">{{ i18n.ts._instanceTickerStyle.iconColor }}</option>
+				-->
+			</MkSelect>
+
 			<MkSelect v-model="nsfw">
 				<template #label>{{ i18n.ts.displayOfSensitiveMedia }}</template>
 				<option value="respect">{{ i18n.ts._displayOfSensitiveMedia.respect }}</option>
@@ -134,6 +149,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<MkSwitch v-model="disableDrawer">{{ i18n.ts.disableDrawer }}</MkSwitch>
 				<MkSwitch v-model="forceShowAds">{{ i18n.ts.forceShowAds }}</MkSwitch>
 				<MkSwitch v-model="enableSeasonalScreenEffect">{{ i18n.ts.seasonalScreenEffect }}</MkSwitch>
+				<MkSwitch v-model="useNativeUIForVideoAudioPlayer">{{ i18n.ts.useNativeUIForVideoAudioPlayer }}</MkSwitch>
 			</div>
 			<div>
 				<MkRadios v-model="emojiStyle">
@@ -166,6 +182,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<MkSwitch v-model="keepScreenOn">{{ i18n.ts.keepScreenOn }}</MkSwitch>
 				<MkSwitch v-model="disableStreamingTimeline">{{ i18n.ts.disableStreamingTimeline }}</MkSwitch>
 				<MkSwitch v-model="enableHorizontalSwipe">{{ i18n.ts.enableHorizontalSwipe }}</MkSwitch>
+				<MkSwitch v-model="alwaysConfirmFollow">{{ i18n.ts.alwaysConfirmFollow }}</MkSwitch>
 			</div>
 			<MkSelect v-model="serverDisconnectedBehavior">
 				<template #label>{{ i18n.ts.whenServerDisconnected }}</template>
@@ -251,45 +268,34 @@ SPDX-License-Identifier: AGPL-3.0-only
 	</FormSection>
 
 	<FormSection>
-		<template #label>{{ i18n.ts._uniqueFeatures.uniqueFeature }}</template>
+		<template #label>{{ i18n.ts._uniqueFeatures.uniqueFeature || "独自機能" }}</template>
 
 		<div class="_gaps_m">
-			<MkSelect v-model="instanceTickerStyle">
-				<template #label>{{ i18n.ts.instanceTickerStyle }}</template>
-				<option value="default">{{ i18n.ts._instanceTickerStyle.default }}</option>
-				<option value="minimal">{{ i18n.ts._instanceTickerStyle.minimal }}</option>
-				<option value="icon">{{ i18n.ts._instanceTickerStyle.icon }}</option>
-				<!--
-					<option value="iconColor">{{ i18n.ts._instanceTickerStyle.iconColor }}</option>
-				-->
-			</MkSelect>
+			<MkFolder>
+				<template #label>{{ i18n.ts._uniqueFeatures.hiddenProfile || "プロフィールを非表示にする機能" }}</template>
+				<div class="_gaps_m">
+					<div class="_buttons">
+						<MkButton inline @click="enableAllHidden">{{ i18n.ts.enableAll }}</MkButton>
+						<MkButton inline @click="disableAllHidden">{{ i18n.ts.disableAll }}</MkButton>
+					</div>
+					<MkSwitch v-model="hiddenPinnedNotes">
+						<template #caption>{{ i18n.ts._uniqueFeatures.hiddenPinnedNotesDescription || "ピン留めしたノートを非表示にすることで、プロフィールページをスッキリさせることができます。" }}</template>
+						{{ i18n.ts._uniqueFeatures.hiddenPinnedNotes || "プロフィール上からピン留めしたノートを非表示にします" }}
+					</MkSwitch>
+					<MkSwitch v-model="hiddenActivity">
+						<template #caption>{{ i18n.ts._uniqueFeatures.hiddenActivityDescription || "プロフィール上からアクティビティを非表示にすることで、プロフィールページをスッキリさせることができます。" }}</template>
+						{{ i18n.ts._uniqueFeatures.hiddenActivity || "プロフィール上からアクティビティを非表示にします" }}
+					</MkSwitch>
+					<MkSwitch v-model="hiddenFiles">
+						<template #caption>{{ i18n.ts._uniqueFeatures.hiddenFilesDescription || "ファイルを非表示にすることで、プロフィールページをスッキリさせることができます。" }}</template>
+						{{ i18n.ts._uniqueFeatures.hiddenFiles || "プロフィール上からファイルを非表示にします。" }}
+					</MkSwitch>
+				</div>
+			</MkFolder>
 
 			<div class="_gaps_m">
 				<MkFolder>
-					<template #label>{{ i18n.ts._uniqueFeatures.hiddenProfile }}</template>
-					<div class="_gaps_m">
-						<div class="_buttons">
-							<MkButton inline @click="enableAllHidden">{{ i18n.ts.enableAll }}</MkButton>
-							<MkButton inline @click="disableAllHidden">{{ i18n.ts.disableAll }}</MkButton>
-						</div>
-						<MkSwitch v-model="hiddenPinnedNotes">
-							<template #caption>{{ i18n.ts._uniqueFeatures.hiddenPinnedNotesDescription }}</template>
-							{{ i18n.ts._uniqueFeatures.hiddenPinnedNotes }}
-						</MkSwitch>
-						<MkSwitch v-model="hiddenActivity">
-							<template #caption>{{ i18n.ts._uniqueFeatures.hiddenActivityDescription }}</template>
-							{{ i18n.ts._uniqueFeatures.hiddenActivity }}
-						</MkSwitch>
-						<MkSwitch v-model="hiddenFiles">
-							<template #caption>{{ i18n.ts._uniqueFeatures.hiddenFilesDescription }}</template>
-							{{ i18n.ts._uniqueFeatures.hiddenFiles }}
-						</MkSwitch>
-					</div>
-				</MkFolder>
-
-				<MkFolder>
-					<template #label>{{ i18n.ts._uniqueFeatuers.remoteLocalTimeline }}</template>
-
+					<template #label>{{ i18n.ts._uniqueFeatures.remoteLocalTimeline || "リモート上のサーバーのローカルタイムラインを覗く機能" }}</template>
 					<div class="_gaps_m">
 						<FormSection v-if="maxLocalTimeline >= 1">
 							<div v-if="maxLocalTimeline >= 1" class="_gaps_s">
@@ -500,6 +506,8 @@ const disableStreamingTimeline = computed(defaultStore.makeGetterSetter('disable
 const useGroupedNotifications = computed(defaultStore.makeGetterSetter('useGroupedNotifications'));
 const enableSeasonalScreenEffect = computed(defaultStore.makeGetterSetter('enableSeasonalScreenEffect'));
 const enableHorizontalSwipe = computed(defaultStore.makeGetterSetter('enableHorizontalSwipe'));
+const useNativeUIForVideoAudioPlayer = computed(defaultStore.makeGetterSetter('useNativeUIForVideoAudioPlayer'));
+const alwaysConfirmFollow = computed(defaultStore.makeGetterSetter('alwaysConfirmFollow'));
 
 const remoteLocalTimelineName1 = ref(defaultStore.state['remoteLocalTimelineName1']);
 const remoteLocalTimelineDomain1 = ref(defaultStore.state['remoteLocalTimelineDomain1']);
@@ -577,6 +585,7 @@ watch([
 	hiddenPinnedNotes,
 	hiddenActivity,
 	hiddenFiles,
+	alwaysConfirmFollow,
 ], async () => {
 	await reloadAsk();
 });
