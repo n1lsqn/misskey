@@ -68,7 +68,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 				</MkFolder>
 				<MkSwitch v-model="isSensitive">isSensitive</MkSwitch>
 				<MkSwitch v-model="localOnly">{{ i18n.ts.localOnly }}</MkSwitch>
-				<MkButton v-if="emoji" danger @click="del()"><i class="ti ti-trash"></i> {{ i18n.ts.delete }}</MkButton>
+				<MkButton v-if="$i.policies.canEmojiDeletion" danger @click="del()"><i class="ti ti-trash"></i> {{ i18n.ts.delete }}</MkButton>
 			</div>
 		</MkSpacer>
 		<div :class="$style.footer">
@@ -93,10 +93,13 @@ import { customEmojiCategories } from '@/custom-emojis.js';
 import MkSwitch from '@/components/MkSwitch.vue';
 import { selectFile } from '@/scripts/select-file.js';
 import MkRolePreview from '@/components/MkRolePreview.vue';
+import { signinRequired } from '@/account';
 
 const props = defineProps<{
 	emoji?: any,
 }>();
+
+const $i = signinRequired();
 
 const windowEl = ref<InstanceType<typeof MkWindow> | null>(null);
 const name = ref<string>(props.emoji ? props.emoji.name : '');
