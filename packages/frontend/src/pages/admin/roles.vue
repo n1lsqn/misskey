@@ -54,7 +54,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 							<MkInput v-model="policies.mentionLimit" type="number">
 							</MkInput>
 						</MkFolder>
-						
+
 						<MkFolder v-if="matchQuery([i18n.ts._role._options.canScheduleNote, 'canScheduleNote'])">
 							<template #label>{{ i18n.ts._role._options.canScheduleNote }}</template>
 							<template #suffix>{{ policies.canScheduleNote ? i18n.ts.yes : i18n.ts.no }}</template>
@@ -129,6 +129,14 @@ SPDX-License-Identifier: AGPL-3.0-only
 							<template #label>{{ i18n.ts._role._options.canUseRemoteIconDecorations }}</template>
 							<template #suffix>{{ policies.canUseRemoteIconDecorations ? i18n.ts.yes : i18n.ts.no }}</template>
 							<MkSwitch v-model="policies.canUseRemoteIconDecorations">
+								<template #label>{{ i18n.ts.enable }}</template>
+							</MkSwitch>
+						</MkFolder>
+
+						<MkFolder v-if="matchQuery([i18n.ts._role._options.canEmojiDeletion, 'canEmojiDeletion'])">
+							<template #label>{{ i18n.ts._role._options.canEmojiDeletion }}</template>
+							<template #suffix>{{ policies.canEmojiDeletion ? i18n.ts.yes : i18n.ts.no }}</template>
+							<MkSwitch v-model="policies.canEmojiDeletion">
 								<template #label>{{ i18n.ts.enable }}</template>
 							</MkSwitch>
 						</MkFolder>
