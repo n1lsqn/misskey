@@ -4723,6 +4723,7 @@ export type components = {
       canUseChannel: boolean;
       canUseHighlight: boolean;
       canUseRemoteIconDecorations: boolean;
+      canEmojiDeletion: boolean;
       canSearchNotes: boolean;
       canUseTranslator: boolean;
       canHideAds: boolean;
