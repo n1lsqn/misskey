@@ -1,6 +1,6 @@
 {
 	"name": "misskey",
-	"version": "2024.3.1-n.9",
+	"version": "2024.3.1-n.11",
 	"codename": "nasubi",
 	"repository": {
 		"type": "git",
@@ -55,8 +55,10 @@
 		"js-yaml": "4.1.0",
 		"postcss": "8.4.33",
 		"tar": "6.2.0",
-		"terser": "5.27.0",
-		"typescript": "5.3.3"
+		"terser": "5.28.1",
+		"typescript": "5.3.3",
+		"esbuild": "0.19.11",
+		"glob": "10.3.10"
 	},
 	"devDependencies": {
 		"@types/node": "^20.11.28",
