@@ -86,7 +86,6 @@ const tab = ref('current');
 
 async function read(target) {
 	if (target.needConfirmationToRead || target.display === 'emergency') {
-	if (target.needConfirmationToRead) {
 		const confirm = await os.confirm({
 			type: 'question',
 			title: i18n.ts._announcement.readConfirmTitle,
@@ -94,7 +93,6 @@ async function read(target) {
 		});
 		if (confirm.canceled) return;
 	}
-}
 
 	if (!paginationEl.value) return;
 	paginationEl.value.updateItem(target.id, a => {
