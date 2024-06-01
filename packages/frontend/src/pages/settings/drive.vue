@@ -45,6 +45,11 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<template #caption>{{ i18n.ts.keepOriginalUploadingDescription }}</template>
 			</MkSwitch>
 
+			<MkSwitch v-model="keepOriginalFilename">
+				<template #label>{{ i18n.ts.keepOriginalFilename }}</template>
+				<template #caption>{{ i18n.ts.keepOriginalFilenameDescription }}</template>
+			</MkSwitch>
+
 			<MkFolder :defaultOpen="true">
 				<template #icon><i class="ti ti-photo"></i></template>
 				<template #label>{{ i18n.ts._imageCompressionMode.title }}</template>
@@ -115,9 +120,10 @@ const meterStyle = computed(() => {
 });
 
 const keepOriginalUploading = computed(defaultStore.makeGetterSetter('keepOriginalUploading'));
+const keepOriginalFilename = computed(defaultStore.makeGetterSetter('keepOriginalFilename'));
 const imageCompressionMode = computed(defaultStore.makeGetterSetter('imageCompressionMode'));
-const imageResize = ref(!!imageCompressionMode.value?.startsWith('resize'));
-const imageCompressionLossy = ref(!!imageCompressionMode.value?.endsWith('CompressLossy'));
+const imageResize = ref(!!imageCompressionMode.value.startsWith('resize'));
+const imageCompressionLossy = ref(!!imageCompressionMode.value.endsWith('CompressLossy'));
 
 watch([imageResize, imageCompressionLossy], ([imageResizeValue, imageCompressionLossyValue]) => {
 	const resizeMode: 'resize' | 'noResize' = imageResizeValue ? 'resize' : 'noResize';
