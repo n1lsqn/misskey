@@ -9,8 +9,8 @@ import { DI } from '@/di-symbols.js';
 import type { Config } from '@/config.js';
 import { QUEUE, baseQueueOptions } from '@/queue/const.js';
 import { allSettled } from '@/misc/promise-tracker.js';
-import type { Provider } from '@nestjs/common';
 import { DeliverJobData, EndedPollNotificationJobData, InboxJobData, RelationshipJobData, ScheduleNotePostJobData, ScheduledNoteDeleteJobData, WebhookDeliverJobData } from '@/queue/types.js';
+import type { Provider } from '@nestjs/common';
 
 export type ScheduledNoteDeleteQueue = Bull.Queue<ScheduledNoteDeleteJobData>
 export type SystemQueue = Bull.Queue<Record<string, unknown>>;
