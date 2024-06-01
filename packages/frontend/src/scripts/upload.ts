@@ -48,7 +48,7 @@ export function uploadFile(
 			const extension = filename.split('.').length > 1 ? '.' + filename.split('.').pop() : '';
 
 			const ctx = reactive<Uploading>({
-				id: id,
+				id,
 				name: defaultStore.state.keepOriginalFilename ? filename : id + extension,
 				progressMax: undefined,
 				progressValue: undefined,
