@@ -99,6 +99,7 @@ type Source = {
 
 	buiso?: {
 		maxWebImageSize?: number;
+		vmimiRelayTimelineCacheMax?: number;
 	}
 };
 
@@ -182,6 +183,7 @@ export type Config = {
 
 	buiso: {
 		maxWebImageSize?: number;
+		vmimiRelayTimelineCacheMax?: number;
 	}
 };
 
