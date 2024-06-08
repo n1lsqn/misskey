@@ -867,6 +867,8 @@ export class NoteCreateService implements OnApplicationShutdown {
 		const meta = await this.metaService.fetch();
 		if (!meta.enableFanoutTimeline) return;
 
+		const vmimiRelayTimelineCacheMax = this.config.buiso.vmimiRelayTimelineCacheMax ?? 300;
+
 		const r = this.redisForTimelines.pipeline();
 
 		if (note.channelId) {
@@ -965,7 +967,7 @@ export class NoteCreateService implements OnApplicationShutdown {
 					}
 				}
 				if (note.visibility === 'public' && this.vmimiRelayTimelineService.isRelayedInstance(note.userHost)) {
-					this.fanoutTimelineService.push('vmimiRelayTimelineWithReplies', note.id, meta.vmimiRelayTimelineCacheMax, r);
+					this.fanoutTimelineService.push('vmimiRelayTimelineWithReplies', note.id, vmimiRelayTimelineCacheMax, r);
 				}
 			} else {
 				this.fanoutTimelineService.push(`userTimeline:${user.id}`, note.id, note.userHost == null ? meta.perLocalUserUserTimelineCacheMax : meta.perRemoteUserUserTimelineCacheMax, r);
@@ -980,9 +982,9 @@ export class NoteCreateService implements OnApplicationShutdown {
 					}
 				}
 				if (note.visibility === 'public' && this.vmimiRelayTimelineService.isRelayedInstance(note.userHost)) {
-					this.fanoutTimelineService.push('vmimiRelayTimeline', note.id, meta.vmimiRelayTimelineCacheMax, r);
+					this.fanoutTimelineService.push('vmimiRelayTimeline', note.id, vmimiRelayTimelineCacheMax, r);
 					if (note.fileIds.length > 0) {
-						this.fanoutTimelineService.push('vmimiRelayTimelineWithFiles', note.id, meta.vmimiRelayTimelineCacheMax / 2, r);
+						this.fanoutTimelineService.push('vmimiRelayTimelineWithFiles', note.id, vmimiRelayTimelineCacheMax / 2, r);
 					}
 				}
 			}

@@ -8961,7 +8961,6 @@ export type operations = {
           manifestJsonOverride?: string;
           enableFanoutTimeline?: boolean;
           enableFanoutTimelineDbFallback?: boolean;
-          vmimiRelayTimelineCacheMax?: number;
           perLocalUserUserTimelineCacheMax?: number;
           perRemoteUserUserTimelineCacheMax?: number;
           perUserHomeTimelineCacheMax?: number;

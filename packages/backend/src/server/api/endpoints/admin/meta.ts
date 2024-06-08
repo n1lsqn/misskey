@@ -600,7 +600,6 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				bannedEmailDomains: instance.bannedEmailDomains,
 				policies: { ...DEFAULT_POLICIES, ...instance.policies },
 				manifestJsonOverride: instance.manifestJsonOverride,
-				vmimiRelayTimelineCacheMax: instance.vmimiRelayTimelineCacheMax,
 				enableFanoutTimeline: instance.enableFanoutTimeline,
 				enableFanoutTimelineDbFallback: instance.enableFanoutTimelineDbFallback,
 				perLocalUserUserTimelineCacheMax: instance.perLocalUserUserTimelineCacheMax,
