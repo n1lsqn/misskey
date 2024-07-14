@@ -2,8 +2,6 @@ name: Publish Docker image (For ぶいちゃ.social)
 
 on:
   push:
-    branches-ignore:
-      - '*'
     tags:
       - '*'
 
