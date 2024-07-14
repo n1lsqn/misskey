@@ -966,8 +966,11 @@ export class NoteCreateService implements OnApplicationShutdown {
 						this.fanoutTimelineService.push(`localTimelineWithReplyTo:${note.replyUserId}`, note.id, 300 / 10, r);
 					}
 				}
-				if (note.visibility === 'public' && this.vmimiRelayTimelineService.isRelayedInstance(note.userHost)) {
+				if (note.visibility === 'public' && this.vmimiRelayTimelineService.isRelayedInstance(note.userHost) && !note.localOnly) {
 					this.fanoutTimelineService.push('vmimiRelayTimelineWithReplies', note.id, vmimiRelayTimelineCacheMax, r);
+					if (note.replyUserHost == null) {
+						this.fanoutTimelineService.push(`vmimiRelayTimelineWithReplyTo:${note.replyUserId}`, note.id, vmimiRelayTimelineCacheMax / 10, r);
+					}
 				}
 			} else {
 				this.fanoutTimelineService.push(`userTimeline:${user.id}`, note.id, note.userHost == null ? meta.perLocalUserUserTimelineCacheMax : meta.perRemoteUserUserTimelineCacheMax, r);
@@ -981,7 +984,7 @@ export class NoteCreateService implements OnApplicationShutdown {
 						this.fanoutTimelineService.push('localTimelineWithFiles', note.id, 500, r);
 					}
 				}
-				if (note.visibility === 'public' && this.vmimiRelayTimelineService.isRelayedInstance(note.userHost)) {
+				if (note.visibility === 'public' && this.vmimiRelayTimelineService.isRelayedInstance(note.userHost) && !note.localOnly) {
 					this.fanoutTimelineService.push('vmimiRelayTimeline', note.id, vmimiRelayTimelineCacheMax, r);
 					if (note.fileIds.length > 0) {
 						this.fanoutTimelineService.push('vmimiRelayTimelineWithFiles', note.id, vmimiRelayTimelineCacheMax / 2, r);
