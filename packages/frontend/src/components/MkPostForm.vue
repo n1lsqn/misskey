@@ -1090,6 +1090,8 @@ onMounted(() => {
 			text.value = init.text ? init.text : '';
 			files.value = init.files ?? [];
 			cw.value = init.cw ?? null;
+			visibility.value = init.visibility;
+			localOnly.value = init.localOnly ?? false;
 			useCw.value = init.cw != null;
 			if (init.isSchedule) {
 				schedule.value = {
@@ -1110,8 +1112,6 @@ onMounted(() => {
 					deleteAfter: null,
 				};
 			}
-			visibility.value = init.visibility;
-			localOnly.value = init.localOnly ?? false;
 			quoteId.value = init.renote ? init.renote.id : null;
 		}
 

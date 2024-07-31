@@ -6699,6 +6699,10 @@ export interface Locale extends ILocale {
              */
             "canUseRemoteIconDecorations": string;
             /**
+             * 絵文字の削除
+             */
+            "canEmojiDeletion": string;
+            /**
              * ドライブ容量
              */
             "driveCapacity": string;
