@@ -5,12 +5,18 @@
 
 import { $i } from '@/account.js';
 import { instance } from '@/instance.js';
+import { defaultStore } from './store.js';
 
 export const basicTimelineTypes = [
 	'home',
 	'local',
 	'social',
 	'global',
+	'custom-timeline-1',
+	'custom-timeline-2',
+	'custom-timeline-3',
+	'custom-timeline-4',
+	'custom-timeline-5',
 ] as const;
 
 export type BasicTimelineType = typeof basicTimelineTypes[number];
@@ -29,6 +35,16 @@ export function basicTimelineIconClass(timeline: BasicTimelineType): string {
 			return 'ti ti-universe';
 		case 'global':
 			return 'ti ti-whirl';
+		case 'custom-timeline-1':
+			return 'ti ti-plus';
+		case 'custom-timeline-2':
+			return 'ti ti-plus';
+		case 'custom-timeline-3':
+			return 'ti ti-plus';
+		case 'custom-timeline-4':
+			return 'ti ti-plus';
+		case 'custom-timeline-5':
+			return 'ti ti-plus';
 	}
 }
 
@@ -42,7 +58,17 @@ export function isAvailableBasicTimeline(timeline: BasicTimelineType | undefined
 			return $i != null && $i.policies.ltlAvailable;
 		case 'global':
 			return ($i == null && instance.policies.gtlAvailable) || ($i != null && $i.policies.gtlAvailable);
-		default:
+		case 'custom-timeline-1':
+			return ($i == null && defaultStore.state['remoteLocalTimelineEnable1']);
+		case 'custom-timeline-2':
+			return ($i == null && defaultStore.state['remoteLocalTimelineEnable2']);
+		case 'custom-timeline-3':
+			return ($i == null && defaultStore.state['remoteLocalTimelineEnable3']);
+		case 'custom-timeline-4':
+			return ($i == null && defaultStore.state['remoteLocalTimelineEnable4']);
+		case 'custom-timeline-5':
+			return ($i == null && defaultStore.state['remoteLocalTimelineEnable5']);
+			default:
 			return false;
 	}
 }

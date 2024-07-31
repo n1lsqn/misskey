@@ -9546,15 +9546,7 @@ export type operations = {
           perUserListTimelineCacheMax?: number;
           notesPerOneAd?: number;
           silencedHosts?: string[] | null;
-<<<<<<< HEAD
-          enableEmergencyAnnouncementIntegration?: boolean;
-          emergencyAnnouncementIntegrationConfig?: ({
-            /** @enum {string} */
-            type?: 'none' | 'p2pquake';
-          }) | null;
-=======
           mediaSilencedHosts?: string[] | null;
->>>>>>> 2024.7.0
           /** @description [Deprecated] Use "urlPreviewSummaryProxyUrl" instead. */
           summalyProxy?: string | null;
           urlPreviewEnabled?: boolean;

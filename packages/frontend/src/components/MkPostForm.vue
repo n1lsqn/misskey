@@ -889,7 +889,6 @@ async function post(ev?: MouseEvent) {
 			if (notesCount === 1) {
 				claimAchievement('notes1');
 			}
-			poll.value = null;
 
 			if (postData.schedule?.scheduledAt) {
 				const d = new Date(postData.schedule.scheduledAt);
@@ -1051,7 +1050,7 @@ function openOtherSettingsMenu(ev: MouseEvent) {
 		icon: 'ti ti-calendar-time',
 		indicate: (schedule.value != null),
 		action: toggleSchedule,
-	} : undefined, ...(($i.policies.canScheduleNote) ? [{ type: 'divider' }, {
+	} : undefined, (($i.policies.canScheduleNote) ? [{ type: 'divider' }, {
 		type: 'button',
 		text: i18n.ts._schedulePost.list,
 		icon: 'ti ti-calendar-event',
@@ -1115,17 +1114,17 @@ onMounted(() => {
 			visibility.value = init.visibility;
 			localOnly.value = init.localOnly ?? false;
 			files.value = init.files ?? [];
-			if (init.isSchedule) {
-				schedule.value = {
-					scheduledAt: init.createdAt,
-				};
-			}
 			if (init.poll) {
 				poll.value = {
 					choices: init.poll.choices.map(x => x.text),
 					multiple: init.poll.multiple,
 					expiresAt: init.poll.expiresAt ? (new Date(init.poll.expiresAt)).getTime() : null,
 					expiredAfter: null,
+				};
+			}
+			if (init.isSchedule) {
+				schedule.value = {
+					scheduledAt: init.createdAt,
 				};
 			}
 			if (init.deleteAt) {

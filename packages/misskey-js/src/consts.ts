@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-export const notificationTypes = ['note', 'follow', 'mention', 'reply', 'renote', 'quote', 'reaction', 'pollVote', 'pollEnded', 'receiveFollowRequest', 'followRequestAccepted', 'groupInvited', 'app', 'roleAssigned', 'achievementEarned', 'noteSchedulingFailed'] as const;
-=======
 import type { operations } from './autogen/types.js';
 import type {
 	AbuseReportNotificationRecipient, Ad,
@@ -11,8 +8,7 @@ import type {
 	Role, SystemWebhook, UserLite,
 } from './autogen/models.js';
 
-export const notificationTypes = ['note', 'follow', 'mention', 'reply', 'renote', 'quote', 'reaction', 'pollVote', 'pollEnded', 'receiveFollowRequest', 'followRequestAccepted', 'groupInvited', 'app', 'roleAssigned', 'achievementEarned'] as const;
->>>>>>> 2024.7.0
+export const notificationTypes = ['note', 'follow', 'mention', 'reply', 'renote', 'quote', 'reaction', 'pollVote', 'pollEnded', 'receiveFollowRequest', 'followRequestAccepted', 'groupInvited', 'app', 'roleAssigned', 'achievementEarned', 'noteSchedulingFailed'] as const;
 
 export const noteVisibilities = ['public', 'home', 'followers', 'specified'] as const;
 
