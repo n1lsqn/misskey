@@ -32,43 +32,54 @@ SPDX-License-Identifier: AGPL-3.0-only
 <script lang="ts" setup>
 import * as Misskey from 'misskey-js';
 import { onUpdated, ref, shallowRef } from 'vue';
-import MkReactionsViewer from '@/components/MkReactionsViewer.vue';
-import MkMediaList from '@/components/MkMediaList.vue';
-import MkPoll from '@/components/MkPoll.vue';
+import XNote from '@/pages/welcome.timeline.note.vue';
 import { misskeyApiGet } from '@/scripts/misskey-api.js';
 import { getScrollContainer } from '@/scripts/scroll.js';
 
 const notes = ref<Misskey.entities.Note[]>([]);
 const isScrolling = ref(false);
-const scrollEl = shallowRef<HTMLElement>();
+const scrollState = ref<null | 'intro' | 'loop'>(null);
+const notesMainContainerEl = shallowRef<HTMLElement>();
 
 misskeyApiGet('notes/featured').then(_notes => {
 	notes.value = _notes;
 });
 
+function changeScrollState() {
+	if (scrollState.value !== 'loop') {
+		scrollState.value = 'loop';
+	}
+}
+
 onUpdated(() => {
-	if (!scrollEl.value) return;
-	const container = getScrollContainer(scrollEl.value);
+	if (!notesMainContainerEl.value) return;
+	const container = getScrollContainer(notesMainContainerEl.value);
 	const containerHeight = container ? container.clientHeight : window.innerHeight;
-	if (scrollEl.value.offsetHeight > containerHeight) {
+	if (notesMainContainerEl.value.offsetHeight > containerHeight) {
+		if (scrollState.value === null) {
+			scrollState.value = 'intro';
+		}
 		isScrolling.value = true;
 	}
 });
 </script>
 
 <style lang="scss" module>
-@keyframes scroll {
+@keyframes scrollIntro {
 	0% {
 		transform: translate3d(0, 0, 0);
 	}
-	5% {
-		transform: translate3d(0, 0, 0);
+	100% {
+		transform: translate3d(0, calc(calc(-100% - 128px) - var(--margin)), 0);
 	}
-	75% {
-		transform: translate3d(0, calc(-100% + 90vh), 0);
+}
+
+@keyframes scrollConstant {
+	0% {
+		transform: translate3d(0, -128px, 0);
 	}
-	90% {
-		transform: translate3d(0, calc(-100% + 90vh), 0);
+	100% {
+		transform: translate3d(0, calc(calc(-100% - 128px) - var(--margin)), 0);
 	}
 }
 
@@ -76,24 +87,26 @@ onUpdated(() => {
 	text-align: right;
 }
 
-.scrollbox {
-	&.scroll {
-		animation: scroll 45s linear infinite;
+.scrollBoxMain {
+	&.scrollIntro {
+		animation: scrollIntro 30s linear forwards;
+	}
+	&.scrollLoop {
+		animation: scrollConstant 30s linear infinite;
 	}
 }
 
-.note {
-	margin: 16px 0 16px auto;
+.scrollBoxSub {
+	&.scrollIntro {
+		animation: scrollIntro 30s linear forwards;
+	}
+	&.scrollLoop {
+		animation: scrollConstant 30s linear infinite;
+	}
 }
 
-.content {
-	padding: 16px;
-	margin: 0 0 0 auto;
-	max-width: max-content;
-	border-radius: 16px;
-}
-
-.richcontent {
-	min-width: 250px;
+.root:has(.note:hover) .scrollBoxMain,
+.root:has(.note:hover) .scrollBoxSub {
+	animation-play-state: paused;
 }
 </style>

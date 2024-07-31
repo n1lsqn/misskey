@@ -138,26 +138,16 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { computed, watch, ref } from 'vue';
-import * as Misskey from 'misskey-js';
-import XEmojis from './about.emojis.vue';
-import XFederation from './about.federation.vue';
-import { version, host } from '@/config.js';
-import FormLink from '@/components/form/link.vue';
-import FormSection from '@/components/form/section.vue';
-import FormSuspense from '@/components/form/suspense.vue';
-import FormSplit from '@/components/form/split.vue';
-import MkFolder from '@/components/MkFolder.vue';
-import MkKeyValue from '@/components/MkKeyValue.vue';
-import MkInfo from '@/components/MkInfo.vue';
-import MkInstanceStats from '@/components/MkInstanceStats.vue';
-import MkHorizontalSwipe from '@/components/MkHorizontalSwipe.vue';
-import { misskeyApi } from '@/scripts/misskey-api.js';
-import number from '@/filters/number.js';
+import { computed, defineAsyncComponent, ref, watch } from 'vue';
 import { i18n } from '@/i18n.js';
-import { definePageMetadata } from '@/scripts/page-metadata.js';
 import { claimAchievement } from '@/scripts/achievements.js';
-import { instance } from '@/instance.js';
+import { definePageMetadata } from '@/scripts/page-metadata.js';
+import MkHorizontalSwipe from '@/components/MkHorizontalSwipe.vue';
+
+const XOverview = defineAsyncComponent(() => import('@/pages/about.overview.vue'));
+const XEmojis = defineAsyncComponent(() => import('@/pages/about.emojis.vue'));
+const XFederation = defineAsyncComponent(() => import('@/pages/about.federation.vue'));
+const MkInstanceStats = defineAsyncComponent(() => import('@/components/MkInstanceStats.vue'));
 
 const props = withDefaults(defineProps<{
 	initialTab?: string;
@@ -165,18 +155,12 @@ const props = withDefaults(defineProps<{
 	initialTab: 'overview',
 });
 
-const stats = ref<Misskey.entities.StatsResponse | null>(null);
 const tab = ref(props.initialTab);
 
 watch(tab, () => {
 	if (tab.value === 'charts') {
 		claimAchievement('viewInstanceChart');
 	}
-});
-
-const initStats = () => misskeyApi('stats', {
-}).then((res) => {
-	stats.value = res;
 });
 
 const headerActions = computed(() => []);
@@ -203,64 +187,3 @@ definePageMetadata(() => ({
 	icon: 'ti ti-info-circle',
 }));
 </script>
-
-<style lang="scss" module>
-.banner {
-	text-align: center;
-	border-radius: 10px;
-	overflow: clip;
-	background-size: cover;
-	background-position: center center;
-}
-
-.bannerIcon {
-	display: block;
-	margin: 16px auto 0 auto;
-	height: 64px;
-	border-radius: 8px;
-}
-
-.bannerName {
-	display: block;
-	padding: 16px;
-	color: #fff;
-	text-shadow: 0 0 8px #000;
-	background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
-}
-
-.rules {
-	counter-reset: item;
-	list-style: none;
-	padding: 0;
-	margin: 0;
-}
-
-.rule {
-	display: flex;
-	gap: 8px;
-	word-break: break-word;
-
-	&::before {
-		flex-shrink: 0;
-		display: flex;
-		position: sticky;
-		top: calc(var(--stickyTop, 0px) + 8px);
-		counter-increment: item;
-		content: counter(item);
-		width: 32px;
-		height: 32px;
-		line-height: 32px;
-		background-color: var(--accentedBg);
-		color: var(--accent);
-		font-size: 13px;
-		font-weight: bold;
-		align-items: center;
-		justify-content: center;
-		border-radius: 999px;
-	}
-}
-
-.ruleText {
-	padding-top: 6px;
-}
-</style>
