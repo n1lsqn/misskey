@@ -2,6 +2,9 @@
 
 VRTLのブランチで行われた変更点をまとめています
 
+<!-- VV Please add changelog here VV -->
+- fic(frontend): VRTL VSTLでリプライのトグルが表示されない問題 (anatawa12#92) - 2024/08/04
+
 ## 2024.5.0-buiso.4
 https://github.com/i544c-me/buicha-social-misskey/pull/11
 
