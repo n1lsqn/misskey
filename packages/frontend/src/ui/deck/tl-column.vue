@@ -4,21 +4,13 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 <template>
-<XColumn :menu="menu" :column="column" :isStacked="isStacked" :refresher="() => timeline!.reloadTimeline()">
+<XColumn :menu="menu" :column="column" :isStacked="isStacked" :refresher="async () => { await timeline?.reloadTimeline() }">
 	<template #header>
-		<i v-if="column.tl === 'home'" class="ti ti-home"></i>
-		<i v-else-if="column.tl === 'local'" class="ti ti-planet"></i>
-		<i v-else-if="column.tl === 'social'" class="ti ti-universe"></i>
-		<i v-else-if="column.tl === 'global'" class="ti ti-whirl"></i>
-		<i v-else-if="column.tl === 'custom-timeline-1'" class="ti ti-plus"></i>
-		<i v-else-if="column.tl === 'custom-timeline-2'" class="ti ti-plus"></i>
-		<i v-else-if="column.tl === 'custom-timeline-3'" class="ti ti-plus"></i>
-		<i v-else-if="column.tl === 'custom-timeline-4'" class="ti ti-plus"></i>
-		<i v-else-if="column.tl === 'custom-timeline-5'" class="ti ti-plus"></i>
+		<i v-if="column.tl != null" :class="basicTimelineIconClass(column.tl)"></i>
 		<span style="margin-left: 8px;">{{ column.name }}</span>
 	</template>
 
-	<div v-if="(((column.tl === 'local' || column.tl === 'social') && !isLocalTimelineAvailable) || (column.tl === 'global' && !isGlobalTimelineAvailable))" :class="$style.disabled">
+	<div v-if="!isAvailableBasicTimeline(column.tl)" :class="$style.disabled">
 		<p :class="$style.disabledTitle">
 			<i class="ti ti-circle-minus"></i>
 			{{ i18n.ts._disabledTimeline.title }}
@@ -39,13 +31,13 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { onMounted, watch, ref, shallowRef } from 'vue';
+import { onMounted, watch, ref, shallowRef, computed } from 'vue';
 import XColumn from './column.vue';
 import { removeColumn, updateColumn, Column } from './deck-store.js';
 import MkTimeline from '@/components/MkTimeline.vue';
 import * as os from '@/os.js';
-import { $i } from '@/account.js';
 import { i18n } from '@/i18n.js';
+import { hasWithReplies, isAvailableBasicTimeline, basicTimelineIconClass } from '@/timelines.js';
 import { instance } from '@/instance.js';
 import { defaultStore } from '@/store.js';
 import { MenuItem } from '@/types/menu.js';
@@ -58,11 +50,8 @@ const props = defineProps<{
 	isStacked: boolean;
 }>();
 
-const disabled = ref(false);
 const timeline = shallowRef<InstanceType<typeof MkTimeline>>();
 
-const isLocalTimelineAvailable = (($i == null && instance.policies.ltlAvailable) || ($i != null && $i.policies.ltlAvailable));
-const isGlobalTimelineAvailable = (($i == null && instance.policies.gtlAvailable) || ($i != null && $i.policies.gtlAvailable));
 const soundSetting = ref<SoundStore>(props.column.soundSetting ?? { type: null, volume: 1 });
 const withRenotes = ref(props.column.withRenotes ?? true);
 const withReplies = ref(props.column.withReplies ?? false);
@@ -93,10 +82,6 @@ watch(soundSetting, v => {
 onMounted(() => {
 	if (props.column.tl == null) {
 		setType();
-	} else if ($i) {
-		disabled.value = (
-			(!((instance.policies.ltlAvailable) || ($i.policies.ltlAvailable)) && ['local', 'social'].includes(props.column.tl)) ||
-			(!((instance.policies.gtlAvailable) || ($i.policies.gtlAvailable)) && ['global'].includes(props.column.tl)));
 	}
 });
 
@@ -142,8 +127,9 @@ async function setType() {
 		}
 		return;
 	}
+	if (src == null) return;
 	updateColumn(props.column.id, {
-		tl: src,
+		tl: src ?? undefined,
 	});
 }
 
@@ -151,7 +137,7 @@ function onNote() {
 	sound.playMisskeySfxFile(soundSetting.value);
 }
 
-const menu: MenuItem[] = [{
+const menu = computed<MenuItem[]>(() => [{
 	icon: 'ti ti-pencil',
 	text: i18n.ts.timeline,
 	action: setType,
@@ -163,7 +149,7 @@ const menu: MenuItem[] = [{
 	type: 'switch',
 	text: i18n.ts.showRenotes,
 	ref: withRenotes,
-}, props.column.tl === 'local' || props.column.tl === 'social' ? {
+}, hasWithReplies(props.column.tl) ? {
 	type: 'switch',
 	text: i18n.ts.showRepliesToOthersInTimeline,
 	ref: withReplies,
@@ -172,8 +158,8 @@ const menu: MenuItem[] = [{
 	type: 'switch',
 	text: i18n.ts.fileAttachedOnly,
 	ref: onlyFiles,
-	disabled: props.column.tl === 'local' || props.column.tl === 'social' ? withReplies : false,
-}];
+	disabled: hasWithReplies(props.column.tl) ? withReplies : false,
+}]);
 </script>
 
 <style lang="scss" module>

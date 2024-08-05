@@ -155,14 +155,11 @@ export const paramDef = {
 				type: 'string',
 			},
 		},
-		enableEmergencyAnnouncementIntegration: { type: 'boolean' },
-		emergencyAnnouncementIntegrationConfig: {
-			type: 'object',
+		mediaSilencedHosts: {
+			type: 'array',
 			nullable: true,
-			properties: {
-				type: {
-					type: 'string', enum: ['none', 'p2pquake'],
-				},
+			items: {
+				type: 'string',
 			},
 		},
 		summalyProxy: {
@@ -227,6 +224,14 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 			if (Array.isArray(ps.silencedHosts)) {
 				let lastValue = '';
 				set.silencedHosts = ps.silencedHosts.sort().filter((h) => {
+					const lv = lastValue;
+					lastValue = h;
+					return h !== '' && h !== lv && !set.blockedHosts?.includes(h);
+				});
+			}
+			if (Array.isArray(ps.mediaSilencedHosts)) {
+				let lastValue = '';
+				set.mediaSilencedHosts = ps.mediaSilencedHosts.sort().filter((h) => {
 					const lv = lastValue;
 					lastValue = h;
 					return h !== '' && h !== lv && !set.blockedHosts?.includes(h);
@@ -618,19 +623,6 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 
 			if (ps.bannedEmailDomains !== undefined) {
 				set.bannedEmailDomains = ps.bannedEmailDomains;
-			}
-
-			if (ps.enableEmergencyAnnouncementIntegration !== undefined) {
-				set.enableEmergencyAnnouncementIntegration = ps.enableEmergencyAnnouncementIntegration;
-			}
-
-			if (ps.emergencyAnnouncementIntegrationConfig && ps.emergencyAnnouncementIntegrationConfig.type !== undefined) {
-				set.emergencyAnnouncementIntegrationConfig = {
-					...ps.emergencyAnnouncementIntegrationConfig,
-					type: ps.emergencyAnnouncementIntegrationConfig.type,
-				};
-			} else {
-				set.emergencyAnnouncementIntegrationConfig = { type: 'none' };
 			}
 
 			if (ps.urlPreviewEnabled !== undefined) {
