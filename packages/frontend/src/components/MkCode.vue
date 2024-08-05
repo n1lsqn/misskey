@@ -29,8 +29,8 @@ import { defineAsyncComponent, ref } from 'vue';
 import * as os from '@/os.js';
 import MkLoading from '@/components/global/MkLoading.vue';
 import { i18n } from '@/i18n.js';
-import copyToClipboard from '@/scripts/copy-to-clipboard.js';
 import { getDataSaverState } from '@/scripts/datasaver.js';
+import { copyToClipboard } from '@/scripts/copy-to-clipboard.js';
 
 const props = defineProps<{
 	code: string;
@@ -80,11 +80,9 @@ function copy() {
 .codePlaceholderRoot {
 	display: block;
 	width: 100%;
-	background: none;
 	border: none;
 	outline: none;
   font: inherit;
-  color: inherit;
 	cursor: pointer;
 
 	box-sizing: border-box;

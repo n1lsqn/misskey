@@ -104,6 +104,11 @@ export class MiMeta {
 	public silencedHosts: string[];
 
 	@Column('varchar', {
+		length: 1024, array: true, default: '{}',
+	})
+	public mediaSilencedHosts: string[];
+
+	@Column('varchar', {
 		length: 1024,
 		nullable: true,
 	})
@@ -392,6 +397,12 @@ export class MiMeta {
 		nullable: true,
 	})
 	public privacyPolicyUrl: string | null;
+
+	@Column('varchar', {
+		length: 1024,
+		nullable: true,
+	})
+	public inquiryUrl: string | null;
 
 	@Column('varchar', {
 		length: 8192,

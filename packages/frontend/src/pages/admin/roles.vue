@@ -54,7 +54,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 							<MkInput v-model="policies.mentionLimit" type="number">
 							</MkInput>
 						</MkFolder>
-						
+
 						<MkFolder v-if="matchQuery([i18n.ts._role._options.canScheduleNote, 'canScheduleNote'])">
 							<template #label>{{ i18n.ts._role._options.canScheduleNote }}</template>
 							<template #suffix>{{ policies.canScheduleNote ? i18n.ts.yes : i18n.ts.no }}</template>
@@ -133,6 +133,14 @@ SPDX-License-Identifier: AGPL-3.0-only
 							</MkSwitch>
 						</MkFolder>
 
+						<MkFolder v-if="matchQuery([i18n.ts._role._options.canEmojiDeletion, 'canEmojiDeletion'])">
+							<template #label>{{ i18n.ts._role._options.canEmojiDeletion }}</template>
+							<template #suffix>{{ policies.canEmojiDeletion ? i18n.ts.yes : i18n.ts.no }}</template>
+							<MkSwitch v-model="policies.canEmojiDeletion">
+								<template #label>{{ i18n.ts.enable }}</template>
+							</MkSwitch>
+						</MkFolder>
+
 						<MkFolder v-if="matchQuery([i18n.ts._role._options.canManageCustomEmojis, 'canManageCustomEmojis'])">
 							<template #label>{{ i18n.ts._role._options.canManageCustomEmojis }}</template>
 							<template #suffix>{{ policies.canManageCustomEmojis ? i18n.ts.yes : i18n.ts.no }}</template>
@@ -169,6 +177,14 @@ SPDX-License-Identifier: AGPL-3.0-only
 							<template #label>{{ i18n.ts._role._options.alwaysMarkNsfw }}</template>
 							<template #suffix>{{ policies.alwaysMarkNsfw ? i18n.ts.yes : i18n.ts.no }}</template>
 							<MkSwitch v-model="policies.alwaysMarkNsfw">
+								<template #label>{{ i18n.ts.enable }}</template>
+							</MkSwitch>
+						</MkFolder>
+
+						<MkFolder v-if="matchQuery([i18n.ts._role._options.canUpdateBioMedia, 'canUpdateBioMedia'])">
+							<template #label>{{ i18n.ts._role._options.canUpdateBioMedia }}</template>
+							<template #suffix>{{ policies.canUpdateBioMedia ? i18n.ts.yes : i18n.ts.no }}</template>
+							<MkSwitch v-model="policies.canUpdateBioMedia">
 								<template #label>{{ i18n.ts.enable }}</template>
 							</MkSwitch>
 						</MkFolder>
@@ -282,7 +298,7 @@ import * as os from '@/os.js';
 import { misskeyApi } from '@/scripts/misskey-api.js';
 import { i18n } from '@/i18n.js';
 import { definePageMetadata } from '@/scripts/page-metadata.js';
-import { instance } from '@/instance.js';
+import { instance, fetchInstance } from '@/instance.js';
 import MkFoldableSection from '@/components/MkFoldableSection.vue';
 import { ROLE_POLICIES } from '@/const.js';
 import { useRouter } from '@/router/supplier.js';
@@ -306,6 +322,7 @@ async function updateBaseRole() {
 	await os.apiWithDialog('admin/roles/update-default-policies', {
 		policies,
 	});
+	fetchInstance(true);
 }
 
 function create() {

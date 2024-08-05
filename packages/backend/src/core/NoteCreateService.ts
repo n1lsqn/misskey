@@ -14,11 +14,11 @@ import { extractCustomEmojisFromMfm } from '@/misc/extract-custom-emojis-from-mf
 import { extractHashtags } from '@/misc/extract-hashtags.js';
 import type { IMentionedRemoteUsers } from '@/models/Note.js';
 import { MiNote } from '@/models/Note.js';
-import type { ChannelFollowingsRepository, ChannelsRepository, FollowingsRepository, InstancesRepository, MiFollowing, MutingsRepository, NotesRepository, NoteThreadMutingsRepository, UserListMembershipsRepository, UserProfilesRepository, UsersRepository } from '@/models/_.js';
+import type { ChannelFollowingsRepository, ChannelsRepository, FollowingsRepository, InstancesRepository, MiDriveFile, MiFollowing, MutingsRepository, NotesRepository, NoteThreadMutingsRepository, UserListMembershipsRepository, UserProfilesRepository, UsersRepository } from '@/models/_.js';
 import { concat } from '@/misc/prelude/array.js';
 import { IdService } from '@/core/IdService.js';
 import type { MiUser, MiLocalUser, MiRemoteUser } from '@/models/User.js';
-import { MiPoll } from '@/models/Poll.js';
+import { IPoll, MiPoll } from '@/models/Poll.js';
 import { isDuplicateKeyValueError } from '@/misc/is-duplicate-key-value-error.js';
 import { checkWordMute } from '@/misc/check-word-mute.js';
 import { normalizeForSearch } from '@/misc/normalize-for-search.js';
@@ -35,7 +35,7 @@ import InstanceChart from '@/core/chart/charts/instance.js';
 import ActiveUsersChart from '@/core/chart/charts/active-users.js';
 import { GlobalEventService } from '@/core/GlobalEventService.js';
 import { NotificationService } from '@/core/NotificationService.js';
-import { WebhookService } from '@/core/WebhookService.js';
+import { UserWebhookService } from '@/core/UserWebhookService.js';
 import { HashtagService } from '@/core/HashtagService.js';
 import { AntennaService } from '@/core/AntennaService.js';
 import { QueueService } from '@/core/QueueService.js';
@@ -56,7 +56,6 @@ import { UtilityService } from '@/core/UtilityService.js';
 import { UserBlockingService } from '@/core/UserBlockingService.js';
 import { isReply } from '@/misc/is-reply.js';
 import { trackPromise } from '@/misc/promise-tracker.js';
-import { isNotNull } from '@/misc/is-not-null.js';
 import { IdentifiableError } from '@/misc/identifiable-error.js';
 import { Data } from 'ws';
 
@@ -174,7 +173,7 @@ export class NoteCreateService implements OnApplicationShutdown {
 		private federatedInstanceService: FederatedInstanceService,
 		private hashtagService: HashtagService,
 		private antennaService: AntennaService,
-		private webhookService: WebhookService,
+		private webhookService: UserWebhookService,
 		private featuredService: FeaturedService,
 		private remoteUserResolveService: RemoteUserResolveService,
 		private apDeliverManagerService: ApDeliverManagerService,
@@ -275,7 +274,7 @@ export class NoteCreateService implements OnApplicationShutdown {
 		}
 
 		// Check blocking
-		if (data.renote && !this.isQuote(data)) {
+		if (this.isRenote(data) && !this.isQuote(data)) {
 			if (data.renote.userHost === null) {
 				if (data.renote.userId !== user.id) {
 					const blocked = await this.userBlockingService.checkBlocked(data.renote.userId, user.id);
@@ -348,7 +347,10 @@ export class NoteCreateService implements OnApplicationShutdown {
 				}
 			}
 		}
+		
 		// #endregion
+		// if the host is media-silenced, custom emojis are not allowed
+		if (this.utilityService.isMediaSilencedHost(meta.mediaSilencedHosts, user.host)) emojis = [];
 
 		tags = tags.filter(tag => Array.from(tag).length <= 128).splice(0, 32);
 
@@ -459,6 +461,7 @@ export class NoteCreateService implements OnApplicationShutdown {
 						noteVisibility: insert.visibility,
 						userId: user.id,
 						userHost: user.host,
+						channelId: insert.channelId,
 					});
 
 					await transactionalEntityManager.insert(MiPoll, poll);
@@ -601,7 +604,7 @@ export class NoteCreateService implements OnApplicationShutdown {
 			this.webhookService.getActiveWebhooks().then(webhooks => {
 				webhooks = webhooks.filter(x => x.userId === user.id && x.on.includes('note'));
 				for (const webhook of webhooks) {
-					this.queueService.webhookDeliver(webhook, 'note', {
+					this.queueService.userWebhookDeliver(webhook, 'note', {
 						note: noteObj,
 					});
 				}
@@ -628,7 +631,7 @@ export class NoteCreateService implements OnApplicationShutdown {
 
 						const webhooks = (await this.webhookService.getActiveWebhooks()).filter(x => x.userId === data.reply!.userId && x.on.includes('reply'));
 						for (const webhook of webhooks) {
-							this.queueService.webhookDeliver(webhook, 'reply', {
+							this.queueService.userWebhookDeliver(webhook, 'reply', {
 								note: noteObj,
 							});
 						}
@@ -637,7 +640,7 @@ export class NoteCreateService implements OnApplicationShutdown {
 			}
 
 			// If it is renote
-			if (data.renote) {
+			if (this.isRenote(data)) {
 				const type = this.isQuote(data) ? 'quote' : 'renote';
 
 				// Notify
@@ -651,7 +654,7 @@ export class NoteCreateService implements OnApplicationShutdown {
 
 					const webhooks = (await this.webhookService.getActiveWebhooks()).filter(x => x.userId === data.renote!.userId && x.on.includes('renote'));
 					for (const webhook of webhooks) {
-						this.queueService.webhookDeliver(webhook, 'renote', {
+						this.queueService.userWebhookDeliver(webhook, 'renote', {
 							note: noteObj,
 						});
 					}
@@ -721,9 +724,20 @@ export class NoteCreateService implements OnApplicationShutdown {
 	}
 
 	@bindThis
-	private isQuote(note: Option): note is Option & { renote: MiNote } {
-		// sync with misc/is-quote.ts
-		return !!note.renote && (!!note.text || !!note.cw || (!!note.files && !!note.files.length) || !!note.poll);
+	private isRenote(note: Option): note is Option & { renote: MiNote } {
+		return note.renote != null;
+	}
+
+	@bindThis
+	private isQuote(note: Option & { renote: MiNote }): note is Option & { renote: MiNote } & (
+		{ text: string } | { cw: string } | { reply: MiNote } | { poll: IPoll } | { files: MiDriveFile[] }
+	) {
+		// NOTE: SYNC WITH misc/is-quote.ts
+		return note.text != null ||
+			note.reply != null ||
+			note.cw != null ||
+			note.poll != null ||
+			(note.files != null && note.files.length > 0);
 	}
 
 	@bindThis
@@ -772,7 +786,7 @@ export class NoteCreateService implements OnApplicationShutdown {
 
 			const webhooks = (await this.webhookService.getActiveWebhooks()).filter(x => x.userId === u.id && x.on.includes('mention'));
 			for (const webhook of webhooks) {
-				this.queueService.webhookDeliver(webhook, 'mention', {
+				this.queueService.userWebhookDeliver(webhook, 'mention', {
 					note: detailPackedNote,
 				});
 			}
@@ -791,7 +805,7 @@ export class NoteCreateService implements OnApplicationShutdown {
 	private async renderNoteOrRenoteActivity(data: Option, note: MiNote) {
 		if (data.localOnly) return null;
 
-		const content = data.renote && !this.isQuote(data)
+		const content = this.isRenote(data) && !this.isQuote(data)
 			? this.apRendererService.renderAnnounce(data.renote.uri ? data.renote.uri : `${this.config.url}/notes/${data.renote.id}`, note)
 			: this.apRendererService.renderCreate(await this.apRendererService.renderNote(note, false), note);
 
@@ -823,7 +837,7 @@ export class NoteCreateService implements OnApplicationShutdown {
 		const mentions = extractMentions(tokens);
 		let mentionedUsers = (await Promise.all(mentions.map(m =>
 			this.remoteUserResolveService.resolveUser(m.username, m.host ?? user.host).catch(() => null),
-		))).filter(isNotNull);
+		))).filter(x => x != null);
 
 		// Drop duplicate users
 		mentionedUsers = mentionedUsers.filter((u, i, self) =>
@@ -918,10 +932,13 @@ export class NoteCreateService implements OnApplicationShutdown {
 				}
 			}
 
-			if (note.visibility !== 'specified' || !note.visibleUserIds.some(v => v === user.id)) { // 自分自身のHTL
-				this.fanoutTimelineService.push(`homeTimeline:${user.id}`, note.id, meta.perUserHomeTimelineCacheMax, r);
-				if (note.fileIds.length > 0) {
-					this.fanoutTimelineService.push(`homeTimelineWithFiles:${user.id}`, note.id, meta.perUserHomeTimelineCacheMax / 2, r);
+			// 自分自身のHTL
+			if (note.userHost == null) {
+				if (note.visibility !== 'specified' || !note.visibleUserIds.some(v => v === user.id)) {
+					this.fanoutTimelineService.push(`homeTimeline:${user.id}`, note.id, meta.perUserHomeTimelineCacheMax, r);
+					if (note.fileIds.length > 0) {
+						this.fanoutTimelineService.push(`homeTimelineWithFiles:${user.id}`, note.id, meta.perUserHomeTimelineCacheMax / 2, r);
+					}
 				}
 			}
 

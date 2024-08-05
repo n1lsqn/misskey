@@ -8,17 +8,23 @@ SPDX-License-Identifier: AGPL-3.0-only
 	<template #header><XHeader v-model:tab="tab" :actions="headerActions" :tabs="headerTabs"/></template>
 	<MkSpacer :contentMax="700" :marginMin="16" :marginMax="32">
 		<FormSuspense :p="init">
-			<div class="_gaps_s">
-				<MkTextarea v-if="tab === 'block'" v-model="blockedHosts">
+			<template v-if="tab === 'block'">
+				<MkTextarea v-model="blockedHosts">
 					<span>{{ i18n.ts.blockedInstances }}</span>
 					<template #caption>{{ i18n.ts.blockedInstancesDescription }}</template>
 				</MkTextarea>
-				<MkTextarea v-else-if="tab === 'silence'" v-model="silencedHosts" class="_formBlock">
+			</template>
+			<template v-else-if="tab === 'silence'">
+				<MkTextarea v-model="silencedHosts" class="_formBlock">
 					<span>{{ i18n.ts.silencedInstances }}</span>
 					<template #caption>{{ i18n.ts.silencedInstancesDescription }}</template>
 				</MkTextarea>
-				<MkButton primary @click="save"><i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}</MkButton>
-			</div>
+				<MkTextarea v-model="mediaSilencedHosts" class="_formBlock">
+					<span>{{ i18n.ts.mediaSilencedInstances }}</span>
+					<template #caption>{{ i18n.ts.mediaSilencedInstancesDescription }}</template>
+				</MkTextarea>
+			</template>
+			<MkButton primary @click="save"><i class="ti ti-device-floppy"></i> {{ i18n.ts.save }}</MkButton>
 		</FormSuspense>
 	</MkSpacer>
 </MkStickyContainer>
@@ -38,18 +44,21 @@ import { definePageMetadata } from '@/scripts/page-metadata.js';
 
 const blockedHosts = ref<string>('');
 const silencedHosts = ref<string>('');
+const mediaSilencedHosts = ref<string>('');
 const tab = ref('block');
 
 async function init() {
 	const meta = await misskeyApi('admin/meta');
 	blockedHosts.value = meta.blockedHosts.join('\n');
 	silencedHosts.value = meta.silencedHosts.join('\n');
+	mediaSilencedHosts.value = meta.mediaSilencedHosts.join('\n');
 }
 
 function save() {
 	os.apiWithDialog('admin/update-meta', {
 		blockedHosts: blockedHosts.value.split('\n') || [],
 		silencedHosts: silencedHosts.value.split('\n') || [],
+		mediaSilencedHosts: mediaSilencedHosts.value.split('\n') || [],
 
 	}).then(() => {
 		fetchInstance(true);
