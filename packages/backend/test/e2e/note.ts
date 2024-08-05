@@ -346,7 +346,7 @@ describe('Note', () => {
 		test('ファイルを添付した場合、投稿成功時にファイル情報入りのレスポンスが帰ってくる', async () => {
 			const file = await uploadFile(alice);
 			const res = await api('notes/create', {
-				fileIds: [file.body?.id],
+				fileIds: [file.body!.id],
 			}, alice);
 
 			assert.strictEqual(res.status, 200);
