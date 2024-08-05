@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+import { defaultStore } from './store.js';
 import { $i } from '@/account.js';
 import { instance } from '@/instance.js';
-import { defaultStore } from './store.js';
 
 export const basicTimelineTypes = [
 	'home',
@@ -68,7 +68,7 @@ export function isAvailableBasicTimeline(timeline: BasicTimelineType | undefined
 			return (defaultStore.state['remoteLocalTimelineEnable4']);
 		case 'custom-timeline-5':
 			return (defaultStore.state['remoteLocalTimelineEnable5']);
-			default:
+		default:
 			return false;
 	}
 }

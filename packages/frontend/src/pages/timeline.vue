@@ -295,47 +295,7 @@ const headerTabs = computed(() => [...(defaultStore.reactiveState.pinnedUserList
 	title: i18n.ts._timelines[tl],
 	icon: basicTimelineIconClass(tl),
 	iconOnly: true,
-})), ...(isLocalTimelineAvailable ? [{
-	key: 'local',
-	title: i18n.ts._timelines.local,
-	icon: 'ti ti-planet',
-	iconOnly: true,
-}, {
-	key: 'social',
-	title: i18n.ts._timelines.social,
-	icon: 'ti ti-universe',
-	iconOnly: true,
-}] : []), ...(remoteLocalTimelineEnable1.value ? [{
-	key: 'custom-timeline-1',
-	title: defaultStore.state.remoteLocalTimelineName1,
-	icon: 'ti ti-plus',
-	iconOnly: true,
-}] : []), ...(remoteLocalTimelineEnable2.value ? [{
-	key: 'custom-timeline-2',
-	title: defaultStore.state.remoteLocalTimelineName2,
-	icon: 'ti ti-plus',
-	iconOnly: true,
-}] : []), ...(remoteLocalTimelineEnable3.value ? [{
-	key: 'custom-timeline-3',
-	title: defaultStore.state.remoteLocalTimelineName3,
-	icon: 'ti ti-plus',
-	iconOnly: true,
-}] : []), ...(remoteLocalTimelineEnable4.value ? [{
-	key: 'custom-timeline-4',
-	title: defaultStore.state.remoteLocalTimelineName4,
-	icon: 'ti ti-plus',
-	iconOnly: true,
-}] : []), ...(remoteLocalTimelineEnable5.value ? [{
-	key: 'custom-timeline-5',
-	title: defaultStore.state.remoteLocalTimelineName5,
-	icon: 'ti ti-plus',
-	iconOnly: true,
-}] : []), ...(isGlobalTimelineAvailable ? [{
-	key: 'global',
-	title: i18n.ts._timelines.global,
-	icon: 'ti ti-whirl',
-	iconOnly: true,
-}] : []), {
+})), {
 	icon: 'ti ti-list',
 	title: i18n.ts.lists,
 	iconOnly: true,
