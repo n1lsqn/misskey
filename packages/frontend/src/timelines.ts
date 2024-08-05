@@ -59,15 +59,15 @@ export function isAvailableBasicTimeline(timeline: BasicTimelineType | undefined
 		case 'global':
 			return ($i == null && instance.policies.gtlAvailable) || ($i != null && $i.policies.gtlAvailable);
 		case 'custom-timeline-1':
-			return ($i == null && defaultStore.state['remoteLocalTimelineEnable1']);
+			return (defaultStore.state['remoteLocalTimelineEnable1']);
 		case 'custom-timeline-2':
-			return ($i == null && defaultStore.state['remoteLocalTimelineEnable2']);
+			return (defaultStore.state['remoteLocalTimelineEnable2']);
 		case 'custom-timeline-3':
-			return ($i == null && defaultStore.state['remoteLocalTimelineEnable3']);
+			return (defaultStore.state['remoteLocalTimelineEnable3']);
 		case 'custom-timeline-4':
-			return ($i == null && defaultStore.state['remoteLocalTimelineEnable4']);
+			return (defaultStore.state['remoteLocalTimelineEnable4']);
 		case 'custom-timeline-5':
-			return ($i == null && defaultStore.state['remoteLocalTimelineEnable5']);
+			return (defaultStore.state['remoteLocalTimelineEnable5']);
 			default:
 			return false;
 	}
