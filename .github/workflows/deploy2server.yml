@@ -1,19 +1,18 @@
 name: deploy_to_server
 
 on:
-  push:
-    branches:
-      - n-master
-  pull_request:
-    branches:
-      - n-master
+  workflow_run:
+    types: [completed]
+    workflows:
+      - Lint
+      - Test (backend)
+      - Test (frontend)
 
 jobs:
-
   # deploy to server
   deploy_to_server:
     runs-on: ubuntu-latest
-    needs: [pnpm_install, report, lint, typecheck, unit, test, validate-api-json, vitest, e2e-back, e2e-front]
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
     - name: Deploy
       uses: appleboy/ssh-action@master
