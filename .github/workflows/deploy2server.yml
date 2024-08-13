@@ -9,11 +9,9 @@ on:
       - n-master
 
 jobs:
-
   # deploy to server
   deploy_to_server:
     runs-on: ubuntu-latest
-    needs: [pnpm_install, report, lint, typecheck, unit, test, validate-api-json, vitest, e2e-back, e2e-front]
     steps:
     - name: Deploy
       uses: appleboy/ssh-action@master
