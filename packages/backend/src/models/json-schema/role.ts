@@ -216,7 +216,7 @@ export const packedRolePoliciesSchema = {
 			type: 'boolean',
 			optional: false, nullable: false,
 		},
-		canUseHighlight: {
+		canUseExplore: {
 			type: 'boolean',
 			optional: false, nullable: false,
 		},

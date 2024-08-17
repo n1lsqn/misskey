@@ -13,6 +13,7 @@ export const meta = {
 	tags: ['hashtags'],
 
 	requireCredential: false,
+	requireRolePolicy: 'canUseExplore',
 	allowGet: true,
 	cacheSec: 60 * 1,
 
