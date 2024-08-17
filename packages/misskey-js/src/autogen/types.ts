@@ -4837,7 +4837,7 @@ export type components = {
       canManageCustomEmojis: boolean;
       canManageAvatarDecorations: boolean;
       canUseChannel: boolean;
-      canUseHighlight: boolean;
+      canUseExplore: boolean;
       canUseRemoteIconDecorations: boolean;
       canEmojiDeletion: boolean;
       canSearchNotes: boolean;

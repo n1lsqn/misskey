@@ -1750,7 +1750,7 @@ _role:
     canManageCustomEmojis: "カスタム絵文字の管理"
     canManageAvatarDecorations: "アバターデコレーションの管理"
     canUseChannel: "チャンネルの利用"
-    canUseHighlight: "ハイライトの利用"
+    canUseExplore: "ハイライトの利用"
     canUseRemoteIconDecorations: "リモートアイコンデコレーションの利用"
     canEmojiDeletion: "絵文字の削除"
     driveCapacity: "ドライブ容量"
