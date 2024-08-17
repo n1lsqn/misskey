@@ -25,12 +25,42 @@ jobs:
           "Test (frontend):.github/workflows/test-frontend.yml"
         )
         all_success=true
+        retries=5
+        delay=60
         for workflow in "${workflows[@]}"; do
           IFS=':' read -r name file <<< "$workflow"
-          status=$(gh run list --workflow="$file" --json conclusion --jq '.[0].conclusion')
-          echo "Workflow $name ($file) status: $status"
-          if [ "$status" != "success" ]; then
-            all_success=false
+          for ((i=0; i<retries; i++)); do
+            status=$(gh run list --workflow="$file" --json conclusion --jq '.[0].conclusion')
+            echo "Workflow $name ($file) status: $status"
+            if [ "$status" == "in_progress" ] || [ "$status" == "queued" ]; then
+              echo "$name workflow is still in progress or queued. Waiting for it to complete..."
+              sleep $delay
+            else
+              break
+            fi
+          done
+
+          case "$status" in
+            success)
+              echo "$name workflow succeeded."
+              ;;
+            failure)
+              echo "$name workflow failed."
+              all_success=false
+              ;;
+            cancelled)
+              echo "$name workflow was cancelled."
+              all_success=false
+              ;;
+            skipped)
+              echo "$name workflow was skipped."
+              ;;
+            *)
+              echo "$name workflow returned an unknown status: $status"
+              all_success=false
+              ;;
+          esac
+          if [ "$all_success" = false ]; then
             break
           fi
         done
