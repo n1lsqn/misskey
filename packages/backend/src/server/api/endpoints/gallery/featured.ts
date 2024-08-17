@@ -14,7 +14,7 @@ export const meta = {
 	tags: ['gallery'],
 
 	requireCredential: false,
-	requireRolePolicy: 'canUseHighlight',
+	requireRolePolicy: 'canUseExplore',
 
 	res: {
 		type: 'array',

@@ -15,6 +15,7 @@ export const meta = {
 	tags: ['hashtags'],
 
 	requireCredential: false,
+	requireRolePolicy: 'canUseExplore',
 
 	res: {
 		type: 'object',

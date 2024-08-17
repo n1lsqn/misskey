@@ -117,10 +117,10 @@ SPDX-License-Identifier: AGPL-3.0-only
 							</MkSwitch>
 						</MkFolder>
 
-						<MkFolder v-if="matchQuery([i18n.ts._role._options.canUseHighlight, 'canUseHighlight'])">
-							<template #label>{{ i18n.ts._role._options.canUseHighlight }}</template>
-							<template #suffix>{{ policies.canUseHighlight ? i18n.ts.yes : i18n.ts.no }}</template>
-							<MkSwitch v-model="policies.canUseHighlight">
+						<MkFolder v-if="matchQuery([i18n.ts._role._options.canUseExplore, 'canUseExplore'])">
+							<template #label>{{ i18n.ts._role._options.canUseExplore }}</template>
+							<template #suffix>{{ policies.canUseExplore ? i18n.ts.yes : i18n.ts.no }}</template>
+							<MkSwitch v-model="policies.canUseExplore">
 								<template #label>{{ i18n.ts.enable }}</template>
 							</MkSwitch>
 						</MkFolder>

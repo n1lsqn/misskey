@@ -13,6 +13,9 @@ import { DI } from '@/di-symbols.js';
 export const meta = {
 	tags: ['gallery'],
 
+	requireCredential: false,
+	requireRolePolicy: 'canUseExplore',
+
 	res: {
 		type: 'array',
 		optional: false, nullable: false,
