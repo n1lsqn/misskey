@@ -1,26 +1,44 @@
 name: deploy_to_server
-
 on:
   workflow_run:
-    types: [completed]
     workflows:
       - Lint
       - Test (backend)
       - Test (frontend)
-
+    types:
+      - completed
 jobs:
-  # deploy to server
-  deploy_to_server:
+  check_suite:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    outputs:
+      all_success: ${{ steps.check.outputs.all_success }}
+    steps:
+      - name: Check workflow conclusions
+        id: check
+        run: |
+          workflows=("Lint" "Test (backend)" "Test (frontend)")
+          all_success=true
+          for workflow in "${workflows[@]}"; do
+            status=$(gh run list --workflow="$workflow" --json conclusion --jq '.[0].conclusion')
+            if [ "$status" != "success" ]; then
+              all_success=false
+              break
+            fi
+          done
+          echo "all_success=$all_success" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+  deploy_to_server:
+    needs: check_suite
+    runs-on: ubuntu-latest
+    if: ${{ needs.check_suite.outputs.all_success == 'true' }}
     steps:
     - name: Deploy
       uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.SSH_IP }}
         username: ${{ secrets.SSH_USERNAME }}
-        # key: ${{ secrets.SSH_PRIVATE_KEY }}
-        # passphrase: ${{ secrets.SSH_PASSPHRASE }}
         password: ${{ secrets.SSH_PASSWORD }}
         port: ${{ secrets.SSH_PORT }}
         script: |
@@ -35,5 +53,3 @@ jobs:
           NODE_ENV=production pnpm run build
           pnpm run migrate
           sudo service misskey restart
-          sleep 60
-          curl -X POST -H "Content-Type: application/json" -d '{"i": "${{ secrets.ACCT_TOKEN }}", "text": "@n1lsqn@papi.n1l.dev アップデートを完了しました。 `${{ github.head_ref }}`", "visibility": "home"}' https://m.n1l.dev/api/notes/create
