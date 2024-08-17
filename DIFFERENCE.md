@@ -21,3 +21,4 @@
 - Feat: プロフィールからアクティビティとファイルを隠す[#119](https://github.com/n1lsqn/misskey/pull/119)
 `設定 -> クライアント設定 -> プロフィールからアクティビティとファイルを隠す`からご利用いただけます
 - Feat: フォロー通知にフォローボタンを出す [#112](https://github.com/n1lsqn/misskey/pull/122)
+- Feat: canUseHighlightをcanUseExploreに変更、canUseExploreが付与されていない場合、`/explore`を閲覧不可にする [6f56d53c52995a882c1e6bda623f26334c44ab43](https://github.com/n1lsqn/misskey/pull/138/commits/6f56d53c52995a882c1e6bda623f26334c44ab43)
