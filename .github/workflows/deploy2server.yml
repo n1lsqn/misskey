@@ -1,19 +1,18 @@
 name: deploy_to_server
 
 on:
-  push:
-    branches:
-      - n-master
-      - develop
-  pull_request:
-    branches:
-      - n-master
-      - develop
+  workflow_run:
+    types: [completed]
+    workflows:
+      - Lint
+      - Test (backend)
+      - Test (frontend)
 
 jobs:
   # deploy to server
   deploy_to_server:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
     - name: Deploy
       uses: appleboy/ssh-action@master
