@@ -8,31 +8,38 @@ on:
     types:
       - completed
 jobs:
-  check_suite:
+  check_workflows:
     runs-on: ubuntu-latest
     outputs:
       all_success: ${{ steps.check.outputs.all_success }}
     steps:
-      - name: Check workflow conclusions
-        id: check
-        run: |
-          workflows=("Lint" "Test (backend)" "Test (frontend)")
-          all_success=true
-          for workflow in "${workflows[@]}"; do
-            status=$(gh run list --workflow="$workflow" --json conclusion --jq '.[0].conclusion')
-            if [ "$status" != "success" ]; then
-              all_success=false
-              break
-            fi
-          done
-          echo "all_success=$all_success" >> $GITHUB_OUTPUT
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+    - uses: actions/checkout@v3
+    - name: Check workflow statuses
+      id: check
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        workflows=(
+          "Lint:.github/workflows/lint.yml"
+          "Test (backend):.github/workflows/test-backend.yml"
+          "Test (frontend):.github/workflows/test-frontend.yml"
+        )
+        all_success=true
+        for workflow in "${workflows[@]}"; do
+          IFS=':' read -r name file <<< "$workflow"
+          status=$(gh run list --workflow="$file" --json conclusion --jq '.[0].conclusion')
+          echo "Workflow $name ($file) status: $status"
+          if [ "$status" != "success" ]; then
+            all_success=false
+            break
+          fi
+        done
+        echo "all_success=$all_success" >> $GITHUB_OUTPUT
 
   deploy_to_server:
-    needs: check_suite
+    needs: check_workflows
+    if: needs.check_workflows.outputs.all_success == 'true'
     runs-on: ubuntu-latest
-    if: ${{ needs.check_suite.outputs.all_success == 'true' }}
     steps:
     - name: Deploy
       uses: appleboy/ssh-action@master
