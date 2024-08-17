@@ -36,13 +36,13 @@ SPDX-License-Identifier: AGPL-3.0-only
 <script lang="ts" setup>
 import { computed, watch, provide, shallowRef, ref, onMounted, onActivated } from 'vue';
 import type { Tab } from '@/components/global/MkPageHeader.tabs.vue';
+import type { BasicTimelineType } from '@/timelines.js';
 import MkTimeline from '@/components/MkTimeline.vue';
 import MkInfo from '@/components/MkInfo.vue';
 import MkPostForm from '@/components/MkPostForm.vue';
 import MkHorizontalSwipe from '@/components/MkHorizontalSwipe.vue';
 import { scroll } from '@/scripts/scroll.js';
 import * as os from '@/os.js';
-import { misskeyApi } from '@/scripts/misskey-api.js';
 import { defaultStore } from '@/store.js';
 import { i18n } from '@/i18n.js';
 import { $i } from '@/account.js';
@@ -54,12 +54,8 @@ import { MenuItem } from '@/types/menu.js';
 import { miLocalStorage } from '@/local-storage.js';
 import { availableBasicTimelines, hasWithReplies, isAvailableBasicTimeline, isBasicTimeline, basicTimelineIconClass } from '@/timelines.js';
 import { instance } from '@/instance.js';
-import type { BasicTimelineType } from '@/timelines.js';
 
 provide('shouldOmitHeaderTitle', true);
-
-const isLocalTimelineAvailable = ($i == null && instance.policies.ltlAvailable) || ($i != null && $i.policies.ltlAvailable);
-const isGlobalTimelineAvailable = ($i == null && instance.policies.gtlAvailable) || ($i != null && $i.policies.gtlAvailable);
 
 const tlComponent = shallowRef<InstanceType<typeof MkTimeline>>();
 const rootEl = shallowRef<HTMLElement>();
@@ -120,11 +116,6 @@ const withSensitive = computed<boolean>({
 	get: () => defaultStore.reactiveState.tl.value.filter.withSensitive,
 	set: (x) => saveTlFilter('withSensitive', x),
 });
-const remoteLocalTimelineEnable1 = ref(defaultStore.state.remoteLocalTimelineEnable1);
-const remoteLocalTimelineEnable2 = ref(defaultStore.state.remoteLocalTimelineEnable2);
-const remoteLocalTimelineEnable3 = ref(defaultStore.state.remoteLocalTimelineEnable3);
-const remoteLocalTimelineEnable4 = ref(defaultStore.state.remoteLocalTimelineEnable4);
-const remoteLocalTimelineEnable5 = ref(defaultStore.state.remoteLocalTimelineEnable5);
 
 watch(src, () => {
 	queue.value = 0;
