@@ -1694,7 +1694,7 @@ _role:
     canManageCustomEmojis: "カスタム絵文字の管理"
     canManageAvatarDecorations: "アバターデコレーションの管理"
     canUseChannel: "チャンネルの利用"
-    canUseHighlight: "ハイライトの利用"
+    canUseExplore: "ハイライトの利用"
     driveCapacity: "ドライブ容量"
     alwaysMarkNsfw: "ファイルにNSFWを常に付与"
     pinMax: "投書のピン留めの最大数"

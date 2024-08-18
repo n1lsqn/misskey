@@ -13,8 +13,9 @@ import { FeaturedService } from '@/core/FeaturedService.js';
 export const meta = {
 	tags: ['gallery'],
 
-	requireCredential: false,
-	requireRolePolicy: 'canUseHighlight',
+	requireCredential: true,
+	kind: 'read:gallery',
+	requireRolePolicy: 'canUseExplore',
 
 	res: {
 		type: 'array',
