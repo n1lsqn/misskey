@@ -12,7 +12,9 @@ import { DI } from '@/di-symbols.js';
 export const meta = {
 	tags: ['gallery'],
 
-	requireCredential: false,
+	requireCredential: true,
+	kind: 'read:gallery',
+	requireRolePolicy: 'canUseExplore',
 
 	res: {
 		type: 'array',

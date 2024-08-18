@@ -4722,6 +4722,8 @@ export type components = {
       title: string;
       summary: string;
       script: string;
+      /** @enum {string} */
+      visibility: 'private' | 'public';
       likedCount: number | null;
       isLiked?: boolean;
     };
@@ -4835,7 +4837,7 @@ export type components = {
       canManageCustomEmojis: boolean;
       canManageAvatarDecorations: boolean;
       canUseChannel: boolean;
-      canUseHighlight: boolean;
+      canUseExplore: boolean;
       canUseRemoteIconDecorations: boolean;
       canEmojiDeletion: boolean;
       canSearchNotes: boolean;

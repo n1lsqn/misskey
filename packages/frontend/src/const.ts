@@ -84,7 +84,7 @@ export const ROLE_POLICIES = [
 	'canManageCustomEmojis',
 	'canManageAvatarDecorations',
 	'canUseChannel',
-	'canUseHighlight',
+	'canUseExplore',
 	'canUseRemoteIconDecorations',
 	'canEmojiDeletion',
 	'canSearchNotes',

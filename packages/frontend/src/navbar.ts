@@ -47,7 +47,7 @@ export const navbarItemDef = reactive({
 	},
 	explore: {
 		title: i18n.ts.explore,
-		show: computed(() => $i != null && $i.policies.canUseHighlight),
+		show: computed(() => $i != null && $i.policies.canUseExplore),
 		icon: 'ti ti-hash',
 		to: '/explore',
 	},

@@ -44,7 +44,7 @@ export type RolePolicies = {
 	canManageCustomEmojis: boolean;
 	canManageAvatarDecorations: boolean;
 	canUseChannel: boolean;
-	canUseHighlight: boolean;
+	canUseExplore: boolean;
 	canUseRemoteIconDecorations: boolean;
 	canEmojiDeletion: boolean;
 	canSearchNotes: boolean;
@@ -81,7 +81,7 @@ export const DEFAULT_POLICIES: RolePolicies = {
 	canUseChannel: false,
 	canUseRemoteIconDecorations: true,
 	canEmojiDeletion: false,
-	canUseHighlight: true,
+	canUseExplore: true,
 	canSearchNotes: false,
 	canUseTranslator: true,
 	canHideAds: false,
@@ -139,10 +139,8 @@ export class RoleService implements OnApplicationShutdown, OnModuleInit {
 		private moderationLogService: ModerationLogService,
 		private fanoutTimelineService: FanoutTimelineService,
 	) {
-		//this.onMessage = this.onMessage.bind(this);
-
-		this.rolesCache = new MemorySingleCache<MiRole[]>(1000 * 60 * 60 * 1);
-		this.roleAssignmentByUserIdCache = new MemoryKVCache<MiRoleAssignment[]>(1000 * 60 * 60 * 1);
+		this.rolesCache = new MemorySingleCache<MiRole[]>(1000 * 60 * 60); // 1h
+		this.roleAssignmentByUserIdCache = new MemoryKVCache<MiRoleAssignment[]>(1000 * 60 * 5); // 5m
 
 		this.redisForSub.on('message', this.onMessage);
 	}
@@ -387,7 +385,7 @@ export class RoleService implements OnApplicationShutdown, OnModuleInit {
 			canManageCustomEmojis: calc('canManageCustomEmojis', vs => vs.some(v => v === true)),
 			canManageAvatarDecorations: calc('canManageAvatarDecorations', vs => vs.some(v => v === true)),
 			canUseChannel: calc('canUseChannel', vs => vs.some(v => v === true)),
-			canUseHighlight: calc('canUseHighlight', vs => vs.some(v => v === true)),
+			canUseExplore: calc('canUseExplore', vs => vs.some(v => v === true)),
 			canUseRemoteIconDecorations: calc('canUseRemoteIconDecorations', vs => vs.some(v => v === true)),
 			canEmojiDeletion: calc('canEmojiDeletion', vs => vs.some(v => v === true)),
 			canSearchNotes: calc('canSearchNotes', vs => vs.some(v => v === true)),

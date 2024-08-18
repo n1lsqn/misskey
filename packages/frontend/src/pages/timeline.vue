@@ -34,7 +34,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { computed, watch, provide, shallowRef, ref } from 'vue';
+import { computed, watch, provide, shallowRef, ref, onMounted, onActivated } from 'vue';
 import type { Tab } from '@/components/global/MkPageHeader.tabs.vue';
 import MkTimeline from '@/components/MkTimeline.vue';
 import MkInfo from '@/components/MkInfo.vue';
@@ -55,6 +55,8 @@ import { miLocalStorage } from '@/local-storage.js';
 import { availableBasicTimelines, hasWithReplies, isAvailableBasicTimeline, isBasicTimeline, basicTimelineIconClass } from '@/timelines.js';
 import { instance } from '@/instance.js';
 
+import type { BasicTimelineType } from '@/timelines.js';
+
 provide('shouldOmitHeaderTitle', true);
 
 const isLocalTimelineAvailable = ($i == null && instance.policies.ltlAvailable) || ($i != null && $i.policies.ltlAvailable);
@@ -63,9 +65,11 @@ const isGlobalTimelineAvailable = ($i == null && instance.policies.gtlAvailable)
 const tlComponent = shallowRef<InstanceType<typeof MkTimeline>>();
 const rootEl = shallowRef<HTMLElement>();
 
+type TimelinePageSrc = BasicTimelineType | `list:${string}`;
+
 const queue = ref(0);
 const srcWhenNotSignin = ref<'local' | 'global'>(isAvailableBasicTimeline('local') ? 'local' : 'global');
-const src = computed<'home' | 'local' | 'social' | 'global' | `list:${string}`>({
+const src = computed<TimelinePageSrc>({
 	get: () => ($i ? defaultStore.reactiveState.tl.value.src : srcWhenNotSignin.value),
 	set: (x) => saveSrc(x),
 });
@@ -204,7 +208,7 @@ async function chooseChannel(ev: MouseEvent): Promise<void> {
 	os.popupMenu(items, ev.currentTarget ?? ev.target);
 }
 
-function saveSrc(newSrc: 'home' | 'local' | 'social' | 'global' | `list:${string}`): void {
+function saveSrc(newSrc: TimelinePageSrc): void {
 	const out = deepMerge({ src: newSrc }, defaultStore.state.tl);
 
 	if (newSrc.startsWith('userList:')) {
@@ -244,6 +248,19 @@ function closeTutorial(): void {
 	before[src.value] = true;
 	defaultStore.set('timelineTutorials', before);
 }
+
+function switchTlIfNeeded() {
+	if (isBasicTimeline(src.value) && !isAvailableBasicTimeline(src.value)) {
+		src.value = availableBasicTimelines()[0];
+	}
+}
+
+onMounted(() => {
+	switchTlIfNeeded();
+});
+onActivated(() => {
+	switchTlIfNeeded();
+});
 
 const headerActions = computed(() => {
 	const tmp = [
@@ -295,47 +312,7 @@ const headerTabs = computed(() => [...(defaultStore.reactiveState.pinnedUserList
 	title: i18n.ts._timelines[tl],
 	icon: basicTimelineIconClass(tl),
 	iconOnly: true,
-})), ...(isLocalTimelineAvailable ? [{
-	key: 'local',
-	title: i18n.ts._timelines.local,
-	icon: 'ti ti-planet',
-	iconOnly: true,
-}, {
-	key: 'social',
-	title: i18n.ts._timelines.social,
-	icon: 'ti ti-universe',
-	iconOnly: true,
-}] : []), ...(remoteLocalTimelineEnable1.value ? [{
-	key: 'custom-timeline-1',
-	title: defaultStore.state.remoteLocalTimelineName1,
-	icon: 'ti ti-plus',
-	iconOnly: true,
-}] : []), ...(remoteLocalTimelineEnable2.value ? [{
-	key: 'custom-timeline-2',
-	title: defaultStore.state.remoteLocalTimelineName2,
-	icon: 'ti ti-plus',
-	iconOnly: true,
-}] : []), ...(remoteLocalTimelineEnable3.value ? [{
-	key: 'custom-timeline-3',
-	title: defaultStore.state.remoteLocalTimelineName3,
-	icon: 'ti ti-plus',
-	iconOnly: true,
-}] : []), ...(remoteLocalTimelineEnable4.value ? [{
-	key: 'custom-timeline-4',
-	title: defaultStore.state.remoteLocalTimelineName4,
-	icon: 'ti ti-plus',
-	iconOnly: true,
-}] : []), ...(remoteLocalTimelineEnable5.value ? [{
-	key: 'custom-timeline-5',
-	title: defaultStore.state.remoteLocalTimelineName5,
-	icon: 'ti ti-plus',
-	iconOnly: true,
-}] : []), ...(isGlobalTimelineAvailable ? [{
-	key: 'global',
-	title: i18n.ts._timelines.global,
-	icon: 'ti ti-whirl',
-	iconOnly: true,
-}] : []), {
+})), {
 	icon: 'ti ti-list',
 	title: i18n.ts.lists,
 	iconOnly: true,
