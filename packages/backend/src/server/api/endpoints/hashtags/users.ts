@@ -12,7 +12,9 @@ import { UserEntityService } from '@/core/entities/UserEntityService.js';
 import { DI } from '@/di-symbols.js';
 
 export const meta = {
+
 	requireCredential: true,
+	kind: 'read:gallery',
 	requireRolePolicy: 'canUseExplore',
 
 	tags: ['hashtags', 'users'],
