@@ -2808,3 +2808,11 @@ _contextMenu:
   app: "アプリケーション"
   appWithShift: "Shiftキーでアプリケーション"
   native: "ブラウザのUI"
+
+_defaultTimeline:
+  title: "デフォルトタイムライン"
+  description: "デフォルトで表示されるタイムラインを設定します。"
+  home: "ホーム"
+  local: "ローカル"
+  social: "ソーシャル"
+  global: "グローバル"

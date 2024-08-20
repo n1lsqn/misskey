@@ -10514,6 +10514,32 @@ export interface Locale extends ILocale {
          */
         "native": string;
     };
+    "_defaultTimeline": {
+        /**
+         * デフォルトタイムライン
+         */
+        "title": string;
+        /**
+         * デフォルトで表示されるタイムラインを設定します。
+         */
+        "description": string;
+        /**
+         * ホーム
+         */
+        "home": string;
+        /**
+         * ローカル
+         */
+        "local": string;
+        /**
+         * ソーシャル
+         */
+        "social": string;
+        /**
+         * グローバル
+         */
+        "global": string;
+    };
 }
 declare const locales: {
     [lang: string]: Locale;

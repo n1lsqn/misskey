@@ -137,11 +137,8 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'deviceAccount',
 		default: [
 			'notifications',
-			'clips',
-			'drive',
 			'followRequests',
 			'-',
-			'explore',
 			'announcements',
 			'search',
 			'-',
@@ -183,7 +180,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	tl: {
 		where: 'deviceAccount',
 		default: {
-			src: 'home' as 'home' | 'local' | 'social' | 'global' | `list:${string}`,
+			src: 'global' as 'home' | 'local' | 'social' | 'global' | `list:${string}`,
 			userList: null as Misskey.entities.UserList | null,
 			filter: {
 				withReplies: true,
@@ -320,7 +317,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	instanceTickerStyle: {
 		where: 'device',
-		default: 'default' as 'default' | 'minimal' | 'icon' | 'iconColor',
+		default: 'icon' as 'default' | 'minimal' | 'icon',
 	},
 	emojiPickerScale: {
 		where: 'device',
@@ -570,10 +567,10 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: false,
 	},
-  contextMenu: {
+	contextMenu: {
 		where: 'device',
 		default: 'app' as 'app' | 'appWithShift' | 'native',
-  },
+	},
 
 	sound_masterVolume: {
 		where: 'device',
