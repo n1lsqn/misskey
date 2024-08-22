@@ -28,6 +28,7 @@ declare module '../api.js' {
     /**
      * No description provided.
      * 
+<<<<<<< HEAD
      * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
      * **Credential required**: *Yes* / **Permission**: *read:admin:abuse-report:notification-recipient*
      */
@@ -88,6 +89,8 @@ declare module '../api.js' {
     /**
      * No description provided.
      * 
+=======
+>>>>>>> parent of ffceadae73 ((add) 緊急お知らせ・津波情報連携)
      * **Credential required**: *No*
      */
     request<E extends 'admin/accounts/create', P extends Endpoints[E]['req']>(
@@ -762,7 +765,11 @@ declare module '../api.js' {
     /**
      * No description provided.
      * 
+<<<<<<< HEAD
      * **Credential required**: *Yes* / **Permission**: *read:admin:show-user*
+=======
+     * **Credential required**: *Yes* / **Permission**: *read:admin:show-users*
+>>>>>>> parent of ffceadae73 ((add) 緊急お知らせ・津波情報連携)
      */
     request<E extends 'admin/show-users', P extends Endpoints[E]['req']>(
       endpoint: E,
@@ -927,6 +934,7 @@ declare module '../api.js' {
     /**
      * No description provided.
      * 
+<<<<<<< HEAD
      * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
      * **Credential required**: *Yes* / **Permission**: *write:admin:system-webhook*
      */
@@ -987,6 +995,8 @@ declare module '../api.js' {
     /**
      * No description provided.
      * 
+=======
+>>>>>>> parent of ffceadae73 ((add) 緊急お知らせ・津波情報連携)
      * **Credential required**: *No*
      */
     request<E extends 'announcements', P extends Endpoints[E]['req']>(
@@ -998,6 +1008,7 @@ declare module '../api.js' {
     /**
      * No description provided.
      * 
+<<<<<<< HEAD
      * **Credential required**: *No*
      */
     request<E extends 'announcements/show', P extends Endpoints[E]['req']>(
@@ -1009,6 +1020,8 @@ declare module '../api.js' {
     /**
      * No description provided.
      * 
+=======
+>>>>>>> parent of ffceadae73 ((add) 緊急お知らせ・津波情報連携)
      * **Credential required**: *Yes* / **Permission**: *write:account*
      */
     request<E extends 'antennas/create', P extends Endpoints[E]['req']>(
@@ -3067,6 +3080,7 @@ declare module '../api.js' {
     /**
      * No description provided.
      * 
+<<<<<<< HEAD
      * **Credential required**: *Yes* / **Permission**: *write:notes*
      */
     request<E extends 'notes/schedule/delete', P extends Endpoints[E]['req']>(
@@ -3090,6 +3104,8 @@ declare module '../api.js' {
     /**
      * No description provided.
      * 
+=======
+>>>>>>> parent of ffceadae73 ((add) 緊急お知らせ・津波情報連携)
      * **Credential required**: *Yes* / **Permission**: *write:notes*
      */
     request<E extends 'notes/delete', P extends Endpoints[E]['req']>(
@@ -3387,6 +3403,7 @@ declare module '../api.js' {
     /**
      * No description provided.
      * 
+<<<<<<< HEAD
      * **Credential required**: *Yes* / **Permission**: *write:notifications*
      */
     request<E extends 'notifications/flush', P extends Endpoints[E]['req']>(
@@ -3398,6 +3415,8 @@ declare module '../api.js' {
     /**
      * No description provided.
      * 
+=======
+>>>>>>> parent of ffceadae73 ((add) 緊急お知らせ・津波情報連携)
      * **Credential required**: *Yes* / **Permission**: *write:notifications*
      */
     request<E extends 'notifications/mark-all-as-read', P extends Endpoints[E]['req']>(
