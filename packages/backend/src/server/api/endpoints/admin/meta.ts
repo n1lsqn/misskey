@@ -481,20 +481,6 @@ export const meta = {
 				type: 'string',
 				optional: false, nullable: false,
 			},
-			enableEmergencyAnnouncementIntegration: {
-				type: 'boolean',
-				optional: false, nullable: false,
-			},
-			emergencyAnnouncementIntegrationConfig: {
-				type: 'object',
-				optional: false, nullable: false,
-				properties: {
-					type: {
-						type: 'string',
-						optional: false, nullable: false,
-					},
-				},
-			},
 			urlPreviewEnabled: {
 				type: 'boolean',
 				optional: false, nullable: false,
@@ -649,8 +635,6 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				perUserHomeTimelineCacheMax: instance.perUserHomeTimelineCacheMax,
 				perUserListTimelineCacheMax: instance.perUserListTimelineCacheMax,
 				notesPerOneAd: instance.notesPerOneAd,
-				enableEmergencyAnnouncementIntegration: instance.enableEmergencyAnnouncementIntegration,
-				emergencyAnnouncementIntegrationConfig: instance.emergencyAnnouncementIntegrationConfig,
 				summalyProxy: instance.urlPreviewSummaryProxyUrl,
 				urlPreviewEnabled: instance.urlPreviewEnabled,
 				urlPreviewTimeout: instance.urlPreviewTimeout,

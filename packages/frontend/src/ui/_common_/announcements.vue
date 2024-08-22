@@ -4,12 +4,12 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 <template>
-<div v-if="$i" :class="$style.root">
+<div :class="$style.root">
 	<MkA
-		v-for="announcement in $i.unreadAnnouncements.filter(x => x.display === 'banner' || x.display === 'emergency')"
+		v-for="announcement in $i.unreadAnnouncements.filter(x => x.display === 'banner')"
 		:key="announcement.id"
-		:class="[$style.item, (announcement.display === 'emergency' ? $style.emergency : undefined)]"
 		:to="`/announcements/${announcement.id}`"
+		:class="$style.item"
 	>
 		<span :class="$style.icon">
 			<i v-if="announcement.icon === 'info'" class="ti ti-info-circle"></i>
@@ -17,15 +17,14 @@ SPDX-License-Identifier: AGPL-3.0-only
 			<i v-else-if="announcement.icon === 'error'" class="ti ti-circle-x" style="color: var(--error);"></i>
 			<i v-else-if="announcement.icon === 'success'" class="ti ti-check" style="color: var(--success);"></i>
 		</span>
-		<span :class="$style.title">{{ (announcement.display === 'emergency') ? emergencyTitle(announcement) : announcement.title }}</span>
-		<span :class="$style.body">{{ (announcement.display === 'emergency') ? emergencyBody(announcement) : announcement.text }}</span>
+		<span :class="$style.title">{{ announcement.title }}</span>
+		<span :class="$style.body">{{ announcement.text }}</span>
 	</MkA>
 </div>
 </template>
 
 <script lang="ts" setup>
 import { $i } from '@/account.js';
-import { emergencyTitle, emergencyBody } from '@/scripts/emergency-announcements-text.js';
 </script>
 
 <style lang="scss" module>
@@ -47,11 +46,6 @@ import { emergencyTitle, emergencyBody } from '@/scripts/emergency-announcements
 	contain: strict;
 	background: var(--accent);
 	color: var(--fgOnAccent);
-
-	&.emergency {
-		background: #ff2a2a;
-		color: var(--fgOnAccent);
-	}
 
 	@container (max-width: 1000px) {
 		display: block;

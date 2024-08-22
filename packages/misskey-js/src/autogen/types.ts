@@ -5188,6 +5188,7 @@ export type operations = {
             tosUrl: string | null;
             uri: string;
             version: string;
+<<<<<<< HEAD
             enableEmergencyAnnouncementIntegration: boolean;
             emergencyAnnouncementIntegrationConfig: {
               type: string;
@@ -5198,6 +5199,8 @@ export type operations = {
             urlPreviewRequireContentLength: boolean;
             urlPreviewUserAgent: string | null;
             urlPreviewSummaryProxyUrl: string | null;
+=======
+>>>>>>> parent of ffceadae73 ((add) 緊急お知らせ・津波情報連携)
           };
         };
       };
@@ -6026,7 +6029,7 @@ export type operations = {
            * @default normal
            * @enum {string}
            */
-          display?: 'normal' | 'banner' | 'dialog' | 'emergency';
+          display?: 'normal' | 'banner' | 'dialog';
           /** @default false */
           forExistingUsers?: boolean;
           /** @default false */
@@ -6242,7 +6245,7 @@ export type operations = {
           /** @enum {string} */
           icon?: 'info' | 'warning' | 'error' | 'success';
           /** @enum {string} */
-          display?: 'normal' | 'banner' | 'dialog' | 'emergency';
+          display?: 'normal' | 'banner' | 'dialog';
           forExistingUsers?: boolean;
           silence?: boolean;
           needConfirmationToRead?: boolean;
@@ -9548,6 +9551,7 @@ export type operations = {
           perUserListTimelineCacheMax?: number;
           notesPerOneAd?: number;
           silencedHosts?: string[] | null;
+<<<<<<< HEAD
           mediaSilencedHosts?: string[] | null;
           /** @description [Deprecated] Use "urlPreviewSummaryProxyUrl" instead. */
           summalyProxy?: string | null;
@@ -9557,6 +9561,8 @@ export type operations = {
           urlPreviewRequireContentLength?: boolean;
           urlPreviewUserAgent?: string | null;
           urlPreviewSummaryProxyUrl?: string | null;
+=======
+>>>>>>> parent of ffceadae73 ((add) 緊急お知らせ・津波情報連携)
         };
       };
     };
@@ -10510,8 +10516,11 @@ export type operations = {
         'application/json': {
           /** @default 10 */
           limit?: number;
+<<<<<<< HEAD
           /** @enum {string|null} */
           display?: 'normal' | 'banner' | 'dialog' | 'emergency';
+=======
+>>>>>>> parent of ffceadae73 ((add) 緊急お知らせ・津波情報連携)
           /** Format: misskey:id */
           sinceId?: string;
           /** Format: misskey:id */
