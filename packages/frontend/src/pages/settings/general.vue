@@ -54,6 +54,15 @@ SPDX-License-Identifier: AGPL-3.0-only
 					<template #label>{{ i18n.ts.collapseRenotes }}</template>
 					<template #caption>{{ i18n.ts.collapseRenotesDescription }}</template>
 				</MkSwitch>
+				<MkSwitch v-model="directRenote">
+					<template #label>
+						{{ i18n.ts.directRenote }}
+						<span class="_beta">
+							{{ "originFeature" }}
+						</span>
+					</template>
+					<template #caption>{{ i18n.ts.directRenoteDescription }}</template>
+				</MkSwitch>
 				<MkSwitch v-model="showNoteActionsOnlyHover">{{ i18n.ts.showNoteActionsOnlyHover }}</MkSwitch>
 				<MkSwitch v-model="showClipButtonInNoteFooter">{{ i18n.ts.showClipButtonInNoteFooter }}</MkSwitch>
 				<MkSwitch v-model="advancedMfm">{{ i18n.ts.enableAdvancedMfm }}</MkSwitch>
@@ -90,9 +99,6 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<option value="default">{{ i18n.ts._instanceTickerStyle.default }}</option>
 				<option value="minimal">{{ i18n.ts._instanceTickerStyle.minimal }}</option>
 				<option value="icon">{{ i18n.ts._instanceTickerStyle.icon }}</option>
-				<!--
-					<option value="iconColor">{{ i18n.ts._instanceTickerStyle.iconColor }}</option>
-				-->
 			</MkSelect>
 
 			<MkSelect v-model="nsfw">
@@ -403,6 +409,20 @@ SPDX-License-Identifier: AGPL-3.0-only
 					</div>
 				</MkFolder>
 			</div>
+
+			<MkSelect v-model="defaultTimeline.src">
+				<template #label>
+					{{ i18n.ts._defaultTimeline }}
+					<span class="_beta">
+						{{ "originFeature" }}
+					</span>
+				</template>
+				<option value="home">{{ i18n.ts._defaultTimeline.home }}</option>
+				<option value="local">{{ i18n.ts._defaultTimeline.local }}</option>
+				<option value="social">{{ i18n.ts._defaultTimeline.social }}</option>
+				<option value="global">{{ i18n.ts._defaultTimeline.global }}</option>
+				<template #caption>{{ i18n.ts._defaultTimeline.description }}</template>
+			</MkSelect>
 		</div>
 	</FormSection>
 
@@ -476,6 +496,7 @@ const showClipButtonInNoteFooter = computed(defaultStore.makeGetterSetter('showC
 const reactionsDisplaySize = computed(defaultStore.makeGetterSetter('reactionsDisplaySize'));
 const limitWidthOfReaction = computed(defaultStore.makeGetterSetter('limitWidthOfReaction'));
 const collapseRenotes = computed(defaultStore.makeGetterSetter('collapseRenotes'));
+const directRenote = computed(defaultStore.makeGetterSetter('directRenote'));
 const reduceAnimation = computed(defaultStore.makeGetterSetter('animation', v => !v, v => !v));
 const useBlurEffectForModal = computed(defaultStore.makeGetterSetter('useBlurEffectForModal'));
 const useBlurEffect = computed(defaultStore.makeGetterSetter('useBlurEffect'));
@@ -520,31 +541,31 @@ const useNativeUIForVideoAudioPlayer = computed(defaultStore.makeGetterSetter('u
 const alwaysConfirmFollow = computed(defaultStore.makeGetterSetter('alwaysConfirmFollow'));
 const confirmWhenRevealingSensitiveMedia = computed(defaultStore.makeGetterSetter('confirmWhenRevealingSensitiveMedia'));
 const contextMenu = computed(defaultStore.makeGetterSetter('contextMenu'));
+const defaultTimeline = computed(defaultStore.makeGetterSetter('tl'));
 
 const remoteLocalTimelineName1 = ref(defaultStore.state['remoteLocalTimelineName1']);
 const remoteLocalTimelineDomain1 = ref(defaultStore.state['remoteLocalTimelineDomain1']);
 const remoteLocalTimelineToken1 = ref(defaultStore.state['remoteLocalTimelineToken1']);
+const remoteLocalTimelineEnable1 = computed(defaultStore.makeGetterSetter('remoteLocalTimelineEnable1'));
 
 const remoteLocalTimelineName2 = ref(defaultStore.state['remoteLocalTimelineName2']);
 const remoteLocalTimelineDomain2 = ref(defaultStore.state['remoteLocalTimelineDomain2']);
 const remoteLocalTimelineToken2 = ref(defaultStore.state['remoteLocalTimelineToken2']);
+const remoteLocalTimelineEnable2 = computed(defaultStore.makeGetterSetter('remoteLocalTimelineEnable2'));
 
 const remoteLocalTimelineName3 = ref(defaultStore.state['remoteLocalTimelineName3']);
 const remoteLocalTimelineDomain3 = ref(defaultStore.state['remoteLocalTimelineDomain3']);
 const remoteLocalTimelineToken3 = ref(defaultStore.state['remoteLocalTimelineToken3']);
+const remoteLocalTimelineEnable3 = computed(defaultStore.makeGetterSetter('remoteLocalTimelineEnable3'));
 
 const remoteLocalTimelineName4 = ref(defaultStore.state['remoteLocalTimelineName4']);
 const remoteLocalTimelineDomain4 = ref(defaultStore.state['remoteLocalTimelineDomain4']);
 const remoteLocalTimelineToken4 = ref(defaultStore.state['remoteLocalTimelineToken4']);
+const remoteLocalTimelineEnable4 = computed(defaultStore.makeGetterSetter('remoteLocalTimelineEnable4'));
 
 const remoteLocalTimelineName5 = ref(defaultStore.state['remoteLocalTimelineName5']);
 const remoteLocalTimelineDomain5 = ref(defaultStore.state['remoteLocalTimelineDomain5']);
 const remoteLocalTimelineToken5 = ref(defaultStore.state['remoteLocalTimelineToken5']);
-
-const remoteLocalTimelineEnable1 = computed(defaultStore.makeGetterSetter('remoteLocalTimelineEnable1'));
-const remoteLocalTimelineEnable2 = computed(defaultStore.makeGetterSetter('remoteLocalTimelineEnable2'));
-const remoteLocalTimelineEnable3 = computed(defaultStore.makeGetterSetter('remoteLocalTimelineEnable3'));
-const remoteLocalTimelineEnable4 = computed(defaultStore.makeGetterSetter('remoteLocalTimelineEnable4'));
 const remoteLocalTimelineEnable5 = computed(defaultStore.makeGetterSetter('remoteLocalTimelineEnable5'));
 
 const $i = signinRequired();
@@ -573,6 +594,7 @@ watch(useSystemFont, () => {
 });
 
 watch([
+	directRenote,
 	hemisphere,
 	lang,
 	fontSize,

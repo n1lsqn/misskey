@@ -6,6 +6,7 @@
 import { markRaw, ref } from 'vue';
 import * as Misskey from 'misskey-js';
 import { miLocalStorage } from './local-storage.js';
+import { instance } from './instance.js';
 import type { SoundType } from '@/scripts/sound.js';
 import { Storage } from '@/pizzax.js';
 import { hemisphere } from '@/scripts/intl-const.js';
@@ -137,11 +138,8 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'deviceAccount',
 		default: [
 			'notifications',
-			'clips',
-			'drive',
 			'followRequests',
 			'-',
-			'explore',
 			'announcements',
 			'search',
 			'-',
@@ -183,7 +181,8 @@ export const defaultStore = markRaw(new Storage('base', {
 	tl: {
 		where: 'deviceAccount',
 		default: {
-			src: 'home' as 'home' | 'local' | 'social' | 'global' | `list:${string}`,
+			// src: 'global' as 'home' | 'local' | 'social' | 'global' | `list:${string}`,
+			src: instance && instance.policies ? instance.policies.gtlAvailable ? 'global' : instance.policies.ltlAvailable ? 'local' : 'home' : 'home',
 			userList: null as Misskey.entities.UserList | null,
 			filter: {
 				withReplies: true,
@@ -320,7 +319,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	instanceTickerStyle: {
 		where: 'device',
-		default: 'default' as 'default' | 'minimal' | 'icon' | 'iconColor',
+		default: 'icon' as 'default' | 'minimal' | 'icon',
 	},
 	emojiPickerScale: {
 		where: 'device',
@@ -570,10 +569,10 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: false,
 	},
-  contextMenu: {
+	contextMenu: {
 		where: 'device',
 		default: 'app' as 'app' | 'appWithShift' | 'native',
-  },
+	},
 
 	sound_masterVolume: {
 		where: 'device',
@@ -602,6 +601,11 @@ export const defaultStore = markRaw(new Storage('base', {
 	sound_reaction: {
 		where: 'device',
 		default: { type: 'syuilo/bubble2', volume: 1 } as SoundStore,
+	},
+
+	directRenote: {
+		where: 'device',
+		default: false,
 	},
 }));
 
@@ -634,6 +638,7 @@ interface Watcher {
  */
 import lightTheme from '@/themes/l-light.json5';
 import darkTheme from '@/themes/d-green-lime.json5';
+import { directRenote } from './scripts/direct-renote.js';
 
 export class ColdDeviceStorage {
 	public static default = {
