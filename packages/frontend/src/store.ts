@@ -6,6 +6,7 @@
 import { markRaw, ref } from 'vue';
 import * as Misskey from 'misskey-js';
 import { miLocalStorage } from './local-storage.js';
+import { instance } from './instance.js';
 import type { SoundType } from '@/scripts/sound.js';
 import { Storage } from '@/pizzax.js';
 import { hemisphere } from '@/scripts/intl-const.js';
@@ -180,7 +181,8 @@ export const defaultStore = markRaw(new Storage('base', {
 	tl: {
 		where: 'deviceAccount',
 		default: {
-			src: 'global' as 'home' | 'local' | 'social' | 'global' | `list:${string}`,
+			// src: 'global' as 'home' | 'local' | 'social' | 'global' | `list:${string}`,
+			src: instance.policies.gtlAvailable ? 'global' : instance.policies.ltlAvailable ? 'local' : 'home',
 			userList: null as Misskey.entities.UserList | null,
 			filter: {
 				withReplies: true,
