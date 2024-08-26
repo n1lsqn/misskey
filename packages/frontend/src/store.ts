@@ -182,7 +182,7 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'deviceAccount',
 		default: {
 			// src: 'global' as 'home' | 'local' | 'social' | 'global' | `list:${string}`,
-			src: instance.policies.gtlAvailable ? 'global' : instance.policies.ltlAvailable ? 'local' : 'home',
+			src: instance && instance.policies ? instance.policies.gtlAvailable ? 'global' : instance.policies.ltlAvailable ? 'local' : 'home' : 'home',
 			userList: null as Misskey.entities.UserList | null,
 			filter: {
 				withReplies: true,
