@@ -45,9 +45,11 @@ export type DeleteScheduleEditorModelValue = {
 		deleteAfter: number | null;
 	};
 
-const props = defineProps<{
-		modelValue: DeleteScheduleEditorModelValue;
-	}>();
+const props = withDefaults(defineProps<{
+  modelValue: DeleteScheduleEditorModelValue;
+}>(), {
+	modelValue: () => ({ deleteAt: null, deleteAfter: null }),
+});
 const emit = defineEmits<{
 		(ev: 'update:modelValue', v: DeleteScheduleEditorModelValue): void;
 	}>();
