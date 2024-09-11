@@ -43,10 +43,6 @@ SPDX-License-Identifier: AGPL-3.0-only
 		{{ i18n.ts.makeExplorable }}
 		<template #caption>{{ i18n.ts.makeExplorableDescription }}</template>
 	</MkSwitch>
-	<MkSwitch v-model="filenameRandomize">
-		<template #label>{{ i18n.ts.filenameRandomize }}</template>
-		<template #caption>{{ i18n.ts.filenameRandomizeDescription }}</template>
-	</MkSwitch>
 
 	<FormSection>
 		<div class="_gaps_m">
@@ -103,7 +99,6 @@ const defaultNoteVisibility = computed(defaultStore.makeGetterSetter('defaultNot
 const defaultNoteLocalOnly = computed(defaultStore.makeGetterSetter('defaultNoteLocalOnly'));
 const rememberNoteVisibility = computed(defaultStore.makeGetterSetter('rememberNoteVisibility'));
 const keepCw = computed(defaultStore.makeGetterSetter('keepCw'));
-const filenameRandomize = computed(defaultStore.makeGetterSetter('filenameRandomize'));
 
 function save() {
 	misskeyApi('i/update', {

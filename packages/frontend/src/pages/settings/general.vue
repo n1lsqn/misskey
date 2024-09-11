@@ -412,7 +412,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 			<MkSelect v-model="defaultTimeline.src">
 				<template #label>
-					{{ i18n.ts._defaultTimeline }}
+					{{ i18n.ts._defaultTimeline.title }}
 					<span class="_beta">
 						{{ "originFeature" }}
 					</span>

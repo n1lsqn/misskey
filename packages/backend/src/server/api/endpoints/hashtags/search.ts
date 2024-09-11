@@ -12,10 +12,6 @@ import { sqlLikeEscape } from '@/misc/sql-like-escape.js';
 export const meta = {
 	tags: ['hashtags'],
 
-	requireCredential: true,
-	kind: 'read:gallery',
-	requireRolePolicy: 'canUseExplore',
-
 	res: {
 		type: 'array',
 		optional: false, nullable: false,
