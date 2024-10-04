@@ -294,6 +294,25 @@ export const packedRolePoliciesSchema = {
 		},
 		remoteLocalTimelineAnyLimit: {
 			type: 'integer',
+		},
+		canImportAntennas: {
+			type: 'boolean',
+			optional: false, nullable: false,
+		},
+		canImportBlocking: {
+			type: 'boolean',
+			optional: false, nullable: false,
+		},
+		canImportFollowing: {
+			type: 'boolean',
+			optional: false, nullable: false,
+		},
+		canImportMuting: {
+			type: 'boolean',
+			optional: false, nullable: false,
+		},
+		canImportUserLists: {
+			type: 'boolean',
 			optional: false, nullable: false,
 		},
 	},

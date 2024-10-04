@@ -25,3 +25,7 @@
 - Feat: canUseHighlightをcanUseExploreに変更、canUseExploreが付与されていない場合、`/explore`を閲覧不可にする [6f56d53c52995a882c1e6bda623f26334c44ab43](https://github.com/n1lsqn/misskey/pull/138/commits/6f56d53c52995a882c1e6bda623f26334c44ab43)
 - feat: デフォルトで表示されるタイムラインを変える~~(GTLがあるサーバー向け)~~[578760d](https://github.com/n1lsqn/misskey/pull/143/commits/578760d7544a9a8343119e58c69259c2baa21154)
 - Feat: ダイレクトにリノートをできるようにする [#142](https://github.com/n1lsqn/misskey/pull/142)
+- Feat: canUseHighlightをcanUseExploreに変更、canUseExploreが付与されていない場合、`/explore`を閲覧不可にする [6f56d53c52995a882c1e6bda623f26334c44ab43](https://github.com/n1lsqn/misskey/pull/138/commits/6f56d53c52995a882c1e6bda623f26334c44ab43)
+- Feat: デフォルトで表示されるタイムラインを変える~~(GTLがあるサーバー向け)~~[578760d](https://github.com/n1lsqn/misskey/pull/143/commits/578760d7544a9a8343119e58c69259c2baa21154)
+- Feat: ダイレクトにリノートをできるようにする [#142](https://github.com/n1lsqn/misskey/pull/142)
+
