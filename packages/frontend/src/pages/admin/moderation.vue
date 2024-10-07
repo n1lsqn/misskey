@@ -190,7 +190,6 @@ function onChange_emailRequiredForSignup(value: boolean) {
 
 function save_preservedUsernames() {
 	os.apiWithDialog('admin/update-meta', {
-<<<<<<< HEAD
 		disableRegistration: !enableRegistration.value,
 		disableAntiSpam: !enableAntiSpam.value,
 		// disableVillageMode: !enableVillageMode.value,
@@ -202,8 +201,6 @@ function save_preservedUsernames() {
 		sensitiveWords: sensitiveWords.value.split('\n'),
 		prohibitedWords: prohibitedWords.value.split('\n'),
 		hiddenTags: hiddenTags.value.split('\n'),
-=======
->>>>>>> 2024.9.0
 		preservedUsernames: preservedUsernames.value.split('\n'),
 	}).then(() => {
 		fetchInstance(true);
