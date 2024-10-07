@@ -5,21 +5,20 @@
 
 import { defineAsyncComponent, Ref, ShallowRef } from 'vue';
 import * as Misskey from 'misskey-js';
-import { action } from '@storybook/addon-actions';
+import { url } from '@@/js/config.js';
 import { claimAchievement } from './achievements.js';
 import { directQuote } from './direct-quote.js';
+import type { MenuItem } from '@/types/menu.js';
 import { $i } from '@/account.js';
 import { i18n } from '@/i18n.js';
 import { instance } from '@/instance.js';
 import * as os from '@/os.js';
 import { misskeyApi } from '@/scripts/misskey-api.js';
 import { copyToClipboard } from '@/scripts/copy-to-clipboard.js';
-import { url } from '@@/js/config.js';
 import { defaultStore, noteActions } from '@/store.js';
 import { miLocalStorage } from '@/local-storage.js';
 import { getUserMenu } from '@/scripts/get-user-menu.js';
 import { clipsCache, favoritedChannelsCache } from '@/cache.js';
-import type { MenuItem } from '@/types/menu.js';
 import MkRippleEffect from '@/components/MkRippleEffect.vue';
 import { isSupportShare } from '@/scripts/navigator.js';
 import { getAppearNote } from '@/scripts/get-appear-note.js';
@@ -306,115 +305,14 @@ export function getNoteMenu(props: {
 			noteId: appearNote.id,
 		});
 
-		menu = [
-			...(
-				props.currentClip?.userId === $i.id ? [{
-					icon: 'ti ti-backspace',
-					text: i18n.ts.unclip,
-					danger: true,
-					action: unclip,
-				}, { type: 'divider' }] : []
-			), {
-				icon: 'ti ti-info-circle',
-				text: i18n.ts.details,
-				action: openDetail,
-			}, (defaultStore.state.directRenote) ? {
-				icon: 'ti ti-quote',
-				text: i18n.ts.quote,
-				action: () => {
-					directQuote({ note: appearNote });
-				},
-			} : undefined, {
-				icon: 'ti ti-copy',
-				text: i18n.ts.copyContent,
-				action: copyContent,
-			}, getCopyNoteLinkMenu(appearNote, i18n.ts.copyLink)
-			, (appearNote.url || appearNote.uri) ? {
-				icon: 'ti ti-external-link',
-				text: i18n.ts.showOnRemote,
-				action: () => {
-					window.open(appearNote.url ?? appearNote.uri, '_blank', 'noopener');
-				},
-			} : undefined,
-			...(isSupportShare() ? [{
-				icon: 'ti ti-share',
-				text: i18n.ts.share,
-				action: share,
-			}] : []),
-			$i && $i.policies.canUseTranslator && instance.translatorAvailable ? {
-				icon: 'ti ti-language-hiragana',
-				text: i18n.ts.translate,
-				action: translate,
-			} : undefined,
-			{ type: 'divider' },
-			statePromise.then(state => state.isFavorited ? {
-				icon: 'ti ti-star-off',
-				text: i18n.ts.unfavorite,
-				action: () => toggleFavorite(false),
-			} : {
-				icon: 'ti ti-star',
-				text: i18n.ts.favorite,
-				action: () => toggleFavorite(true),
-			}),
-			{
-				type: 'parent' as const,
-				icon: 'ti ti-paperclip',
-				text: i18n.ts.clip,
-				children: () => getNoteClipMenu(props),
-			},
-			statePromise.then(state => state.isMutedThread ? {
-				icon: 'ti ti-message-off',
-				text: i18n.ts.unmuteThread,
-				action: () => toggleThreadMute(false),
-			} : {
-				icon: 'ti ti-message-off',
-				text: i18n.ts.muteThread,
-				action: () => toggleThreadMute(true),
-			}),
-			appearNote.userId === $i.id ? ($i.pinnedNoteIds ?? []).includes(appearNote.id) ? {
-				icon: 'ti ti-pinned-off',
-				text: i18n.ts.unpin,
-				action: () => togglePin(false),
-			} : {
-				icon: 'ti ti-pin',
-				text: i18n.ts.pin,
-				action: () => togglePin(true),
-			} : undefined,
-			{
-				type: 'parent' as const,
-				icon: 'ti ti-user',
-				text: i18n.ts.user,
-				children: async () => {
-					const user = appearNote.userId === $i?.id ? $i : await misskeyApi('users/show', { userId: appearNote.userId });
-					const { menu, cleanup } = getUserMenu(user);
-					cleanups.push(cleanup);
-					return menu;
-				},
-			},
-			/*
-		...($i.isModerator || $i.isAdmin ? [
-			{ type: 'divider' },
-			{
-				icon: 'ti ti-speakerphone',
-				text: i18n.ts.promote,
-				action: promote
-			}]
-			: []
-		),*/
-			...(appearNote.userId !== $i.id ? [
-				{ type: 'divider' },
-				appearNote.userId !== $i.id ? getAbuseNoteMenu(appearNote, i18n.ts.reportAbuse) : undefined,
-			]
-			: []
-			),
-			...(appearNote.channel && (appearNote.channel.userId === $i.id || $i.isModerator || $i.isAdmin) ? [
-				{ type: 'divider' },
-				{
-					type: 'parent' as const,
-					icon: 'ti ti-device-tv',
-					text: i18n.ts.channel,
-					children: async () => {
-						const channelChildMenu = [] as MenuItem[];
+		if (props.currentClip?.userId === $i.id) {
+			menuItems.push({
+				icon: 'ti ti-backspace',
+				text: i18n.ts.unclip,
+				danger: true,
+				action: unclip,
+			}, { type: 'divider' });
+		}
 
 		menuItems.push({
 			icon: 'ti ti-info-circle',
@@ -572,7 +470,13 @@ export function getNoteMenu(props: {
 			icon: 'ti ti-info-circle',
 			text: i18n.ts.details,
 			action: openDetail,
-		}, {
+		}, (defaultStore.state.directRenote) ? {
+			icon: 'ti ti-quote',
+			text: i18n.ts.quote,
+			action: () => {
+				directQuote({ note: appearNote });
+			},
+		} : undefined, {
 			icon: 'ti ti-copy',
 			text: i18n.ts.copyContent,
 			action: copyContent,
