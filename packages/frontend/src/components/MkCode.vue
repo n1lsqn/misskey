@@ -31,6 +31,7 @@ import MkLoading from '@/components/global/MkLoading.vue';
 import { i18n } from '@/i18n.js';
 import { getDataSaverState } from '@/scripts/datasaver.js';
 import { copyToClipboard } from '@/scripts/copy-to-clipboard.js';
+import { defaultStore } from '@/store';
 
 const props = withDefaults(defineProps<{
 	code: string;

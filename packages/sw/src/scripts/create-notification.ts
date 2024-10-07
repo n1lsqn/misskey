@@ -211,12 +211,12 @@ async function composeNotification(data: PushNotificationDataMap[keyof PushNotif
 					}];
 
 				case 'noteSchedulingFailed':
-					return [t('_notification.noteSchedulingFailed'), {
-						body: t(`_schedulePost.somethingHappened`),
+					return [i18n.ts._notification.noteSchedulingFailed, {
+						body: i18n.ts._schedulePost.somethingHappened,
 						badge: iconUrl('bell'),
 						data,
 					}];
-					
+
 				case 'exportCompleted': {
 					const entityName = {
 						antenna: i18n.ts.antennas,

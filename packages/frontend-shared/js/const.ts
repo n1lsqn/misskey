@@ -67,6 +67,7 @@ export const notificationTypes = [
 	'followRequestAccepted',
 	'roleAssigned',
 	'achievementEarned',
+	'noteSchedulingFailed',
 	'exportCompleted',
 	'test',
 	'app',
