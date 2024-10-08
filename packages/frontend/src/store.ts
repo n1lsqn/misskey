@@ -10,6 +10,7 @@ import lightTheme from '@@/themes/l-light.json5';
 import darkTheme from '@@/themes/d-green-lime.json5';
 import { miLocalStorage } from './local-storage.js';
 import { instance } from './instance.js';
+import { directRenote } from './scripts/direct-renote.js';
 import type { SoundType } from '@/scripts/sound.js';
 import { Storage } from '@/pizzax.js';
 
@@ -642,9 +643,6 @@ interface Watcher {
 /**
  * 常にメモリにロードしておく必要がないような設定情報を保管するストレージ(非リアクティブ)
  */
-import lightTheme from '@/themes/l-light.json5';
-import darkTheme from '@/themes/d-green-lime.json5';
-import { directRenote } from './scripts/direct-renote.js';
 
 export class ColdDeviceStorage {
 	public static default = {
