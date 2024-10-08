@@ -5,10 +5,12 @@
 
 import { markRaw, ref } from 'vue';
 import * as Misskey from 'misskey-js';
+import { hemisphere } from '@@/js/intl-const.js';
+import lightTheme from '@@/themes/l-light.json5';
+import darkTheme from '@@/themes/d-green-lime.json5';
 import { miLocalStorage } from './local-storage.js';
 import type { SoundType } from '@/scripts/sound.js';
 import { Storage } from '@/pizzax.js';
-import { hemisphere } from '@/scripts/intl-const.js';
 
 interface PostFormAction {
 	title: string,
@@ -75,6 +77,10 @@ export const defaultStore = markRaw(new Storage('base', {
 			social: false,
 			global: false,
 		},
+	},
+	abusesTutorial: {
+		where: 'account',
+		default: false,
 	},
 	keepCw: {
 		where: 'account',
@@ -220,7 +226,7 @@ export const defaultStore = markRaw(new Storage('base', {
 	},
 	animatedMfm: {
 		where: 'device',
-		default: false,
+		default: window.matchMedia('(prefers-reduced-motion)').matches,
 	},
 	advancedMfm: {
 		where: 'device',
@@ -278,9 +284,9 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: 'twemoji', // twemoji / fluentEmoji / native
 	},
-	disableDrawer: {
+	menuStyle: {
 		where: 'device',
-		default: false,
+		default: 'auto' as 'auto' | 'popup' | 'drawer',
 	},
 	useBlurEffectForModal: {
 		where: 'device',
@@ -334,9 +340,9 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: 2,
 	},
-	emojiPickerUseDrawerForMobile: {
+	emojiPickerStyle: {
 		where: 'device',
-		default: true,
+		default: 'auto' as 'auto' | 'popup' | 'drawer',
 	},
 	recentlyUsedEmojis: {
 		where: 'device',
@@ -502,9 +508,9 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: 'horizontal' as 'vertical' | 'horizontal',
 	},
-	enableCondensedLineForAcct: {
+	enableCondensedLine: {
 		where: 'device',
-		default: false,
+		default: true,
 	},
 	additionalUnicodeEmojiIndexes: {
 		where: 'device',
@@ -570,10 +576,10 @@ export const defaultStore = markRaw(new Storage('base', {
 		where: 'device',
 		default: false,
 	},
-  contextMenu: {
+	contextMenu: {
 		where: 'device',
 		default: 'app' as 'app' | 'appWithShift' | 'native',
-  },
+	},
 
 	sound_masterVolume: {
 		where: 'device',
@@ -632,8 +638,6 @@ interface Watcher {
 /**
  * 常にメモリにロードしておく必要がないような設定情報を保管するストレージ(非リアクティブ)
  */
-import lightTheme from '@/themes/l-light.json5';
-import darkTheme from '@/themes/d-green-lime.json5';
 
 export class ColdDeviceStorage {
 	public static default = {
@@ -671,7 +675,7 @@ export class ColdDeviceStorage {
 	public static set<T extends keyof typeof ColdDeviceStorage.default>(key: T, value: typeof ColdDeviceStorage.default[T]): void {
 		// 呼び出し側のバグ等で undefined が来ることがある
 		// undefined を文字列として miLocalStorage に入れると参照する際の JSON.parse でコケて不具合の元になるため無視
-		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+
 		if (value === undefined) {
 			console.error(`attempt to store undefined value for key '${key}'`);
 			return;
