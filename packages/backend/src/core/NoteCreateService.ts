@@ -60,7 +60,7 @@ import { trackPromise } from '@/misc/promise-tracker.js';
 import { IdentifiableError } from '@/misc/identifiable-error.js';
 import { Data } from 'ws';
 import { CollapsedQueue } from '@/misc/collapsed-queue.js';
-import { MetaService } from '@/core/MetaService';
+import { MetaService } from '@/core/MetaService.js';
 
 type NotificationType = 'reply' | 'renote' | 'quote' | 'mention';
 
