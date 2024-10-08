@@ -7,17 +7,11 @@ SPDX-License-Identifier: AGPL-3.0-only
 <MkStickyContainer>
 	<template #header><MkPageHeader v-model:tab="tab" :actions="headerActions" :tabs="headerTabs"/></template>
 	<MkSpacer :contentMax="800">
-		<div class="_gaps">
-			<MkInfo v-if="$i && $i.hasUnreadAnnouncement && tab === 'current'" warn>{{ i18n.ts.youHaveUnreadAnnouncements }}</MkInfo>
-			<MkPagination ref="paginationEl" :key="tab" v-slot="{items}" :pagination="tab === 'current' ? paginationCurrent : paginationPast" class="_gaps">
-				<template v-for="announcement in items" :key="announcement.id">
-					<div v-if="announcement.display === 'emergency'" class="_panel _gaps">
-						<MkAnnouncementEmergency :announcement="announcement"/>
-						<div v-if="tab !== 'past' && $i && !announcement.silence && !announcement.isRead" :class="$style.emergencyFooter">
-							<MkButton primary @click="read(announcement)"><i class="ti ti-check"></i> {{ i18n.ts.gotIt }}</MkButton>
-						</div>
-					</div>
-					<section v-else class="_panel" :class="$style.announcement">
+		<MkHorizontalSwipe v-model:tab="tab" :tabs="headerTabs">
+			<div :key="tab" class="_gaps">
+				<MkInfo v-if="$i && $i.hasUnreadAnnouncement && tab === 'current'" warn>{{ i18n.ts.youHaveUnreadAnnouncements }}</MkInfo>
+				<MkPagination ref="paginationEl" :key="tab" v-slot="{items}" :pagination="tab === 'current' ? paginationCurrent : paginationPast" class="_gaps">
+					<section v-for="announcement in items" :key="announcement.id" class="_panel" :class="$style.announcement">
 						<div v-if="announcement.forYou" :class="$style.forYou"><i class="ti ti-pin"></i> {{ i18n.ts.forYou }}</div>
 						<div :class="$style.header">
 							<span v-if="$i && !announcement.silence && !announcement.isRead" style="margin-right: 0.5em;">🆕</span>
@@ -45,9 +39,9 @@ SPDX-License-Identifier: AGPL-3.0-only
 							<MkButton primary @click="read(announcement)"><i class="ti ti-check"></i> {{ i18n.ts.gotIt }}</MkButton>
 						</div>
 					</section>
-				</template>
-			</MkPagination>
-		</div>
+				</MkPagination>
+			</div>
+		</MkHorizontalSwipe>
 	</MkSpacer>
 </MkStickyContainer>
 </template>
@@ -57,7 +51,7 @@ import { ref, computed } from 'vue';
 import MkPagination from '@/components/MkPagination.vue';
 import MkButton from '@/components/MkButton.vue';
 import MkInfo from '@/components/MkInfo.vue';
-import MkAnnouncementEmergency from '@/components/MkAnnouncementEmergency.vue';
+import MkHorizontalSwipe from '@/components/MkHorizontalSwipe.vue';
 import * as os from '@/os.js';
 import { misskeyApi } from '@/scripts/misskey-api.js';
 import { i18n } from '@/i18n.js';
@@ -84,24 +78,24 @@ const paginationEl = ref<InstanceType<typeof MkPagination>>();
 
 const tab = ref('current');
 
-async function read(target) {
-	if (target.needConfirmationToRead || target.display === 'emergency') {
+async function read(announcement) {
+	if (announcement.needConfirmationToRead) {
 		const confirm = await os.confirm({
 			type: 'question',
 			title: i18n.ts._announcement.readConfirmTitle,
-			text: i18n.tsx._announcement.readConfirmText({ title: target.title }),
+			text: i18n.tsx._announcement.readConfirmText({ title: announcement.title }),
 		});
 		if (confirm.canceled) return;
 	}
 
 	if (!paginationEl.value) return;
-	paginationEl.value.updateItem(target.id, a => {
+	paginationEl.value.updateItem(announcement.id, a => {
 		a.isRead = true;
 		return a;
 	});
-	misskeyApi('i/read-announcement', { announcementId: target.id });
+	misskeyApi('i/read-announcement', { announcementId: announcement.id });
 	updateAccount({
-		unreadAnnouncements: $i!.unreadAnnouncements.filter(a => a.id !== target.id),
+		unreadAnnouncements: $i!.unreadAnnouncements.filter(a => a.id !== announcement.id),
 	});
 }
 
@@ -152,10 +146,5 @@ definePageMetadata(() => ({
 
 .footer {
 	margin-top: 16px;
-}
-
-.emergencyFooter {
-	padding: 0 16px 16px;
-	text-align: center;
 }
 </style>

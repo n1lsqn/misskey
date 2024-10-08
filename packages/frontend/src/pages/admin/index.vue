@@ -66,7 +66,6 @@ const noBotProtection = computed(() => !instance.disableRegistration && !instanc
 const noEmailServer = computed(() => !instance.enableEmail);
 const noInquiryUrl = computed(() => isEmpty(instance.inquiryUrl));
 const thereIsUnresolvedAbuseReport = ref(false);
-const thereIsActiveEmergencyAnnouncement = ref(false);
 const currentPage = computed(() => router.currentRef.value.child);
 
 misskeyApi('admin/abuse-user-reports', {
@@ -74,14 +73,6 @@ misskeyApi('admin/abuse-user-reports', {
 	limit: 1,
 }).then(reports => {
 	if (reports.length > 0) thereIsUnresolvedAbuseReport.value = true;
-});
-
-misskeyApi('announcements', {
-	display: 'emergency',
-	isActive: true,
-	limit: 1,
-}).then(announcements => {
-	if (announcements.length > 0) thereIsActiveEmergencyAnnouncement.value = true;
 });
 
 const NARROW_THRESHOLD = 600;

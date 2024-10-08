@@ -5,14 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 <template>
 <MkModal ref="modal" :zPriority="'middle'" @closed="$emit('closed')" @click="onBgClick">
-	<div v-if="announcement.display === 'emergency'" ref="rootEl" :class="$style.emergency" class="_panel">
-		<MkAnnouncementEmergency :announcement="announcement" :isModal="true"/>
-		<div :class="$style.root" class="_gaps_s">
-			<MkButton primary full @click="modal?.close()">{{ i18n.ts.ok }}</MkButton>
-			<MkButton full @click="ok">{{ i18n.ts.neverShow }}</MkButton>
-		</div>
-	</div>
-	<div v-else ref="rootEl" :class="$style.root">
+	<div ref="rootEl" :class="$style.root">
 		<div :class="$style.header">
 			<span :class="$style.icon">
 				<i v-if="announcement.icon === 'info'" class="ti ti-info-circle"></i>
@@ -35,10 +28,8 @@ import * as os from '@/os.js';
 import { misskeyApi } from '@/scripts/misskey-api.js';
 import MkModal from '@/components/MkModal.vue';
 import MkButton from '@/components/MkButton.vue';
-import MkAnnouncementEmergency from '@/components/MkAnnouncementEmergency.vue';
 import { i18n } from '@/i18n.js';
 import { $i, updateAccount } from '@/account.js';
-import { emergencyTitle } from '@/scripts/emergency-announcements-text.js';
 
 const props = withDefaults(defineProps<{
 	announcement: Misskey.entities.Announcement;
@@ -49,11 +40,11 @@ const rootEl = shallowRef<HTMLDivElement>();
 const modal = shallowRef<InstanceType<typeof MkModal>>();
 
 async function ok() {
-	if (props.announcement.needConfirmationToRead || props.announcement.display === 'emergency') {
+	if (props.announcement.needConfirmationToRead) {
 		const confirm = await os.confirm({
 			type: 'question',
 			title: i18n.ts._announcement.readConfirmTitle,
-			text: i18n.t('_announcement.readConfirmText', { title: emergencyTitle(props.announcement) }),
+			text: i18n.tsx._announcement.readConfirmText({ title: props.announcement.title }),
 		});
 		if (confirm.canceled) return;
 	}
@@ -85,11 +76,6 @@ onMounted(() => {
 </script>
 
 <style lang="scss" module>
-
-.emergency {
-	margin: auto;
-}
-
 .root {
 	margin: auto;
 	position: relative;

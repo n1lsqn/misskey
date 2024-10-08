@@ -5,23 +5,24 @@
 
 import { defineAsyncComponent, Ref, ShallowRef } from 'vue';
 import * as Misskey from 'misskey-js';
+import { url } from '@@/js/config.js';
 import { claimAchievement } from './achievements.js';
+import type { MenuItem } from '@/types/menu.js';
 import { $i } from '@/account.js';
 import { i18n } from '@/i18n.js';
 import { instance } from '@/instance.js';
 import * as os from '@/os.js';
 import { misskeyApi } from '@/scripts/misskey-api.js';
 import { copyToClipboard } from '@/scripts/copy-to-clipboard.js';
-import { url } from '@@/js/config.js';
 import { defaultStore, noteActions } from '@/store.js';
 import { miLocalStorage } from '@/local-storage.js';
 import { getUserMenu } from '@/scripts/get-user-menu.js';
 import { clipsCache, favoritedChannelsCache } from '@/cache.js';
-import type { MenuItem } from '@/types/menu.js';
 import MkRippleEffect from '@/components/MkRippleEffect.vue';
 import { isSupportShare } from '@/scripts/navigator.js';
 import { getAppearNote } from '@/scripts/get-appear-note.js';
 import { genEmbedCode } from '@/scripts/get-embed-code.js';
+import { directQuote } from './direct-quote.js';
 
 export async function getNoteClipMenu(props: {
 	note: Misskey.entities.Note;
@@ -317,7 +318,13 @@ export function getNoteMenu(props: {
 			icon: 'ti ti-info-circle',
 			text: i18n.ts.details,
 			action: openDetail,
-		}, {
+		}, (defaultStore.state.directRenote) ? {
+			icon: 'ti ti-quote',
+			text: i18n.ts.quote,
+			action: () => {
+				directQuote({ note: appearNote });
+			},
+		} : undefined, {
 			icon: 'ti ti-copy',
 			text: i18n.ts.copyContent,
 			action: copyContent,

@@ -1787,7 +1787,7 @@ export type paths = {
      * gallery/featured
      * @description No description provided.
      *
-     * **Credential required**: *No*
+     * **Credential required**: *Yes* / **Permission**: *read:gallery*
      */
     post: operations['gallery___featured'];
   };
@@ -1796,7 +1796,7 @@ export type paths = {
      * gallery/popular
      * @description No description provided.
      *
-     * **Credential required**: *No*
+     * **Credential required**: *Yes* / **Permission**: *read:gallery*
      */
     post: operations['gallery___popular'];
   };
@@ -1805,7 +1805,7 @@ export type paths = {
      * gallery/posts
      * @description No description provided.
      *
-     * **Credential required**: *No*
+     * **Credential required**: *Yes* / **Permission**: *read:gallery*
      */
     post: operations['gallery___posts'];
   };
@@ -1893,7 +1893,7 @@ export type paths = {
      * hashtags/list
      * @description No description provided.
      *
-     * **Credential required**: *No*
+     * **Credential required**: *Yes* / **Permission**: *read:gallery*
      */
     post: operations['hashtags___list'];
   };
@@ -1902,7 +1902,7 @@ export type paths = {
      * hashtags/search
      * @description No description provided.
      *
-     * **Credential required**: *No*
+     * **Credential required**: *Yes* / **Permission**: *read:gallery*
      */
     post: operations['hashtags___search'];
   };
@@ -1911,7 +1911,7 @@ export type paths = {
      * hashtags/show
      * @description No description provided.
      *
-     * **Credential required**: *No*
+     * **Credential required**: *Yes* / **Permission**: *read:gallery*
      */
     post: operations['hashtags___show'];
   };
@@ -1920,14 +1920,14 @@ export type paths = {
      * hashtags/trend
      * @description No description provided.
      *
-     * **Credential required**: *No*
+     * **Credential required**: *Yes* / **Permission**: *read:gallery*
      */
     get: operations['hashtags___trend'];
     /**
      * hashtags/trend
      * @description No description provided.
      *
-     * **Credential required**: *No*
+     * **Credential required**: *Yes* / **Permission**: *read:gallery*
      */
     post: operations['hashtags___trend'];
   };
@@ -1936,7 +1936,7 @@ export type paths = {
      * hashtags/users
      * @description No description provided.
      *
-     * **Credential required**: *No*
+     * **Credential required**: *Yes* / **Permission**: *read:gallery*
      */
     post: operations['hashtags___users'];
   };
@@ -5258,10 +5258,6 @@ export type operations = {
             tosUrl: string | null;
             uri: string;
             version: string;
-            enableEmergencyAnnouncementIntegration: boolean;
-            emergencyAnnouncementIntegrationConfig: {
-              type: string;
-            };
             urlPreviewEnabled: boolean;
             urlPreviewTimeout: number;
             urlPreviewMaximumContentLength: number;
@@ -6101,7 +6097,7 @@ export type operations = {
            * @default normal
            * @enum {string}
            */
-          display?: 'normal' | 'banner' | 'dialog' | 'emergency';
+          display?: 'normal' | 'banner' | 'dialog';
           /** @default false */
           forExistingUsers?: boolean;
           /** @default false */
@@ -6317,7 +6313,7 @@ export type operations = {
           /** @enum {string} */
           icon?: 'info' | 'warning' | 'error' | 'success';
           /** @enum {string} */
-          display?: 'normal' | 'banner' | 'dialog' | 'emergency';
+          display?: 'normal' | 'banner' | 'dialog';
           forExistingUsers?: boolean;
           silence?: boolean;
           needConfirmationToRead?: boolean;
@@ -10760,8 +10756,6 @@ export type operations = {
         'application/json': {
           /** @default 10 */
           limit?: number;
-          /** @enum {string|null} */
-          display?: 'normal' | 'banner' | 'dialog' | 'emergency';
           /** Format: misskey:id */
           sinceId?: string;
           /** Format: misskey:id */
@@ -16248,7 +16242,7 @@ export type operations = {
    * gallery/featured
    * @description No description provided.
    *
-   * **Credential required**: *No*
+   * **Credential required**: *Yes* / **Permission**: *read:gallery*
    */
   gallery___featured: {
     requestBody: {
@@ -16304,7 +16298,7 @@ export type operations = {
    * gallery/popular
    * @description No description provided.
    *
-   * **Credential required**: *No*
+   * **Credential required**: *Yes* / **Permission**: *read:gallery*
    */
   gallery___popular: {
     responses: {
@@ -16350,7 +16344,7 @@ export type operations = {
    * gallery/posts
    * @description No description provided.
    *
-   * **Credential required**: *No*
+   * **Credential required**: *Yes* / **Permission**: *read:gallery*
    */
   gallery___posts: {
     requestBody: {
@@ -16850,7 +16844,7 @@ export type operations = {
    * hashtags/list
    * @description No description provided.
    *
-   * **Credential required**: *No*
+   * **Credential required**: *Yes* / **Permission**: *read:gallery*
    */
   hashtags___list: {
     requestBody: {
@@ -16912,7 +16906,7 @@ export type operations = {
    * hashtags/search
    * @description No description provided.
    *
-   * **Credential required**: *No*
+   * **Credential required**: *Yes* / **Permission**: *read:gallery*
    */
   hashtags___search: {
     requestBody: {
@@ -16969,7 +16963,7 @@ export type operations = {
    * hashtags/show
    * @description No description provided.
    *
-   * **Credential required**: *No*
+   * **Credential required**: *Yes* / **Permission**: *read:gallery*
    */
   hashtags___show: {
     requestBody: {
@@ -17022,7 +17016,7 @@ export type operations = {
    * hashtags/trend
    * @description No description provided.
    *
-   * **Credential required**: *No*
+   * **Credential required**: *Yes* / **Permission**: *read:gallery*
    */
   hashtags___trend: {
     responses: {
@@ -17072,7 +17066,7 @@ export type operations = {
    * hashtags/users
    * @description No description provided.
    *
-   * **Credential required**: *No*
+   * **Credential required**: *Yes* / **Permission**: *read:gallery*
    */
   hashtags___users: {
     requestBody: {
