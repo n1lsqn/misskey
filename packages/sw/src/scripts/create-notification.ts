@@ -210,12 +210,14 @@ async function composeNotification(data: PushNotificationDataMap[keyof PushNotif
 						tag: `achievement:${data.body.achievement}`,
 					}];
 
+					/* TODO
 				case 'noteSchedulingFailed':
 					return [i18n.ts._notification.noteSchedulingFailed, {
 						body: i18n.ts._schedulePost.somethingHappened,
 						badge: iconUrl('bell'),
 						data,
 					}];
+					*/
 
 				case 'login':
 					return [i18n.ts._notification.login, {

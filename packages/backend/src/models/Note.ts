@@ -200,7 +200,7 @@ export class MiNote {
 	@Column('boolean', {
 		default: false,
 	})
-	public isScheduled: boolean;
+	public isScheduled: boolean | null;
 
 	@ManyToOne(type => MiChannel, {
 		onDelete: 'CASCADE',
