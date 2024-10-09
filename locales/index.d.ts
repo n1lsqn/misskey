@@ -49,6 +49,20 @@ export interface Locale extends ILocale {
      */
     "password": string;
     /**
+     * 初期設定開始用パスワード
+     */
+    "initialPasswordForSetup": string;
+    /**
+     * 初期設定開始用のパスワードが違います。
+     */
+    "initialPasswordIsIncorrect": string;
+    /**
+     * Misskeyを自分でインストールした場合は、設定ファイルに入力したパスワードを使用してください。
+     * Misskeyのホスティングサービスなどを使用している場合は、提供されたパスワードを使用してください。
+     * パスワードを設定していない場合は、空欄にしたまま続行してください。
+     */
+    "initialPasswordForSetupDescription": string;
+    /**
      * パスワードを忘れた
      */
     "forgotPassword": string;
@@ -969,6 +983,14 @@ export interface Locale extends ILocale {
      */
     "mediaSilencedInstancesDescription": string;
     /**
+     * 連合を許可するサーバー
+     */
+    "federationAllowedHosts": string;
+    /**
+     * 連合を許可するサーバーのホストを改行で区切って設定します。
+     */
+    "federationAllowedHostsDescription": string;
+    /**
      * ミュートとブロック
      */
     "muteAndBlock": string;
@@ -1368,6 +1390,10 @@ export interface Locale extends ILocale {
      * ファイルを追加
      */
     "addFile": string;
+    /**
+     * ファイルを表示
+     */
+    "showFile": string;
     /**
      * ドライブは空です
      */
@@ -1849,6 +1875,10 @@ export interface Locale extends ILocale {
      */
     "moderationNote": string;
     /**
+     * モデレーター間でだけ共有されるメモを記入することができます。
+     */
+    "moderationNoteDescription": string;
+    /**
      * モデレーションノートを追加する
      */
     "addModerationNote": string;
@@ -2093,9 +2123,21 @@ export interface Locale extends ILocale {
      */
     "native": string;
     /**
-     * メニューをドロワーで表示しない
+     * メニューのスタイル
      */
-    "disableDrawer": string;
+    "menuStyle": string;
+    /**
+     * スタイル
+     */
+    "style": string;
+    /**
+     * ドロワー
+     */
+    "drawer": string;
+    /**
+     * ポップアップ
+     */
+    "popup": string;
     /**
      * ノートのアクションをホバー時のみ表示する
      */
@@ -2432,6 +2474,14 @@ export interface Locale extends ILocale {
      * スクラッチパッドは、AiScriptの実験環境を提供します。Misskeyと対話するコードの記述、実行、結果の確認ができます。
      */
     "scratchpadDescription": string;
+    /**
+     * UIインスペクター
+     */
+    "uiInspector": string;
+    /**
+     * メモリ上に存在しているUIコンポーネントのインスタンスの一覧を見ることができます。UIコンポーネントはUi:C:系関数により生成されます。
+     */
+    "uiInspectorDescription": string;
     /**
      * 出力
      */
@@ -2901,21 +2951,9 @@ export interface Locale extends ILocale {
      */
     "reporterOrigin": string;
     /**
-     * リモートサーバーに通報を転送する
-     */
-    "forwardReport": string;
-    /**
-     * リモートサーバーからはあなたの情報は見れず、匿名のシステムアカウントとして表示されます。
-     */
-    "forwardReportIsAnonymous": string;
-    /**
      * 送信
      */
     "send": string;
-    /**
-     * 対応済みにする
-     */
-    "abuseMarkAsResolved": string;
     /**
      * 新しいタブで開く
      */
@@ -3177,7 +3215,7 @@ export interface Locale extends ILocale {
      */
     "narrow": string;
     /**
-     * 設定はページリロード後に反映されます。今すぐリロードしますか？
+     * 設定はページリロード後に反映されます。
      */
     "reloadToApplySetting": string;
     /**
@@ -3724,6 +3762,10 @@ export interface Locale extends ILocale {
      * パスワードが間違っています。
      */
     "incorrectPassword": string;
+    /**
+     * ワンタイムパスワードが間違っているか、期限切れになっています。
+     */
+    "incorrectTotp": string;
     /**
      * 「{choice}」に投票しますか？
      */
@@ -5168,6 +5210,89 @@ export interface Locale extends ILocale {
      * 作成したアンテナ
      */
     "createdAntennas": string;
+    /**
+     * {x}から
+     */
+    "fromX": ParameterizedString<"x">;
+    /**
+     * 埋め込みコードを生成
+     */
+    "genEmbedCode": string;
+    /**
+     * このユーザーのノート一覧
+     */
+    "noteOfThisUser": string;
+    /**
+     * これ以上このクリップにノートを追加できません。
+     */
+    "clipNoteLimitExceeded": string;
+    /**
+     * パフォーマンス
+     */
+    "performance": string;
+    /**
+     * 変更あり
+     */
+    "modified": string;
+    /**
+     * 破棄
+     */
+    "discard": string;
+    /**
+     * {n}件の変更があります
+     */
+    "thereAreNChanges": ParameterizedString<"n">;
+    /**
+     * パスキーでログイン
+     */
+    "signinWithPasskey": string;
+    /**
+     * 登録されていないパスキーです。
+     */
+    "unknownWebAuthnKey": string;
+    /**
+     * パスキーの検証に失敗しました。
+     */
+    "passkeyVerificationFailed": string;
+    /**
+     * パスキーの検証に成功しましたが、パスワードレスログインが無効になっています。
+     */
+    "passkeyVerificationSucceededButPasswordlessLoginDisabled": string;
+    /**
+     * フォロワーへのメッセージ
+     */
+    "messageToFollower": string;
+    /**
+     * 対象
+     */
+    "target": string;
+    "_abuseUserReport": {
+        /**
+         * 転送
+         */
+        "forward": string;
+        /**
+         * 匿名のシステムアカウントとして、リモートサーバーに通報を転送します。
+         */
+        "forwardDescription": string;
+        /**
+         * 解決
+         */
+        "resolve": string;
+        /**
+         * 是認
+         */
+        "accept": string;
+        /**
+         * 否認
+         */
+        "reject": string;
+        /**
+         * 内容が正当である通報に対応した場合は「是認」を選択し、肯定的にケースが解決されたことをマークします。
+         * 内容が正当でない通報の場合は「否認」を選択し、否定的にケースが解決されたことをマークします。
+         */
+        "resolveTutorial": string;
+    };
     "_delivery": {
         /**
          * 配信状態
@@ -5254,13 +5379,6 @@ export interface Locale extends ILocale {
             "section3": string;
         };
     };
-<<<<<<< HEAD
-    /**
-     * 自動生成
-     */
-    "autoGenerated": string;
-=======
->>>>>>> parent of ffceadae73 ((add) 緊急お知らせ・津波情報連携)
     "_announcement": {
         /**
          * 既存ユーザーのみ
@@ -5666,6 +5784,10 @@ export interface Locale extends ILocale {
          * 有効にすると、タイムラインがキャッシュされていない場合にDBへ追加で問い合わせを行うフォールバック処理を行います。無効にすると、フォールバック処理を行わないことでさらにサーバーの負荷を軽減することができますが、タイムラインが取得できる範囲に制限が生じます。
          */
         "fanoutTimelineDbFallbackDescription": string;
+        /**
+         * 有効にすると、リアクション作成時のパフォーマンスが大幅に向上し、データベースへの負荷を軽減することが可能です。ただし、Redisのメモリ使用量は増加します。
+         */
+        "reactionsBufferingDescription": string;
         /**
          * 問い合わせ先URL
          */
@@ -6869,6 +6991,26 @@ export interface Locale extends ILocale {
              * 他のサーバーのLTLを覗けるやつ(最大数5)
              */
             "remoteLocalTimelineAnyLimit": string;
+            /**
+             * アンテナのインポートを許可
+             */
+            "canImportAntennas": string;
+            /**
+             * ブロックのインポートを許可
+             */
+            "canImportBlocking": string;
+            /**
+             * フォローのインポートを許可
+             */
+            "canImportFollowing": string;
+            /**
+             * ミュートのインポートを許可
+             */
+            "canImportMuting": string;
+            /**
+             * リストのインポートを許可
+             */
+            "canImportUserLists": string;
         };
         "_condition": {
             /**
@@ -8778,6 +8920,18 @@ export interface Locale extends ILocale {
          * 最大{max}つまでデコレーションを付けられます。
          */
         "avatarDecorationMax": ParameterizedString<"max">;
+        /**
+         * フォローされた時のメッセージ
+         */
+        "followedMessage": string;
+        /**
+         * フォローされた時に相手に表示する短いメッセージを設定できます。
+         */
+        "followedMessageDescription": string;
+        /**
+         * フォローを承認制にしている場合、フォローリクエストを許可した時に表示されます。
+         */
+        "followedMessageDescriptionForLockedAccount": string;
     };
     "_exportOrImport": {
         /**
@@ -9314,6 +9468,14 @@ export interface Locale extends ILocale {
          * 通知の履歴をリセットする
          */
         "flushNotification": string;
+        /**
+         * {x}のエクスポートが完了しました
+         */
+        "exportOfXCompleted": ParameterizedString<"x">;
+        /**
+         * ログインがありました
+         */
+        "login": string;
         "_types": {
             /**
              * すべて
@@ -9371,6 +9533,18 @@ export interface Locale extends ILocale {
              * 予約投稿に失敗した
              */
             "noteSchedulingFailed": string;
+            /**
+             * エクスポートが完了した
+             */
+            "exportCompleted": string;
+            /**
+             * ログイン
+             */
+            "login": string;
+            /**
+             * 通知のテスト
+             */
+            "test": string;
             /**
              * 連携アプリからの通知
              */
@@ -9618,6 +9792,10 @@ export interface Locale extends ILocale {
          * Webhookを削除しますか？
          */
         "deleteConfirm": string;
+        /**
+         * スイッチの右にあるボタンをクリックするとダミーのデータを使用したテスト用Webhookを送信できます。
+         */
+        "testRemarks": string;
     };
     "_abuseReport": {
         "_notificationRecipient": {
@@ -9780,6 +9958,14 @@ export interface Locale extends ILocale {
          * 通報を解決
          */
         "resolveAbuseReport": string;
+        /**
+         * 通報を転送
+         */
+        "forwardAbuseReport": string;
+        /**
+         * 通報のモデレーションノート更新
+         */
+        "updateAbuseReportNote": string;
         /**
          * 招待コードを作成
          */
@@ -10300,109 +10486,6 @@ export interface Locale extends ILocale {
          * サーバーに接続できません
          */
         "header": string;
-<<<<<<< HEAD
-    };
-    "_emergencyAnnouncement": {
-        "_admin": {
-            /**
-             * 緊急
-             */
-            "label": string;
-            /**
-             * 「緊急」は、災害や身辺の安全に関わる情報にのみ使用し、他の用途には絶対に使用しないでください。「緊急」では、お知らせが特に目立つように表示されるほか、お知らせとともに「緊急時のMisskeyの使用について」の情報が表示されます。アクティブな「緊急」お知らせはひとつしか作成できません。
-             */
-            "labelCaption": string;
-            /**
-             * 緊急情報の外部連携機能の管理のための特殊タイトルです。タイトルは書き換えできますが、書き換えた場合、連携機能が外れ、自動でアーカイブされなくなります。書き換える場合は必ず手動でアーカイブすることを忘れないようにしてください。
-             */
-            "autoGenWarn": string;
-            /**
-             * 「緊急」お知らせが有効です。
-             */
-            "hasEmergencyAnnouncement": string;
-            /**
-             * 「緊急」お知らせが有効です。緊急事態が収束したら、忘れず削除してください。自動連携を使用している場合、有効な「緊急」お知らせがある間は連携が停止されます。
-             */
-            "hasEmergencyAnnouncementLong": string;
-            "_integration": {
-                /**
-                 * 緊急情報の外部連携
-                 */
-                "title": string;
-                /**
-                 * 「緊急」お知らせの外部連携
-                 */
-                "switch": string;
-                /**
-                 * 緊急情報プロバイダー
-                 */
-                "intgType": string;
-                "_integrator": {
-                    "_p2pquake": {
-                        /**
-                         * p2pquake: 日本国内に津波注意報・津波警報・大津波警報が発令されている間はお知らせを表示します。自動生成されたお知らせのタイトル（__PROVIDER_p2pquake__）が変更されなかった場合は、解除され次第、お知らせをアーカイブします。
-                         */
-                        "info": string;
-                    };
-                };
-            };
-        };
-        "_providerLabel": {
-            /**
-             * 身辺の安全に関わる情報あり
-             */
-            "none": string;
-            /**
-             * 津波情報が発令中
-             */
-            "p2pquake": string;
-        };
-        "_providerBody": {
-            /**
-             * 身の危険が差し迫っている可能性があります。信頼できる情報源から最新の情報を入手し、命を守る行動をお取りください。
-             */
-            "none": string;
-            /**
-             * 日本国内で津波注意報・津波警報・大津波警報のいずれかが発令されています。該当の地域の方は海岸の近くから離れてください。
-             */
-            "p2pquake": string;
-        };
-        "_misskeyInEmergency": {
-            /**
-             * 緊急時のMisskeyの使用について
-             */
-            "title": string;
-            /**
-             * MisskeyはリッチなWeb UIを提供していますが、ご利用中の環境や設定によっては電池や通信量を大量に消費してしまうことがあります。そのため、緊急事態の際は以下のように使用することをおすすめします。
-             */
-            "description": string;
-            "_doNotUseMisskey": {
-                /**
-                 * なるべくMisskeyの利用を控えてください。
-                 */
-                "title": string;
-                /**
-                 * 災害時はサーバーがアクティブになり、新着ノートの量が増え、それにより電池やデータ通信量を通常より多く消費してしまうことが予想されます。安全な場所で確実に充電が可能になるまでは、Misskeyの利用をなるべく控えてください。
-                 */
-                "description": string;
-                /**
-                 * Misskeyにログインした状態で{link}を開くと、簡易クライアントを利用することができます（上級者向け）。
-                 */
-                "youCanUseCli": ParameterizedString<"link">;
-            };
-            "_closeMisskeyCompletely": {
-                /**
-                 * Misskeyを閉じるときは、タブごと閉じるようにしてください。
-                 */
-                "title": string;
-                /**
-                 * ブラウザのタブを閉じずに、ブラウザのアプリだけを終了してしまうと、Misskeyがバックグラウンドで通信し続ける可能性があります。必ずタブを閉じてください。PWA（アプリモード）でお使いの場合は、タスクキルをお忘れなく。
-                 */
-                "description": string;
-            };
-        };
-=======
->>>>>>> parent of ffceadae73 ((add) 緊急お知らせ・津波情報連携)
     };
     "_urlPreviewSetting": {
         /**
@@ -10527,6 +10610,60 @@ export interface Locale extends ILocale {
          * ブラウザのUI
          */
         "native": string;
+    };
+    "_embedCodeGen": {
+        /**
+         * 埋め込みコードをカスタマイズ
+         */
+        "title": string;
+        /**
+         * ヘッダーを表示
+         */
+        "header": string;
+        /**
+         * 自動で続きを読み込む（非推奨）
+         */
+        "autoload": string;
+        /**
+         * 高さの最大値
+         */
+        "maxHeight": string;
+        /**
+         * 0で最大値の設定が無効になります。ウィジェットが縦に伸び続けるのを防ぐために、何らかの値に指定してください。
+         */
+        "maxHeightDescription": string;
+        /**
+         * 高さの最大値制限が無効（0）になっています。これが意図した変更ではない場合は、高さの最大値を何らかの値に設定してください。
+         */
+        "maxHeightWarn": string;
+        /**
+         * プレビュー画面で表示可能な範囲を超えたため、実際に埋め込んだ際とは表示が異なります。
+         */
+        "previewIsNotActual": string;
+        /**
+         * 角丸にする
+         */
+        "rounded": string;
+        /**
+         * 外枠に枠線をつける
+         */
+        "border": string;
+        /**
+         * プレビューに反映
+         */
+        "applyToPreview": string;
+        /**
+         * 埋め込みコードを作成
+         */
+        "generateCode": string;
+        /**
+         * コードが生成されました
+         */
+        "codeGenerated": string;
+        /**
+         * 生成されたコードをウェブサイトに貼り付けてご利用ください。
+         */
+        "codeGeneratedDescription": string;
     };
     "_defaultTimeline": {
         /**

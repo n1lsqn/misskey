@@ -46,6 +46,7 @@ import { notePage } from '@/filters/note.js';
 import { userPage } from '@/filters/user.js';
 import MkInstanceTickerIcon from '@/components/MkInstanceTickerIcon.vue';
 import { dateTimeFormat } from '@/scripts/intl-const.js';
+import { defaultStore } from '@/store.js';
 
 defineProps<{
 	note: Misskey.entities.Note & {isSchedule? : boolean, isScheduled? : boolean};
