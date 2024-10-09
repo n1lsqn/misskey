@@ -533,7 +533,7 @@ export function getNoteMenu(props: {
 
 type Visibility = (typeof Misskey.noteVisibilities)[number];
 
-function smallerVisibility(a: Visibility, b: Visibility): Visibility {
+export function smallerVisibility(a: Visibility, b: Visibility): Visibility {
 	if (a === 'specified' || b === 'specified') return 'specified';
 	if (a === 'followers' || b === 'followers') return 'followers';
 	if (a === 'home' || b === 'home') return 'home';
