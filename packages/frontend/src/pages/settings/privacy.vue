@@ -192,6 +192,7 @@ const makeNotesFollowersOnlyBefore = ref($i.makeNotesFollowersOnlyBefore ?? null
 const makeNotesHiddenBefore = ref($i.makeNotesHiddenBefore ?? null);
 const hideOnlineStatus = ref($i.hideOnlineStatus);
 const publicReactions = ref($i.publicReactions);
+const followerVisibility = ref($i.followerVisibility);
 const followingVisibility = ref($i.followingVisibility);
 
 const defaultNoteVisibility = computed(defaultStore.makeGetterSetter('defaultNoteVisibility'));

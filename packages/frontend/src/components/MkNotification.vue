@@ -113,7 +113,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 			<MkA v-else-if="notification.type === 'exportCompleted'" :class="$style.text" :to="`/my/drive/file/${notification.fileId}`">
 				{{ i18n.ts.showFile }}
 			</MkA>
-			<!-- TODO: 修正予定
+			<!-- TODO: popupが破綻する
 			<template v-else-if="notification.type === 'follow'">
 				<span :class="$style.text" style="opacity: 0.6;">{{ i18n.ts.youGotNewFollower }}</span>
 				<MkFollowButton :class="$style.follow" :user="notification.user" full/>
