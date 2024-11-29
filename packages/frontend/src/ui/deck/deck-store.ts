@@ -54,6 +54,7 @@ export type Column = {
 	'custom-timeline-5';
 	withRenotes?: boolean;
 	withReplies?: boolean;
+	withSensitive?: boolean;
 	onlyFiles?: boolean;
 	soundSetting: SoundStore;
 };
