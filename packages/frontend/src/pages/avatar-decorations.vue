@@ -92,8 +92,6 @@ const remoteAvatarDecorations = ref<Misskey.entities.AdminAvatarDecorationsListR
 
 const $i = signinRequired();
 
-const avatarDecorations = ref<Misskey.entities.AdminAvatarDecorationsListResponse>([]);
-
 function load() {
 	misskeyApi('admin/avatar-decorations/list').then(_avatarDecorations => {
 		avatarDecorations.value = _avatarDecorations;
