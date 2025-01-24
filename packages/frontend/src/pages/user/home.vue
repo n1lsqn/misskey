@@ -158,7 +158,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 			</div>
 		</div>
 		<div v-if="!narrow" class="sub _gaps" style="container-type: inline-size;">
-			<XFiles :key="user.id" :user="user"/>
+			<XFiles :key="user.id" :user="user" @unfold="emit('unfoldFiles')"/>
 			<XActivity :key="user.id" :user="user"/>
 		</div>
 	</div>
@@ -219,6 +219,10 @@ const props = withDefaults(defineProps<{
 }>(), {
 	disableNotes: false,
 });
+
+const emit = defineEmits<{
+	(ev: 'unfoldFiles'): void;
+}>();
 
 const router = useRouter();
 
