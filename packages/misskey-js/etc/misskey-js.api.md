@@ -6,7 +6,9 @@
 
 import type { AuthenticationResponseJSON } from '@simplewebauthn/types';
 import { EventEmitter } from 'eventemitter3';
+import { Options } from 'reconnecting-websocket';
 import type { PublicKeyCredentialRequestOptionsJSON } from '@simplewebauthn/types';
+import _ReconnectingWebSocket from 'reconnecting-websocket';
 
 // Warning: (ae-forgotten-export) The symbol "components" needs to be exported by the entry point index.d.ts
 //
@@ -121,6 +123,9 @@ type AdminAnnouncementsUpdateRequest = operations['admin___announcements___updat
 type AdminAvatarDecorationsCreateRequest = operations['admin___avatar-decorations___create']['requestBody']['content']['application/json'];
 
 // @public (undocumented)
+type AdminAvatarDecorationsCreateResponse = operations['admin___avatar-decorations___create']['responses']['200']['content']['application/json'];
+
+// @public (undocumented)
 type AdminAvatarDecorationsDeleteRequest = operations['admin___avatar-decorations___delete']['requestBody']['content']['application/json'];
 
 // @public (undocumented)
@@ -131,6 +136,12 @@ type AdminAvatarDecorationsListResponse = operations['admin___avatar-decorations
 
 // @public (undocumented)
 type AdminAvatarDecorationsUpdateRequest = operations['admin___avatar-decorations___update']['requestBody']['content']['application/json'];
+
+// @public (undocumented)
+type AdminCaptchaCurrentResponse = operations['admin___captcha___current']['responses']['200']['content']['application/json'];
+
+// @public (undocumented)
+type AdminCaptchaSaveRequest = operations['admin___captcha___save']['requestBody']['content']['application/json'];
 
 // @public (undocumented)
 type AdminDeleteAccountRequest = operations['admin___delete-account']['requestBody']['content']['application/json'];
@@ -314,12 +325,6 @@ type AdminRolesUsersRequest = operations['admin___roles___users']['requestBody']
 
 // @public (undocumented)
 type AdminRolesUsersResponse = operations['admin___roles___users']['responses']['200']['content']['application/json'];
-
-// @public (undocumented)
-type AdminRootAddRequest = operations['admin___root___add']['requestBody']['content']['application/json'];
-
-// @public (undocumented)
-type AdminRootRemoveRequest = operations['admin___root___remove']['requestBody']['content']['application/json'];
 
 // @public (undocumented)
 type AdminSendEmailRequest = operations['admin___send-email']['requestBody']['content']['application/json'];
@@ -1113,6 +1118,9 @@ type EmojiDeleted = {
 type EmojiDetailed = components['schemas']['EmojiDetailed'];
 
 // @public (undocumented)
+type EmojiDetailedAdmin = components['schemas']['EmojiDetailedAdmin'];
+
+// @public (undocumented)
 type EmojiRequest = operations['emoji']['requestBody']['content']['application/json'];
 
 // @public (undocumented)
@@ -1228,18 +1236,17 @@ declare namespace entities {
         PartialRolePolicyOverride,
         EmptyRequest,
         EmptyResponse,
-        AdminMetaResponse,
-        AdminAbuseUserReportsRequest,
-        AdminAbuseUserReportsResponse,
+        AdminAbuseReportNotificationRecipientCreateRequest,
+        AdminAbuseReportNotificationRecipientCreateResponse,
+        AdminAbuseReportNotificationRecipientDeleteRequest,
         AdminAbuseReportNotificationRecipientListRequest,
         AdminAbuseReportNotificationRecipientListResponse,
         AdminAbuseReportNotificationRecipientShowRequest,
         AdminAbuseReportNotificationRecipientShowResponse,
-        AdminAbuseReportNotificationRecipientCreateRequest,
-        AdminAbuseReportNotificationRecipientCreateResponse,
         AdminAbuseReportNotificationRecipientUpdateRequest,
         AdminAbuseReportNotificationRecipientUpdateResponse,
-        AdminAbuseReportNotificationRecipientDeleteRequest,
+        AdminAbuseUserReportsRequest,
+        AdminAbuseUserReportsResponse,
         AdminAccountsCreateRequest,
         AdminAccountsCreateResponse,
         AdminAccountsDeleteRequest,
@@ -1258,29 +1265,31 @@ declare namespace entities {
         AdminAnnouncementsListResponse,
         AdminAnnouncementsUpdateRequest,
         AdminAvatarDecorationsCreateRequest,
+        AdminAvatarDecorationsCreateResponse,
         AdminAvatarDecorationsDeleteRequest,
         AdminAvatarDecorationsListRequest,
         AdminAvatarDecorationsListResponse,
         AdminAvatarDecorationsUpdateRequest,
+        AdminCaptchaCurrentResponse,
+        AdminCaptchaSaveRequest,
+        AdminDeleteAccountRequest,
         AdminDeleteAllFilesOfAUserRequest,
-        AdminUnsetUserAvatarRequest,
-        AdminUnsetUserBannerRequest,
         AdminDriveFilesRequest,
         AdminDriveFilesResponse,
         AdminDriveShowFileRequest,
         AdminDriveShowFileResponse,
-        AdminEmojiAddAliasesBulkRequest,
         AdminEmojiAddRequest,
         AdminEmojiAddResponse,
+        AdminEmojiAddAliasesBulkRequest,
         AdminEmojiCopyRequest,
         AdminEmojiCopyResponse,
-        AdminEmojiDeleteBulkRequest,
         AdminEmojiDeleteRequest,
+        AdminEmojiDeleteBulkRequest,
         AdminEmojiImportZipRequest,
-        AdminEmojiListRemoteRequest,
-        AdminEmojiListRemoteResponse,
         AdminEmojiListRequest,
         AdminEmojiListResponse,
+        AdminEmojiListRemoteRequest,
+        AdminEmojiListRemoteResponse,
         AdminEmojiRemoveAliasesBulkRequest,
         AdminEmojiSetAliasesBulkRequest,
         AdminEmojiSetCategoryBulkRequest,
@@ -1290,6 +1299,7 @@ declare namespace entities {
         AdminFederationRefreshRemoteInstanceMetadataRequest,
         AdminFederationRemoveAllFollowingRequest,
         AdminFederationUpdateInstanceRequest,
+        AdminForwardAbuseUserReportRequest,
         AdminGetIndexStatsResponse,
         AdminGetTableStatsResponse,
         AdminGetUserIpsRequest,
@@ -1298,8 +1308,7 @@ declare namespace entities {
         AdminInviteCreateResponse,
         AdminInviteListRequest,
         AdminInviteListResponse,
-        AdminRootAddRequest,
-        AdminRootRemoveRequest,
+        AdminMetaResponse,
         AdminPromoCreateRequest,
         AdminQueueDeliverDelayedResponse,
         AdminQueueInboxDelayedResponse,
@@ -1312,8 +1321,18 @@ declare namespace entities {
         AdminResetPasswordRequest,
         AdminResetPasswordResponse,
         AdminResolveAbuseUserReportRequest,
-        AdminForwardAbuseUserReportRequest,
-        AdminUpdateAbuseUserReportRequest,
+        AdminRolesAssignRequest,
+        AdminRolesCreateRequest,
+        AdminRolesCreateResponse,
+        AdminRolesDeleteRequest,
+        AdminRolesListResponse,
+        AdminRolesShowRequest,
+        AdminRolesShowResponse,
+        AdminRolesUnassignRequest,
+        AdminRolesUpdateRequest,
+        AdminRolesUpdateDefaultPoliciesRequest,
+        AdminRolesUsersRequest,
+        AdminRolesUsersResponse,
         AdminSendEmailRequest,
         AdminServerInfoResponse,
         AdminShowModerationLogsRequest,
@@ -1323,22 +1342,6 @@ declare namespace entities {
         AdminShowUsersRequest,
         AdminShowUsersResponse,
         AdminSuspendUserRequest,
-        AdminUnsuspendUserRequest,
-        AdminUpdateMetaRequest,
-        AdminDeleteAccountRequest,
-        AdminUpdateUserNoteRequest,
-        AdminRolesCreateRequest,
-        AdminRolesCreateResponse,
-        AdminRolesDeleteRequest,
-        AdminRolesListResponse,
-        AdminRolesShowRequest,
-        AdminRolesShowResponse,
-        AdminRolesUpdateRequest,
-        AdminRolesAssignRequest,
-        AdminRolesUnassignRequest,
-        AdminRolesUpdateDefaultPoliciesRequest,
-        AdminRolesUsersRequest,
-        AdminRolesUsersResponse,
         AdminSystemWebhookCreateRequest,
         AdminSystemWebhookCreateResponse,
         AdminSystemWebhookDeleteRequest,
@@ -1346,9 +1349,15 @@ declare namespace entities {
         AdminSystemWebhookListResponse,
         AdminSystemWebhookShowRequest,
         AdminSystemWebhookShowResponse,
+        AdminSystemWebhookTestRequest,
         AdminSystemWebhookUpdateRequest,
         AdminSystemWebhookUpdateResponse,
-        AdminSystemWebhookTestRequest,
+        AdminUnsetUserAvatarRequest,
+        AdminUnsetUserBannerRequest,
+        AdminUnsuspendUserRequest,
+        AdminUpdateAbuseUserReportRequest,
+        AdminUpdateMetaRequest,
+        AdminUpdateUserNoteRequest,
         AnnouncementsRequest,
         AnnouncementsResponse,
         AnnouncementsShowRequest,
@@ -1384,26 +1393,29 @@ declare namespace entities {
         BlockingDeleteResponse,
         BlockingListRequest,
         BlockingListResponse,
+        BubbleGameRankingRequest,
+        BubbleGameRankingResponse,
+        BubbleGameRegisterRequest,
         ChannelsCreateRequest,
         ChannelsCreateResponse,
+        ChannelsFavoriteRequest,
         ChannelsFeaturedResponse,
         ChannelsFollowRequest,
         ChannelsFollowedRequest,
         ChannelsFollowedResponse,
+        ChannelsMyFavoritesResponse,
         ChannelsOwnedRequest,
         ChannelsOwnedResponse,
+        ChannelsSearchRequest,
+        ChannelsSearchResponse,
         ChannelsShowRequest,
         ChannelsShowResponse,
         ChannelsTimelineRequest,
         ChannelsTimelineResponse,
+        ChannelsUnfavoriteRequest,
         ChannelsUnfollowRequest,
         ChannelsUpdateRequest,
         ChannelsUpdateResponse,
-        ChannelsFavoriteRequest,
-        ChannelsUnfavoriteRequest,
-        ChannelsMyFavoritesResponse,
-        ChannelsSearchRequest,
-        ChannelsSearchResponse,
         ChartsActiveUsersRequest,
         ChartsActiveUsersResponse,
         ChartsApRequestRequest,
@@ -1429,20 +1441,20 @@ declare namespace entities {
         ChartsUsersRequest,
         ChartsUsersResponse,
         ClipsAddNoteRequest,
-        ClipsRemoveNoteRequest,
         ClipsCreateRequest,
         ClipsCreateResponse,
         ClipsDeleteRequest,
+        ClipsFavoriteRequest,
         ClipsListResponse,
+        ClipsMyFavoritesResponse,
         ClipsNotesRequest,
         ClipsNotesResponse,
+        ClipsRemoveNoteRequest,
         ClipsShowRequest,
         ClipsShowResponse,
+        ClipsUnfavoriteRequest,
         ClipsUpdateRequest,
         ClipsUpdateResponse,
-        ClipsFavoriteRequest,
-        ClipsUnfavoriteRequest,
-        ClipsMyFavoritesResponse,
         DriveResponse,
         DriveFilesRequest,
         DriveFilesResponse,
@@ -1453,10 +1465,10 @@ declare namespace entities {
         DriveFilesCreateRequest,
         DriveFilesCreateResponse,
         DriveFilesDeleteRequest,
-        DriveFilesFindByHashRequest,
-        DriveFilesFindByHashResponse,
         DriveFilesFindRequest,
         DriveFilesFindResponse,
+        DriveFilesFindByHashRequest,
+        DriveFilesFindByHashResponse,
         DriveFilesShowRequest,
         DriveFilesShowResponse,
         DriveFilesUpdateRequest,
@@ -1477,6 +1489,9 @@ declare namespace entities {
         DriveStreamResponse,
         EmailAddressAvailableRequest,
         EmailAddressAvailableResponse,
+        EmojiRequest,
+        EmojiResponse,
+        EmojisResponse,
         EndpointRequest,
         EndpointResponse,
         EndpointsResponse,
@@ -1488,18 +1503,33 @@ declare namespace entities {
         FederationInstancesResponse,
         FederationShowInstanceRequest,
         FederationShowInstanceResponse,
+        FederationStatsRequest,
+        FederationStatsResponse,
         FederationUpdateRemoteUserRequest,
         FederationUsersRequest,
         FederationUsersResponse,
-        FederationStatsRequest,
-        FederationStatsResponse,
+        FetchExternalResourcesRequest,
+        FetchExternalResourcesResponse,
+        FetchRssRequest,
+        FetchRssResponse,
+        FlashCreateRequest,
+        FlashCreateResponse,
+        FlashDeleteRequest,
+        FlashFeaturedRequest,
+        FlashFeaturedResponse,
+        FlashLikeRequest,
+        FlashMyRequest,
+        FlashMyResponse,
+        FlashMyLikesRequest,
+        FlashMyLikesResponse,
+        FlashShowRequest,
+        FlashShowResponse,
+        FlashUnlikeRequest,
+        FlashUpdateRequest,
         FollowingCreateRequest,
         FollowingCreateResponse,
         FollowingDeleteRequest,
         FollowingDeleteResponse,
-        FollowingUpdateRequest,
-        FollowingUpdateResponse,
-        FollowingUpdateAllRequest,
         FollowingInvalidateRequest,
         FollowingInvalidateResponse,
         FollowingRequestsAcceptRequest,
@@ -1508,6 +1538,11 @@ declare namespace entities {
         FollowingRequestsListRequest,
         FollowingRequestsListResponse,
         FollowingRequestsRejectRequest,
+        FollowingRequestsSentRequest,
+        FollowingRequestsSentResponse,
+        FollowingUpdateRequest,
+        FollowingUpdateResponse,
+        FollowingUpdateAllRequest,
         GalleryFeaturedRequest,
         GalleryFeaturedResponse,
         GalleryPopularResponse,
@@ -1522,8 +1557,8 @@ declare namespace entities {
         GalleryPostsUnlikeRequest,
         GalleryPostsUpdateRequest,
         GalleryPostsUpdateResponse,
-        GetOnlineUsersCountResponse,
         GetAvatarDecorationsResponse,
+        GetOnlineUsersCountResponse,
         HashtagsListRequest,
         HashtagsListResponse,
         HashtagsSearchRequest,
@@ -1539,19 +1574,19 @@ declare namespace entities {
         I2faKeyDoneRequest,
         I2faKeyDoneResponse,
         I2faPasswordLessRequest,
-        I2faRegisterKeyRequest,
-        I2faRegisterKeyResponse,
         I2faRegisterRequest,
         I2faRegisterResponse,
-        I2faUpdateKeyRequest,
+        I2faRegisterKeyRequest,
+        I2faRegisterKeyResponse,
         I2faRemoveKeyRequest,
         I2faUnregisterRequest,
+        I2faUpdateKeyRequest,
         IAppsRequest,
         IAppsResponse,
         IAuthorizedAppsRequest,
         IAuthorizedAppsResponse,
-        IClaimAchievementRequest,
         IChangePasswordRequest,
+        IClaimAchievementRequest,
         IDeleteAccountRequest,
         IExportFollowingRequest,
         IFavoritesRequest,
@@ -1560,11 +1595,13 @@ declare namespace entities {
         IGalleryLikesResponse,
         IGalleryPostsRequest,
         IGalleryPostsResponse,
+        IImportAntennasRequest,
         IImportBlockingRequest,
         IImportFollowingRequest,
         IImportMutingRequest,
         IImportUserListsRequest,
-        IImportAntennasRequest,
+        IMoveRequest,
+        IMoveResponse,
         INotificationsRequest,
         INotificationsResponse,
         INotificationsGroupedRequest,
@@ -1577,16 +1614,16 @@ declare namespace entities {
         IPinResponse,
         IReadAnnouncementRequest,
         IRegenerateTokenRequest,
+        IRegistryGetRequest,
+        IRegistryGetResponse,
         IRegistryGetAllRequest,
         IRegistryGetAllResponse,
         IRegistryGetDetailRequest,
         IRegistryGetDetailResponse,
-        IRegistryGetRequest,
-        IRegistryGetResponse,
-        IRegistryKeysWithTypeRequest,
-        IRegistryKeysWithTypeResponse,
         IRegistryKeysRequest,
         IRegistryKeysResponse,
+        IRegistryKeysWithTypeRequest,
+        IRegistryKeysWithTypeResponse,
         IRegistryRemoveRequest,
         IRegistryScopesWithDomainResponse,
         IRegistrySetRequest,
@@ -1595,40 +1632,31 @@ declare namespace entities {
         ISigninHistoryResponse,
         IUnpinRequest,
         IUnpinResponse,
-        IUpdateEmailRequest,
-        IUpdateEmailResponse,
         IUpdateRequest,
         IUpdateResponse,
-        IMoveRequest,
-        IMoveResponse,
+        IUpdateEmailRequest,
+        IUpdateEmailResponse,
         IWebhooksCreateRequest,
         IWebhooksCreateResponse,
+        IWebhooksDeleteRequest,
         IWebhooksListResponse,
         IWebhooksShowRequest,
         IWebhooksShowResponse,
-        IWebhooksUpdateRequest,
-        IWebhooksDeleteRequest,
         IWebhooksTestRequest,
+        IWebhooksUpdateRequest,
         InviteCreateResponse,
         InviteDeleteRequest,
+        InviteLimitResponse,
         InviteListRequest,
         InviteListResponse,
-        InviteLimitResponse,
         MetaRequest,
         MetaResponse,
-        EmojisResponse,
-        EmojiRequest,
-        EmojiResponse,
         MiauthGenTokenRequest,
         MiauthGenTokenResponse,
         MuteCreateRequest,
         MuteDeleteRequest,
         MuteListRequest,
         MuteListResponse,
-        RenoteMuteCreateRequest,
-        RenoteMuteDeleteRequest,
-        RenoteMuteListRequest,
-        RenoteMuteListResponse,
         MyAppsRequest,
         MyAppsResponse,
         NotesRequest,
@@ -1641,9 +1669,6 @@ declare namespace entities {
         NotesConversationResponse,
         NotesCreateRequest,
         NotesCreateResponse,
-        NotesScheduleDeleteRequest,
-        NotesScheduleListRequest,
-        NotesScheduleListResponse,
         NotesDeleteRequest,
         NotesFavoritesCreateRequest,
         NotesFavoritesDeleteRequest,
@@ -1657,8 +1682,6 @@ declare namespace entities {
         NotesLocalTimelineResponse,
         NotesMentionsRequest,
         NotesMentionsResponse,
-        NotesAnyLocalTimelineRequest,
-        NotesAnyLocalTimelineResponse,
         NotesPollsRecommendationRequest,
         NotesPollsRecommendationResponse,
         NotesPollsVoteRequest,
@@ -1670,10 +1693,10 @@ declare namespace entities {
         NotesRenotesResponse,
         NotesRepliesRequest,
         NotesRepliesResponse,
-        NotesSearchByTagRequest,
-        NotesSearchByTagResponse,
         NotesSearchRequest,
         NotesSearchResponse,
+        NotesSearchByTagRequest,
+        NotesSearchByTagResponse,
         NotesShowRequest,
         NotesShowResponse,
         NotesStateRequest,
@@ -1698,49 +1721,57 @@ declare namespace entities {
         PagesShowResponse,
         PagesUnlikeRequest,
         PagesUpdateRequest,
-        FlashCreateRequest,
-        FlashCreateResponse,
-        FlashDeleteRequest,
-        FlashFeaturedRequest,
-        FlashFeaturedResponse,
-        FlashLikeRequest,
-        FlashShowRequest,
-        FlashShowResponse,
-        FlashUnlikeRequest,
-        FlashUpdateRequest,
-        FlashMyRequest,
-        FlashMyResponse,
-        FlashMyLikesRequest,
-        FlashMyLikesResponse,
         PingResponse,
         PinnedUsersResponse,
         PromoReadRequest,
+        RenoteMuteCreateRequest,
+        RenoteMuteDeleteRequest,
+        RenoteMuteListRequest,
+        RenoteMuteListResponse,
+        RequestResetPasswordRequest,
+        ResetPasswordRequest,
+        RetentionResponse,
+        ReversiCancelMatchRequest,
+        ReversiGamesRequest,
+        ReversiGamesResponse,
+        ReversiInvitationsResponse,
+        ReversiMatchRequest,
+        ReversiMatchResponse,
+        ReversiShowGameRequest,
+        ReversiShowGameResponse,
+        ReversiSurrenderRequest,
+        ReversiVerifyRequest,
+        ReversiVerifyResponse,
         RolesListResponse,
+        RolesNotesRequest,
+        RolesNotesResponse,
         RolesShowRequest,
         RolesShowResponse,
         RolesUsersRequest,
         RolesUsersResponse,
-        RolesNotesRequest,
-        RolesNotesResponse,
-        RequestResetPasswordRequest,
-        ResetPasswordRequest,
         ServerInfoResponse,
         StatsResponse,
-        SwShowRegistrationRequest,
-        SwShowRegistrationResponse,
-        SwUpdateRegistrationRequest,
-        SwUpdateRegistrationResponse,
         SwRegisterRequest,
         SwRegisterResponse,
+        SwShowRegistrationRequest,
+        SwShowRegistrationResponse,
         SwUnregisterRequest,
+        SwUpdateRegistrationRequest,
+        SwUpdateRegistrationResponse,
         TestRequest,
         TestResponse,
         UsernameAvailableRequest,
         UsernameAvailableResponse,
         UsersRequest,
         UsersResponse,
+        UsersAchievementsRequest,
+        UsersAchievementsResponse,
         UsersClipsRequest,
         UsersClipsResponse,
+        UsersFeaturedNotesRequest,
+        UsersFeaturedNotesResponse,
+        UsersFlashsRequest,
+        UsersFlashsResponse,
         UsersFollowersRequest,
         UsersFollowersResponse,
         UsersFollowingRequest,
@@ -1749,32 +1780,28 @@ declare namespace entities {
         UsersGalleryPostsResponse,
         UsersGetFrequentlyRepliedUsersRequest,
         UsersGetFrequentlyRepliedUsersResponse,
-        UsersFeaturedNotesRequest,
-        UsersFeaturedNotesResponse,
         UsersListsCreateRequest,
         UsersListsCreateResponse,
+        UsersListsCreateFromPublicRequest,
+        UsersListsCreateFromPublicResponse,
         UsersListsDeleteRequest,
+        UsersListsFavoriteRequest,
+        UsersListsGetMembershipsRequest,
+        UsersListsGetMembershipsResponse,
         UsersListsListRequest,
         UsersListsListResponse,
         UsersListsPullRequest,
         UsersListsPushRequest,
         UsersListsShowRequest,
         UsersListsShowResponse,
-        UsersListsFavoriteRequest,
         UsersListsUnfavoriteRequest,
         UsersListsUpdateRequest,
         UsersListsUpdateResponse,
-        UsersListsCreateFromPublicRequest,
-        UsersListsCreateFromPublicResponse,
         UsersListsUpdateMembershipRequest,
-        UsersListsGetMembershipsRequest,
-        UsersListsGetMembershipsResponse,
         UsersNotesRequest,
         UsersNotesResponse,
         UsersPagesRequest,
         UsersPagesResponse,
-        UsersFlashsRequest,
-        UsersFlashsResponse,
         UsersReactionsRequest,
         UsersReactionsResponse,
         UsersRecommendationRequest,
@@ -1782,34 +1809,15 @@ declare namespace entities {
         UsersRelationRequest,
         UsersRelationResponse,
         UsersReportAbuseRequest,
-        UsersSearchByUsernameAndHostRequest,
-        UsersSearchByUsernameAndHostResponse,
         UsersSearchRequest,
         UsersSearchResponse,
+        UsersSearchByUsernameAndHostRequest,
+        UsersSearchByUsernameAndHostResponse,
         UsersShowRequest,
         UsersShowResponse,
-        UsersAchievementsRequest,
-        UsersAchievementsResponse,
         UsersUpdateMemoRequest,
-        FetchRssRequest,
-        FetchRssResponse,
-        FetchExternalResourcesRequest,
-        FetchExternalResourcesResponse,
-        RetentionResponse,
-        BubbleGameRegisterRequest,
-        BubbleGameRankingRequest,
-        BubbleGameRankingResponse,
-        ReversiCancelMatchRequest,
-        ReversiGamesRequest,
-        ReversiGamesResponse,
-        ReversiMatchRequest,
-        ReversiMatchResponse,
-        ReversiInvitationsResponse,
-        ReversiShowGameRequest,
-        ReversiShowGameResponse,
-        ReversiSurrenderRequest,
-        ReversiVerifyRequest,
-        ReversiVerifyResponse,
+        V2AdminEmojiListRequest,
+        V2AdminEmojiListResponse,
         Error_2 as Error,
         UserLite,
         UserDetailedNotMeOnly,
@@ -1844,6 +1852,7 @@ declare namespace entities {
         GalleryPost,
         EmojiSimple,
         EmojiDetailed,
+        EmojiDetailedAdmin,
         Flash,
         Signin,
         RoleCondFormulaLogics,
@@ -2025,6 +2034,12 @@ type FollowingRequestsListResponse = operations['following___requests___list']['
 
 // @public (undocumented)
 type FollowingRequestsRejectRequest = operations['following___requests___reject']['requestBody']['content']['application/json'];
+
+// @public (undocumented)
+type FollowingRequestsSentRequest = operations['following___requests___sent']['requestBody']['content']['application/json'];
+
+// @public (undocumented)
+type FollowingRequestsSentResponse = operations['following___requests___sent']['responses']['200']['content']['application/json'];
 
 // @public (undocumented)
 type FollowingUpdateAllRequest = operations['following___update-all']['requestBody']['content']['application/json'];
@@ -2655,12 +2670,6 @@ type NoteFavorite = components['schemas']['NoteFavorite'];
 type NoteReaction = components['schemas']['NoteReaction'];
 
 // @public (undocumented)
-type NotesAnyLocalTimelineRequest = operations['notes___any-local-timeline']['requestBody']['content']['application/json'];
-
-// @public (undocumented)
-type NotesAnyLocalTimelineResponse = operations['notes___any-local-timeline']['responses']['200']['content']['application/json'];
-
-// @public (undocumented)
 type NotesChildrenRequest = operations['notes___children']['requestBody']['content']['application/json'];
 
 // @public (undocumented)
@@ -2761,15 +2770,6 @@ type NotesRequest = operations['notes']['requestBody']['content']['application/j
 
 // @public (undocumented)
 type NotesResponse = operations['notes']['responses']['200']['content']['application/json'];
-
-// @public (undocumented)
-type NotesScheduleDeleteRequest = operations['notes___schedule___delete']['requestBody']['content']['application/json'];
-
-// @public (undocumented)
-type NotesScheduleListRequest = operations['notes___schedule___list']['requestBody']['content']['application/json'];
-
-// @public (undocumented)
-type NotesScheduleListResponse = operations['notes___schedule___list']['responses']['200']['content']['application/json'];
 
 // @public (undocumented)
 type NotesSearchByTagRequest = operations['notes___search-by-tag']['requestBody']['content']['application/json'];
@@ -3123,7 +3123,9 @@ type SigninWithPasskeyRequest = {
 
 // @public (undocumented)
 type SigninWithPasskeyResponse = {
-    signinResponse: SigninFlowResponse;
+    signinResponse: SigninFlowResponse & {
+        finished: true;
+    };
 };
 
 // @public (undocumented)
@@ -3163,7 +3165,8 @@ export class Stream extends EventEmitter<StreamEvents> implements IStream {
     constructor(origin: string, user: {
         token: string;
     } | null, options?: {
-        WebSocket?: WebSocket;
+        WebSocket?: Options['WebSocket'];
+        binaryType?: ReconnectingWebSocket['binaryType'];
     });
     // (undocumented)
     close(): void;
@@ -3423,9 +3426,16 @@ type UsersShowResponse = operations['users___show']['responses']['200']['content
 // @public (undocumented)
 type UsersUpdateMemoRequest = operations['users___update-memo']['requestBody']['content']['application/json'];
 
+// @public (undocumented)
+type V2AdminEmojiListRequest = operations['v2___admin___emoji___list']['requestBody']['content']['application/json'];
+
+// @public (undocumented)
+type V2AdminEmojiListResponse = operations['v2___admin___emoji___list']['responses']['200']['content']['application/json'];
+
 // Warnings were encountered during analysis:
 //
 // src/entities.ts:50:2 - (ae-forgotten-export) The symbol "ModerationLogPayloads" needs to be exported by the entry point index.d.ts
+// src/streaming.ts:57:3 - (ae-forgotten-export) The symbol "ReconnectingWebSocket" needs to be exported by the entry point index.d.ts
 // src/streaming.types.ts:220:4 - (ae-forgotten-export) The symbol "ReversiUpdateKey" needs to be exported by the entry point index.d.ts
 // src/streaming.types.ts:230:4 - (ae-forgotten-export) The symbol "ReversiUpdateSettings" needs to be exported by the entry point index.d.ts
 
