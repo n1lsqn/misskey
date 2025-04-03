@@ -14,8 +14,7 @@ import { ApiError } from '../../error.js';
 export const meta = {
 	tags: ['hashtags'],
 
-	requireCredential: true,
-	kind: 'read:gallery',
+	requireCredential: false,
 	requireRolePolicy: 'canUseExplore',
 
 	res: {
