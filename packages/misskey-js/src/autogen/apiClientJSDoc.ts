@@ -2057,7 +2057,7 @@ declare module '../api.js' {
     /**
      * No description provided.
      * 
-     * **Credential required**: *Yes* / **Permission**: *read:gallery*
+     * **Credential required**: *No*
      */
     request<E extends 'gallery/featured', P extends Endpoints[E]['req']>(
       endpoint: E,
@@ -2068,7 +2068,7 @@ declare module '../api.js' {
     /**
      * No description provided.
      * 
-     * **Credential required**: *Yes* / **Permission**: *read:gallery*
+     * **Credential required**: *No*
      */
     request<E extends 'gallery/popular', P extends Endpoints[E]['req']>(
       endpoint: E,
@@ -2079,7 +2079,7 @@ declare module '../api.js' {
     /**
      * No description provided.
      * 
-     * **Credential required**: *Yes* / **Permission**: *read:gallery*
+     * **Credential required**: *No*
      */
     request<E extends 'gallery/posts', P extends Endpoints[E]['req']>(
       endpoint: E,
@@ -2178,7 +2178,7 @@ declare module '../api.js' {
     /**
      * No description provided.
      * 
-     * **Credential required**: *Yes* / **Permission**: *read:gallery*
+     * **Credential required**: *No*
      */
     request<E extends 'hashtags/list', P extends Endpoints[E]['req']>(
       endpoint: E,
@@ -2189,7 +2189,7 @@ declare module '../api.js' {
     /**
      * No description provided.
      * 
-     * **Credential required**: *Yes* / **Permission**: *read:gallery*
+     * **Credential required**: *No*
      */
     request<E extends 'hashtags/search', P extends Endpoints[E]['req']>(
       endpoint: E,
@@ -2200,7 +2200,7 @@ declare module '../api.js' {
     /**
      * No description provided.
      * 
-     * **Credential required**: *Yes* / **Permission**: *read:gallery*
+     * **Credential required**: *No*
      */
     request<E extends 'hashtags/show', P extends Endpoints[E]['req']>(
       endpoint: E,
@@ -2211,7 +2211,7 @@ declare module '../api.js' {
     /**
      * No description provided.
      * 
-     * **Credential required**: *Yes* / **Permission**: *read:gallery*
+     * **Credential required**: *No*
      */
     request<E extends 'hashtags/trend', P extends Endpoints[E]['req']>(
       endpoint: E,
@@ -2222,7 +2222,7 @@ declare module '../api.js' {
     /**
      * No description provided.
      * 
-     * **Credential required**: *Yes* / **Permission**: *read:gallery*
+     * **Credential required**: *No*
      */
     request<E extends 'hashtags/users', P extends Endpoints[E]['req']>(
       endpoint: E,

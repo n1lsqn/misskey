@@ -1796,7 +1796,7 @@ export type paths = {
      * gallery/featured
      * @description No description provided.
      *
-     * **Credential required**: *Yes* / **Permission**: *read:gallery*
+     * **Credential required**: *No*
      */
     post: operations['gallery___featured'];
   };
@@ -1805,7 +1805,7 @@ export type paths = {
      * gallery/popular
      * @description No description provided.
      *
-     * **Credential required**: *Yes* / **Permission**: *read:gallery*
+     * **Credential required**: *No*
      */
     post: operations['gallery___popular'];
   };
@@ -1814,7 +1814,7 @@ export type paths = {
      * gallery/posts
      * @description No description provided.
      *
-     * **Credential required**: *Yes* / **Permission**: *read:gallery*
+     * **Credential required**: *No*
      */
     post: operations['gallery___posts'];
   };
@@ -1902,7 +1902,7 @@ export type paths = {
      * hashtags/list
      * @description No description provided.
      *
-     * **Credential required**: *Yes* / **Permission**: *read:gallery*
+     * **Credential required**: *No*
      */
     post: operations['hashtags___list'];
   };
@@ -1911,7 +1911,7 @@ export type paths = {
      * hashtags/search
      * @description No description provided.
      *
-     * **Credential required**: *Yes* / **Permission**: *read:gallery*
+     * **Credential required**: *No*
      */
     post: operations['hashtags___search'];
   };
@@ -1920,7 +1920,7 @@ export type paths = {
      * hashtags/show
      * @description No description provided.
      *
-     * **Credential required**: *Yes* / **Permission**: *read:gallery*
+     * **Credential required**: *No*
      */
     post: operations['hashtags___show'];
   };
@@ -1929,14 +1929,14 @@ export type paths = {
      * hashtags/trend
      * @description No description provided.
      *
-     * **Credential required**: *Yes* / **Permission**: *read:gallery*
+     * **Credential required**: *No*
      */
     get: operations['hashtags___trend'];
     /**
      * hashtags/trend
      * @description No description provided.
      *
-     * **Credential required**: *Yes* / **Permission**: *read:gallery*
+     * **Credential required**: *No*
      */
     post: operations['hashtags___trend'];
   };
@@ -1945,7 +1945,7 @@ export type paths = {
      * hashtags/users
      * @description No description provided.
      *
-     * **Credential required**: *Yes* / **Permission**: *read:gallery*
+     * **Credential required**: *No*
      */
     post: operations['hashtags___users'];
   };
@@ -16337,7 +16337,7 @@ export type operations = {
    * gallery/featured
    * @description No description provided.
    *
-   * **Credential required**: *Yes* / **Permission**: *read:gallery*
+   * **Credential required**: *No*
    */
   gallery___featured: {
     requestBody: {
@@ -16393,7 +16393,7 @@ export type operations = {
    * gallery/popular
    * @description No description provided.
    *
-   * **Credential required**: *Yes* / **Permission**: *read:gallery*
+   * **Credential required**: *No*
    */
   gallery___popular: {
     responses: {
@@ -16439,7 +16439,7 @@ export type operations = {
    * gallery/posts
    * @description No description provided.
    *
-   * **Credential required**: *Yes* / **Permission**: *read:gallery*
+   * **Credential required**: *No*
    */
   gallery___posts: {
     requestBody: {
@@ -16939,7 +16939,7 @@ export type operations = {
    * hashtags/list
    * @description No description provided.
    *
-   * **Credential required**: *Yes* / **Permission**: *read:gallery*
+   * **Credential required**: *No*
    */
   hashtags___list: {
     requestBody: {
@@ -17001,7 +17001,7 @@ export type operations = {
    * hashtags/search
    * @description No description provided.
    *
-   * **Credential required**: *Yes* / **Permission**: *read:gallery*
+   * **Credential required**: *No*
    */
   hashtags___search: {
     requestBody: {
@@ -17058,7 +17058,7 @@ export type operations = {
    * hashtags/show
    * @description No description provided.
    *
-   * **Credential required**: *Yes* / **Permission**: *read:gallery*
+   * **Credential required**: *No*
    */
   hashtags___show: {
     requestBody: {
@@ -17111,7 +17111,7 @@ export type operations = {
    * hashtags/trend
    * @description No description provided.
    *
-   * **Credential required**: *Yes* / **Permission**: *read:gallery*
+   * **Credential required**: *No*
    */
   hashtags___trend: {
     responses: {
@@ -17161,7 +17161,7 @@ export type operations = {
    * hashtags/users
    * @description No description provided.
    *
-   * **Credential required**: *Yes* / **Permission**: *read:gallery*
+   * **Credential required**: *No*
    */
   hashtags___users: {
     requestBody: {

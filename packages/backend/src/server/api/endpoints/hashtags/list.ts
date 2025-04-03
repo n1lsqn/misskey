@@ -12,8 +12,7 @@ import { DI } from '@/di-symbols.js';
 export const meta = {
 	tags: ['hashtags'],
 
-	requireCredential: true,
-	kind: 'read:gallery',
+	requireCredential: false,
 	requireRolePolicy: 'canUseExplore',
 
 	res: {

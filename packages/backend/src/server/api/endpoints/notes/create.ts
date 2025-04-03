@@ -44,7 +44,7 @@ export const meta = {
 		properties: {
 			createdNote: {
 				type: 'object',
-				optional: false, nullable: true,
+				optional: false, nullable: false,
 				ref: 'Note',
 			},
 			scheduledNoteId: {
@@ -436,82 +436,82 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 
 			try {
 				const note: MiNoteCreateOption = {
-						createdAt: new Date(),
-						files: files,
-						poll: ps.poll ? {
-								choices: ps.poll.choices,
-								multiple: ps.poll.multiple ?? false,
-								expiresAt: ps.poll.expiresAt ? new Date(ps.poll.expiresAt) : null,
-						} : undefined,
-						text: ps.text ?? undefined,
-						reply,
-						renote,
-						cw: ps.cw,
-						localOnly: ps.localOnly,
-						reactionAcceptance: ps.reactionAcceptance,
-						visibility: ps.visibility,
-						visibleUsers,
-						channel,
-						apMentions: ps.noExtractMentions ? [] : undefined,
-						apHashtags: ps.noExtractHashtags ? [] : undefined,
-						apEmojis: ps.noExtractEmojis ? [] : undefined,
+					createdAt: new Date(),
+					files: files,
+					poll: ps.poll ? {
+						choices: ps.poll.choices,
+						multiple: ps.poll.multiple ?? false,
+						expiresAt: ps.poll.expiresAt ? new Date(ps.poll.expiresAt) : null,
+					} : undefined,
+					text: ps.text ?? undefined,
+					reply,
+					renote,
+					cw: ps.cw,
+					localOnly: ps.localOnly,
+					reactionAcceptance: ps.reactionAcceptance,
+					visibility: ps.visibility,
+					visibleUsers,
+					channel,
+					apMentions: ps.noExtractMentions ? [] : undefined,
+					apHashtags: ps.noExtractHashtags ? [] : undefined,
+					apEmojis: ps.noExtractEmojis ? [] : undefined,
 				};
 
 				if (ps.schedule) {
-						// 予約投稿
-						const canCreateScheduledNote = (await this.roleService.getUserPolicies(me.id)).canScheduleNote;
-						if (!canCreateScheduledNote) {
-								throw new ApiError(meta.errors.rolePermissionDenied);
-						}
+					// 予約投稿
+					const canCreateScheduledNote = (await this.roleService.getUserPolicies(me.id)).canScheduleNote;
+					if (!canCreateScheduledNote) {
+						throw new ApiError(meta.errors.rolePermissionDenied);
+					}
 
-						if (!ps.schedule.scheduledAt) {
-								throw new ApiError(meta.errors.specifyScheduleDate);
-						}
+					if (!ps.schedule.scheduledAt) {
+						throw new ApiError(meta.errors.specifyScheduleDate);
+					}
 
-						me.token = null;
-						const scheduledNoteId = this.idService.gen(new Date().getTime());
-						await this.scheduledNotesRepository.insert({
-								id: scheduledNoteId,
-								note: note,
-								userId: me.id,
-								scheduledAt: new Date(ps.schedule.scheduledAt),
-						});
+					me.token = null;
+					const scheduledNoteId = this.idService.gen(new Date().getTime());
+					await this.scheduledNotesRepository.insert({
+						id: scheduledNoteId,
+						note: note,
+						userId: me.id,
+						scheduledAt: new Date(ps.schedule.scheduledAt),
+					});
 
-						const delay = new Date(ps.schedule.scheduledAt).getTime() - Date.now();
-						await this.queueService.scheduleNotePostQueue.add(delay.toString(), {
-								scheduledNoteId,
-						}, {
-								jobId: scheduledNoteId,
-								delay,
-								removeOnComplete: true,
-						});
+					const delay = new Date(ps.schedule.scheduledAt).getTime() - Date.now();
+					await this.queueService.scheduleNotePostQueue.add(delay.toString(), {
+						scheduledNoteId,
+					}, {
+						jobId: scheduledNoteId,
+						delay,
+						removeOnComplete: true,
+					});
 
-						return {
-								scheduledNoteId,
-								scheduledNote: note,
+					return {
+						scheduledNoteId,
+						scheduledNote: note,
 
-								// ↓互換性のため（微妙）
-								createdNote: null,
-						};
+						// ↓互換性のため（微妙）
+						createdNote: null,
+					};
 				} else {
-						// 投稿を作成
-						const createdNote = await this.noteCreateService.create(me, note);
-						return {
-								createdNote: await this.noteEntityService.pack(createdNote, me),
-						};
+					// 投稿を作成
+					const createdNote = await this.noteCreateService.create(me, note);
+					return {
+						createdNote: await this.noteEntityService.pack(createdNote, me),
+					};
 				}
-		} catch (e) {
+			} catch (e) {
 				// TODO: 他のErrorもここでキャッチしてエラーメッセージを当てるようにしたい
 				if (e instanceof IdentifiableError) {
-						if (e.id === '689ee33f-f97c-479a-ac49-1b9f8140af99') {
-								throw new ApiError(meta.errors.containsProhibitedWords);
-						} else if (e.id === '9f466dab-c856-48cd-9e65-ff90ff750580') {
-								throw new ApiError(meta.errors.containsTooManyMentions);
-						}
+					if (e.id === '689ee33f-f97c-479a-ac49-1b9f8140af99') {
+						throw new ApiError(meta.errors.containsProhibitedWords);
+					} else if (e.id === '9f466dab-c856-48cd-9e65-ff90ff750580') {
+						throw new ApiError(meta.errors.containsTooManyMentions);
+					}
 				}
 				throw e;
 			}
-		}
-	);
+		},
+		);
 	}
 }

@@ -5,11 +5,18 @@ name: Test (misskey.js)
 
 on:
   push:
-    branches: [ master ]
+    branches: [ develop ]
+    paths:
+      - packages/misskey-js/**
+      - .github/workflows/test-misskey-js.yml
   pull_request:
-    branches: [ master ]
+    branches: [ develop ]
+    paths:
+      - packages/misskey-js/**
+      - .github/workflows/test-misskey-js.yml
 jobs:
   test:
+    name: Unit tests (misskey.js)
 
     runs-on: ubuntu-latest
 
@@ -20,12 +27,13 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.2.2
 
-      - run: corepack enable
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4.1.0
 
       - name: Setup Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v4.0.4
+        uses: actions/setup-node@v4.3.0
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'

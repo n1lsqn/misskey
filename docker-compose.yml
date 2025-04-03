@@ -1,11 +1,31 @@
-# このconfigは、 dockerでMisskey本体を起動せず、 redisとpostgresql などだけを起動します
 
 services:
+  web:
+    build: .
+    restart: always
+    links:
+      - db
+      - redis
+#     - meilisearch
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    networks:
+      - internal_network
+      - external_network
+    volumes:
+      - ./files:/misskey/files
+      - ./.config:/misskey/.config:ro
+
   redis:
     restart: always
     image: redis:7-alpine
-    ports:
-      - "6379:6379"
+    networks:
+      - internal_network
     volumes:
       - ./redis:/data
     healthcheck:
@@ -16,8 +36,8 @@ services:
   db:
     restart: always
     image: groonga/pgroonga:latest
-    ports:
-      - "5432:5432"
+    networks:
+      - internal_network
     env_file:
       - .config/docker.env
     volumes:
@@ -35,6 +55,12 @@ services:
 #      - MEILI_ENV=production
 #    env_file:
 #      - .config/meilisearch.env
+#    networks:
+#      - internal_network
 #    volumes:
 #      - ./meili_data:/meili_data
 
+networks:
+  internal_network:
+    internal: true
+  external_network:
