@@ -473,6 +473,7 @@ export class ClientServerService {
 		});
 
 		fastify.get('/robots.txt', async (request, reply) => {
+			reply.header('Content-Type', 'text/html; charser=UTF-8');
 			return await reply.sendFile('/robots.txt', staticAssets);
 		});
 
