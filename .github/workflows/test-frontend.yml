@@ -41,7 +41,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'pnpm'
-    - run: corepack enable
+    - run: corepack disable
     - run: pnpm i --frozen-lockfile
     - name: Check pnpm-lock.yaml
       run: git diff --exit-code pnpm-lock.yaml
@@ -97,7 +97,7 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'pnpm'
-    - run: corepack enable
+    - run: corepack disable
     - run: pnpm i --frozen-lockfile
     - name: Copy Configure
       run: cp .github/misskey/test.yml .config

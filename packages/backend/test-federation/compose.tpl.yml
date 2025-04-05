@@ -81,7 +81,7 @@ services:
     working_dir: /misskey
     command: >
       bash -c "
-        corepack enable && corepack prepare
+        corepack disable && corepack prepare
         pnpm -F backend migrate
         pnpm -F backend start
       "
