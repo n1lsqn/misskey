@@ -15,6 +15,9 @@ on:
       - dependabot/**
       - renovate/**
 
+env:
+  COREPACK_DEFAULT_TO_LATEST: 0
+
 jobs:
   build:
     # chromatic is not likely to be available for fork repositories, so we disable for fork repositories.
