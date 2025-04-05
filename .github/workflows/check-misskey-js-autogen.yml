@@ -4,6 +4,10 @@ on:
   pull_request_target:
     branches:
       - master
+      - develop
+      - improve-misskey-js-autogen-check
+    paths:
+      - packages/backend/**
 
 jobs:
   # pull_request_target safety: permissions: read-all, and there are no secrets used in this job
@@ -14,7 +18,7 @@ jobs:
     if: ${{ github.event.pull_request.mergeable == null || github.event.pull_request.mergeable == true }}
     steps:
       - name: checkout
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.2.2
         with:
           submodules: true
           persist-credentials: false
@@ -25,7 +29,7 @@ jobs:
 
       - name: setup node
         id: setup-node
-        uses: actions/setup-node@v4.1.0
+        uses: actions/setup-node@v4.3.0
         with:
           node-version-file: '.node-version'
           cache: pnpm
@@ -62,7 +66,7 @@ jobs:
     if: ${{ github.event.pull_request.mergeable == null || github.event.pull_request.mergeable == true }}
     steps:
       - name: checkout
-        uses: actions/checkout@v4.1.1
+        uses: actions/checkout@v4.2.2
         with:
           submodules: true
           persist-credentials: false
