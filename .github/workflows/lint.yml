@@ -40,7 +40,7 @@ jobs:
       with:
         node-version-file: '.node-version'
         cache: 'pnpm'
-    - run: corepack disable
+    - run: corepack enable
     - run: pnpm i --frozen-lockfile
 
   lint:
@@ -71,7 +71,7 @@ jobs:
       with:
         node-version-file: '.node-version'
         cache: 'pnpm'
-    - run: corepack disable
+    - run: corepack enable
     - run: pnpm i --frozen-lockfile
     - name: Restore eslint cache
       uses: actions/cache@v4.2.0
@@ -101,7 +101,7 @@ jobs:
       with:
         node-version-file: '.node-version'
         cache: 'pnpm'
-    - run: corepack disable
+    - run: corepack enable
     - run: pnpm i --frozen-lockfile
     - run: pnpm --filter misskey-js run build
       if: ${{ matrix.workspace == 'backend' || matrix.workspace == 'sw' }}

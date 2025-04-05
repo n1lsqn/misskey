@@ -50,7 +50,7 @@ jobs:
           cache: 'pnpm'
       - name: Build Misskey
         run: |
-          corepack disable && corepack prepare
+          corepack enable && corepack prepare
           pnpm i --frozen-lockfile
           pnpm build
       - name: Setup
