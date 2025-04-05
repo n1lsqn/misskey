@@ -11065,7 +11065,7 @@ export interface Locale extends ILocale {
          * グローバル
          */
         "global": string;
-		};
+    };
     "_selfXssPrevention": {
         /**
          * 警告

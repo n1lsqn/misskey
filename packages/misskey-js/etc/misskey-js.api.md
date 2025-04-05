@@ -1314,8 +1314,6 @@ declare namespace entities {
         AdminInviteCreateResponse,
         AdminInviteListRequest,
         AdminInviteListResponse,
-        AdminRootAddRequest,
-        AdminRootRemoveRequest,
         AdminMetaResponse,
         AdminPromoCreateRequest,
         AdminQueueDeliverDelayedResponse,
@@ -1341,6 +1339,8 @@ declare namespace entities {
         AdminRolesUpdateDefaultPoliciesRequest,
         AdminRolesUsersRequest,
         AdminRolesUsersResponse,
+        AdminRootAddRequest,
+        AdminRootRemoveRequest,
         AdminSendEmailRequest,
         AdminServerInfoResponse,
         AdminShowModerationLogsRequest,
@@ -1675,11 +1675,6 @@ declare namespace entities {
         NotesClipsResponse,
         NotesConversationRequest,
         NotesConversationResponse,
-        NotesCreateRequest,
-        NotesCreateResponse,
-        NotesScheduleDeleteRequest,
-        NotesScheduleListRequest,
-        NotesScheduleListResponse,
         NotesDeleteRequest,
         NotesFavoritesCreateRequest,
         NotesFavoritesDeleteRequest,
@@ -1693,8 +1688,6 @@ declare namespace entities {
         NotesLocalTimelineResponse,
         NotesMentionsRequest,
         NotesMentionsResponse,
-        NotesAnyLocalTimelineRequest,
-        NotesAnyLocalTimelineResponse,
         NotesPollsRecommendationRequest,
         NotesPollsRecommendationResponse,
         NotesPollsVoteRequest,
@@ -1706,6 +1699,9 @@ declare namespace entities {
         NotesRenotesResponse,
         NotesRepliesRequest,
         NotesRepliesResponse,
+        NotesScheduleDeleteRequest,
+        NotesScheduleListRequest,
+        NotesScheduleListResponse,
         NotesSearchRequest,
         NotesSearchResponse,
         NotesSearchByTagRequest,
@@ -2683,12 +2679,6 @@ type NoteFavorite = components['schemas']['NoteFavorite'];
 type NoteReaction = components['schemas']['NoteReaction'];
 
 // @public (undocumented)
-type NotesAnyLocalTimelineRequest = operations['notes___any-local-timeline']['requestBody']['content']['application/json'];
-
-// @public (undocumented)
-type NotesAnyLocalTimelineResponse = operations['notes___any-local-timeline']['responses']['200']['content']['application/json'];
-
-// @public (undocumented)
 type NotesChildrenRequest = operations['notes___children']['requestBody']['content']['application/json'];
 
 // @public (undocumented)
@@ -2705,12 +2695,6 @@ type NotesConversationRequest = operations['notes___conversation']['requestBody'
 
 // @public (undocumented)
 type NotesConversationResponse = operations['notes___conversation']['responses']['200']['content']['application/json'];
-
-// @public (undocumented)
-type NotesCreateRequest = operations['notes___create']['requestBody']['content']['application/json'];
-
-// @public (undocumented)
-type NotesCreateResponse = operations['notes___create']['responses']['200']['content']['application/json'];
 
 // @public (undocumented)
 type NotesDeleteRequest = operations['notes___delete']['requestBody']['content']['application/json'];
