@@ -73,8 +73,6 @@ import type {
 	AdminInviteCreateResponse,
 	AdminInviteListRequest,
 	AdminInviteListResponse,
-	AdminRootAddRequest,
-	AdminRootRemoveRequest,
 	AdminMetaResponse,
 	AdminPromoCreateRequest,
 	AdminQueueDeliverDelayedResponse,
@@ -100,6 +98,8 @@ import type {
 	AdminRolesUpdateDefaultPoliciesRequest,
 	AdminRolesUsersRequest,
 	AdminRolesUsersResponse,
+	AdminRootAddRequest,
+	AdminRootRemoveRequest,
 	AdminSendEmailRequest,
 	AdminServerInfoResponse,
 	AdminShowModerationLogsRequest,
@@ -434,11 +434,6 @@ import type {
 	NotesClipsResponse,
 	NotesConversationRequest,
 	NotesConversationResponse,
-	NotesCreateRequest,
-	NotesCreateResponse,
-	NotesScheduleDeleteRequest,
-	NotesScheduleListRequest,
-	NotesScheduleListResponse,
 	NotesDeleteRequest,
 	NotesFavoritesCreateRequest,
 	NotesFavoritesDeleteRequest,
@@ -452,8 +447,6 @@ import type {
 	NotesLocalTimelineResponse,
 	NotesMentionsRequest,
 	NotesMentionsResponse,
-	NotesAnyLocalTimelineRequest,
-	NotesAnyLocalTimelineResponse,
 	NotesPollsRecommendationRequest,
 	NotesPollsRecommendationResponse,
 	NotesPollsVoteRequest,
@@ -465,6 +458,9 @@ import type {
 	NotesRenotesResponse,
 	NotesRepliesRequest,
 	NotesRepliesResponse,
+	NotesScheduleDeleteRequest,
+	NotesScheduleListRequest,
+	NotesScheduleListResponse,
 	NotesSearchRequest,
 	NotesSearchResponse,
 	NotesSearchByTagRequest,
@@ -645,8 +641,6 @@ export type Endpoints = {
 	'admin/get-user-ips': { req: AdminGetUserIpsRequest; res: AdminGetUserIpsResponse };
 	'admin/invite/create': { req: AdminInviteCreateRequest; res: AdminInviteCreateResponse };
 	'admin/invite/list': { req: AdminInviteListRequest; res: AdminInviteListResponse };
-	'admin/root/add': { req: AdminRootAddRequest; res: EmptyResponse };
-	'admin/root/remove': { req: AdminRootRemoveRequest; res: EmptyResponse };
 	'admin/meta': { req: EmptyRequest; res: AdminMetaResponse };
 	'admin/promo/create': { req: AdminPromoCreateRequest; res: EmptyResponse };
 	'admin/queue/clear': { req: EmptyRequest; res: EmptyResponse };
@@ -668,6 +662,8 @@ export type Endpoints = {
 	'admin/roles/update': { req: AdminRolesUpdateRequest; res: EmptyResponse };
 	'admin/roles/update-default-policies': { req: AdminRolesUpdateDefaultPoliciesRequest; res: EmptyResponse };
 	'admin/roles/users': { req: AdminRolesUsersRequest; res: AdminRolesUsersResponse };
+	'admin/root/add': { req: AdminRootAddRequest; res: EmptyResponse };
+	'admin/root/remove': { req: AdminRootRemoveRequest; res: EmptyResponse };
 	'admin/send-email': { req: AdminSendEmailRequest; res: EmptyResponse };
 	'admin/server-info': { req: EmptyRequest; res: AdminServerInfoResponse };
 	'admin/show-moderation-logs': { req: AdminShowModerationLogsRequest; res: AdminShowModerationLogsResponse };
@@ -883,9 +879,6 @@ export type Endpoints = {
 	'notes/children': { req: NotesChildrenRequest; res: NotesChildrenResponse };
 	'notes/clips': { req: NotesClipsRequest; res: NotesClipsResponse };
 	'notes/conversation': { req: NotesConversationRequest; res: NotesConversationResponse };
-	'notes/create': { req: NotesCreateRequest; res: NotesCreateResponse };
-	'notes/schedule/delete': { req: NotesScheduleDeleteRequest; res: EmptyResponse };
-	'notes/schedule/list': { req: NotesScheduleListRequest; res: NotesScheduleListResponse };
 	'notes/delete': { req: NotesDeleteRequest; res: EmptyResponse };
 	'notes/favorites/create': { req: NotesFavoritesCreateRequest; res: EmptyResponse };
 	'notes/favorites/delete': { req: NotesFavoritesDeleteRequest; res: EmptyResponse };
@@ -894,7 +887,6 @@ export type Endpoints = {
 	'notes/hybrid-timeline': { req: NotesHybridTimelineRequest; res: NotesHybridTimelineResponse };
 	'notes/local-timeline': { req: NotesLocalTimelineRequest; res: NotesLocalTimelineResponse };
 	'notes/mentions': { req: NotesMentionsRequest; res: NotesMentionsResponse };
-	'notes/any-local-timeline': { req: NotesAnyLocalTimelineRequest; res: NotesAnyLocalTimelineResponse };
 	'notes/polls/recommendation': { req: NotesPollsRecommendationRequest; res: NotesPollsRecommendationResponse };
 	'notes/polls/vote': { req: NotesPollsVoteRequest; res: EmptyResponse };
 	'notes/reactions': { req: NotesReactionsRequest; res: NotesReactionsResponse };
@@ -902,6 +894,8 @@ export type Endpoints = {
 	'notes/reactions/delete': { req: NotesReactionsDeleteRequest; res: EmptyResponse };
 	'notes/renotes': { req: NotesRenotesRequest; res: NotesRenotesResponse };
 	'notes/replies': { req: NotesRepliesRequest; res: NotesRepliesResponse };
+	'notes/schedule/delete': { req: NotesScheduleDeleteRequest; res: EmptyResponse };
+	'notes/schedule/list': { req: NotesScheduleListRequest; res: NotesScheduleListResponse };
 	'notes/search': { req: NotesSearchRequest; res: NotesSearchResponse };
 	'notes/search-by-tag': { req: NotesSearchByTagRequest; res: NotesSearchByTagResponse };
 	'notes/show': { req: NotesShowRequest; res: NotesShowResponse };
