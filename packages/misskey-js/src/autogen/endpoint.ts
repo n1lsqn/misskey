@@ -645,12 +645,9 @@ export type Endpoints = {
 	'admin/get-user-ips': { req: AdminGetUserIpsRequest; res: AdminGetUserIpsResponse };
 	'admin/invite/create': { req: AdminInviteCreateRequest; res: AdminInviteCreateResponse };
 	'admin/invite/list': { req: AdminInviteListRequest; res: AdminInviteListResponse };
-<<<<<<< HEAD
 	'admin/root/add': { req: AdminRootAddRequest; res: EmptyResponse };
 	'admin/root/remove': { req: AdminRootRemoveRequest; res: EmptyResponse };
-=======
 	'admin/meta': { req: EmptyRequest; res: AdminMetaResponse };
->>>>>>> 2025.1.0
 	'admin/promo/create': { req: AdminPromoCreateRequest; res: EmptyResponse };
 	'admin/queue/clear': { req: EmptyRequest; res: EmptyResponse };
 	'admin/queue/deliver-delayed': { req: EmptyRequest; res: AdminQueueDeliverDelayedResponse };
