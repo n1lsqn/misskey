@@ -195,7 +195,7 @@ export function getNoteMenu(props: {
 				noteId: appearNote.id,
 			});
 
-			if (Date.now() - new Date(appearNote.createdAt).getTime() < 1000 * 60) {
+			if (Date.now() - new Date(appearNote.createdAt).getTime() < 1000 * 60 && appearNote.userId === $i.id) {
 				claimAchievement('noteDeletedWithin1min');
 			}
 		});
@@ -214,7 +214,7 @@ export function getNoteMenu(props: {
 
 			os.post({ initialNote: appearNote, renote: appearNote.renote, reply: appearNote.reply, channel: appearNote.channel });
 
-			if (Date.now() - new Date(appearNote.createdAt).getTime() < 1000 * 60) {
+			if (Date.now() - new Date(appearNote.createdAt).getTime() < 1000 * 60 && appearNote.userId === $i.id) {
 				claimAchievement('noteDeletedWithin1min');
 			}
 		});
@@ -235,11 +235,6 @@ export function getNoteMenu(props: {
 
 	function copyContent(): void {
 		copyToClipboard(appearNote.text);
-		os.success();
-	}
-
-	function copyLink(): void {
-		copyToClipboard(`${url}/notes/${appearNote.id}`);
 		os.success();
 	}
 
@@ -329,6 +324,13 @@ export function getNoteMenu(props: {
 
 		if (appearNote.url || appearNote.uri) {
 			menuItems.push({
+				icon: 'ti ti-link',
+				text: i18n.ts.copyRemoteLink,
+				action: () => {
+					copyToClipboard(appearNote.url ?? appearNote.uri);
+					os.success();
+				},
+			}, {
 				icon: 'ti ti-external-link',
 				text: i18n.ts.showOnRemote,
 				action: () => {
@@ -481,6 +483,13 @@ export function getNoteMenu(props: {
 
 		if (appearNote.url || appearNote.uri) {
 			menuItems.push({
+				icon: 'ti ti-link',
+				text: i18n.ts.copyRemoteLink,
+				action: () => {
+					copyToClipboard(appearNote.url ?? appearNote.uri);
+					os.success();
+				},
+			}, {
 				icon: 'ti ti-external-link',
 				text: i18n.ts.showOnRemote,
 				action: () => {
