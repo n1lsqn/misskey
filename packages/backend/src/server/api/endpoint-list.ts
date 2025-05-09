@@ -62,6 +62,8 @@ export * as 'admin/get-table-stats' from './endpoints/admin/get-table-stats.js';
 export * as 'admin/get-user-ips' from './endpoints/admin/get-user-ips.js';
 export * as 'admin/invite/create' from './endpoints/admin/invite/create.js';
 export * as 'admin/invite/list' from './endpoints/admin/invite/list.js';
+export * as 'admin/root/add' from './endpoints/admin/root/add.js';
+export * as 'admin/root/remove' from './endpoints/admin/root/remove.js';
 export * as 'admin/meta' from './endpoints/admin/meta.js';
 export * as 'admin/promo/create' from './endpoints/admin/promo/create.js';
 export * as 'admin/queue/clear' from './endpoints/admin/queue/clear.js';

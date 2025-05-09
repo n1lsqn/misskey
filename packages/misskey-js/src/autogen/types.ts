@@ -486,26 +486,6 @@ export type paths = {
      */
     post: operations['admin___invite___list'];
   };
-  '/admin/root/add': {
-    /**
-     * admin/root/add
-     * @description No description provided.
-     *
-     * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
-     * **Credential required**: *Yes*
-     */
-    post: operations['admin___root___add'];
-  };
-  '/admin/root/remove': {
-    /**
-     * admin/root/remove
-     * @description No description provided.
-     *
-     * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
-     * **Credential required**: *Yes*
-     */
-    post: operations['admin___root___remove'];
-  };
   '/admin/meta': {
     /**
      * admin/meta
@@ -694,6 +674,26 @@ export type paths = {
      * **Credential required**: *No* / **Permission**: *read:admin:roles*
      */
     post: operations['admin___roles___users'];
+  };
+  '/admin/root/add': {
+    /**
+     * admin/root/add
+     * @description No description provided.
+     *
+     * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
+     * **Credential required**: *Yes*
+     */
+    post: operations['admin___root___add'];
+  };
+  '/admin/root/remove': {
+    /**
+     * admin/root/remove
+     * @description No description provided.
+     *
+     * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
+     * **Credential required**: *Yes*
+     */
+    post: operations['admin___root___remove'];
   };
   '/admin/send-email': {
     /**
@@ -1978,7 +1978,7 @@ export type paths = {
      * gallery/featured
      * @description No description provided.
      *
-     * **Credential required**: *Yes* / **Permission**: *read:gallery*
+     * **Credential required**: *No*
      */
     post: operations['gallery___featured'];
   };
@@ -1987,7 +1987,7 @@ export type paths = {
      * gallery/popular
      * @description No description provided.
      *
-     * **Credential required**: *Yes* / **Permission**: *read:gallery*
+     * **Credential required**: *No*
      */
     post: operations['gallery___popular'];
   };
@@ -1996,7 +1996,7 @@ export type paths = {
      * gallery/posts
      * @description No description provided.
      *
-     * **Credential required**: *Yes* / **Permission**: *read:gallery*
+     * **Credential required**: *No*
      */
     post: operations['gallery___posts'];
   };
@@ -2084,7 +2084,7 @@ export type paths = {
      * hashtags/list
      * @description No description provided.
      *
-     * **Credential required**: *Yes* / **Permission**: *read:gallery*
+     * **Credential required**: *No*
      */
     post: operations['hashtags___list'];
   };
@@ -2093,7 +2093,7 @@ export type paths = {
      * hashtags/search
      * @description No description provided.
      *
-     * **Credential required**: *Yes* / **Permission**: *read:gallery*
+     * **Credential required**: *No*
      */
     post: operations['hashtags___search'];
   };
@@ -2102,7 +2102,7 @@ export type paths = {
      * hashtags/show
      * @description No description provided.
      *
-     * **Credential required**: *Yes* / **Permission**: *read:gallery*
+     * **Credential required**: *No*
      */
     post: operations['hashtags___show'];
   };
@@ -2111,14 +2111,14 @@ export type paths = {
      * hashtags/trend
      * @description No description provided.
      *
-     * **Credential required**: *Yes* / **Permission**: *read:gallery*
+     * **Credential required**: *No*
      */
     get: operations['hashtags___trend'];
     /**
      * hashtags/trend
      * @description No description provided.
      *
-     * **Credential required**: *Yes* / **Permission**: *read:gallery*
+     * **Credential required**: *No*
      */
     post: operations['hashtags___trend'];
   };
@@ -2127,7 +2127,7 @@ export type paths = {
      * hashtags/users
      * @description No description provided.
      *
-     * **Credential required**: *Yes* / **Permission**: *read:gallery*
+     * **Credential required**: *No*
      */
     post: operations['hashtags___users'];
   };
@@ -2821,25 +2821,6 @@ export type paths = {
      */
     post: operations['notes___create'];
   };
-  '/notes/schedule/delete': {
-    /**
-     * notes/schedule/delete
-     * @description No description provided.
-     *
-     * **Credential required**: *Yes* / **Permission**: *write:notes*
-     */
-    post: operations['notes___schedule___delete'];
-  };
-  '/notes/schedule/list': {
-    /**
-     * notes/schedule/list
-     * @description No description provided.
-     *
-     * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
-     * **Credential required**: *Yes* / **Permission**: *read:notes*
-     */
-    post: operations['notes___schedule___list'];
-  };
   '/notes/delete': {
     /**
      * notes/delete
@@ -2918,15 +2899,6 @@ export type paths = {
      * **Credential required**: *Yes* / **Permission**: *read:account*
      */
     post: operations['notes___mentions'];
-  };
-  '/notes/any-local-timeline': {
-    /**
-     * notes/any-local-timeline
-     * @description No description provided.
-     *
-     * **Credential required**: *No*
-     */
-    post: operations['notes___any-local-timeline'];
   };
   '/notes/polls/recommendation': {
     /**
@@ -7362,7 +7334,6 @@ export type operations = {
               /** @description The local host is represented with `null`. The field exists for compatibility with other API endpoints that return files. */
               host: string | null;
               url: string;
-              license: string | null;
             })[];
         };
       };
@@ -7437,6 +7408,7 @@ export type operations = {
               /** @description The local host is represented with `null`. */
               host: string | null;
               url: string;
+              license: string | null;
             })[];
         };
       };
@@ -8279,112 +8251,6 @@ export type operations = {
     };
   };
   /**
-   * admin/root/add
-   * @description No description provided.
-   *
-   * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
-   * **Credential required**: *Yes*
-   */
-  admin___root___add: {
-    requestBody: {
-      content: {
-        'application/json': {
-          /** Format: misskey:id */
-          userId: string;
-        };
-      };
-    };
-    responses: {
-      /** @description OK (without any results) */
-      204: {
-        content: never;
-      };
-      /** @description Client error */
-      400: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description Authentication error */
-      401: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description Forbidden error */
-      403: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description I'm Ai */
-      418: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description Internal server error */
-      500: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-    };
-  };
-  /**
-   * admin/root/remove
-   * @description No description provided.
-   *
-   * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
-   * **Credential required**: *Yes*
-   */
-  admin___root___remove: {
-    requestBody: {
-      content: {
-        'application/json': {
-          /** Format: misskey:id */
-          userId: string;
-        };
-      };
-    };
-    responses: {
-      /** @description OK (without any results) */
-      204: {
-        content: never;
-        };
-      /** @description Client error */
-      400: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description Authentication error */
-      401: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description Forbidden error */
-      403: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description I'm Ai */
-      418: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description Internal server error */
-      500: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-    };
-  };
-  /**
    * admin/meta
    * @description No description provided.
    *
@@ -8490,6 +8356,8 @@ export type operations = {
             defaultLightTheme: string | null;
             description: string | null;
             disableRegistration: boolean;
+            disableAntiSpam: boolean;
+            disableAccountDelete: boolean;
             impressumUrl: string | null;
             maintainerEmail: string | null;
             maintainerName: string | null;
@@ -9639,6 +9507,112 @@ export type operations = {
     };
   };
   /**
+   * admin/root/add
+   * @description No description provided.
+   *
+   * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
+   * **Credential required**: *Yes*
+   */
+  admin___root___add: {
+    requestBody: {
+      content: {
+        'application/json': {
+          /** Format: misskey:id */
+          userId: string;
+        };
+      };
+    };
+    responses: {
+      /** @description OK (without any results) */
+      204: {
+        content: never;
+      };
+      /** @description Client error */
+      400: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Authentication error */
+      401: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Forbidden error */
+      403: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description I'm Ai */
+      418: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Internal server error */
+      500: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+    };
+  };
+  /**
+   * admin/root/remove
+   * @description No description provided.
+   *
+   * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
+   * **Credential required**: *Yes*
+   */
+  admin___root___remove: {
+    requestBody: {
+      content: {
+        'application/json': {
+          /** Format: misskey:id */
+          userId: string;
+        };
+      };
+    };
+    responses: {
+      /** @description OK (without any results) */
+      204: {
+        content: never;
+      };
+      /** @description Client error */
+      400: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Authentication error */
+      401: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Forbidden error */
+      403: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description I'm Ai */
+      418: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+      /** @description Internal server error */
+      500: {
+        content: {
+          'application/json': components['schemas']['Error'];
+        };
+      };
+    };
+  };
+  /**
    * admin/send-email
    * @description No description provided.
    *
@@ -10734,7 +10708,9 @@ export type operations = {
     requestBody: {
       content: {
         'application/json': {
-          disableRegistration?: boolean | null;
+          disableRegistration?: boolean;
+          disableAntiSpam?: boolean;
+          disableAccountDelete?: boolean | null;
           pinnedUsers?: string[] | null;
           hiddenTags?: string[] | null;
           blockedHosts?: string[] | null;
@@ -17408,7 +17384,7 @@ export type operations = {
    * gallery/featured
    * @description No description provided.
    *
-   * **Credential required**: *Yes* / **Permission**: *read:gallery*
+   * **Credential required**: *No*
    */
   gallery___featured: {
     requestBody: {
@@ -17464,7 +17440,7 @@ export type operations = {
    * gallery/popular
    * @description No description provided.
    *
-   * **Credential required**: *Yes* / **Permission**: *read:gallery*
+   * **Credential required**: *No*
    */
   gallery___popular: {
     responses: {
@@ -17510,7 +17486,7 @@ export type operations = {
    * gallery/posts
    * @description No description provided.
    *
-   * **Credential required**: *Yes* / **Permission**: *read:gallery*
+   * **Credential required**: *No*
    */
   gallery___posts: {
     requestBody: {
@@ -18010,7 +17986,7 @@ export type operations = {
    * hashtags/list
    * @description No description provided.
    *
-   * **Credential required**: *Yes* / **Permission**: *read:gallery*
+   * **Credential required**: *No*
    */
   hashtags___list: {
     requestBody: {
@@ -18072,7 +18048,7 @@ export type operations = {
    * hashtags/search
    * @description No description provided.
    *
-   * **Credential required**: *Yes* / **Permission**: *read:gallery*
+   * **Credential required**: *No*
    */
   hashtags___search: {
     requestBody: {
@@ -18129,7 +18105,7 @@ export type operations = {
    * hashtags/show
    * @description No description provided.
    *
-   * **Credential required**: *Yes* / **Permission**: *read:gallery*
+   * **Credential required**: *No*
    */
   hashtags___show: {
     requestBody: {
@@ -18182,7 +18158,7 @@ export type operations = {
    * hashtags/trend
    * @description No description provided.
    *
-   * **Credential required**: *Yes* / **Permission**: *read:gallery*
+   * **Credential required**: *No*
    */
   hashtags___trend: {
     responses: {
@@ -18232,7 +18208,7 @@ export type operations = {
    * hashtags/users
    * @description No description provided.
    *
-   * **Credential required**: *Yes* / **Permission**: *read:gallery*
+   * **Credential required**: *No*
    */
   hashtags___users: {
     requestBody: {
@@ -22683,123 +22659,6 @@ export type operations = {
     };
   };
   /**
-   * notes/schedule/delete
-   * @description No description provided.
-   *
-   * **Credential required**: *Yes* / **Permission**: *write:notes*
-   */
-  notes___schedule___delete: {
-    requestBody: {
-      content: {
-        'application/json': {
-          /** Format: misskey:id */
-          scheduledNoteId: string;
-        };
-      };
-    };
-    responses: {
-      /** @description OK (without any results) */
-      204: {
-        content: never;
-      };
-      /** @description Client error */
-      400: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description Authentication error */
-      401: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description Forbidden error */
-      403: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description I'm Ai */
-      418: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description To many requests */
-      429: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description Internal server error */
-      500: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-    };
-  };
-  /**
-   * notes/schedule/list
-   * @description No description provided.
-   *
-   * **Internal Endpoint**: This endpoint is an API for the misskey mainframe and is not intended for use by third parties.
-   * **Credential required**: *Yes* / **Permission**: *read:notes*
-   */
-  notes___schedule___list: {
-    requestBody: {
-      content: {
-        'application/json': {
-          /** Format: misskey:id */
-          sinceId?: string;
-          /** Format: misskey:id */
-          untilId?: string;
-          /** @default 10 */
-          limit?: number;
-        };
-      };
-    };
-    responses: {
-      /** @description OK (with results) */
-      200: {
-        content: {
-          'application/json': Record<string, never>[];
-        };
-      };
-      /** @description Client error */
-      400: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description Authentication error */
-      401: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description Forbidden error */
-      403: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description I'm Ai */
-      418: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description Internal server error */
-      500: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-    };
-  };
-  /**
    * notes/delete
    * @description No description provided.
    *
@@ -23250,76 +23109,6 @@ export type operations = {
           /** Format: misskey:id */
           untilId?: string;
           visibility?: string;
-        };
-      };
-    };
-    responses: {
-      /** @description OK (with results) */
-      200: {
-        content: {
-          'application/json': components['schemas']['Note'][];
-        };
-      };
-      /** @description Client error */
-      400: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description Authentication error */
-      401: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description Forbidden error */
-      403: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description I'm Ai */
-      418: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-      /** @description Internal server error */
-      500: {
-        content: {
-          'application/json': components['schemas']['Error'];
-        };
-      };
-    };
-  };
-  /**
-   * notes/any-local-timeline
-   * @description No description provided.
-   *
-   * **Credential required**: *No*
-   */
-  'notes___any-local-timeline': {
-    requestBody: {
-      content: {
-        'application/json': {
-          /** @default false */
-          withFiles?: boolean;
-          /** @default true */
-          withRenotes?: boolean;
-          /** @default false */
-          withReplies?: boolean;
-          /** @default 10 */
-          limit?: number;
-          /** Format: misskey:id */
-          sinceId?: string;
-          /** Format: misskey:id */
-          untilId?: string;
-          /** @default false */
-          allowPartial?: boolean;
-          sinceDate?: number;
-          untilDate?: number;
-          host?: string;
-          remoteToken?: string;
         };
       };
     };
