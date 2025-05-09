@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - develop
     paths:
       - packages/backend/**
       - .github/workflows/validate-api-json.yml
@@ -11,13 +12,17 @@ on:
     paths:
       - packages/backend/**
       - .github/workflows/validate-api-json.yml
+
+env:
+  COREPACK_DEFAULT_TO_LATEST: 0
+
 jobs:
   validate-api-json:
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        node-version: [20.x]
+        node-version: [22.11.0]
 
     steps:
     - uses: actions/checkout@v4.1.1

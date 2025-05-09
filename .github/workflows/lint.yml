@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - develop
     paths:
       - packages/backend/**
       - packages/frontend/**
@@ -27,6 +28,10 @@ on:
       - packages/misskey-reversi/**
       - packages/shared/eslint.config.js
       - .github/workflows/lint.yml
+
+env:
+  COREPACK_DEFAULT_TO_LATEST: 0
+
 jobs:
   pnpm_install:
     runs-on: ubuntu-latest
@@ -35,12 +40,12 @@ jobs:
       with:
         fetch-depth: 0
         submodules: true
+    - uses: pnpm/action-setup@v4
     - uses: actions/setup-node@v4.1.0
       with:
         node-version-file: '.node-version'
         cache: 'pnpm'
-    # Explicitly install pnpm
-    - run: npm install -g pnpm@latest
+    - run: corepack enable
     - run: pnpm i --frozen-lockfile
 
   lint:
@@ -91,8 +96,6 @@ jobs:
         - backend
         - sw
         - misskey-js
-        node-version: [20.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     steps:
     - uses: actions/checkout@v4.1.1
       with:
@@ -101,7 +104,7 @@ jobs:
     - uses: pnpm/action-setup@v4
     - uses: actions/setup-node@v4.1.0
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version-file: '.node-version'
         cache: 'pnpm'
     - run: corepack enable
     - run: pnpm i --frozen-lockfile

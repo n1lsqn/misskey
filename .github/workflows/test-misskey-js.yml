@@ -5,9 +5,19 @@ name: Test (misskey.js)
 
 on:
   push:
-    branches: [ master ]
+    branches: [ develop ]
+    paths:
+      - packages/misskey-js/**
+      - .github/workflows/test-misskey-js.yml
   pull_request:
-    branches: [ master ]
+    branches: [ develop ]
+    paths:
+      - packages/misskey-js/**
+      - .github/workflows/test-misskey-js.yml
+
+env:
+  COREPACK_DEFAULT_TO_LATEST: 0
+
 jobs:
   test:
     name: Unit tests (misskey.js)
@@ -16,7 +26,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.x]
+        node-version: [22.11.0]
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:

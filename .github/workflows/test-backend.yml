@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - develop
     paths:
       - packages/backend/**
       # for permissions
@@ -17,6 +18,10 @@ on:
       - packages/misskey-js/**
       - .github/workflows/test-backend.yml
       - .github/misskey/test.yml
+
+env:
+  COREPACK_DEFAULT_TO_LATEST: 0
+
 jobs:
   unit:
     name: Unit tests (backend)
@@ -24,11 +29,11 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.x]
+        node-version: [22.11.0]
 
     services:
       postgres:
-        image: groonga/pgroonga:latest
+        image: postgres:15
         ports:
           - 54312:5432
         env:
@@ -87,11 +92,11 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.x]
+        node-version: [22.11.0]
 
     services:
       postgres:
-        image: groonga/pgroonga:latest
+        image: postgres:15
         ports:
           - 54312:5432
         env:

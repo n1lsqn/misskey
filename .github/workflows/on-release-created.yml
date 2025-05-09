@@ -6,6 +6,9 @@ on:
 
   workflow_dispatch:
 
+env:
+  COREPACK_DEFAULT_TO_LATEST: 0
+
 jobs:
   publish-misskey-js:
     name: Publish misskey-js
@@ -17,7 +20,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.x]
+        node-version: [22.11.0]
 
     steps:
       - uses: actions/checkout@v4.1.1
