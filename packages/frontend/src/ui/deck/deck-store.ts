@@ -10,7 +10,7 @@ import type { BasicTimelineType } from '@/timelines.js';
 import { Storage } from '@/pizzax.js';
 import { misskeyApi } from '@/scripts/misskey-api.js';
 import { deepClone } from '@/scripts/clone.js';
-import { SoundStore } from '@/store.js';
+import type { SoundStore } from '@/store.js';
 
 type ColumnWidget = {
 	name: string;
@@ -56,7 +56,7 @@ export type Column = {
 	withReplies?: boolean;
 	withSensitive?: boolean;
 	onlyFiles?: boolean;
-	soundSetting: SoundStore;
+	soundSetting?: SoundStore;
 };
 
 export const deckStore = markRaw(new Storage('deck', {
@@ -99,7 +99,7 @@ export const loadDeck = async () => {
 			key: deckStore.state.profile,
 		});
 	} catch (err) {
-		if (err.code === 'NO_SUCH_KEY') {
+		if (typeof err === 'object' && err != null && 'code' in err && err.code === 'NO_SUCH_KEY') {
 			// 後方互換性のため
 			if (deckStore.state.profile === 'default') {
 				saveDeck();
@@ -185,6 +185,7 @@ export function swapLeftColumn(id: Column['id']) {
 			}
 			return true;
 		}
+		return false;
 	});
 	saveDeck();
 }
@@ -201,6 +202,7 @@ export function swapRightColumn(id: Column['id']) {
 			}
 			return true;
 		}
+		return false;
 	});
 	saveDeck();
 }
@@ -221,6 +223,7 @@ export function swapUpColumn(id: Column['id']) {
 			}
 			return true;
 		}
+		return false;
 	});
 	saveDeck();
 }
@@ -241,6 +244,7 @@ export function swapDownColumn(id: Column['id']) {
 			}
 			return true;
 		}
+		return false;
 	});
 	saveDeck();
 }
@@ -291,7 +295,8 @@ export function removeColumnWidget(id: Column['id'], widget: ColumnWidget) {
 	const columns = deepClone(deckStore.state.columns);
 	const columnIndex = deckStore.state.columns.findIndex(c => c.id === id);
 	const column = deepClone(deckStore.state.columns[columnIndex]);
-	if (column == null || column.widgets == null) return;
+	if (column == null) return;
+	if (column.widgets == null) column.widgets = [];
 	column.widgets = column.widgets.filter(w => w.id !== widget.id);
 	columns[columnIndex] = column;
 	deckStore.set('columns', columns);
@@ -313,7 +318,8 @@ export function updateColumnWidget(id: Column['id'], widgetId: string, widgetDat
 	const columns = deepClone(deckStore.state.columns);
 	const columnIndex = deckStore.state.columns.findIndex(c => c.id === id);
 	const column = deepClone(deckStore.state.columns[columnIndex]);
-	if (column == null || column.widgets == null) return;
+	if (column == null) return;
+	if (column.widgets == null) column.widgets = [];
 	column.widgets = column.widgets.map(w => w.id === widgetId ? {
 		...w,
 		data: widgetData,
