@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: syuilo and misskey-project
+SPDX-License-Identifier: AGPL-3.0-only
+-->
+
 <!-- eslint-disable vue/no-v-html -->
 <template>
 <div v-if="block" v-html="compiledFormula"></div>
