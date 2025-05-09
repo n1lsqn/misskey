@@ -9,6 +9,10 @@ jobs:
   # pull_request_target safety: permissions: read-all, and there are no secrets used in this job
   generate-misskey-js:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     permissions:
       contents: read
     if: ${{ github.event.pull_request.mergeable == null || github.event.pull_request.mergeable == true }}
@@ -23,12 +27,11 @@ jobs:
       - name: setup pnpm
         uses: pnpm/action-setup@v4
 
-      - name: setup node
-        id: setup-node
+      - name: Setup Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4.0.4
         with:
-          node-version-file: '.node-version'
-          cache: pnpm
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
 
       - name: install dependencies
         run: pnpm i --frozen-lockfile
