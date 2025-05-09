@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - develop
 
 jobs:
   check_copyright_year:

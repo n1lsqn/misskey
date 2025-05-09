@@ -41,13 +41,12 @@ export const navbarItemDef = reactive({
 	followRequests: {
 		title: i18n.ts.followRequests,
 		icon: 'ti ti-user-plus',
-		show: computed(() => $i != null && $i.isLocked),
 		indicated: computed(() => $i != null && $i.hasPendingReceivedFollowRequest),
 		to: '/my/follow-requests',
 	},
 	explore: {
 		title: i18n.ts.explore,
-		show: computed(() => $i != null && $i.policies.canUseExplore),
+		show: computed(() => $i != null && $i.policies.canUseHighlight),
 		icon: 'ti ti-hash',
 		to: '/explore',
 	},

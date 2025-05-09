@@ -338,21 +338,21 @@ SPDX-License-Identifier: AGPL-3.0-only
 				</div>
 			</MkFolder>
 
-			<MkFolder v-if="matchQuery([i18n.ts._role._options.canUseExplore, 'canUseExplore'])">
-				<template #label>{{ i18n.ts._role._options.canUseExplore }}</template>
+			<MkFolder v-if="matchQuery([i18n.ts._role._options.canUseHighlight, 'canUseHighlight'])">
+				<template #label>{{ i18n.ts._role._options.canUseHighlight }}</template>
 				<template #suffix>
-					<span v-if="role.policies.canUseExplore.useDefault" :class="$style.useDefaultLabel">{{ i18n.ts._role.useBaseValue }}</span>
-					<span v-else>{{ role.policies.canUseExplore.value ? i18n.ts.yes : i18n.ts.no }}</span>
-					<span :class="$style.priorityIndicator"><i :class="getPriorityIcon(role.policies.canUseExplore)"></i></span>
+					<span v-if="role.policies.canUseHighlight.useDefault" :class="$style.useDefaultLabel">{{ i18n.ts._role.useBaseValue }}</span>
+					<span v-else>{{ role.policies.canUseHighlight.value ? i18n.ts.yes : i18n.ts.no }}</span>
+					<span :class="$style.priorityIndicator"><i :class="getPriorityIcon(role.policies.canUseHighlight)"></i></span>
 				</template>
 				<div class="_gaps">
-					<MkSwitch v-model="role.policies.canUseExplore.useDefault" :readonly="readonly">
+					<MkSwitch v-model="role.policies.canUseHighlight.useDefault" :readonly="readonly">
 						<template #label>{{ i18n.ts._role.useBaseValue }}</template>
 					</MkSwitch>
-					<MkSwitch v-model="role.policies.canUseExplore.value" :disabled="role.policies.canUseExplore.useDefault" :readonly="readonly">
+					<MkSwitch v-model="role.policies.canUseHighlight.value" :disabled="role.policies.canUseHighlight.useDefault" :readonly="readonly">
 						<template #label>{{ i18n.ts.enable }}</template>
 					</MkSwitch>
-					<MkRange v-model="role.policies.canUseExplore.priority" :min="0" :max="2" :step="1" easing :textConverter="(v) => v === 0 ? i18n.ts._role._priority.low : v === 1 ? i18n.ts._role._priority.middle : v === 2 ? i18n.ts._role._priority.high : ''">
+					<MkRange v-model="role.policies.canUseHighlight.priority" :min="0" :max="2" :step="1" easing :textConverter="(v) => v === 0 ? i18n.ts._role._priority.low : v === 1 ? i18n.ts._role._priority.middle : v === 2 ? i18n.ts._role._priority.high : ''">
 						<template #label>{{ i18n.ts._role.priority }}</template>
 					</MkRange>
 				</div>
@@ -363,7 +363,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<template #suffix>
 					<span v-if="role.policies.canUseRemoteIconDecorations.useDefault" :class="$style.useDefaultLabel">{{ i18n.ts._role.useBaseValue }}</span>
 					<span v-else>{{ role.policies.canUseRemoteIconDecorations.value ? i18n.ts.yes : i18n.ts.no }}</span>
-					<span :class="$style.priorityIndicator"><i :class="getPriorityIcon(role.policies.canUseExplore)"></i></span>
+					<span :class="$style.priorityIndicator"><i :class="getPriorityIcon(role.policies.canUseHighlight)"></i></span>
 				</template>
 				<div class="_gaps">
 					<MkSwitch v-model="role.policies.canUseRemoteIconDecorations.useDefault" :readonly="readonly">
@@ -383,7 +383,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 				<template #suffix>
 					<span v-if="role.policies.canEmojiDeletion.useDefault" :class="$style.useDefaultLabel">{{ i18n.ts._role.useBaseValue }}</span>
 					<span v-else>{{ role.policies.canEmojiDeletion.value ? i18n.ts.yes : i18n.ts.no }}</span>
-					<span :class="$style.priorityIndicator"><i :class="getPriorityIcon(role.policies.canUseExplore)"></i></span>
+					<span :class="$style.priorityIndicator"><i :class="getPriorityIcon(role.policies.canUseHighlight)"></i></span>
 				</template>
 				<div class="_gaps">
 					<MkSwitch v-model="role.policies.canEmojiDeletion.useDefault" :readonly="readonly">
@@ -702,7 +702,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 					<MkSwitch v-model="role.policies.avatarDecorationLimit.useDefault" :readonly="readonly">
 						<template #label>{{ i18n.ts._role.useBaseValue }}</template>
 					</MkSwitch>
-					<MkInput v-model="role.policies.avatarDecorationLimit.value" type="number" :min="0">
+					<MkInput v-model="role.policies.avatarDecorationLimit.value" type="number" :min="0" :max="16" @update:modelValue="updateAvatarDecorationLimit">
 						<template #label>{{ i18n.ts._role._options.avatarDecorationLimit }}</template>
 					</MkInput>
 					<MkRange v-model="role.policies.avatarDecorationLimit.priority" :min="0" :max="2" :step="1" easing :textConverter="(v) => v === 0 ? i18n.ts._role._priority.low : v === 1 ? i18n.ts._role._priority.middle : v === 2 ? i18n.ts._role._priority.high : ''">
@@ -818,6 +818,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 <script lang="ts" setup>
 import { watch, ref, computed } from 'vue';
 import { throttle } from 'throttle-debounce';
+import { ROLE_POLICIES } from '@@/js/const.js';
 import RolesEditorFormula from './RolesEditorFormula.vue';
 import MkInput from '@/components/MkInput.vue';
 import MkColorInput from '@/components/MkColorInput.vue';
@@ -828,7 +829,6 @@ import MkSwitch from '@/components/MkSwitch.vue';
 import MkRange from '@/components/MkRange.vue';
 import FormSlot from '@/components/form/slot.vue';
 import { i18n } from '@/i18n.js';
-import { ROLE_POLICIES } from '@@/js/const.js';
 import { instance } from '@/instance.js';
 import { deepClone } from '@/scripts/clone.js';
 
@@ -852,6 +852,12 @@ for (const ROLE_POLICY of ROLE_POLICIES) {
 			value: instance.policies[ROLE_POLICY],
 		};
 	}
+}
+
+function updateAvatarDecorationLimit(value: string | number) {
+	const numValue = Number(value);
+	const limited = Math.min(16, Math.max(0, numValue));
+	role.value.policies.avatarDecorationLimit.value = limited;
 }
 
 const rolePermission = computed({

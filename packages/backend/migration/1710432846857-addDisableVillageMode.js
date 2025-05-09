@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: syuilo and misskey-project
+ * SPDX-License-Identifier: AGPL-3.0-only
+ */
+
 export class AddDisableVillageMode1710432846857 {
 	name = 'AddDisableVillageMode1710432846857'
 

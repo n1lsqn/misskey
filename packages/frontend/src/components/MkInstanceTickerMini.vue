@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: syuilo and misskey-project
+SPDX-License-Identifier: AGPL-3.0-only
+-->
+
 <template>
 <div v-tooltip="instance.name" :class="$style.root" :style="bg">
 	<img v-if="faviconUrl" :class="$style.icon" :src="faviconUrl"/>

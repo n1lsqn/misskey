@@ -102,7 +102,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 			const i = await this.federatedInstanceService.fetch(ps.host);
 			const noteIds = [];
 
-			if (i.softwareName === 'misskey') {
+			if (i?.softwareName === 'misskey') {
 				// プロパティ 'id' は型 'string' に存在しません。
 				const remoteTimeline: any[] = await (await this.httpRequestService.send('https://' + ps.host + '/api/notes/local-timeline', {
 					method: 'POST',
@@ -230,7 +230,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 		return await this.mergePack(
 			me,
 			isActor(object) ? await this.apPersonService.createPerson(getApId(object)) : null,
-			isPost(object) ? await this.apNoteService.createNote(getApId(object), undefined, true) : null,
+			isPost(object) ? await this.apNoteService.createNote(getApId(object), undefined) : null,
 		);
 	}
 
@@ -241,7 +241,6 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				const object = await this.noteEntityService.pack(note, me, { detail: true });
 				return object;
 			} catch (e) {
-
 			}
 		}
 		return null;
