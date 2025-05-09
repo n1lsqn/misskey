@@ -7028,7 +7028,7 @@ export interface Locale extends ILocale {
             /**
              * ハイライトの利用
              */
-            "canUseExplore": string;
+            "canUseHighlight": string;
             /**
              * リモートアイコンデコレーションの利用
              */

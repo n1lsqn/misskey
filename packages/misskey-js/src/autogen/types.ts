@@ -4912,7 +4912,7 @@ export type components = {
       canManageCustomEmojis: boolean;
       canManageAvatarDecorations: boolean;
       canUseChannel: boolean;
-      canUseExplore: boolean;
+      canUseHighlight: boolean;
       canUseRemoteIconDecorations: boolean;
       canEmojiDeletion: boolean;
       canSearchNotes: boolean;
