@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - develop
     paths:
       - packages/backend/**
       # for permissions
@@ -28,11 +29,11 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.x]
+        node-version: [22.11.0]
 
     services:
       postgres:
-        image: groonga/pgroonga:latest
+        image: postgres:15
         ports:
           - 54312:5432
         env:
@@ -91,11 +92,11 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [20.x]
+        node-version: [22.11.0]
 
     services:
       postgres:
-        image: groonga/pgroonga:latest
+        image: postgres:15
         ports:
           - 54312:5432
         env:

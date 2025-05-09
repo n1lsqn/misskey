@@ -16,10 +16,6 @@ env:
 jobs:
   locale_verify:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [20.x]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
     continue-on-error: true
     steps:
     - uses: actions/checkout@v4.1.1
@@ -29,7 +25,7 @@ jobs:
     - uses: pnpm/action-setup@v4
     - uses: actions/setup-node@v4.1.0
       with:
-        node-version: ${{ matrix.node-version }}
+        node-version-file: '.node-version'
         cache: 'pnpm'
     - run: corepack enable
     - run: pnpm i --frozen-lockfile
