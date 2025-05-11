@@ -35,7 +35,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 				</SearchMarker>
 			</div>
 		</div>
-		
+
 		<div class="sync _gaps_s">
 			<MkSwitch v-model="syncDeviceDarkMode" :disabled="syncTimeDarkMode">{{ i18n.ts.syncDeviceDarkMode }}</MkSwitch>
 			<MkSwitch v-model="syncTimeDarkMode">
@@ -322,7 +322,8 @@ watch(wallpaper, async () => {
 		prefer.disableSync('themes');
 		themesSyncEnabled.value = false;
 	}
-}
+});
+
 const themesSyncEnabled = ref(prefer.isSyncEnabled('themes'));
 
 function changeThemesSyncEnabled(value: boolean) {
