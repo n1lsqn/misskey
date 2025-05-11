@@ -28,8 +28,6 @@ import { miLocalStorage } from '@/local-storage.js';
 import { fetchCustomEmojis } from '@/custom-emojis.js';
 import { initializeDetectNetworkChange, isMobileData } from '@/utility/datasaver.js';
 import { initializeTimeBasedDarkmode, isTimeDarkmode } from '@/utility/is-time-darkmode.js';
-import { setupRouter } from '@/router/main.js';
-import { createMainRouter } from '@/router/definition.js';
 import { prefer } from '@/preferences.js';
 import { $i } from '@/i.js';
 import { ColdDeviceStorage } from '@/store.js';
