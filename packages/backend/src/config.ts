@@ -74,6 +74,7 @@ type Source = {
 	proxyBypassHosts?: string[];
 
 	allowedPrivateNetworks?: string[];
+	disallowExternalApRedirect?: boolean;
 
 	maxFileSize?: number;
 
@@ -106,8 +107,8 @@ type Source = {
 
 	logging?: {
 		sql?: {
-			disableQueryTruncation? : boolean,
-			enableQueryParamLogging? : boolean,
+			disableQueryTruncation?: boolean,
+			enableQueryParamLogging?: boolean,
 		}
 	}
 };
@@ -150,6 +151,7 @@ export type Config = {
 	proxySmtp: string | undefined;
 	proxyBypassHosts: string[] | undefined;
 	allowedPrivateNetworks: string[] | undefined;
+	disallowExternalApRedirect: boolean;
 	maxFileSize: number;
 	clusterLimit: number | undefined;
 	id: string;
@@ -167,8 +169,8 @@ export type Config = {
 	signToActivityPubGet: boolean | undefined;
 	logging?: {
 		sql?: {
-			disableQueryTruncation? : boolean,
-			enableQueryParamLogging? : boolean,
+			disableQueryTruncation?: boolean,
+			enableQueryParamLogging?: boolean,
 		}
 	}
 
@@ -289,6 +291,7 @@ export function loadConfig(): Config {
 		proxyBypassHosts: config.proxyBypassHosts,
 		allowedPrivateNetworks: config.allowedPrivateNetworks,
 		clusterLimit: config.clusterLimit || cpus().length || 1,
+		disallowExternalApRedirect: config.disallowExternalApRedirect ?? false,
 		maxFileSize: config.maxFileSize ?? 262144000,
 		outgoingAddress: config.outgoingAddress,
 		outgoingAddressFamily: config.outgoingAddressFamily,

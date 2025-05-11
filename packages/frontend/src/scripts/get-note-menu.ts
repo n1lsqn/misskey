@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { defineAsyncComponent, Ref, ShallowRef } from 'vue';
+import { defineAsyncComponent } from 'vue';
+import type { Ref, ShallowRef } from 'vue';
 import * as Misskey from 'misskey-js';
 import { url } from '@@/js/config.js';
 import { claimAchievement } from './achievements.js';
@@ -564,7 +565,7 @@ export function getRenoteMenu(props: {
 			icon: 'ti ti-repeat',
 			action: () => {
 				const el = props.renoteButton.value;
-				if (el) {
+				if (el && defaultStore.state.animation) {
 					const rect = el.getBoundingClientRect();
 					const x = rect.left + (el.offsetWidth / 2);
 					const y = rect.top + (el.offsetHeight / 2);
@@ -602,7 +603,7 @@ export function getRenoteMenu(props: {
 			icon: 'ti ti-repeat',
 			action: () => {
 				const el = props.renoteButton.value;
-				if (el) {
+				if (el && defaultStore.state.animation) {
 					const rect = el.getBoundingClientRect();
 					const x = rect.left + (el.offsetWidth / 2);
 					const y = rect.top + (el.offsetHeight / 2);
@@ -653,7 +654,7 @@ export function getRenoteMenu(props: {
 					text: channel.name,
 					action: () => {
 						const el = props.renoteButton.value;
-						if (el) {
+						if (el && defaultStore.state.animation) {
 							const rect = el.getBoundingClientRect();
 							const x = rect.left + (el.offsetWidth / 2);
 							const y = rect.top + (el.offsetHeight / 2);

@@ -8,12 +8,12 @@ import * as Misskey from 'misskey-js';
 import { hemisphere } from '@@/js/intl-const.js';
 import lightTheme from '@@/themes/l-light.json5';
 import darkTheme from '@@/themes/d-green-lime.json5';
-import { miLocalStorage } from './local-storage.js';
 import { instance } from './instance.js';
 import { directRenote } from './scripts/direct-renote.js';
 import type { SoundType } from '@/scripts/sound.js';
 import type { Ast } from '@syuilo/aiscript';
 import { DEFAULT_DEVICE_KIND, type DeviceKind } from '@/scripts/device-kind.js';
+import { miLocalStorage } from '@/local-storage.js';
 import { Storage } from '@/pizzax.js';
 
 interface PostFormAction {
@@ -57,7 +57,7 @@ export type SoundStore = {
 	fileUrl: string;
 
 	volume: number;
-}
+};
 
 export const postFormActions: PostFormAction[] = [];
 export const userActions: UserAction[] = [];
@@ -89,10 +89,6 @@ export const defaultStore = markRaw(new Storage('base', {
 	keepCw: {
 		where: 'account',
 		default: true,
-	},
-	showFullAcct: {
-		where: 'account',
-		default: false,
 	},
 	collapseRenotes: {
 		where: 'account',
@@ -587,6 +583,10 @@ export const defaultStore = markRaw(new Storage('base', {
 		default: true,
 	},
 	showSoftWordMutedWord: {
+		where: 'device',
+		default: false,
+	},
+	confirmOnReact: {
 		where: 'device',
 		default: false,
 	},
