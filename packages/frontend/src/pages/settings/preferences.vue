@@ -793,7 +793,6 @@ SPDX-License-Identifier: AGPL-3.0-only
 				</MkFolder>
 			</SearchMarker>
 		</div>
-			</SearchMarker>
 
 			<SearchMarker v-slot="slotProps" :keywords="['origin', 'feature']">
 				<div class="_gaps_m">
