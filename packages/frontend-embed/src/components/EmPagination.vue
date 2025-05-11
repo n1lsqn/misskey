@@ -100,7 +100,7 @@ const emit = defineEmits<{
 	(ev: 'status', error: boolean): void;
 }>();
 
-const rootEl = shallowRef<HTMLElement>();
+const rootEl = useTemplateRef('rootEl');
 
 // 遡り中かどうか
 const backed = ref(false);

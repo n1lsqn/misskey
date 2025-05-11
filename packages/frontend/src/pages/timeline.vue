@@ -55,8 +55,8 @@ import { instance } from '@/instance.js';
 const isLocalTimelineAvailable = ($i == null && instance.policies.ltlAvailable) || ($i != null && $i.policies.ltlAvailable);
 const isGlobalTimelineAvailable = ($i == null && instance.policies.gtlAvailable) || ($i != null && $i.policies.gtlAvailable);
 
-const tlComponent = shallowRef<InstanceType<typeof MkTimeline>>();
-const rootEl = shallowRef<HTMLElement>();
+const tlComponent = useTemplateRef('tlComponent');
+const rootEl = useTemplateRef('rootEl');
 import { prefer } from '@/preferences.js';
 import { useRouter } from '@/router.js';
 
