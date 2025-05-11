@@ -140,6 +140,20 @@ SPDX-License-Identifier: AGPL-3.0-only
 								</MkPreferenceContainer>
 							</SearchMarker>
 
+							<SearchMarker :keywords="['renote', 'direct']">
+								<MkPreferenceContainer k="directRenote">
+									<MkSwitch v-model="directRenote">
+										<template #label>
+											{{ i18n.ts.directRenote }}
+											<span class="_beta">
+												{{ "originFeature" }}
+											</span>
+										</template>
+										<template #caption>{{ i18n.ts.directRenoteDescription }}</template>
+									</MkSwitch>
+								</MkPreferenceContainer>
+							</SearchMarker>
+
 							<SearchMarker :keywords="['note', 'timeline', 'gap']">
 								<MkPreferenceContainer k="showGapBetweenNotesInTimeline">
 									<MkSwitch v-model="showGapBetweenNotesInTimeline">
@@ -261,6 +275,22 @@ SPDX-License-Identifier: AGPL-3.0-only
 								</MkPreferenceContainer>
 							</SearchMarker>
 
+							<SearchMarker :keywords="['ticker', 'information', 'label', 'instance', 'server', 'host', 'federation', 'style']">
+								<MkPreferenceContainer k="instanceTickerStyle">
+									<MkSelect v-model="instanceTickerStyle">
+										<template #label>
+											{{ i18n.ts.instanceTickerStyle }}
+											<span class="_beta">
+												{{ "originFeature" }}
+											</span>
+										</template>
+										<option value="default">{{ i18n.ts._instanceTickerStyle.default }}</option>
+										<option value="minimal">{{ i18n.ts._instanceTickerStyle.minimal }}</option>
+										<option value="icon">{{ i18n.ts._instanceTickerStyle.icon }}</option>
+									</MkSelect>
+								</MkPreferenceContainer>
+							</SearchMarker>
+
 							<SearchMarker :keywords="['attachment', 'image', 'photo', 'picture', 'media', 'thumbnail', 'nsfw', 'sensitive', 'display', 'show', 'hide', 'visibility']">
 								<MkPreferenceContainer k="nsfw">
 									<MkSelect v-model="nsfw">
@@ -303,6 +333,28 @@ SPDX-License-Identifier: AGPL-3.0-only
 								<MkPreferenceContainer k="enableQuickAddMfmFunction">
 									<MkSwitch v-model="enableQuickAddMfmFunction">
 										<template #label><SearchLabel>{{ i18n.ts.enableQuickAddMfmFunction }}</SearchLabel></template>
+									</MkSwitch>
+								</MkPreferenceContainer>
+							</SearchMarker>
+
+							<SearchMaker :keywords="['show', 'replie', 'count']">
+								<MkPreferenceContainer k="showRepliesCount">
+									<MkSwitch v-model="showRepliesCount">
+										{{ i18n.ts.showRepliesCount }}
+										<span class="_beta">
+											{{ "originFeature" }}
+										</span>
+									</MkSwitch>
+								</MkPreferenceContainer>
+							</SearchMaker>
+
+							<SearchMarker :keywords="['show', 'renote', 'count']">
+								<MkPreferenceContainer k="showRenotesCount">
+									<MkSwitch v-model="showRenotesCount">
+										{{ i18n.ts.showRenotesCount }}
+										<span class="_beta">
+											{{ "originFeature" }}
+										</span>
 									</MkSwitch>
 								</MkPreferenceContainer>
 							</SearchMarker>
@@ -660,6 +712,53 @@ SPDX-License-Identifier: AGPL-3.0-only
 							</MkPreferenceContainer>
 						</SearchMarker>
 
+						<SearchMarker :keywords="['data', 'save']">
+							<MkPreferenceContainer k="dataSaver">
+								<MkSwitch v-model="enableDataSaverMode" :disabled="autoDataSaver">
+									{{ i18n.ts.dataSaver }}
+									<span class="_beta">
+										{{ "originFeature" }}
+									</span>
+								</MkSwitch>
+
+								<MkSwitch v-model="autoDataSaver" :disabled="!supportAutoDataSaver">
+									<template #caption>{{ i18n.ts.autoDataSaverDescription }}</template>
+									{{ i18n.ts.autoDataSaver }}
+								</MkSwitch>
+
+								<MkFolder v-if="enableDataSaverMode">
+									<template #label>{{ i18n.ts.dataSaverAdvancedSettings }}</template>
+
+									<div class="_gaps_m">
+										<MkInfo>{{ i18n.ts.reloadRequiredToApplySettings }}</MkInfo>
+
+										<div class="_buttons">
+											<MkButton inline @click="enableAllDataSaver">{{ i18n.ts.enableAll }}</MkButton>
+											<MkButton inline @click="disableAllDataSaver">{{ i18n.ts.disableAll }}</MkButton>
+										</div>
+										<div class="_gaps_m">
+											<MkSwitch v-model="dataSaver.media">
+												{{ i18n.ts._dataSaver._media.title }}
+												<template #caption>{{ i18n.ts._dataSaver._media.description }}</template>
+											</MkSwitch>
+											<MkSwitch v-model="dataSaver.avatar">
+												{{ i18n.ts._dataSaver._avatar.title }}
+												<template #caption>{{ i18n.ts._dataSaver._avatar.description }}</template>
+											</MkSwitch>
+											<MkSwitch v-model="dataSaver.urlPreview">
+												{{ i18n.ts._dataSaver._urlPreview.title }}
+												<template #caption>{{ i18n.ts._dataSaver._urlPreview.description }}</template>
+											</MkSwitch>
+											<MkSwitch v-model="dataSaver.code">
+												{{ i18n.ts._dataSaver._code.title }}
+												<template #caption>{{ i18n.ts._dataSaver._code.description }}</template>
+											</MkSwitch>
+										</div>
+									</div>
+								</MkFolder>
+							</MkPreferenceContainer>
+						</SearchMarker>
+
 						<SearchMarker :keywords="['ad', 'show']">
 							<MkPreferenceContainer k="forceShowAds">
 								<MkSwitch v-model="forceShowAds">
@@ -694,7 +793,149 @@ SPDX-License-Identifier: AGPL-3.0-only
 				</MkFolder>
 			</SearchMarker>
 		</div>
+			</SearchMarker>
 
+			<SearchMarker v-slot="slotProps" :keywords="['origin', 'feature']">
+				<div class="_gaps_m">
+					<MkFolder>
+						<template #label>{{ i18n.ts._originFeatures.hiddenProfile || "プロフィールを非表示にする機能" }}</template>
+						<template #label>{{ i18n.ts._originFeatures.hiddenProfile || "プロフィールを非表示にする機能" }}</template>
+						<div class="_gaps_m">
+							<div class="_buttons">
+								<MkButton inline @click="enableAllHidden">{{ i18n.ts.enableAll }}</MkButton>
+								<MkButton inline @click="disableAllHidden">{{ i18n.ts.disableAll }}</MkButton>
+							</div>
+							<MkSwitch v-model="hiddenPinnedNotes">
+								<template #caption>{{ i18n.ts._originFeatures.hiddenPinnedNotesDescription || "ピン留めしたノートを非表示にすることで、プロフィールページをスッキリさせることができます。" }}</template>
+								{{ i18n.ts._originFeatures.hiddenPinnedNotes || "プロフィール上からピン留めしたノートを非表示にします" }}
+							</MkSwitch>
+							<MkSwitch v-model="hiddenActivity">
+								<template #caption>{{ i18n.ts._originFeatures.hiddenActivityDescription || "プロフィール上からアクティビティを非表示にすることで、プロフィールページをスッキリさせることができます。" }}</template>
+								{{ i18n.ts._originFeatures.hiddenActivity || "プロフィール上からアクティビティを非表示にします" }}
+							</MkSwitch>
+							<MkSwitch v-model="hiddenFiles">
+								<template #caption>{{ i18n.ts._originFeatures.hiddenFilesDescription || "ファイルを非表示にすることで、プロフィールページをスッキリさせることができます。" }}</template>
+								{{ i18n.ts._originFeatures.hiddenFiles || "プロフィール上からファイルを非表示にします。" }}
+							</MkSwitch>
+						</div>
+					</MkFolder>
+				
+					<div class="_gaps_m">
+						<MkFolder>
+							<template #label>{{ i18n.ts._originFeatures.remoteLocalTimeline || "リモート上のサーバーのローカルタイムラインを覗く機能" }}</template>
+							<div class="_gaps_m">
+								<FormSection v-if="maxLocalTimeline >= 1">
+									<div v-if="maxLocalTimeline >= 1" class="_gaps_s">
+										<MkInput v-model="remoteLocalTimelineName1" placeholder="hostName">
+											<template #label>{{ i18n.ts.name }}</template>
+										</MkInput>
+										<MkInput v-model="remoteLocalTimelineDomain1" placeholder="hostDomain.jp">
+											<template #label>{{ i18n.ts.serverUrl }}</template>
+										</MkInput>
+										<MkInput v-model="remoteLocalTimelineToken1" placeholder="accessToken">
+											<template #prefix><i class="ti ti-api"></i></template>
+											<template #label>{{ i18n.ts.accessToken }}</template>
+										</MkInput>
+										<MkSwitch v-model="remoteLocalTimelineEnable1">
+											{{ i18n.ts.enable }}
+										</MkSwitch>
+									</div>
+								</FormSection>
+							
+								<FormSection v-if="maxLocalTimeline >= 2">
+									<div v-if="maxLocalTimeline >= 2" class="_gaps_m">
+										<MkInput v-model="remoteLocalTimelineName2" placeholder="hostName">
+											<template #label>{{ i18n.ts.name }}</template>
+										</MkInput>
+										<MkInput v-model="remoteLocalTimelineDomain2" placeholder="hostDomain.jp">
+											<template #label>{{ i18n.ts.serverUrl }}</template>
+										</MkInput>
+										<MkInput v-model="remoteLocalTimelineToken2" placeholder="accessToken">
+											<template #prefix><i class="ti ti-api"></i></template>
+											<template #label>{{ i18n.ts.accessToken }}</template>
+										</MkInput>
+										<MkSwitch v-model="remoteLocalTimelineEnable2">
+											{{ i18n.ts.enable }}
+										</MkSwitch>
+									</div>
+								</FormSection>
+							
+								<FormSection v-if="maxLocalTimeline >= 3">
+									<div v-if="maxLocalTimeline >= 3" class="_gaps_m">
+										<MkInput v-model="remoteLocalTimelineName3" placeholder="hostName">
+											<template #label>{{ i18n.ts.name }}</template>
+										</MkInput>
+										<MkInput v-model="remoteLocalTimelineDomain3" placeholder="hostDomain.jp">
+											<template #label>{{ i18n.ts.serverUrl }}</template>
+										</MkInput>
+										<MkInput v-model="remoteLocalTimelineToken3" placeholder="accessToken">
+											<template #prefix><i class="ti ti-api"></i></template>
+											<template #label>{{ i18n.ts.accessToken }}</template>
+										</MkInput>
+										<MkSwitch v-model="remoteLocalTimelineEnable3">
+											{{ i18n.ts.enable }}
+										</MkSwitch>
+									</div>
+								</FormSection>
+							
+								<FormSection v-if="maxLocalTimeline >= 4">
+									<div v-if="maxLocalTimeline >= 4" class="_gaps_m">
+										<MkInput v-model="remoteLocalTimelineName4" placeholder="hostName">
+											<template #label>{{ i18n.ts.name }}</template>
+										</MkInput>
+										<MkInput v-model="remoteLocalTimelineDomain4" placeholder="hostDomain.jp">
+											<template #label>{{ i18n.ts.serverUrl }}</template>
+										</MkInput>
+										<MkInput v-model="remoteLocalTimelineToken4" placeholder="accessToken">
+											<template #prefix><i class="ti ti-api"></i></template>
+											<template #label>{{ i18n.ts.accessToken }}</template>
+										</MkInput>
+										<MkSwitch v-model="remoteLocalTimelineEnable4">
+											{{ i18n.ts.enable }}
+										</MkSwitch>
+									</div>
+								</FormSection>
+							
+								<FormSection v-if="maxLocalTimeline >= 5">
+									<div v-if="maxLocalTimeline >= 5" class="_gaps_m">
+										<MkInput v-model="remoteLocalTimelineName5" placeholder="hostName">
+											<template #label>{{ i18n.ts.name }}</template>
+										</MkInput>
+										<MkInput v-model="remoteLocalTimelineDomain5" placeholder="hostDomain.jp">
+											<template #label>{{ i18n.ts.serverUrl }}</template>
+										</MkInput>
+										<MkInput v-model="remoteLocalTimelineToken5" placeholder="accessToken">
+											<template #prefix><i class="ti ti-api"></i></template>
+											<template #label>{{ i18n.ts.accessToken }}</template>
+										</MkInput>
+										<MkSwitch v-model="remoteLocalTimelineEnable5">
+											{{ i18n.ts.enable }}
+										</MkSwitch>
+									</div>
+								</FormSection>
+							
+								<MkButton @click="remoteLocaltimelineSave">
+									{{ i18n.ts.save }}
+								</MkButton>
+							</div>
+						</MkFolder>
+					</div>
+				
+					<MkSelect v-model="defaultTimeline.src">
+						<template #label>
+							{{ i18n.ts._defaultTimeline.title }}
+							<span class="_beta">
+								{{ "originFeature" }}
+							</span>
+						</template>
+						<option value="home">{{ i18n.ts._defaultTimeline.home }}</option>
+						<option value="local">{{ i18n.ts._defaultTimeline.local }}</option>
+						<option value="social">{{ i18n.ts._defaultTimeline.social }}</option>
+						<option value="global">{{ i18n.ts._defaultTimeline.global }}</option>
+						<template #caption>{{ i18n.ts._defaultTimeline.description }}</template>
+					</MkSelect>
+				</div>
+			</SearchMarker>
 		<hr>
 
 		<div class="_gaps_s">
@@ -735,6 +976,9 @@ import { globalEvents } from '@/events.js';
 import { claimAchievement } from '@/utility/achievements.js';
 import { instance } from '@/instance.js';
 import { ensureSignin } from '@/i.js';
+import MkInput from '@/components/MkInput.vue';
+import { signinRequired } from '@/account.js';
+import { isSupportNavigatorConnection } from '@/utility/datasaver.js';
 
 const $i = ensureSignin();
 
@@ -799,6 +1043,43 @@ const makeEveryTextElementsSelectable = prefer.model('makeEveryTextElementsSelec
 const fontSize = ref(miLocalStorage.getItem('fontSize'));
 const useSystemFont = ref(miLocalStorage.getItem('useSystemFont') != null);
 
+const directRenote = prefer.model('directRenote');
+const showRepliesCount = prefer.model('showRepliesCount');
+const showRenotesCount = prefer.model('showRenotesCount');
+const autoDataSaver = prefer.model('autoDataSaver');
+const enableDataSaverMode = prefer.model('enableDataSaverMode');
+const hiddenPinnedNotes = prefer.model('hiddenPinnedNotes');
+const hiddenActivity = prefer.model('hiddenActivity');
+const hiddenFiles = prefer.model('hiddenFiles');
+const instanceTickerStyle = prefer.model('instanceTickerStyle');
+const defaultTimeline = prefer.model('tl');
+
+const remoteLocalTimelineName1 = ref(prefer.s['remoteLocalTimelineName1']);
+const remoteLocalTimelineDomain1 = ref(prefer.s['remoteLocalTimelineDomain1']);
+const remoteLocalTimelineToken1 = ref(prefer.s['remoteLocalTimelineToken1']);
+const remoteLocalTimelineEnable1 = prefer.model('remoteLocalTimelineEnable1');
+
+const remoteLocalTimelineName2 = ref(prefer.s['remoteLocalTimelineName2']);
+const remoteLocalTimelineDomain2 = ref(prefer.s['remoteLocalTimelineDomain2']);
+const remoteLocalTimelineToken2 = ref(prefer.s['remoteLocalTimelineToken2']);
+const remoteLocalTimelineEnable2 = prefer.model('remoteLocalTimelineEnable2');
+
+const remoteLocalTimelineName3 = ref(prefer.s['remoteLocalTimelineName3']);
+const remoteLocalTimelineDomain3 = ref(prefer.s['remoteLocalTimelineDomain3']);
+const remoteLocalTimelineToken3 = ref(prefer.s['remoteLocalTimelineToken3']);
+const remoteLocalTimelineEnable3 = prefer.model('remoteLocalTimelineEnable3');
+
+const remoteLocalTimelineName4 = ref(prefer.s['remoteLocalTimelineName4']);
+const remoteLocalTimelineDomain4 = ref(prefer.s['remoteLocalTimelineDomain4']);
+const remoteLocalTimelineToken4 = ref(prefer.s['remoteLocalTimelineToken4']);
+const remoteLocalTimelineEnable4 = prefer.model('remoteLocalTimelineEnable4');
+
+const remoteLocalTimelineName5 = ref(prefer.s['remoteLocalTimelineName5']);
+const remoteLocalTimelineDomain5 = ref(prefer.s['remoteLocalTimelineDomain5']);
+const remoteLocalTimelineToken5 = ref(prefer.s['remoteLocalTimelineToken5']);
+const remoteLocalTimelineEnable5 = prefer.model('remoteLocalTimelineEnable5');
+const maxLocalTimeline = $i.policies.remoteLocalTimelineAnyLimit;
+
 watch(lang, () => {
 	miLocalStorage.setItem('lang', lang.value as string);
 	miLocalStorage.removeItem('locale');
@@ -822,6 +1103,7 @@ watch(useSystemFont, () => {
 });
 
 watch([
+	directRemote,
 	hemisphere,
 	lang,
 	enableInfiniteScroll,
@@ -838,6 +1120,7 @@ watch([
 	reactionsDisplaySize,
 	limitWidthOfReaction,
 	instanceTicker,
+	instanceTickerStyle,
 	squareAvatars,
 	highlightSensitiveMedia,
 	enableSeasonalScreenEffect,
@@ -971,4 +1254,47 @@ definePage(() => ({
 	title: i18n.ts.general,
 	icon: 'ti ti-adjustments',
 }));
+
+async function remoteLocaltimelineSave() {
+	os.alert({
+		type: 'success',
+		text: i18n.ts.saved,
+	});
+	store.set('remoteLocalTimelineName1', remoteLocalTimelineName1.value);
+	store.set('remoteLocalTimelineDomain1', remoteLocalTimelineDomain1.value);
+	store.set('remoteLocalTimelineToken1', remoteLocalTimelineToken1.value);
+	store.set('remoteLocalTimelineEnable1', remoteLocalTimelineEnable1.value);
+	store.set('remoteLocalTimelineName2', remoteLocalTimelineName2.value);
+	store.set('remoteLocalTimelineDomain2', remoteLocalTimelineDomain2.value);
+	store.set('remoteLocalTimelineToken2', remoteLocalTimelineToken2.value);
+	store.set('remoteLocalTimelineEnable2', remoteLocalTimelineEnable2.value);
+	store.set('remoteLocalTimelineName3', remoteLocalTimelineName3.value);
+	store.set('remoteLocalTimelineDomain3', remoteLocalTimelineDomain3.value);
+	store.set('remoteLocalTimelineToken3', remoteLocalTimelineToken3.value);
+	store.set('remoteLocalTimelineEnable3', remoteLocalTimelineEnable3.value);
+	store.set('remoteLocalTimelineName4', remoteLocalTimelineName4.value);
+	store.set('remoteLocalTimelineDomain4', remoteLocalTimelineDomain4.value);
+	store.set('remoteLocalTimelineToken4', remoteLocalTimelineToken4.value);
+	store.set('remoteLocalTimelineEnable4', remoteLocalTimelineEnable4.value);
+	store.set('remoteLocalTimelineName5', remoteLocalTimelineName5.value);
+	store.set('remoteLocalTimelineDomain5', remoteLocalTimelineDomain5.value);
+	store.set('remoteLocalTimelineToken5', remoteLocalTimelineToken5.value);
+	store.set('remoteLocalTimelineEnable5', remoteLocalTimelineEnable5.value);
+	await reloadAsk();
+}
+
+const supportAutoDataSaver = computed(() => isSupportNavigatorConnection());
+
+function enableAllHidden() {
+	store.set('hiddenPinnedNotes', true);
+	store.set('hiddenActivity', true);
+	store.set('hiddenFiles', true);
+}
+
+function disableAllHidden() {
+	store.set('hiddenPinnedNotes', false);
+	store.set('hiddenActivity', false);
+	store.set('hiddenFiles', false);
+}
+
 </script>

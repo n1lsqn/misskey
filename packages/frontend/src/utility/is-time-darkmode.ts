@@ -94,7 +94,7 @@ export function isTimeDarkmode(): boolean {
 
 export function initializeTimeBasedDarkmode(): void {
 	const isDarkmode = isTimeDarkmode();
-	defaultStore.set('darkMode', isDarkmode);
+	store.set('darkMode', isDarkmode);
 
 	const nextTargetTime = (isDarkmode ? getSunrise() : getSunset()).getTime() - Date.now() + 1000;
 	console.log(`nextThemeChange: ${new Date(Date.now() + nextTargetTime)}`);

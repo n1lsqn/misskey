@@ -1,0 +1,781 @@
+<!--
+SPDX-FileCopyrightText: syuilo and misskey-project
+SPDX-License-Identifier: AGPL-3.0-only
+-->
+
+<template>
+<div class="_gaps_m">
+	<MkSelect v-model="lang">
+		<template #label>{{ i18n.ts.uiLanguage }}</template>
+		<option v-for="x in langs" :key="x[0]" :value="x[0]">{{ x[1] }}</option>
+		<template #caption>
+			<I18n :src="i18n.ts.i18nInfo" tag="span">
+				<template #link>
+					<MkLink url="https://crowdin.com/project/misskey">Crowdin</MkLink>
+				</template>
+			</I18n>
+		</template>
+	</MkSelect>
+
+	<MkRadios v-model="overridedDeviceKind">
+		<template #label>{{ i18n.ts.overridedDeviceKind }}</template>
+		<option :value="null">{{ i18n.ts.auto }}</option>
+		<option value="smartphone"><i class="ti ti-device-mobile"/> {{ i18n.ts.smartphone }}</option>
+		<option value="tablet"><i class="ti ti-device-tablet"/> {{ i18n.ts.tablet }}</option>
+		<option value="desktop"><i class="ti ti-device-desktop"/> {{ i18n.ts.desktop }}</option>
+	</MkRadios>
+
+	<FormSection>
+		<div class="_gaps_s">
+			<MkSwitch v-model="showFixedPostForm">{{ i18n.ts.showFixedPostForm }}</MkSwitch>
+			<MkSwitch v-model="showFixedPostFormInChannel">{{ i18n.ts.showFixedPostFormInChannel }}</MkSwitch>
+			<MkFolder>
+				<template #label>{{ i18n.ts.pinnedList }}</template>
+				<!-- 複数ピン止め管理できるようにしたいけどめんどいので一旦ひとつのみ -->
+				<MkButton v-if="defaultStore.reactiveState.pinnedUserLists.value.length === 0" @click="setPinnedList()">{{ i18n.ts.add }}</MkButton>
+				<MkButton v-else danger @click="removePinnedList()"><i class="ti ti-trash"></i> {{ i18n.ts.remove }}</MkButton>
+			</MkFolder>
+		</div>
+	</FormSection>
+
+	<FormSection>
+		<template #label>{{ i18n.ts.displayOfNote }}</template>
+
+		<div class="_gaps_m">
+			<div class="_gaps_s">
+				<MkSwitch v-model="collapseRenotes">
+					<template #label>{{ i18n.ts.collapseRenotes }}</template>
+					<template #caption>{{ i18n.ts.collapseRenotesDescription }}</template>
+				</MkSwitch>
+				<MkSwitch v-model="directRenote">
+					<template #label>
+						{{ i18n.ts.directRenote }}
+						<span class="_beta">
+							{{ "originFeature" }}
+						</span>
+					</template>
+					<template #caption>{{ i18n.ts.directRenoteDescription }}</template>
+				</MkSwitch>
+				<MkSwitch v-model="showNoteActionsOnlyHover">{{ i18n.ts.showNoteActionsOnlyHover }}</MkSwitch>
+				<MkSwitch v-model="showClipButtonInNoteFooter">{{ i18n.ts.showClipButtonInNoteFooter }}</MkSwitch>
+				<MkSwitch v-model="advancedMfm">{{ i18n.ts.enableAdvancedMfm }}</MkSwitch>
+				<MkSwitch v-if="advancedMfm" v-model="animatedMfm">{{ i18n.ts.enableAnimatedMfm }}</MkSwitch>
+				<MkSwitch v-if="advancedMfm" v-model="enableQuickAddMfmFunction">{{ i18n.ts.enableQuickAddMfmFunction }}</MkSwitch>
+				<MkSwitch v-model="showRepliesCount">{{ i18n.ts.showRepliesCount }}</MkSwitch>
+				<MkSwitch v-model="showRenotesCount">{{ i18n.ts.showRenotesCount }}</MkSwitch>
+				<MkSwitch v-model="showReactionsCount">{{ i18n.ts.showReactionsCount }}</MkSwitch>
+				<MkSwitch v-model="showGapBetweenNotesInTimeline">{{ i18n.ts.showGapBetweenNotesInTimeline }}</MkSwitch>
+				<MkSwitch v-model="loadRawImages">{{ i18n.ts.loadRawImages }}</MkSwitch>
+				<MkRadios v-model="reactionsDisplaySize">
+					<template #label>{{ i18n.ts.reactionsDisplaySize }}</template>
+					<option value="small">{{ i18n.ts.small }}</option>
+					<option value="medium">{{ i18n.ts.medium }}</option>
+					<option value="large">{{ i18n.ts.large }}</option>
+				</MkRadios>
+				<MkSwitch v-model="limitWidthOfReaction">{{ i18n.ts.limitWidthOfReaction }}</MkSwitch>
+			</div>
+
+			<MkSelect v-if="instance.federation !== 'none'" v-model="instanceTicker">
+				<template #label>{{ i18n.ts.instanceTicker }}</template>
+				<option value="none">{{ i18n.ts._instanceTicker.none }}</option>
+				<option value="remote">{{ i18n.ts._instanceTicker.remote }}</option>
+				<option value="always">{{ i18n.ts._instanceTicker.always }}</option>
+			</MkSelect>
+
+			<MkSelect v-model="instanceTickerStyle">
+				<template #label>
+					{{ i18n.ts.instanceTickerStyle }}
+					<span class="_beta">
+						{{ "originFeature" }}
+					</span>
+				</template>
+				<option value="default">{{ i18n.ts._instanceTickerStyle.default }}</option>
+				<option value="minimal">{{ i18n.ts._instanceTickerStyle.minimal }}</option>
+				<option value="icon">{{ i18n.ts._instanceTickerStyle.icon }}</option>
+			</MkSelect>
+
+			<MkSelect v-model="nsfw">
+				<template #label>{{ i18n.ts.displayOfSensitiveMedia }}</template>
+				<option value="respect">{{ i18n.ts._displayOfSensitiveMedia.respect }}</option>
+				<option value="ignore">{{ i18n.ts._displayOfSensitiveMedia.ignore }}</option>
+				<option value="force">{{ i18n.ts._displayOfSensitiveMedia.force }}</option>
+			</MkSelect>
+
+			<MkRadios v-model="mediaListWithOneImageAppearance">
+				<template #label>{{ i18n.ts.mediaListWithOneImageAppearance }}</template>
+				<option value="expand">{{ i18n.ts.default }}</option>
+				<option value="16_9">{{ i18n.tsx.limitTo({ x: '16:9' }) }}</option>
+				<option value="1_1">{{ i18n.tsx.limitTo({ x: '1:1' }) }}</option>
+				<option value="2_3">{{ i18n.tsx.limitTo({ x: '2:3' }) }}</option>
+			</MkRadios>
+		</div>
+	</FormSection>
+
+	<FormSection>
+		<template #label>{{ i18n.ts.notificationDisplay }}</template>
+
+		<div class="_gaps_m">
+			<MkSwitch v-model="useGroupedNotifications">{{ i18n.ts.useGroupedNotifications }}</MkSwitch>
+
+			<MkRadios v-model="notificationPosition">
+				<template #label>{{ i18n.ts.position }}</template>
+				<option value="leftTop"><i class="ti ti-align-box-left-top"></i> {{ i18n.ts.leftTop }}</option>
+				<option value="rightTop"><i class="ti ti-align-box-right-top"></i> {{ i18n.ts.rightTop }}</option>
+				<option value="leftBottom"><i class="ti ti-align-box-left-bottom"></i> {{ i18n.ts.leftBottom }}</option>
+				<option value="rightBottom"><i class="ti ti-align-box-right-bottom"></i> {{ i18n.ts.rightBottom }}</option>
+			</MkRadios>
+
+			<MkRadios v-model="notificationStackAxis">
+				<template #label>{{ i18n.ts.stackAxis }}</template>
+				<option value="vertical"><i class="ti ti-carousel-vertical"></i> {{ i18n.ts.vertical }}</option>
+				<option value="horizontal"><i class="ti ti-carousel-horizontal"></i> {{ i18n.ts.horizontal }}</option>
+			</MkRadios>
+
+			<MkButton @click="testNotification">{{ i18n.ts._notification.checkNotificationBehavior }}</MkButton>
+		</div>
+	</FormSection>
+
+	<FormSection>
+		<template #label>{{ i18n.ts.appearance }}</template>
+
+		<div class="_gaps_m">
+			<div class="_gaps_s">
+				<MkSwitch v-model="reduceAnimation">{{ i18n.ts.reduceUiAnimation }}</MkSwitch>
+				<MkSwitch v-model="useBlurEffect">{{ i18n.ts.useBlurEffect }}</MkSwitch>
+				<MkSwitch v-model="useBlurEffectForModal">{{ i18n.ts.useBlurEffectForModal }}</MkSwitch>
+				<MkSwitch v-model="disableShowingAnimatedImages">{{ i18n.ts.disableShowingAnimatedImages }}</MkSwitch>
+				<MkSwitch v-model="highlightSensitiveMedia">{{ i18n.ts.highlightSensitiveMedia }}</MkSwitch>
+				<MkSwitch v-model="squareAvatars">{{ i18n.ts.squareAvatars }}</MkSwitch>
+				<MkSwitch v-model="showAvatarDecorations">{{ i18n.ts.showAvatarDecorations }}</MkSwitch>
+				<MkSwitch v-model="useSystemFont">{{ i18n.ts.useSystemFont }}</MkSwitch>
+				<MkSwitch v-model="forceShowAds">{{ i18n.ts.forceShowAds }}</MkSwitch>
+				<MkSwitch v-model="enableSeasonalScreenEffect">{{ i18n.ts.seasonalScreenEffect }}</MkSwitch>
+				<MkSwitch v-model="useNativeUIForVideoAudioPlayer">{{ i18n.ts.useNativeUIForVideoAudioPlayer }}</MkSwitch>
+			</div>
+
+			<MkSelect v-model="menuStyle">
+				<template #label>{{ i18n.ts.menuStyle }}</template>
+				<option value="auto">{{ i18n.ts.auto }}</option>
+				<option value="popup">{{ i18n.ts.popup }}</option>
+				<option value="drawer">{{ i18n.ts.drawer }}</option>
+			</MkSelect>
+
+			<div>
+				<MkRadios v-model="emojiStyle">
+					<template #label>{{ i18n.ts.emojiStyle }}</template>
+					<option value="native">{{ i18n.ts.native }}</option>
+					<option value="fluentEmoji">Fluent Emoji</option>
+					<option value="twemoji">Twemoji</option>
+				</MkRadios>
+				<div style="margin: 8px 0 0 0; font-size: 1.5em;"><Mfm :key="emojiStyle" text="🍮🍦🍭🍩🍰🍫🍬🥞🍪"/></div>
+			</div>
+
+			<MkRadios v-model="fontSize">
+				<template #label>{{ i18n.ts.fontSize }}</template>
+				<option :value="null"><span style="font-size: 14px;">Aa</span></option>
+				<option value="1"><span style="font-size: 15px;">Aa</span></option>
+				<option value="2"><span style="font-size: 16px;">Aa</span></option>
+				<option value="3"><span style="font-size: 17px;">Aa</span></option>
+			</MkRadios>
+		</div>
+	</FormSection>
+
+	<FormSection>
+		<template #label>{{ i18n.ts.behavior }}</template>
+
+		<div class="_gaps_m">
+			<div class="_gaps_s">
+				<MkSwitch v-model="imageNewTab">{{ i18n.ts.openImageInNewTab }}</MkSwitch>
+				<MkSwitch v-model="useReactionPickerForContextMenu">{{ i18n.ts.useReactionPickerForContextMenu }}</MkSwitch>
+				<MkSwitch v-model="enableInfiniteScroll">{{ i18n.ts.enableInfiniteScroll }}</MkSwitch>
+				<MkSwitch v-model="keepScreenOn">{{ i18n.ts.keepScreenOn }}</MkSwitch>
+				<MkSwitch v-model="disableStreamingTimeline">{{ i18n.ts.disableStreamingTimeline }}</MkSwitch>
+				<MkSwitch v-model="enableHorizontalSwipe">{{ i18n.ts.enableHorizontalSwipe }}</MkSwitch>
+				<MkSwitch v-model="alwaysConfirmFollow">{{ i18n.ts.alwaysConfirmFollow }}</MkSwitch>
+				<MkSwitch v-model="confirmWhenRevealingSensitiveMedia">{{ i18n.ts.confirmWhenRevealingSensitiveMedia }}</MkSwitch>
+				<MkSwitch v-model="confirmOnReact">{{ i18n.ts.confirmOnReact }}</MkSwitch>
+			</div>
+			<MkSelect v-model="serverDisconnectedBehavior">
+				<template #label>{{ i18n.ts.whenServerDisconnected }}</template>
+				<option value="reload">{{ i18n.ts._serverDisconnectedBehavior.reload }}</option>
+				<option value="dialog">{{ i18n.ts._serverDisconnectedBehavior.dialog }}</option>
+				<option value="quiet">{{ i18n.ts._serverDisconnectedBehavior.quiet }}</option>
+			</MkSelect>
+			<MkSelect v-model="contextMenu">
+				<template #label>{{ i18n.ts._contextMenu.title }}</template>
+				<option value="app">{{ i18n.ts._contextMenu.app }}</option>
+				<option value="appWithShift">{{ i18n.ts._contextMenu.appWithShift }}</option>
+				<option value="native">{{ i18n.ts._contextMenu.native }}</option>
+			</MkSelect>
+			<MkRange v-model="numberOfPageCache" :min="1" :max="10" :step="1" easing>
+				<template #label>{{ i18n.ts.numberOfPageCache }}</template>
+				<template #caption>{{ i18n.ts.numberOfPageCacheDescription }}</template>
+			</MkRange>
+
+			<MkSwitch v-model="enableDataSaverMode" :disabled="autoDataSaver">{{ i18n.ts.dataSaver }}</MkSwitch>
+
+			<MkSwitch v-model="autoDataSaver" :disabled="!supportAutoDataSaver">
+				<template #caption>{{ i18n.ts.autoDataSaverDescription }}</template>
+				{{ i18n.ts.autoDataSaver }}
+			</MkSwitch>
+
+			<MkFolder v-if="enableDataSaverMode">
+				<template #label>{{ i18n.ts.dataSaverAdvancedSettings }}</template>
+
+				<div class="_gaps_m">
+					<MkInfo>{{ i18n.ts.reloadRequiredToApplySettings }}</MkInfo>
+
+					<div class="_buttons">
+						<MkButton inline @click="enableAllDataSaver">{{ i18n.ts.enableAll }}</MkButton>
+						<MkButton inline @click="disableAllDataSaver">{{ i18n.ts.disableAll }}</MkButton>
+					</div>
+					<div class="_gaps_m">
+						<MkSwitch v-model="dataSaver.media">
+							{{ i18n.ts._dataSaver._media.title }}
+							<template #caption>{{ i18n.ts._dataSaver._media.description }}</template>
+						</MkSwitch>
+						<MkSwitch v-model="dataSaver.avatar">
+							{{ i18n.ts._dataSaver._avatar.title }}
+							<template #caption>{{ i18n.ts._dataSaver._avatar.description }}</template>
+						</MkSwitch>
+						<MkSwitch v-model="dataSaver.urlPreview">
+							{{ i18n.ts._dataSaver._urlPreview.title }}
+							<template #caption>{{ i18n.ts._dataSaver._urlPreview.description }}</template>
+						</MkSwitch>
+						<MkSwitch v-model="dataSaver.code">
+							{{ i18n.ts._dataSaver._code.title }}
+							<template #caption>{{ i18n.ts._dataSaver._code.description }}</template>
+						</MkSwitch>
+					</div>
+				</div>
+			</MkFolder>
+			<!--
+			<MkFolder>
+				<template #label>{{ i18n.ts.dataSaver }}</template>
+
+				<div class="_gaps_m">
+					<MkInfo>{{ i18n.ts.reloadRequiredToApplySettings }}</MkInfo>
+
+					<div class="_buttons">
+						<MkButton inline @click="enableAllDataSaver">{{ i18n.ts.enableAll }}</MkButton>
+						<MkButton inline @click="disableAllDataSaver">{{ i18n.ts.disableAll }}</MkButton>
+					</div>
+					<div class="_gaps_m">
+						<MkSwitch v-model="dataSaver.media">
+							{{ i18n.ts._dataSaver._media.title }}
+							<template #caption>{{ i18n.ts._dataSaver._media.description }}</template>
+						</MkSwitch>
+						<MkSwitch v-model="dataSaver.avatar">
+							{{ i18n.ts._dataSaver._avatar.title }}
+							<template #caption>{{ i18n.ts._dataSaver._avatar.description }}</template>
+						</MkSwitch>
+						<MkSwitch v-model="dataSaver.urlPreview">
+							{{ i18n.ts._dataSaver._urlPreview.title }}
+							<template #caption>{{ i18n.ts._dataSaver._urlPreview.description }}</template>
+						</MkSwitch>
+						<MkSwitch v-model="dataSaver.code">
+							{{ i18n.ts._dataSaver._code.title }}
+							<template #caption>{{ i18n.ts._dataSaver._code.description }}</template>
+						</MkSwitch>
+					</div>
+				</div>
+			</MkFolder>
+			-->
+		</div>
+	</FormSection>
+
+	<FormSection>
+		<template #label>{{ i18n.ts._originFeatures.uniqueFeature || "独自機能" }}</template>
+
+		<div class="_gaps_m">
+			<MkFolder>
+				<template #label>{{ i18n.ts._originFeatures.hiddenProfile || "プロフィールを非表示にする機能" }}</template>
+				<div class="_gaps_m">
+					<div class="_buttons">
+						<MkButton inline @click="enableAllHidden">{{ i18n.ts.enableAll }}</MkButton>
+						<MkButton inline @click="disableAllHidden">{{ i18n.ts.disableAll }}</MkButton>
+					</div>
+					<MkSwitch v-model="hiddenPinnedNotes">
+						<template #caption>{{ i18n.ts._originFeatures.hiddenPinnedNotesDescription || "ピン留めしたノートを非表示にすることで、プロフィールページをスッキリさせることができます。" }}</template>
+						{{ i18n.ts._originFeatures.hiddenPinnedNotes || "プロフィール上からピン留めしたノートを非表示にします" }}
+					</MkSwitch>
+					<MkSwitch v-model="hiddenActivity">
+						<template #caption>{{ i18n.ts._originFeatures.hiddenActivityDescription || "プロフィール上からアクティビティを非表示にすることで、プロフィールページをスッキリさせることができます。" }}</template>
+						{{ i18n.ts._originFeatures.hiddenActivity || "プロフィール上からアクティビティを非表示にします" }}
+					</MkSwitch>
+					<MkSwitch v-model="hiddenFiles">
+						<template #caption>{{ i18n.ts._originFeatures.hiddenFilesDescription || "ファイルを非表示にすることで、プロフィールページをスッキリさせることができます。" }}</template>
+						{{ i18n.ts._originFeatures.hiddenFiles || "プロフィール上からファイルを非表示にします。" }}
+					</MkSwitch>
+				</div>
+			</MkFolder>
+
+			<div class="_gaps_m">
+				<MkFolder>
+					<template #label>{{ i18n.ts._originFeatures.remoteLocalTimeline || "リモート上のサーバーのローカルタイムラインを覗く機能" }}</template>
+					<div class="_gaps_m">
+						<FormSection v-if="maxLocalTimeline >= 1">
+							<div v-if="maxLocalTimeline >= 1" class="_gaps_s">
+								<MkInput v-model="remoteLocalTimelineName1" placeholder="hostName">
+									<template #label>{{ i18n.ts.name }}</template>
+								</MkInput>
+								<MkInput v-model="remoteLocalTimelineDomain1" placeholder="hostDomain.jp">
+									<template #label>{{ i18n.ts.serverUrl }}</template>
+								</MkInput>
+								<MkInput v-model="remoteLocalTimelineToken1" placeholder="accessToken">
+									<template #prefix><i class="ti ti-api"></i></template>
+									<template #label>{{ i18n.ts.accessToken }}</template>
+								</MkInput>
+								<MkSwitch v-model="remoteLocalTimelineEnable1">
+									{{ i18n.ts.enable }}
+								</MkSwitch>
+							</div>
+						</FormSection>
+
+						<FormSection v-if="maxLocalTimeline >= 2">
+							<div v-if="maxLocalTimeline >= 2" class="_gaps_m">
+								<MkInput v-model="remoteLocalTimelineName2" placeholder="hostName">
+									<template #label>{{ i18n.ts.name }}</template>
+								</MkInput>
+								<MkInput v-model="remoteLocalTimelineDomain2" placeholder="hostDomain.jp">
+									<template #label>{{ i18n.ts.serverUrl }}</template>
+								</MkInput>
+								<MkInput v-model="remoteLocalTimelineToken2" placeholder="accessToken">
+									<template #prefix><i class="ti ti-api"></i></template>
+									<template #label>{{ i18n.ts.accessToken }}</template>
+								</MkInput>
+								<MkSwitch v-model="remoteLocalTimelineEnable2">
+									{{ i18n.ts.enable }}
+								</MkSwitch>
+							</div>
+						</FormSection>
+
+						<FormSection v-if="maxLocalTimeline >= 3">
+							<div v-if="maxLocalTimeline >= 3" class="_gaps_m">
+								<MkInput v-model="remoteLocalTimelineName3" placeholder="hostName">
+									<template #label>{{ i18n.ts.name }}</template>
+								</MkInput>
+								<MkInput v-model="remoteLocalTimelineDomain3" placeholder="hostDomain.jp">
+									<template #label>{{ i18n.ts.serverUrl }}</template>
+								</MkInput>
+								<MkInput v-model="remoteLocalTimelineToken3" placeholder="accessToken">
+									<template #prefix><i class="ti ti-api"></i></template>
+									<template #label>{{ i18n.ts.accessToken }}</template>
+								</MkInput>
+								<MkSwitch v-model="remoteLocalTimelineEnable3">
+									{{ i18n.ts.enable }}
+								</MkSwitch>
+							</div>
+						</FormSection>
+
+						<FormSection v-if="maxLocalTimeline >= 4">
+							<div v-if="maxLocalTimeline >= 4" class="_gaps_m">
+								<MkInput v-model="remoteLocalTimelineName4" placeholder="hostName">
+									<template #label>{{ i18n.ts.name }}</template>
+								</MkInput>
+								<MkInput v-model="remoteLocalTimelineDomain4" placeholder="hostDomain.jp">
+									<template #label>{{ i18n.ts.serverUrl }}</template>
+								</MkInput>
+								<MkInput v-model="remoteLocalTimelineToken4" placeholder="accessToken">
+									<template #prefix><i class="ti ti-api"></i></template>
+									<template #label>{{ i18n.ts.accessToken }}</template>
+								</MkInput>
+								<MkSwitch v-model="remoteLocalTimelineEnable4">
+									{{ i18n.ts.enable }}
+								</MkSwitch>
+							</div>
+						</FormSection>
+
+						<FormSection v-if="maxLocalTimeline >= 5">
+							<div v-if="maxLocalTimeline >= 5" class="_gaps_m">
+								<MkInput v-model="remoteLocalTimelineName5" placeholder="hostName">
+									<template #label>{{ i18n.ts.name }}</template>
+								</MkInput>
+								<MkInput v-model="remoteLocalTimelineDomain5" placeholder="hostDomain.jp">
+									<template #label>{{ i18n.ts.serverUrl }}</template>
+								</MkInput>
+								<MkInput v-model="remoteLocalTimelineToken5" placeholder="accessToken">
+									<template #prefix><i class="ti ti-api"></i></template>
+									<template #label>{{ i18n.ts.accessToken }}</template>
+								</MkInput>
+								<MkSwitch v-model="remoteLocalTimelineEnable5">
+									{{ i18n.ts.enable }}
+								</MkSwitch>
+							</div>
+						</FormSection>
+
+						<MkButton @click="remoteLocaltimelineSave">
+							{{ i18n.ts.save }}
+						</MkButton>
+					</div>
+				</MkFolder>
+			</div>
+
+			<MkSelect v-model="defaultTimeline.src">
+				<template #label>
+					{{ i18n.ts._defaultTimeline.title }}
+					<span class="_beta">
+						{{ "originFeature" }}
+					</span>
+				</template>
+				<option value="home">{{ i18n.ts._defaultTimeline.home }}</option>
+				<option value="local">{{ i18n.ts._defaultTimeline.local }}</option>
+				<option value="social">{{ i18n.ts._defaultTimeline.social }}</option>
+				<option value="global">{{ i18n.ts._defaultTimeline.global }}</option>
+				<template #caption>{{ i18n.ts._defaultTimeline.description }}</template>
+			</MkSelect>
+		</div>
+	</FormSection>
+
+	<FormSection>
+		<template #label>{{ i18n.ts.other }}</template>
+
+		<div class="_gaps">
+			<MkRadios v-model="hemisphere">
+				<template #label>{{ i18n.ts.hemisphere }}</template>
+				<option value="N">{{ i18n.ts._hemisphere.N }}</option>
+				<option value="S">{{ i18n.ts._hemisphere.S }}</option>
+				<template #caption>{{ i18n.ts._hemisphere.caption }}</template>
+			</MkRadios>
+			<MkFolder>
+				<template #label>{{ i18n.ts.additionalEmojiDictionary }}</template>
+				<div class="_buttons">
+					<template v-for="lang in emojiIndexLangs" :key="lang">
+						<MkButton v-if="defaultStore.reactiveState.additionalUnicodeEmojiIndexes.value[lang]" danger @click="removeEmojiIndex(lang)"><i class="ti ti-trash"></i> {{ i18n.ts.remove }} ({{ getEmojiIndexLangName(lang) }})</MkButton>
+						<MkButton v-else @click="downloadEmojiIndex(lang)"><i class="ti ti-download"></i> {{ getEmojiIndexLangName(lang) }}{{ defaultStore.reactiveState.additionalUnicodeEmojiIndexes.value[lang] ? ` (${ i18n.ts.installed })` : '' }}</MkButton>
+					</template>
+				</div>
+			</MkFolder>
+			<FormLink to="/settings/deck">{{ i18n.ts.deck }}</FormLink>
+			<FormLink to="/settings/custom-css"><template #icon><i class="ti ti-code"></i></template>{{ i18n.ts.customCss }}</FormLink>
+		</div>
+	</FormSection>
+</div>
+</template>
+
+<script lang="ts" setup>
+import { computed, ref, watch } from 'vue';
+import * as Misskey from 'misskey-js';
+import { langs } from '@@/js/config.js';
+import MkSwitch from '@/components/MkSwitch.vue';
+import MkSelect from '@/components/MkSelect.vue';
+import MkRadios from '@/components/MkRadios.vue';
+import MkRange from '@/components/MkRange.vue';
+import MkFolder from '@/components/MkFolder.vue';
+import MkButton from '@/components/MkButton.vue';
+import MkInput from '@/components/MkInput.vue';
+import FormSection from '@/components/form/section.vue';
+import FormLink from '@/components/form/link.vue';
+import MkLink from '@/components/MkLink.vue';
+import MkInfo from '@/components/MkInfo.vue';
+import { defaultStore } from '@/store.js';
+import * as os from '@/os.js';
+import { instance } from '@/instance.js';
+import { misskeyApi } from '@/utility/misskey-api.js';
+import { reloadAsk } from '@/utility/reload-ask.js';
+import { i18n } from '@/i18n.js';
+import { definePageMetadata } from '@/utility/page-metadata.js';
+import { miLocalStorage } from '@/local-storage.js';
+import { globalEvents } from '@/events.js';
+import { claimAchievement } from '@/utility/achievements.js';
+import { signinRequired } from '@/account.js';
+import { isSupportNavigatorConnection } from '@/utility/datasaver.js';
+
+const lang = ref(miLocalStorage.getItem('lang'));
+const fontSize = ref(miLocalStorage.getItem('fontSize'));
+const useSystemFont = ref(miLocalStorage.getItem('useSystemFont') != null);
+const dataSaver = ref(prefer.s.dataSaver);
+
+const hemisphere = computed(store.makeGetterSetter('hemisphere'));
+const overridedDeviceKind = computed(store.makeGetterSetter('overridedDeviceKind'));
+const serverDisconnectedBehavior = computed(store.makeGetterSetter('serverDisconnectedBehavior'));
+const showNoteActionsOnlyHover = computed(store.makeGetterSetter('showNoteActionsOnlyHover'));
+const showClipButtonInNoteFooter = computed(store.makeGetterSetter('showClipButtonInNoteFooter'));
+const reactionsDisplaySize = computed(store.makeGetterSetter('reactionsDisplaySize'));
+const limitWidthOfReaction = computed(store.makeGetterSetter('limitWidthOfReaction'));
+const collapseRenotes = computed(store.makeGetterSetter('collapseRenotes'));
+const directRenote = computed(store.makeGetterSetter('directRenote'));
+const reduceAnimation = computed(store.makeGetterSetter('animation', v => !v, v => !v));
+const useBlurEffectForModal = computed(store.makeGetterSetter('useBlurEffectForModal'));
+const useBlurEffect = computed(store.makeGetterSetter('useBlurEffect'));
+const showGapBetweenNotesInTimeline = computed(store.makeGetterSetter('showGapBetweenNotesInTimeline'));
+const animatedMfm = computed(store.makeGetterSetter('animatedMfm'));
+const advancedMfm = computed(store.makeGetterSetter('advancedMfm'));
+const showRepliesCount = computed(store.makeGetterSetter('showRepliesCount'));
+const showRenotesCount = computed(store.makeGetterSetter('showRenotesCount'));
+const showReactionsCount = computed(store.makeGetterSetter('showReactionsCount'));
+const enableQuickAddMfmFunction = computed(store.makeGetterSetter('enableQuickAddMfmFunction'));
+const emojiStyle = computed(store.makeGetterSetter('emojiStyle'));
+const menuStyle = computed(store.makeGetterSetter('menuStyle'));
+const disableShowingAnimatedImages = computed(store.makeGetterSetter('disableShowingAnimatedImages'));
+const autoDataSaver = computed(store.makeGetterSetter('autoDataSaver'));
+const enableDataSaverMode = computed(store.makeGetterSetter('enableDataSaverMode'));
+const hiddenPinnedNotes = computed(store.makeGetterSetter('hiddenPinnedNotes'));
+const hiddenActivity = computed(store.makeGetterSetter('hiddenActivity'));
+const hiddenFiles = computed(store.makeGetterSetter('hiddenFiles'));
+const forceShowAds = computed(store.makeGetterSetter('forceShowAds'));
+const loadRawImages = computed(store.makeGetterSetter('loadRawImages'));
+const highlightSensitiveMedia = computed(store.makeGetterSetter('highlightSensitiveMedia'));
+const imageNewTab = computed(store.makeGetterSetter('imageNewTab'));
+const nsfw = computed(store.makeGetterSetter('nsfw'));
+const showFixedPostForm = computed(store.makeGetterSetter('showFixedPostForm'));
+const showFixedPostFormInChannel = computed(store.makeGetterSetter('showFixedPostFormInChannel'));
+const numberOfPageCache = computed(store.makeGetterSetter('numberOfPageCache'));
+const instanceTicker = computed(store.makeGetterSetter('instanceTicker'));
+const instanceTickerStyle = computed(store.makeGetterSetter('instanceTickerStyle'));
+const enableInfiniteScroll = computed(store.makeGetterSetter('enableInfiniteScroll'));
+const useReactionPickerForContextMenu = computed(store.makeGetterSetter('useReactionPickerForContextMenu'));
+const squareAvatars = computed(store.makeGetterSetter('squareAvatars'));
+const showAvatarDecorations = computed(store.makeGetterSetter('showAvatarDecorations'));
+const mediaListWithOneImageAppearance = computed(store.makeGetterSetter('mediaListWithOneImageAppearance'));
+const notificationPosition = computed(store.makeGetterSetter('notificationPosition'));
+const notificationStackAxis = computed(store.makeGetterSetter('notificationStackAxis'));
+const keepScreenOn = computed(store.makeGetterSetter('keepScreenOn'));
+const disableStreamingTimeline = computed(store.makeGetterSetter('disableStreamingTimeline'));
+const useGroupedNotifications = computed(store.makeGetterSetter('useGroupedNotifications'));
+const enableSeasonalScreenEffect = computed(store.makeGetterSetter('enableSeasonalScreenEffect'));
+const enableHorizontalSwipe = computed(store.makeGetterSetter('enableHorizontalSwipe'));
+const useNativeUIForVideoAudioPlayer = computed(store.makeGetterSetter('useNativeUIForVideoAudioPlayer'));
+const alwaysConfirmFollow = computed(store.makeGetterSetter('alwaysConfirmFollow'));
+const confirmWhenRevealingSensitiveMedia = computed(store.makeGetterSetter('confirmWhenRevealingSensitiveMedia'));
+const confirmOnReact = computed(store.makeGetterSetter('confirmOnReact'));
+const contextMenu = computed(store.makeGetterSetter('contextMenu'));
+const defaultTimeline = computed(store.makeGetterSetter('tl'));
+
+const remoteLocalTimelineName1 = ref(prefer.s['remoteLocalTimelineName1']);
+const remoteLocalTimelineDomain1 = ref(prefer.s['remoteLocalTimelineDomain1']);
+const remoteLocalTimelineToken1 = ref(prefer.s['remoteLocalTimelineToken1']);
+const remoteLocalTimelineEnable1 = computed(store.makeGetterSetter('remoteLocalTimelineEnable1'));
+
+const remoteLocalTimelineName2 = ref(prefer.s['remoteLocalTimelineName2']);
+const remoteLocalTimelineDomain2 = ref(prefer.s['remoteLocalTimelineDomain2']);
+const remoteLocalTimelineToken2 = ref(prefer.s['remoteLocalTimelineToken2']);
+const remoteLocalTimelineEnable2 = computed(store.makeGetterSetter('remoteLocalTimelineEnable2'));
+
+const remoteLocalTimelineName3 = ref(prefer.s['remoteLocalTimelineName3']);
+const remoteLocalTimelineDomain3 = ref(prefer.s['remoteLocalTimelineDomain3']);
+const remoteLocalTimelineToken3 = ref(prefer.s['remoteLocalTimelineToken3']);
+const remoteLocalTimelineEnable3 = computed(store.makeGetterSetter('remoteLocalTimelineEnable3'));
+
+const remoteLocalTimelineName4 = ref(prefer.s['remoteLocalTimelineName4']);
+const remoteLocalTimelineDomain4 = ref(prefer.s['remoteLocalTimelineDomain4']);
+const remoteLocalTimelineToken4 = ref(prefer.s['remoteLocalTimelineToken4']);
+const remoteLocalTimelineEnable4 = computed(store.makeGetterSetter('remoteLocalTimelineEnable4'));
+
+const remoteLocalTimelineName5 = ref(prefer.s['remoteLocalTimelineName5']);
+const remoteLocalTimelineDomain5 = ref(prefer.s['remoteLocalTimelineDomain5']);
+const remoteLocalTimelineToken5 = ref(prefer.s['remoteLocalTimelineToken5']);
+const remoteLocalTimelineEnable5 = computed(store.makeGetterSetter('remoteLocalTimelineEnable5'));
+
+const $i = signinRequired();
+const maxLocalTimeline = $i.policies.remoteLocalTimelineAnyLimit;
+
+watch(lang, () => {
+	miLocalStorage.setItem('lang', lang.value as string);
+	miLocalStorage.removeItem('locale');
+	miLocalStorage.removeItem('localeVersion');
+});
+
+watch(fontSize, () => {
+	if (fontSize.value == null) {
+		miLocalStorage.removeItem('fontSize');
+	} else {
+		miLocalStorage.setItem('fontSize', fontSize.value);
+	}
+});
+
+watch(useSystemFont, () => {
+	if (useSystemFont.value) {
+		miLocalStorage.setItem('useSystemFont', 't');
+	} else {
+		miLocalStorage.removeItem('useSystemFont');
+	}
+});
+
+watch([
+	directRenote,
+	hemisphere,
+	lang,
+	fontSize,
+	useSystemFont,
+	enableInfiniteScroll,
+	squareAvatars,
+	showNoteActionsOnlyHover,
+	showGapBetweenNotesInTimeline,
+	instanceTicker,
+	instanceTickerStyle,
+	overridedDeviceKind,
+	mediaListWithOneImageAppearance,
+	reactionsDisplaySize,
+	limitWidthOfReaction,
+	highlightSensitiveMedia,
+	keepScreenOn,
+	disableStreamingTimeline,
+	enableSeasonalScreenEffect,
+	alwaysConfirmFollow,
+	confirmWhenRevealingSensitiveMedia,
+	contextMenu,
+], async () => {
+	await reloadAsk({ reason: i18n.ts.reloadToApplySetting, unison: true });
+});
+
+async function remoteLocaltimelineSave() {
+	os.alert({
+		type: 'success',
+		text: i18n.ts.saved,
+	});
+	store.set('remoteLocalTimelineName1', remoteLocalTimelineName1.value);
+	store.set('remoteLocalTimelineDomain1', remoteLocalTimelineDomain1.value);
+	store.set('remoteLocalTimelineToken1', remoteLocalTimelineToken1.value);
+	store.set('remoteLocalTimelineEnable1', remoteLocalTimelineEnable1.value);
+	store.set('remoteLocalTimelineName2', remoteLocalTimelineName2.value);
+	store.set('remoteLocalTimelineDomain2', remoteLocalTimelineDomain2.value);
+	store.set('remoteLocalTimelineToken2', remoteLocalTimelineToken2.value);
+	store.set('remoteLocalTimelineEnable2', remoteLocalTimelineEnable2.value);
+	store.set('remoteLocalTimelineName3', remoteLocalTimelineName3.value);
+	store.set('remoteLocalTimelineDomain3', remoteLocalTimelineDomain3.value);
+	store.set('remoteLocalTimelineToken3', remoteLocalTimelineToken3.value);
+	store.set('remoteLocalTimelineEnable3', remoteLocalTimelineEnable3.value);
+	store.set('remoteLocalTimelineName4', remoteLocalTimelineName4.value);
+	store.set('remoteLocalTimelineDomain4', remoteLocalTimelineDomain4.value);
+	store.set('remoteLocalTimelineToken4', remoteLocalTimelineToken4.value);
+	store.set('remoteLocalTimelineEnable4', remoteLocalTimelineEnable4.value);
+	store.set('remoteLocalTimelineName5', remoteLocalTimelineName5.value);
+	store.set('remoteLocalTimelineDomain5', remoteLocalTimelineDomain5.value);
+	store.set('remoteLocalTimelineToken5', remoteLocalTimelineToken5.value);
+	store.set('remoteLocalTimelineEnable5', remoteLocalTimelineEnable5.value);
+	await reloadAsk();
+}
+
+const supportAutoDataSaver = computed(() => isSupportNavigatorConnection());
+const emojiIndexLangs = ['en-US', 'ja-JP', 'ja-JP_hira'] as const;
+
+function getEmojiIndexLangName(targetLang: typeof emojiIndexLangs[number]) {
+	if (langs.find(x => x[0] === targetLang)) {
+		return langs.find(x => x[0] === targetLang)![1];
+	} else {
+		// 絵文字辞書限定の言語定義
+		switch (targetLang) {
+			case 'ja-JP_hira': return 'ひらがな';
+			default: return targetLang;
+		}
+	}
+}
+
+function downloadEmojiIndex(lang: typeof emojiIndexLangs[number]) {
+	async function main() {
+		const currentIndexes = prefer.s.additionalUnicodeEmojiIndexes;
+
+		function download() {
+			switch (lang) {
+				case 'en-US': return import('../../unicode-emoji-indexes/en-US.json').then(x => x.default);
+				case 'ja-JP': return import('../../unicode-emoji-indexes/ja-JP.json').then(x => x.default);
+				case 'ja-JP_hira': return import('../../unicode-emoji-indexes/ja-JP_hira.json').then(x => x.default);
+				default: throw new Error('unrecognized lang: ' + lang);
+			}
+		}
+
+		currentIndexes[lang] = await download();
+		await store.set('additionalUnicodeEmojiIndexes', currentIndexes);
+	}
+
+	os.promiseDialog(main());
+}
+
+function removeEmojiIndex(lang: string) {
+	async function main() {
+		const currentIndexes = prefer.s.additionalUnicodeEmojiIndexes;
+		delete currentIndexes[lang];
+		await store.set('additionalUnicodeEmojiIndexes', currentIndexes);
+	}
+
+	os.promiseDialog(main());
+}
+
+async function setPinnedList() {
+	const lists = await misskeyApi('users/lists/list');
+	const { canceled, result: list } = await os.select({
+		title: i18n.ts.selectList,
+		items: lists.map(x => ({
+			value: x, text: x.name,
+		})),
+	});
+	if (canceled) return;
+
+	store.set('pinnedUserLists', [list]);
+}
+
+function removePinnedList() {
+	store.set('pinnedUserLists', []);
+}
+
+let smashCount = 0;
+let smashTimer: number | null = null;
+
+function testNotification(): void {
+	const notification: Misskey.entities.Notification = {
+		id: Math.random().toString(),
+		createdAt: new Date().toUTCString(),
+		isRead: false,
+		type: 'test',
+	};
+
+	globalEvents.emit('clientNotification', notification);
+
+	// セルフ通知破壊 実績関連
+	smashCount++;
+	if (smashCount >= 10) {
+		claimAchievement('smashTestNotificationButton');
+		smashCount = 0;
+	}
+	if (smashTimer) {
+		clearTimeout(smashTimer);
+	}
+	smashTimer = window.setTimeout(() => {
+		smashCount = 0;
+	}, 300);
+}
+
+function enableAllDataSaver() {
+	const g = { ...prefer.s.dataSaver };
+
+	Object.keys(g).forEach((key) => { g[key] = true; });
+
+	dataSaver.value = g;
+}
+
+function enableAllHidden() {
+	store.set('hiddenPinnedNotes', true);
+	store.set('hiddenActivity', true);
+	store.set('hiddenFiles', true);
+}
+
+function disableAllHidden() {
+	store.set('hiddenPinnedNotes', false);
+	store.set('hiddenActivity', false);
+	store.set('hiddenFiles', false);
+}
+
+function disableAllDataSaver() {
+	const g = { ...prefer.s.dataSaver };
+
+	Object.keys(g).forEach((key) => { g[key] = false; });
+
+	dataSaver.value = g;
+}
+
+watch(dataSaver, (to) => {
+	store.set('dataSaver', to);
+}, {
+	deep: true,
+});
+
+const headerActions = computed(() => []);
+
+const headerTabs = computed(() => []);
+
+definePageMetadata(() => ({
+	title: i18n.ts.general,
+	icon: 'ti ti-adjustments',
+}));
+</script>

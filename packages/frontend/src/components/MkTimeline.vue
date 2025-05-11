@@ -227,8 +227,8 @@ function updatePaginationQuery() {
 	} else if (props.src.startsWith('custom-timeline')) {
 		endpoint = 'notes/any-local-timeline';
 		query = {
-			host: defaultStore.state[`remoteLocalTimelineDomain${props.src.split('-')[2]}`],
-			remoteToken: defaultStore.state[`remoteLocalTimelineToken${props.src.split('-')[2]}`],
+			host: prefer.s[`remoteLocalTimelineDomain${props.src.split('-')[2]}`],
+			remoteToken: prefer.s[`remoteLocalTimelineToken${props.src.split('-')[2]}`],
 		};
 	} else {
 		endpoint = null;

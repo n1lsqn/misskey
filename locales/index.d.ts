@@ -11242,7 +11242,7 @@ export interface Locale extends ILocale {
          */
         "summaryProxyDescription2": string;
     };
-    "_uniqueFeatures": {
+    "_originFeatures": {
         /**
          * 独自機能
          */

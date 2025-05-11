@@ -220,7 +220,6 @@ import MkRippleEffect from '@/components/MkRippleEffect.vue';
 import { showMovedDialog } from '@/utility/show-moved-dialog.js';
 import { isEnabledUrlPreview } from '@/instance.js';
 import MkInstanceTickerMini from '@/components/MkInstanceTickerMini.vue';
-import type { Keymap } from '@/utility/hotkey.js';
 import { directRenote } from '@/utility/direct-renote';
 import { focusPrev, focusNext } from '@/utility/focus.js';
 import { getAppearNote } from '@/utility/get-appear-note.js';

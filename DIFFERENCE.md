@@ -25,3 +25,34 @@
 ~~ - Feat: canUseHighlightをcanUseExploreに変更、canUseExploreが付与されていない場合、`/explore`を閲覧不可にする [6f56d53c52995a882c1e6bda623f26334c44ab43](https://github.com/n1lsqn/misskey/pull/138/commits/6f56d53c52995a882c1e6bda623f26334c44ab43) ~~
 - feat: デフォルトで表示されるタイムラインを変える~~(GTLがあるサーバー向け)~~[578760d](https://github.com/n1lsqn/misskey/pull/143/commits/578760d7544a9a8343119e58c69259c2baa21154)
 - Feat: ダイレクトにリノートをできるようにする [#142](https://github.com/n1lsqn/misskey/pull/142)
+- 要確認: `/misskey/packages/frontend/src/pages/settings/avatar-decoration.vue`
+```ts
+<<<<<<< HEAD
+		<MkFolder>
+			<template #label>ローカル</template>
+			<div :class="$style.decorations">
+				<XDecoration
+					v-for="localAvatarDecoration in localAvatarDecorations"
+					:key="localAvatarDecoration.id"
+					:decoration="localAvatarDecoration"
+					@click="openLocalDecoration(localAvatarDecoration)"
+				/>
+			</div>
+		</MkFolder>
+		<MkFolder v-if="$i.policies.canUseRemoteIconDecorations">
+			<template #label>リモート</template>
+			<div :class="$style.decorations">
+				<XDecoration
+					v-for="remoteAvatarDecoration in remoteAvatarDecorations"
+					:key="remoteAvatarDecoration.id"
+					:decoration="remoteAvatarDecoration"
+					@click="openRemoteDecoration(remoteAvatarDecoration)"
+				/>
+			</div>
+		</MkFolder>
+=======
+		<div v-else>
+			<MkLoading/>
+		</div>
+>>>>>>> 2025.4.0
+```

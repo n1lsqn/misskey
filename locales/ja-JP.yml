@@ -2992,7 +2992,7 @@ _urlPreviewSetting:
   summaryProxyDescription: "Misskey本体ではなく、サマリープロキシを使用してプレビューを生成します。"
   summaryProxyDescription2: "プロキシには下記パラメータがクエリ文字列として連携されます。プロキシ側がこれらをサポートしない場合、設定値は無視されます。"
 
-_uniqueFeatures:
+_originFeatures:
   uniqueFeature: "独自機能"
   remoteLocalTimeline: "リモート上のサーバーのローカルタイムラインを覗く機能"
   hiddenProfile: "プロフィールを非表示にする機能"

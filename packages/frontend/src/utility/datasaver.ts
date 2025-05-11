@@ -26,7 +26,7 @@ export function initializeDetectNetworkChange(): void {
 
 	connection.addEventListener('change', () => {
 		if (!connection || !connection.type) return;
-		defaultStore.set('enableDataSaverMode', isEnableDataSaver(connection.type));
+		store.set('enableDataSaverMode', isEnableDataSaver(connection.type));
 	});
 }
 

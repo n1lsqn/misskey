@@ -9,8 +9,8 @@
  */
 import * as Misskey from 'misskey-js';
 import type { SwMessage, SwMessageOrderType } from '@/types.js';
-import { getAccountFromId } from '@/utility/get-account-from-id.js';
-import { getUrlWithLoginId } from '@/utility/login-id.js';
+import { getAccountFromId } from '@/scripts/get-account-from-id.js';
+import { getUrlWithLoginId } from '@/scripts/login-id.js';
 
 export const cli = new Misskey.api.APIClient({ origin, fetch: (...args): Promise<Response> => fetch(...args) });
 
