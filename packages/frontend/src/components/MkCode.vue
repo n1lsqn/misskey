@@ -29,9 +29,9 @@ import { defineAsyncComponent, ref } from 'vue';
 import * as os from '@/os.js';
 import MkLoading from '@/components/global/MkLoading.vue';
 import { i18n } from '@/i18n.js';
-import { getDataSaverState } from '@/scripts/datasaver.js';
-import { copyToClipboard } from '@/scripts/copy-to-clipboard.js';
-import { defaultStore } from '@/store.js';
+import { getDataSaverState } from '@/utility/datasaver.js';
+import { copyToClipboard } from '@/utility/copy-to-clipboard.js';
+import { prefer } from '@/preferences.js';
 
 const props = withDefaults(defineProps<{
 	code: string;
@@ -43,13 +43,12 @@ const props = withDefaults(defineProps<{
 	forceShow: false,
 });
 
-const show = ref(props.forceShow === true ? true : !defaultStore.state.dataSaver.code);
+const show = ref(props.forceShow === true ? true : !prefer.s.dataSaver.code);
 
 const XCode = defineAsyncComponent(() => import('@/components/MkCode.core.vue'));
 
 function copy() {
 	copyToClipboard(props.code);
-	os.success();
 }
 </script>
 

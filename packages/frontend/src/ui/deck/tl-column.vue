@@ -32,27 +32,26 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { onMounted, watch, ref, shallowRef, computed } from 'vue';
+import { onMounted, watch, ref, useTemplateRef, computed } from 'vue';
 import XColumn from './column.vue';
-import { removeColumn, updateColumn } from './deck-store.js';
-import type { Column } from './deck-store.js';
+import type { Column } from '@/deck.js';
 import type { MenuItem } from '@/types/menu.js';
+import type { SoundStore } from '@/preferences/def.js';
+import { removeColumn, updateColumn } from '@/deck.js';
 import MkTimeline from '@/components/MkTimeline.vue';
 import * as os from '@/os.js';
 import { i18n } from '@/i18n.js';
 import { hasWithReplies, isAvailableBasicTimeline, basicTimelineIconClass } from '@/timelines.js';
 import { instance } from '@/instance.js';
-import { defaultStore } from '@/store.js';
-import type { SoundStore } from '@/store.js';
 import { soundSettingsButton } from '@/ui/deck/tl-note-notification.js';
-import * as sound from '@/scripts/sound.js';
+import * as sound from '@/utility/sound.js';
 
 const props = defineProps<{
 	column: Column;
 	isStacked: boolean;
 }>();
 
-const timeline = shallowRef<InstanceType<typeof MkTimeline>>();
+const timeline = useTemplateRef('timeline');
 
 const soundSetting = ref<SoundStore>(props.column.soundSetting ?? { type: null, volume: 1 });
 const withRenotes = ref(props.column.withRenotes ?? true);
@@ -94,11 +93,11 @@ onMounted(() => {
 	}
 });
 
-const remoteLocalTimelineEnable1 = defaultStore.state['remoteLocalTimelineEnable1'];
-const remoteLocalTimelineEnable2 = defaultStore.state['remoteLocalTimelineEnable2'];
-const remoteLocalTimelineEnable3 = defaultStore.state['remoteLocalTimelineEnable3'];
-const remoteLocalTimelineEnable4 = defaultStore.state['remoteLocalTimelineEnable4'];
-const remoteLocalTimelineEnable5 = defaultStore.state['remoteLocalTimelineEnable5'];
+const remoteLocalTimelineEnable1 = prefer.s['remoteLocalTimelineEnable1'];
+const remoteLocalTimelineEnable2 = prefer.s['remoteLocalTimelineEnable2'];
+const remoteLocalTimelineEnable3 = prefer.s['remoteLocalTimelineEnable3'];
+const remoteLocalTimelineEnable4 = prefer.s['remoteLocalTimelineEnable4'];
+const remoteLocalTimelineEnable5 = prefer.s['remoteLocalTimelineEnable5'];
 
 // ここでカスタムタイムライン追加するっぽい
 async function setType() {
@@ -114,19 +113,19 @@ async function setType() {
 			value: 'global' as const, text: i18n.ts._timelines.global,
 		}, ...(remoteLocalTimelineEnable1 ? [{
 			value: 'custom-timeline-1' as const,
-			text: defaultStore.state['remoteLocalTimelineName1'],
+			text: prefer.s['remoteLocalTimelineName1'],
 		}] : []), ...(remoteLocalTimelineEnable2 ? [{
 			value: 'custom-timeline-2' as const,
-			text: defaultStore.state['remoteLocalTimelineName2'],
+			text: prefer.s['remoteLocalTimelineName2'],
 		}] : []), ...(remoteLocalTimelineEnable3 ? [{
 			value: 'custom-timeline-3' as const,
-			text: defaultStore.state['remoteLocalTimelineName3'],
+			text: prefer.s['remoteLocalTimelineName3'],
 		}] : []), ...(remoteLocalTimelineEnable4 ? [{
 			value: 'custom-timeline-4' as const,
-			text: defaultStore.state['remoteLocalTimelineName4'],
+			text: prefer.s['remoteLocalTimelineName4'],
 		}] : []), ...(remoteLocalTimelineEnable5 ? [{
 			value: 'custom-timeline-5' as const,
-			text: defaultStore.state['remoteLocalTimelineName5'],
+			text: prefer.s['remoteLocalTimelineName5'],
 		}] : []),
 	],
 	});

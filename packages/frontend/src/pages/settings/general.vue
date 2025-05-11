@@ -285,34 +285,34 @@ SPDX-License-Identifier: AGPL-3.0-only
 	</FormSection>
 
 	<FormSection>
-		<template #label>{{ i18n.ts._uniqueFeatures.uniqueFeature || "独自機能" }}</template>
+		<template #label>{{ i18n.ts._originFeatures.uniqueFeature || "独自機能" }}</template>
 
 		<div class="_gaps_m">
 			<MkFolder>
-				<template #label>{{ i18n.ts._uniqueFeatures.hiddenProfile || "プロフィールを非表示にする機能" }}</template>
+				<template #label>{{ i18n.ts._originFeatures.hiddenProfile || "プロフィールを非表示にする機能" }}</template>
 				<div class="_gaps_m">
 					<div class="_buttons">
 						<MkButton inline @click="enableAllHidden">{{ i18n.ts.enableAll }}</MkButton>
 						<MkButton inline @click="disableAllHidden">{{ i18n.ts.disableAll }}</MkButton>
 					</div>
 					<MkSwitch v-model="hiddenPinnedNotes">
-						<template #caption>{{ i18n.ts._uniqueFeatures.hiddenPinnedNotesDescription || "ピン留めしたノートを非表示にすることで、プロフィールページをスッキリさせることができます。" }}</template>
-						{{ i18n.ts._uniqueFeatures.hiddenPinnedNotes || "プロフィール上からピン留めしたノートを非表示にします" }}
+						<template #caption>{{ i18n.ts._originFeatures.hiddenPinnedNotesDescription || "ピン留めしたノートを非表示にすることで、プロフィールページをスッキリさせることができます。" }}</template>
+						{{ i18n.ts._originFeatures.hiddenPinnedNotes || "プロフィール上からピン留めしたノートを非表示にします" }}
 					</MkSwitch>
 					<MkSwitch v-model="hiddenActivity">
-						<template #caption>{{ i18n.ts._uniqueFeatures.hiddenActivityDescription || "プロフィール上からアクティビティを非表示にすることで、プロフィールページをスッキリさせることができます。" }}</template>
-						{{ i18n.ts._uniqueFeatures.hiddenActivity || "プロフィール上からアクティビティを非表示にします" }}
+						<template #caption>{{ i18n.ts._originFeatures.hiddenActivityDescription || "プロフィール上からアクティビティを非表示にすることで、プロフィールページをスッキリさせることができます。" }}</template>
+						{{ i18n.ts._originFeatures.hiddenActivity || "プロフィール上からアクティビティを非表示にします" }}
 					</MkSwitch>
 					<MkSwitch v-model="hiddenFiles">
-						<template #caption>{{ i18n.ts._uniqueFeatures.hiddenFilesDescription || "ファイルを非表示にすることで、プロフィールページをスッキリさせることができます。" }}</template>
-						{{ i18n.ts._uniqueFeatures.hiddenFiles || "プロフィール上からファイルを非表示にします。" }}
+						<template #caption>{{ i18n.ts._originFeatures.hiddenFilesDescription || "ファイルを非表示にすることで、プロフィールページをスッキリさせることができます。" }}</template>
+						{{ i18n.ts._originFeatures.hiddenFiles || "プロフィール上からファイルを非表示にします。" }}
 					</MkSwitch>
 				</div>
 			</MkFolder>
 
 			<div class="_gaps_m">
 				<MkFolder>
-					<template #label>{{ i18n.ts._uniqueFeatures.remoteLocalTimeline || "リモート上のサーバーのローカルタイムラインを覗く機能" }}</template>
+					<template #label>{{ i18n.ts._originFeatures.remoteLocalTimeline || "リモート上のサーバーのローカルタイムラインを覗く機能" }}</template>
 					<div class="_gaps_m">
 						<FormSection v-if="maxLocalTimeline >= 1">
 							<div v-if="maxLocalTimeline >= 1" class="_gaps_s">
@@ -471,101 +471,101 @@ import MkInfo from '@/components/MkInfo.vue';
 import { defaultStore } from '@/store.js';
 import * as os from '@/os.js';
 import { instance } from '@/instance.js';
-import { misskeyApi } from '@/scripts/misskey-api.js';
-import { reloadAsk } from '@/scripts/reload-ask.js';
+import { misskeyApi } from '@/utility/misskey-api.js';
+import { reloadAsk } from '@/utility/reload-ask.js';
 import { i18n } from '@/i18n.js';
-import { definePageMetadata } from '@/scripts/page-metadata.js';
+import { definePageMetadata } from '@/utility/page-metadata.js';
 import { miLocalStorage } from '@/local-storage.js';
 import { globalEvents } from '@/events.js';
-import { claimAchievement } from '@/scripts/achievements.js';
+import { claimAchievement } from '@/utility/achievements.js';
 import { signinRequired } from '@/account.js';
-import { isSupportNavigatorConnection } from '@/scripts/datasaver.js';
+import { isSupportNavigatorConnection } from '@/utility/datasaver.js';
 
 const lang = ref(miLocalStorage.getItem('lang'));
 const fontSize = ref(miLocalStorage.getItem('fontSize'));
 const useSystemFont = ref(miLocalStorage.getItem('useSystemFont') != null);
-const dataSaver = ref(defaultStore.state.dataSaver);
+const dataSaver = ref(prefer.s.dataSaver);
 
-const hemisphere = computed(defaultStore.makeGetterSetter('hemisphere'));
-const overridedDeviceKind = computed(defaultStore.makeGetterSetter('overridedDeviceKind'));
-const serverDisconnectedBehavior = computed(defaultStore.makeGetterSetter('serverDisconnectedBehavior'));
-const showNoteActionsOnlyHover = computed(defaultStore.makeGetterSetter('showNoteActionsOnlyHover'));
-const showClipButtonInNoteFooter = computed(defaultStore.makeGetterSetter('showClipButtonInNoteFooter'));
-const reactionsDisplaySize = computed(defaultStore.makeGetterSetter('reactionsDisplaySize'));
-const limitWidthOfReaction = computed(defaultStore.makeGetterSetter('limitWidthOfReaction'));
-const collapseRenotes = computed(defaultStore.makeGetterSetter('collapseRenotes'));
-const directRenote = computed(defaultStore.makeGetterSetter('directRenote'));
-const reduceAnimation = computed(defaultStore.makeGetterSetter('animation', v => !v, v => !v));
-const useBlurEffectForModal = computed(defaultStore.makeGetterSetter('useBlurEffectForModal'));
-const useBlurEffect = computed(defaultStore.makeGetterSetter('useBlurEffect'));
-const showGapBetweenNotesInTimeline = computed(defaultStore.makeGetterSetter('showGapBetweenNotesInTimeline'));
-const animatedMfm = computed(defaultStore.makeGetterSetter('animatedMfm'));
-const advancedMfm = computed(defaultStore.makeGetterSetter('advancedMfm'));
-const showRepliesCount = computed(defaultStore.makeGetterSetter('showRepliesCount'));
-const showRenotesCount = computed(defaultStore.makeGetterSetter('showRenotesCount'));
-const showReactionsCount = computed(defaultStore.makeGetterSetter('showReactionsCount'));
-const enableQuickAddMfmFunction = computed(defaultStore.makeGetterSetter('enableQuickAddMfmFunction'));
-const emojiStyle = computed(defaultStore.makeGetterSetter('emojiStyle'));
-const menuStyle = computed(defaultStore.makeGetterSetter('menuStyle'));
-const disableShowingAnimatedImages = computed(defaultStore.makeGetterSetter('disableShowingAnimatedImages'));
-const autoDataSaver = computed(defaultStore.makeGetterSetter('autoDataSaver'));
-const enableDataSaverMode = computed(defaultStore.makeGetterSetter('enableDataSaverMode'));
-const hiddenPinnedNotes = computed(defaultStore.makeGetterSetter('hiddenPinnedNotes'));
-const hiddenActivity = computed(defaultStore.makeGetterSetter('hiddenActivity'));
-const hiddenFiles = computed(defaultStore.makeGetterSetter('hiddenFiles'));
-const forceShowAds = computed(defaultStore.makeGetterSetter('forceShowAds'));
-const loadRawImages = computed(defaultStore.makeGetterSetter('loadRawImages'));
-const highlightSensitiveMedia = computed(defaultStore.makeGetterSetter('highlightSensitiveMedia'));
-const imageNewTab = computed(defaultStore.makeGetterSetter('imageNewTab'));
-const nsfw = computed(defaultStore.makeGetterSetter('nsfw'));
-const showFixedPostForm = computed(defaultStore.makeGetterSetter('showFixedPostForm'));
-const showFixedPostFormInChannel = computed(defaultStore.makeGetterSetter('showFixedPostFormInChannel'));
-const numberOfPageCache = computed(defaultStore.makeGetterSetter('numberOfPageCache'));
-const instanceTicker = computed(defaultStore.makeGetterSetter('instanceTicker'));
-const instanceTickerStyle = computed(defaultStore.makeGetterSetter('instanceTickerStyle'));
-const enableInfiniteScroll = computed(defaultStore.makeGetterSetter('enableInfiniteScroll'));
-const useReactionPickerForContextMenu = computed(defaultStore.makeGetterSetter('useReactionPickerForContextMenu'));
-const squareAvatars = computed(defaultStore.makeGetterSetter('squareAvatars'));
-const showAvatarDecorations = computed(defaultStore.makeGetterSetter('showAvatarDecorations'));
-const mediaListWithOneImageAppearance = computed(defaultStore.makeGetterSetter('mediaListWithOneImageAppearance'));
-const notificationPosition = computed(defaultStore.makeGetterSetter('notificationPosition'));
-const notificationStackAxis = computed(defaultStore.makeGetterSetter('notificationStackAxis'));
-const keepScreenOn = computed(defaultStore.makeGetterSetter('keepScreenOn'));
-const disableStreamingTimeline = computed(defaultStore.makeGetterSetter('disableStreamingTimeline'));
-const useGroupedNotifications = computed(defaultStore.makeGetterSetter('useGroupedNotifications'));
-const enableSeasonalScreenEffect = computed(defaultStore.makeGetterSetter('enableSeasonalScreenEffect'));
-const enableHorizontalSwipe = computed(defaultStore.makeGetterSetter('enableHorizontalSwipe'));
-const useNativeUIForVideoAudioPlayer = computed(defaultStore.makeGetterSetter('useNativeUIForVideoAudioPlayer'));
-const alwaysConfirmFollow = computed(defaultStore.makeGetterSetter('alwaysConfirmFollow'));
-const confirmWhenRevealingSensitiveMedia = computed(defaultStore.makeGetterSetter('confirmWhenRevealingSensitiveMedia'));
-const confirmOnReact = computed(defaultStore.makeGetterSetter('confirmOnReact'));
-const contextMenu = computed(defaultStore.makeGetterSetter('contextMenu'));
-const defaultTimeline = computed(defaultStore.makeGetterSetter('tl'));
+const hemisphere = computed(store.makeGetterSetter('hemisphere'));
+const overridedDeviceKind = computed(store.makeGetterSetter('overridedDeviceKind'));
+const serverDisconnectedBehavior = computed(store.makeGetterSetter('serverDisconnectedBehavior'));
+const showNoteActionsOnlyHover = computed(store.makeGetterSetter('showNoteActionsOnlyHover'));
+const showClipButtonInNoteFooter = computed(store.makeGetterSetter('showClipButtonInNoteFooter'));
+const reactionsDisplaySize = computed(store.makeGetterSetter('reactionsDisplaySize'));
+const limitWidthOfReaction = computed(store.makeGetterSetter('limitWidthOfReaction'));
+const collapseRenotes = computed(store.makeGetterSetter('collapseRenotes'));
+const directRenote = computed(store.makeGetterSetter('directRenote'));
+const reduceAnimation = computed(store.makeGetterSetter('animation', v => !v, v => !v));
+const useBlurEffectForModal = computed(store.makeGetterSetter('useBlurEffectForModal'));
+const useBlurEffect = computed(store.makeGetterSetter('useBlurEffect'));
+const showGapBetweenNotesInTimeline = computed(store.makeGetterSetter('showGapBetweenNotesInTimeline'));
+const animatedMfm = computed(store.makeGetterSetter('animatedMfm'));
+const advancedMfm = computed(store.makeGetterSetter('advancedMfm'));
+const showRepliesCount = computed(store.makeGetterSetter('showRepliesCount'));
+const showRenotesCount = computed(store.makeGetterSetter('showRenotesCount'));
+const showReactionsCount = computed(store.makeGetterSetter('showReactionsCount'));
+const enableQuickAddMfmFunction = computed(store.makeGetterSetter('enableQuickAddMfmFunction'));
+const emojiStyle = computed(store.makeGetterSetter('emojiStyle'));
+const menuStyle = computed(store.makeGetterSetter('menuStyle'));
+const disableShowingAnimatedImages = computed(store.makeGetterSetter('disableShowingAnimatedImages'));
+const autoDataSaver = computed(store.makeGetterSetter('autoDataSaver'));
+const enableDataSaverMode = computed(store.makeGetterSetter('enableDataSaverMode'));
+const hiddenPinnedNotes = computed(store.makeGetterSetter('hiddenPinnedNotes'));
+const hiddenActivity = computed(store.makeGetterSetter('hiddenActivity'));
+const hiddenFiles = computed(store.makeGetterSetter('hiddenFiles'));
+const forceShowAds = computed(store.makeGetterSetter('forceShowAds'));
+const loadRawImages = computed(store.makeGetterSetter('loadRawImages'));
+const highlightSensitiveMedia = computed(store.makeGetterSetter('highlightSensitiveMedia'));
+const imageNewTab = computed(store.makeGetterSetter('imageNewTab'));
+const nsfw = computed(store.makeGetterSetter('nsfw'));
+const showFixedPostForm = computed(store.makeGetterSetter('showFixedPostForm'));
+const showFixedPostFormInChannel = computed(store.makeGetterSetter('showFixedPostFormInChannel'));
+const numberOfPageCache = computed(store.makeGetterSetter('numberOfPageCache'));
+const instanceTicker = computed(store.makeGetterSetter('instanceTicker'));
+const instanceTickerStyle = computed(store.makeGetterSetter('instanceTickerStyle'));
+const enableInfiniteScroll = computed(store.makeGetterSetter('enableInfiniteScroll'));
+const useReactionPickerForContextMenu = computed(store.makeGetterSetter('useReactionPickerForContextMenu'));
+const squareAvatars = computed(store.makeGetterSetter('squareAvatars'));
+const showAvatarDecorations = computed(store.makeGetterSetter('showAvatarDecorations'));
+const mediaListWithOneImageAppearance = computed(store.makeGetterSetter('mediaListWithOneImageAppearance'));
+const notificationPosition = computed(store.makeGetterSetter('notificationPosition'));
+const notificationStackAxis = computed(store.makeGetterSetter('notificationStackAxis'));
+const keepScreenOn = computed(store.makeGetterSetter('keepScreenOn'));
+const disableStreamingTimeline = computed(store.makeGetterSetter('disableStreamingTimeline'));
+const useGroupedNotifications = computed(store.makeGetterSetter('useGroupedNotifications'));
+const enableSeasonalScreenEffect = computed(store.makeGetterSetter('enableSeasonalScreenEffect'));
+const enableHorizontalSwipe = computed(store.makeGetterSetter('enableHorizontalSwipe'));
+const useNativeUIForVideoAudioPlayer = computed(store.makeGetterSetter('useNativeUIForVideoAudioPlayer'));
+const alwaysConfirmFollow = computed(store.makeGetterSetter('alwaysConfirmFollow'));
+const confirmWhenRevealingSensitiveMedia = computed(store.makeGetterSetter('confirmWhenRevealingSensitiveMedia'));
+const confirmOnReact = computed(store.makeGetterSetter('confirmOnReact'));
+const contextMenu = computed(store.makeGetterSetter('contextMenu'));
+const defaultTimeline = computed(store.makeGetterSetter('tl'));
 
-const remoteLocalTimelineName1 = ref(defaultStore.state['remoteLocalTimelineName1']);
-const remoteLocalTimelineDomain1 = ref(defaultStore.state['remoteLocalTimelineDomain1']);
-const remoteLocalTimelineToken1 = ref(defaultStore.state['remoteLocalTimelineToken1']);
-const remoteLocalTimelineEnable1 = computed(defaultStore.makeGetterSetter('remoteLocalTimelineEnable1'));
+const remoteLocalTimelineName1 = ref(prefer.s['remoteLocalTimelineName1']);
+const remoteLocalTimelineDomain1 = ref(prefer.s['remoteLocalTimelineDomain1']);
+const remoteLocalTimelineToken1 = ref(prefer.s['remoteLocalTimelineToken1']);
+const remoteLocalTimelineEnable1 = computed(store.makeGetterSetter('remoteLocalTimelineEnable1'));
 
-const remoteLocalTimelineName2 = ref(defaultStore.state['remoteLocalTimelineName2']);
-const remoteLocalTimelineDomain2 = ref(defaultStore.state['remoteLocalTimelineDomain2']);
-const remoteLocalTimelineToken2 = ref(defaultStore.state['remoteLocalTimelineToken2']);
-const remoteLocalTimelineEnable2 = computed(defaultStore.makeGetterSetter('remoteLocalTimelineEnable2'));
+const remoteLocalTimelineName2 = ref(prefer.s['remoteLocalTimelineName2']);
+const remoteLocalTimelineDomain2 = ref(prefer.s['remoteLocalTimelineDomain2']);
+const remoteLocalTimelineToken2 = ref(prefer.s['remoteLocalTimelineToken2']);
+const remoteLocalTimelineEnable2 = computed(store.makeGetterSetter('remoteLocalTimelineEnable2'));
 
-const remoteLocalTimelineName3 = ref(defaultStore.state['remoteLocalTimelineName3']);
-const remoteLocalTimelineDomain3 = ref(defaultStore.state['remoteLocalTimelineDomain3']);
-const remoteLocalTimelineToken3 = ref(defaultStore.state['remoteLocalTimelineToken3']);
-const remoteLocalTimelineEnable3 = computed(defaultStore.makeGetterSetter('remoteLocalTimelineEnable3'));
+const remoteLocalTimelineName3 = ref(prefer.s['remoteLocalTimelineName3']);
+const remoteLocalTimelineDomain3 = ref(prefer.s['remoteLocalTimelineDomain3']);
+const remoteLocalTimelineToken3 = ref(prefer.s['remoteLocalTimelineToken3']);
+const remoteLocalTimelineEnable3 = computed(store.makeGetterSetter('remoteLocalTimelineEnable3'));
 
-const remoteLocalTimelineName4 = ref(defaultStore.state['remoteLocalTimelineName4']);
-const remoteLocalTimelineDomain4 = ref(defaultStore.state['remoteLocalTimelineDomain4']);
-const remoteLocalTimelineToken4 = ref(defaultStore.state['remoteLocalTimelineToken4']);
-const remoteLocalTimelineEnable4 = computed(defaultStore.makeGetterSetter('remoteLocalTimelineEnable4'));
+const remoteLocalTimelineName4 = ref(prefer.s['remoteLocalTimelineName4']);
+const remoteLocalTimelineDomain4 = ref(prefer.s['remoteLocalTimelineDomain4']);
+const remoteLocalTimelineToken4 = ref(prefer.s['remoteLocalTimelineToken4']);
+const remoteLocalTimelineEnable4 = computed(store.makeGetterSetter('remoteLocalTimelineEnable4'));
 
-const remoteLocalTimelineName5 = ref(defaultStore.state['remoteLocalTimelineName5']);
-const remoteLocalTimelineDomain5 = ref(defaultStore.state['remoteLocalTimelineDomain5']);
-const remoteLocalTimelineToken5 = ref(defaultStore.state['remoteLocalTimelineToken5']);
-const remoteLocalTimelineEnable5 = computed(defaultStore.makeGetterSetter('remoteLocalTimelineEnable5'));
+const remoteLocalTimelineName5 = ref(prefer.s['remoteLocalTimelineName5']);
+const remoteLocalTimelineDomain5 = ref(prefer.s['remoteLocalTimelineDomain5']);
+const remoteLocalTimelineToken5 = ref(prefer.s['remoteLocalTimelineToken5']);
+const remoteLocalTimelineEnable5 = computed(store.makeGetterSetter('remoteLocalTimelineEnable5'));
 
 const $i = signinRequired();
 const maxLocalTimeline = $i.policies.remoteLocalTimelineAnyLimit;
@@ -624,26 +624,26 @@ async function remoteLocaltimelineSave() {
 		type: 'success',
 		text: i18n.ts.saved,
 	});
-	defaultStore.set('remoteLocalTimelineName1', remoteLocalTimelineName1.value);
-	defaultStore.set('remoteLocalTimelineDomain1', remoteLocalTimelineDomain1.value);
-	defaultStore.set('remoteLocalTimelineToken1', remoteLocalTimelineToken1.value);
-	defaultStore.set('remoteLocalTimelineEnable1', remoteLocalTimelineEnable1.value);
-	defaultStore.set('remoteLocalTimelineName2', remoteLocalTimelineName2.value);
-	defaultStore.set('remoteLocalTimelineDomain2', remoteLocalTimelineDomain2.value);
-	defaultStore.set('remoteLocalTimelineToken2', remoteLocalTimelineToken2.value);
-	defaultStore.set('remoteLocalTimelineEnable2', remoteLocalTimelineEnable2.value);
-	defaultStore.set('remoteLocalTimelineName3', remoteLocalTimelineName3.value);
-	defaultStore.set('remoteLocalTimelineDomain3', remoteLocalTimelineDomain3.value);
-	defaultStore.set('remoteLocalTimelineToken3', remoteLocalTimelineToken3.value);
-	defaultStore.set('remoteLocalTimelineEnable3', remoteLocalTimelineEnable3.value);
-	defaultStore.set('remoteLocalTimelineName4', remoteLocalTimelineName4.value);
-	defaultStore.set('remoteLocalTimelineDomain4', remoteLocalTimelineDomain4.value);
-	defaultStore.set('remoteLocalTimelineToken4', remoteLocalTimelineToken4.value);
-	defaultStore.set('remoteLocalTimelineEnable4', remoteLocalTimelineEnable4.value);
-	defaultStore.set('remoteLocalTimelineName5', remoteLocalTimelineName5.value);
-	defaultStore.set('remoteLocalTimelineDomain5', remoteLocalTimelineDomain5.value);
-	defaultStore.set('remoteLocalTimelineToken5', remoteLocalTimelineToken5.value);
-	defaultStore.set('remoteLocalTimelineEnable5', remoteLocalTimelineEnable5.value);
+	store.set('remoteLocalTimelineName1', remoteLocalTimelineName1.value);
+	store.set('remoteLocalTimelineDomain1', remoteLocalTimelineDomain1.value);
+	store.set('remoteLocalTimelineToken1', remoteLocalTimelineToken1.value);
+	store.set('remoteLocalTimelineEnable1', remoteLocalTimelineEnable1.value);
+	store.set('remoteLocalTimelineName2', remoteLocalTimelineName2.value);
+	store.set('remoteLocalTimelineDomain2', remoteLocalTimelineDomain2.value);
+	store.set('remoteLocalTimelineToken2', remoteLocalTimelineToken2.value);
+	store.set('remoteLocalTimelineEnable2', remoteLocalTimelineEnable2.value);
+	store.set('remoteLocalTimelineName3', remoteLocalTimelineName3.value);
+	store.set('remoteLocalTimelineDomain3', remoteLocalTimelineDomain3.value);
+	store.set('remoteLocalTimelineToken3', remoteLocalTimelineToken3.value);
+	store.set('remoteLocalTimelineEnable3', remoteLocalTimelineEnable3.value);
+	store.set('remoteLocalTimelineName4', remoteLocalTimelineName4.value);
+	store.set('remoteLocalTimelineDomain4', remoteLocalTimelineDomain4.value);
+	store.set('remoteLocalTimelineToken4', remoteLocalTimelineToken4.value);
+	store.set('remoteLocalTimelineEnable4', remoteLocalTimelineEnable4.value);
+	store.set('remoteLocalTimelineName5', remoteLocalTimelineName5.value);
+	store.set('remoteLocalTimelineDomain5', remoteLocalTimelineDomain5.value);
+	store.set('remoteLocalTimelineToken5', remoteLocalTimelineToken5.value);
+	store.set('remoteLocalTimelineEnable5', remoteLocalTimelineEnable5.value);
 	await reloadAsk();
 }
 
@@ -664,7 +664,7 @@ function getEmojiIndexLangName(targetLang: typeof emojiIndexLangs[number]) {
 
 function downloadEmojiIndex(lang: typeof emojiIndexLangs[number]) {
 	async function main() {
-		const currentIndexes = defaultStore.state.additionalUnicodeEmojiIndexes;
+		const currentIndexes = prefer.s.additionalUnicodeEmojiIndexes;
 
 		function download() {
 			switch (lang) {
@@ -676,7 +676,7 @@ function downloadEmojiIndex(lang: typeof emojiIndexLangs[number]) {
 		}
 
 		currentIndexes[lang] = await download();
-		await defaultStore.set('additionalUnicodeEmojiIndexes', currentIndexes);
+		await store.set('additionalUnicodeEmojiIndexes', currentIndexes);
 	}
 
 	os.promiseDialog(main());
@@ -684,9 +684,9 @@ function downloadEmojiIndex(lang: typeof emojiIndexLangs[number]) {
 
 function removeEmojiIndex(lang: string) {
 	async function main() {
-		const currentIndexes = defaultStore.state.additionalUnicodeEmojiIndexes;
+		const currentIndexes = prefer.s.additionalUnicodeEmojiIndexes;
 		delete currentIndexes[lang];
-		await defaultStore.set('additionalUnicodeEmojiIndexes', currentIndexes);
+		await store.set('additionalUnicodeEmojiIndexes', currentIndexes);
 	}
 
 	os.promiseDialog(main());
@@ -702,11 +702,11 @@ async function setPinnedList() {
 	});
 	if (canceled) return;
 
-	defaultStore.set('pinnedUserLists', [list]);
+	store.set('pinnedUserLists', [list]);
 }
 
 function removePinnedList() {
-	defaultStore.set('pinnedUserLists', []);
+	store.set('pinnedUserLists', []);
 }
 
 let smashCount = 0;
@@ -737,7 +737,7 @@ function testNotification(): void {
 }
 
 function enableAllDataSaver() {
-	const g = { ...defaultStore.state.dataSaver };
+	const g = { ...prefer.s.dataSaver };
 
 	Object.keys(g).forEach((key) => { g[key] = true; });
 
@@ -745,19 +745,19 @@ function enableAllDataSaver() {
 }
 
 function enableAllHidden() {
-	defaultStore.set('hiddenPinnedNotes', true);
-	defaultStore.set('hiddenActivity', true);
-	defaultStore.set('hiddenFiles', true);
+	store.set('hiddenPinnedNotes', true);
+	store.set('hiddenActivity', true);
+	store.set('hiddenFiles', true);
 }
 
 function disableAllHidden() {
-	defaultStore.set('hiddenPinnedNotes', false);
-	defaultStore.set('hiddenActivity', false);
-	defaultStore.set('hiddenFiles', false);
+	store.set('hiddenPinnedNotes', false);
+	store.set('hiddenActivity', false);
+	store.set('hiddenFiles', false);
 }
 
 function disableAllDataSaver() {
-	const g = { ...defaultStore.state.dataSaver };
+	const g = { ...prefer.s.dataSaver };
 
 	Object.keys(g).forEach((key) => { g[key] = false; });
 
@@ -765,7 +765,7 @@ function disableAllDataSaver() {
 }
 
 watch(dataSaver, (to) => {
-	defaultStore.set('dataSaver', to);
+	store.set('dataSaver', to);
 }, {
 	deep: true,
 });

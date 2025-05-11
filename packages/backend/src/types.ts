@@ -23,6 +23,7 @@ import type { MiScheduledNote } from '@/models/ScheduledNote.js';
  * receiveFollowRequest - フォローリクエストされた
  * followRequestAccepted - 自分の送ったフォローリクエストが承認された
  * roleAssigned - ロールが付与された
+ * chatRoomInvitationReceived - チャットルームに招待された
  * achievementEarned - 実績を獲得
  * exportCompleted - エクスポートが完了
  * login - ログイン
@@ -42,6 +43,7 @@ export const notificationTypes = [
 	'receiveFollowRequest',
 	'followRequestAccepted',
 	'roleAssigned',
+	'chatRoomInvitationReceived',
 	'achievementEarned',
 	'noteSchedulingFailed',
 	'exportCompleted',
@@ -131,6 +133,7 @@ export const moderationLogTypes = [
 	'deletePage',
 	'deleteFlash',
 	'deleteGalleryPost',
+	'deleteChatRoom',
 	'updateProxyAccountDescription',
 ] as const;
 
@@ -383,6 +386,10 @@ export type ModerationLogPayloads = {
 		postUserId: string;
 		postUserUsername: string;
 		post: any;
+	};
+	deleteChatRoom: {
+		roomId: string;
+		room: any;
 	};
 	updateProxyAccountDescription: {
 		before: string | null;
