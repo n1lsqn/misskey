@@ -115,11 +115,11 @@ export type EndedPollNotificationJobData = {
 
 export type ScheduledNoteDeleteJobData = {
 	noteId: MiNote['id'];
-}
+};
 
 export type ScheduleNotePostJobData = {
   scheduledNoteId: MiNote['id'];
-}
+};
 
 type MinimumUser = {
 	id: MiUser['id'];

@@ -21,7 +21,7 @@ import {
 } from '../queue/types.js';
 import type { Provider } from '@nestjs/common';
 
-export type ScheduledNoteDeleteQueue = Bull.Queue<ScheduledNoteDeleteJobData>
+export type ScheduledNoteDeleteQueue = Bull.Queue<ScheduledNoteDeleteJobData>;
 export type SystemQueue = Bull.Queue<Record<string, unknown>>;
 export type EndedPollNotificationQueue = Bull.Queue<EndedPollNotificationJobData>;
 export type ScheduleNotePostQueue = Bull.Queue<ScheduleNotePostJobData>;
