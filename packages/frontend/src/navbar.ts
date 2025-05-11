@@ -4,16 +4,17 @@
  */
 
 import { computed, reactive } from 'vue';
-import { clearCache } from './scripts/clear-cache.js';
-import { defaultStore } from './store.js';
-import { $i } from '@/account.js';
+import { ui } from '@@/js/config.js';
+import { clearCache } from './utility/clear-cache.js';
+import { $i } from '@/i.js';
 import { miLocalStorage } from '@/local-storage.js';
 import { openInstanceMenu, openToolsMenu } from '@/ui/_common_/common.js';
-import { lookup } from '@/scripts/lookup.js';
+import { lookup } from '@/utility/lookup.js';
 import * as os from '@/os.js';
 import { i18n } from '@/i18n.js';
-import { ui } from '@@/js/config.js';
-import { unisonReload } from '@/scripts/unison-reload.js';
+import { unisonReload } from '@/utility/unison-reload.js';
+import { store } from '@/store.js';
+import { prefer } from '@/preferences.js';
 
 export const navbarItemDef = reactive({
 	notifications: {
@@ -113,6 +114,13 @@ export const navbarItemDef = reactive({
 		icon: 'ti ti-device-tv',
 		to: '/channels',
 	},
+	chat: {
+		title: i18n.ts.chat,
+		icon: 'ti ti-messages',
+		to: '/chat',
+		show: computed(() => $i != null && $i.policies.chatAvailability !== 'unavailable'),
+		indicated: computed(() => $i != null && $i.hasUnreadChatMessages),
+	},
 	achievements: {
 		title: i18n.ts.achievements,
 		icon: 'ti ti-medal',
@@ -142,13 +150,6 @@ export const navbarItemDef = reactive({
 					miLocalStorage.setItem('ui', 'deck');
 					unisonReload();
 				},
-			}, {
-				text: i18n.ts.classic,
-				active: ui === 'classic',
-				action: () => {
-					miLocalStorage.setItem('ui', 'classic');
-					unisonReload();
-				},
 			}], ev.currentTarget ?? ev.target);
 		},
 	},
@@ -161,10 +162,10 @@ export const navbarItemDef = reactive({
 				text: i18n.ts.withSensitive,
 				children: [{
 					text: i18n.ts.on,
-					active: defaultStore.state.tl.filter.withSensitive,
+					active: prefer.s.tl.filter.withSensitive,
 					action: () => {
-						const out = { ...defaultStore.state.tl };
-						// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+						const out = { ...prefer.s.tl };
+
 						if (!out.filter) {
 							out.filter = {
 								withRenotes: true,
@@ -174,15 +175,15 @@ export const navbarItemDef = reactive({
 							};
 						}
 						out.filter.withSensitive = true;
-						defaultStore.set('tl', out);
+						store.set('tl', out);
 						unisonReload();
 					},
 				}, {
 					text: i18n.ts.off,
-					active: !defaultStore.state.tl.filter.withSensitive,
+					active: !prefer.s.tl.filter.withSensitive,
 					action: () => {
-						const out = { ...defaultStore.state.tl };
-						// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+						const out = { ...prefer.s.tl };
+
 						if (!out.filter) {
 							out.filter = {
 								withRenotes: true,
@@ -192,7 +193,7 @@ export const navbarItemDef = reactive({
 							};
 						}
 						out.filter.withSensitive = false;
-						defaultStore.set('tl', out);
+						store.set('tl', out);
 						unisonReload();
 					},
 				}],
@@ -201,11 +202,11 @@ export const navbarItemDef = reactive({
 				text: i18n.ts.dataSaver,
 				children: [{
 					text: i18n.ts.on,
-					active: defaultStore.state.enableDataSaverMode,
+					active: prefer.s.enableDataSaverMode,
 					action: () => {
-						if (!defaultStore.state.enableDataSaverMode) {
-							defaultStore.set('enableDataSaverMode', true);
-							defaultStore.set('dataSaver', {
+						if (!prefer.s.enableDataSaverMode) {
+							store.set('enableDataSaverMode', true);
+							store.set('dataSaver', {
 								media: true,
 								avatar: true,
 								urlPreview: true,
@@ -216,11 +217,11 @@ export const navbarItemDef = reactive({
 					},
 				}, {
 					text: i18n.ts.off,
-					active: !defaultStore.state.enableDataSaverMode,
+					active: !prefer.s.enableDataSaverMode,
 					action: () => {
-						if (defaultStore.state.enableDataSaverMode) {
-							defaultStore.set('enableDataSaverMode', false);
-							defaultStore.set('dataSaver', {
+						if (prefer.s.enableDataSaverMode) {
+							store.set('enableDataSaverMode', false);
+							store.set('dataSaver', {
 								media: false,
 								avatar: false,
 								urlPreview: false,
@@ -251,7 +252,7 @@ export const navbarItemDef = reactive({
 		title: i18n.ts.reload,
 		icon: 'ti ti-refresh',
 		action: (ev) => {
-			location.reload();
+			window.location.reload();
 		},
 	},
 	profile: {

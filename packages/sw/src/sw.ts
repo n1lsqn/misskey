@@ -8,9 +8,9 @@ import * as Misskey from 'misskey-js';
 import type { PushNotificationDataMap } from '@/types.js';
 import type { I18n } from '@@/js/i18n.js';
 import type { Locale } from '../../../locales/index.js';
-import { createEmptyNotification, createNotification } from '@/scripts/create-notification.js';
-import { swLang } from '@/scripts/lang.js';
-import * as swos from '@/scripts/operations.js';
+import { createEmptyNotification, createNotification } from '@/utility/create-notification.js';
+import { swLang } from '@/utility/lang.js';
+import * as swos from '@/utility/operations.js';
 
 globalThis.addEventListener('install', () => {
 	// ev.waitUntil(globalThis.skipWaiting());
