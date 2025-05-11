@@ -567,7 +567,8 @@ const remoteLocalTimelineDomain5 = ref(prefer.s['remoteLocalTimelineDomain5']);
 const remoteLocalTimelineToken5 = ref(prefer.s['remoteLocalTimelineToken5']);
 const remoteLocalTimelineEnable5 = computed(store.makeGetterSetter('remoteLocalTimelineEnable5'));
 
-const $i = signinRequired();
+const $i = ensureSignin();
+
 const maxLocalTimeline = $i.policies.remoteLocalTimelineAnyLimit;
 
 watch(lang, () => {
