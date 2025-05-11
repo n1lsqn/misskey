@@ -148,8 +148,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { ref, useTemplateRef, watch } from 'vue';
-import { host } from '@@/js/config.js';
+import { ref, shallowRef, watch } from 'vue';
 import MkModalWindow from '@/components/MkModalWindow.vue';
 import MkButton from '@/components/MkButton.vue';
 import XNote from '@/components/MkTutorialDialog.Note.vue';
@@ -159,7 +158,8 @@ import XSensitive from '@/components/MkTutorialDialog.Sensitive.vue';
 import MkAnimBg from '@/components/MkAnimBg.vue';
 import { i18n } from '@/i18n.js';
 import { instance } from '@/instance.js';
-import { claimAchievement } from '@/utility/achievements.js';
+import { host } from '@@/js/config.js';
+import { claimAchievement } from '@/scripts/achievements.js';
 import * as os from '@/os.js';
 
 const props = defineProps<{
@@ -170,7 +170,7 @@ const emit = defineEmits<{
 	(ev: 'closed'): void;
 }>();
 
-const dialog = useTemplateRef('dialog');
+const dialog = shallowRef<InstanceType<typeof MkModalWindow>>();
 
 // eslint-disable-next-line vue/no-setup-props-reactivity-loss
 const page = ref(props.initialPage ?? 0);
@@ -249,7 +249,6 @@ async function close(skip: boolean) {
 
 .pageFooter {
 	position: sticky;
-	z-index: 1;
 	bottom: 0;
 	left: 0;
 	flex-shrink: 0;

@@ -4,7 +4,8 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 <template>
-<PageWithHeader :actions="headerActions" :tabs="headerTabs">
+<MkStickyContainer>
+	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
 	<MkSpacer :contentMax="800" :marginMin="16" :marginMax="32">
 		<FormSuspense :p="init" class="_gaps">
 			<MkInput v-model="title">
@@ -33,7 +34,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 			</div>
 		</FormSuspense>
 	</MkSpacer>
-</PageWithHeader>
+</MkStickyContainer>
 </template>
 
 <script lang="ts" setup>
@@ -44,12 +45,12 @@ import MkInput from '@/components/MkInput.vue';
 import MkTextarea from '@/components/MkTextarea.vue';
 import MkSwitch from '@/components/MkSwitch.vue';
 import FormSuspense from '@/components/form/suspense.vue';
-import { selectFiles } from '@/utility/select-file.js';
+import { selectFiles } from '@/scripts/select-file.js';
 import * as os from '@/os.js';
-import { misskeyApi } from '@/utility/misskey-api.js';
-import { definePage } from '@/page.js';
+import { misskeyApi } from '@/scripts/misskey-api.js';
+import { definePageMetadata } from '@/scripts/page-metadata.js';
 import { i18n } from '@/i18n.js';
-import { useRouter } from '@/router.js';
+import { useRouter } from '@/router/supplier.js';
 
 const router = useRouter();
 
@@ -121,7 +122,7 @@ const headerActions = computed(() => []);
 
 const headerTabs = computed(() => []);
 
-definePage(() => ({
+definePageMetadata(() => ({
 	title: props.postId ? i18n.ts.edit : i18n.ts.postToGallery,
 	icon: 'ti ti-pencil',
 }));

@@ -4,7 +4,9 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 <template>
-<PageWithHeader>
+<MkStickyContainer>
+	<template #header><MkPageHeader/></template>
+
 	<MkSpacer :contentMax="800">
 		<div :class="$style.root">
 			<div class="_gaps_s">
@@ -51,28 +53,29 @@ SPDX-License-Identifier: AGPL-3.0-only
 			</div>
 		</div>
 	</MkSpacer>
-</PageWithHeader>
+</MkStickyContainer>
 </template>
 
 <script lang="ts" setup>
 import { onDeactivated, onUnmounted, ref, watch, computed } from 'vue';
-import { Interpreter, Parser, utils } from '@syuilo/aiscript';
 import type { Ref } from 'vue';
-import type { AsUiComponent } from '@/aiscript/ui.js';
-import type { AsUiRoot } from '@/aiscript/ui.js';
+import { Interpreter, Parser, utils } from '@syuilo/aiscript';
 import MkContainer from '@/components/MkContainer.vue';
 import MkButton from '@/components/MkButton.vue';
 import MkTextarea from '@/components/MkTextarea.vue';
 import MkCodeEditor from '@/components/MkCodeEditor.vue';
-import { aiScriptReadline, createAiScriptEnv } from '@/aiscript/api.js';
+import { aiScriptReadline, createAiScriptEnv } from '@/scripts/aiscript/api.js';
 import * as os from '@/os.js';
-import { $i } from '@/i.js';
+import { $i } from '@/account.js';
 import { i18n } from '@/i18n.js';
-import { definePage } from '@/page.js';
-import { registerAsUiLib } from '@/aiscript/ui.js';
+import { definePageMetadata } from '@/scripts/page-metadata.js';
+import { registerAsUiLib } from '@/scripts/aiscript/ui.js';
+import type { AsUiComponent } from '@/scripts/aiscript/ui.js';
 import MkAsUi from '@/components/MkAsUi.vue';
 import { miLocalStorage } from '@/local-storage.js';
-import { claimAchievement } from '@/utility/achievements.js';
+import { claimAchievement } from '@/scripts/achievements.js';
+
+import type { AsUiRoot } from '@/scripts/aiscript/ui.js';
 
 const parser = new Parser();
 let aiscript: Interpreter;
@@ -100,7 +103,7 @@ function stringifyUiProps(uiProps) {
 	return JSON.stringify(
 		{ ...uiProps, type: undefined, id: undefined },
 		(k, v) => typeof v === 'function' ? '<function>' : v,
-		2,
+		2
 	);
 }
 
@@ -199,7 +202,7 @@ const showns = computed(() => {
 	return result;
 });
 
-definePage(() => ({
+definePageMetadata(() => ({
 	title: i18n.ts.scratchpad,
 	icon: 'ti ti-terminal-2',
 }));
@@ -247,7 +250,7 @@ definePage(() => ({
 }
 
 .uiInspectorUnShown {
-	color: color(from var(--MI_THEME-fg) srgb r g b / 0.5);
+	color: var(--MI_THEME-fgTransparent);
 }
 
 .uiInspectorType {

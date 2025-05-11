@@ -26,6 +26,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 		<button class="_textButton" @click="toggleMenu">{{ i18n.ts._ad.back }}</button>
 	</div>
 </div>
+<div v-else></div>
 </template>
 
 <script lang="ts" setup>
@@ -34,15 +35,14 @@ import { url as local, host } from '@@/js/config.js';
 import { i18n } from '@/i18n.js';
 import { instance } from '@/instance.js';
 import MkButton from '@/components/MkButton.vue';
-import { store } from '@/store.js';
+import { defaultStore } from '@/store.js';
 import * as os from '@/os.js';
-import { $i } from '@/i.js';
-import { prefer } from '@/preferences.js';
+import { $i } from '@/account.js';
 
 type Ad = (typeof instance)['ads'][number];
 
 const props = defineProps<{
-	preferForms: string[];
+	prefer: string[];
 	specify?: Ad;
 }>();
 
@@ -56,12 +56,12 @@ const choseAd = (): Ad | null => {
 		return props.specify;
 	}
 
-	const allAds = instance.ads.map(ad => store.s.mutedAds.includes(ad.id) ? {
+	const allAds = instance.ads.map(ad => defaultStore.state.mutedAds.includes(ad.id) ? {
 		...ad,
 		ratio: 0,
 	} : ad);
 
-	let ads = allAds.filter(ad => props.preferForms.includes(ad.place));
+	let ads = allAds.filter(ad => props.prefer.includes(ad.place));
 
 	if (ads.length === 0) {
 		ads = allAds.filter(ad => ad.place === 'square');
@@ -94,15 +94,12 @@ const choseAd = (): Ad | null => {
 };
 
 const chosen = ref(choseAd());
-
-const self = computed(() => chosen.value?.url.startsWith(local));
-
-const shouldHide = ref(!prefer.s.forceShowAds && $i && $i.policies.canHideAds && (props.specify == null));
+const shouldHide = ref(!defaultStore.state.forceShowAds && $i && $i.policies.canHideAds && (props.specify == null));
 
 function reduceFrequency(): void {
 	if (chosen.value == null) return;
-	if (store.s.mutedAds.includes(chosen.value.id)) return;
-	store.push('mutedAds', chosen.value.id);
+	if (defaultStore.state.mutedAds.includes(chosen.value.id)) return;
+	defaultStore.push('mutedAds', chosen.value.id);
 	os.success();
 	chosen.value = choseAd();
 	showMenu.value = false;

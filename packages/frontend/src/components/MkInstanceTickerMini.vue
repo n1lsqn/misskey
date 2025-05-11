@@ -15,7 +15,7 @@ import { computed, defineProps } from 'vue';
 import * as Misskey from 'misskey-js';
 import { instanceName } from '@@/js/config.js';
 import { instance as Instance } from '@/instance.js';
-import { getProxiedImageUrlNullable } from '@/utility/media-proxy.js';
+import { getProxiedImageUrlNullable } from '@/scripts/media-proxy.js';
 
 const props = defineProps<{
 	instance?: Misskey.entities.User['instance'];

@@ -560,7 +560,7 @@ export class ApPersonService implements OnModuleInit {
 			inbox: person.inbox,
 			sharedInbox: person.sharedInbox ?? person.endpoints?.sharedInbox ?? null,
 			followersUri: person.followers ? getApId(person.followers) : undefined,
-			featured: person.featured ? getApId(person.featured) : undefined,
+			featured: person.featured,
 			emojis: emojiNames,
 			name: truncate(person.name, nameLength),
 			tags,

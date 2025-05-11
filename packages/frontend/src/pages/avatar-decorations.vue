@@ -4,7 +4,8 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 <template>
-<PageWithHeader :actions="headerActions" :tabs="headerTabs">
+<MkStickyContainer>
+	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
 	<MkSpacer :contentMax="900">
 		<div class="_gaps">
 			<div :class="$style.decorations">
@@ -72,21 +73,18 @@ SPDX-License-Identifier: AGPL-3.0-only
 		</MkFolder>
 		-->
 	</MkSpacer>
-</PageWithHeader>
+</MkStickyContainer>
 </template>
 
 <script lang="ts" setup>
 import { ref, computed, defineAsyncComponent } from 'vue';
 import * as Misskey from 'misskey-js';
-import { ensureSignin } from '@/i.js';
+import { signinRequired } from '@/account.js';
 import * as os from '@/os.js';
-import { misskeyApi } from '@/utility/misskey-api.js';
+import { misskeyApi } from '@/scripts/misskey-api.js';
 import { i18n } from '@/i18n.js';
-import { definePageMetadata } from '@/utility/page-metadata.js';
+import { definePageMetadata } from '@/scripts/page-metadata.js';
 import MkFolder from '@/components/MkFolder.vue';
-import { definePage } from '@/page.js';
-
-const $i = ensureSignin();
 
 const avatarDecorations = ref<Misskey.entities.AdminAvatarDecorationsListResponse>([]);
 const localAvatarDecorations = ref<Misskey.entities.AdminAvatarDecorationsListResponse>([]);
@@ -150,7 +148,7 @@ const headerActions = computed(() => [{
 
 const headerTabs = computed(() => []);
 
-definePage(() => ({
+definePageMetadata(() => ({
 	title: i18n.ts.avatarDecorations,
 	icon: 'ti ti-sparkles',
 }));

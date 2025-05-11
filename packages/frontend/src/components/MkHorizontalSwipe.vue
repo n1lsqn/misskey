@@ -19,20 +19,21 @@ SPDX-License-Identifier: AGPL-3.0-only
 		:leaveToClass="transitionName === 'swipeAnimationLeft' ? $style.swipeAnimationLeft_leaveTo : $style.swipeAnimationRight_leaveTo"
 		:style="`--swipe: ${pullDistance}px;`"
 	>
-		<div :key="tabModel">
-			<slot></slot>
-		</div>
+		<!-- 【注意】slot内の最上位要素に動的にkeyを設定すること -->
+		<!-- 各最上位要素にユニークなkeyの指定がないとTransitionがうまく動きません -->
+		<slot></slot>
 	</Transition>
 </div>
 </template>
 <script lang="ts" setup>
-import { ref, useTemplateRef, computed, nextTick, watch } from 'vue';
+import { ref, shallowRef, computed, nextTick, watch } from 'vue';
 import type { Tab } from '@/components/global/MkPageHeader.tabs.vue';
-import { isHorizontalSwipeSwiping as isSwiping } from '@/utility/touch.js';
-import { prefer } from '@/preferences.js';
+import { defaultStore } from '@/store.js';
+import { isHorizontalSwipeSwiping as isSwiping } from '@/scripts/touch.js';
 
-const rootEl = useTemplateRef('rootEl');
+const rootEl = shallowRef<HTMLDivElement>();
 
+// eslint-disable-next-line no-undef
 const tabModel = defineModel<string>('tab');
 
 const props = defineProps<{
@@ -43,7 +44,7 @@ const emit = defineEmits<{
 	(ev: 'swiped', newKey: string, direction: 'left' | 'right'): void;
 }>();
 
-const shouldAnimate = computed(() => prefer.r.enableHorizontalSwipe.value || prefer.r.animation.value);
+const shouldAnimate = computed(() => defaultStore.reactiveState.enableHorizontalSwipe.value || defaultStore.reactiveState.animation.value);
 
 // ▼ しきい値 ▼ //
 
@@ -71,7 +72,7 @@ const isSwipingForClass = ref(false);
 let swipeAborted = false;
 
 function touchStart(event: TouchEvent) {
-	if (!prefer.r.enableHorizontalSwipe.value) return;
+	if (!defaultStore.reactiveState.enableHorizontalSwipe.value) return;
 
 	if (event.touches.length !== 1) return;
 
@@ -82,7 +83,7 @@ function touchStart(event: TouchEvent) {
 }
 
 function touchMove(event: TouchEvent) {
-	if (!prefer.r.enableHorizontalSwipe.value) return;
+	if (!defaultStore.reactiveState.enableHorizontalSwipe.value) return;
 
 	if (event.touches.length !== 1) return;
 
@@ -100,7 +101,7 @@ function touchMove(event: TouchEvent) {
 
 		pullDistance.value = 0;
 		isSwiping.value = false;
-		window.setTimeout(() => {
+		setTimeout(() => {
 			isSwipingForClass.value = false;
 		}, 400);
 
@@ -133,7 +134,7 @@ function touchEnd(event: TouchEvent) {
 		return;
 	}
 
-	if (!prefer.r.enableHorizontalSwipe.value) return;
+	if (!defaultStore.reactiveState.enableHorizontalSwipe.value) return;
 
 	if (event.touches.length !== 0) return;
 

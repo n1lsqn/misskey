@@ -42,13 +42,12 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import { $i } from '@/i.js';
+import { $i, getAccounts } from '@/account.js';
 import MkButton from '@/components/MkButton.vue';
 import { instance } from '@/instance.js';
 import { apiWithDialog, promiseDialog } from '@/os.js';
-import { misskeyApi } from '@/utility/misskey-api.js';
+import { misskeyApi } from '@/scripts/misskey-api.js';
 import { i18n } from '@/i18n.js';
-import { getAccounts } from '@/accounts.js';
 
 defineProps<{
 	primary?: boolean;

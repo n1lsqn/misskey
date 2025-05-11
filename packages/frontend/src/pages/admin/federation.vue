@@ -67,7 +67,7 @@ import MkPagination from '@/components/MkPagination.vue';
 import MkInstanceCardMini from '@/components/MkInstanceCardMini.vue';
 import FormSplit from '@/components/form/split.vue';
 import { i18n } from '@/i18n.js';
-import { definePage } from '@/page.js';
+import { definePageMetadata } from '@/scripts/page-metadata.js';
 
 const host = ref('');
 const state = ref('federating');
@@ -112,7 +112,7 @@ const headerActions = computed(() => []);
 
 const headerTabs = computed(() => []);
 
-definePage(() => ({
+definePageMetadata(() => ({
 	title: i18n.ts.federation,
 	icon: 'ti ti-whirl',
 }));

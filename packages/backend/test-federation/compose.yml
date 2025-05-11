@@ -9,7 +9,7 @@ services:
       service: misskey
     command: >
       bash -c "
-        npm install -g pnpm
+        corepack enable && corepack prepare
         pnpm -F backend i
         pnpm -F misskey-js i
         pnpm -F misskey-reversi i
@@ -29,6 +29,7 @@ services:
     environment:
       - NODE_ENV=development
       - NODE_EXTRA_CA_CERTS=/usr/local/share/ca-certificates/rootCA.crt
+      - COREPACK_DEFAULT_TO_LATEST=0
     volumes:
       - type: bind
         source: ../package.json
@@ -71,17 +72,13 @@ services:
         target: /misskey/pnpm-workspace.yaml
         read_only: true
       - type: bind
-        source: ../../../scripts/dependency-patches
-        target: /misskey/scripts/dependency-patches
-        read_only: true
-      - type: bind
         source: ./certificates/rootCA.crt
         target: /usr/local/share/ca-certificates/rootCA.crt
         read_only: true
     working_dir: /misskey
     entrypoint: >
       bash -c '
-        npm install -g pnpm
+        corepack enable && corepack prepare
         pnpm -F misskey-js i --frozen-lockfile
         pnpm -F backend i --frozen-lockfile
         exec "$0" "$@"
@@ -93,6 +90,8 @@ services:
     depends_on:
       redis.test:
         condition: service_healthy
+    environment:
+      - COREPACK_DEFAULT_TO_LATEST=0
     volumes:
       - type: bind
         source: ../package.json
@@ -118,14 +117,10 @@ services:
         source: ../../../pnpm-workspace.yaml
         target: /misskey/pnpm-workspace.yaml
         read_only: true
-      - type: bind
-        source: ../../../scripts/dependency-patches
-        target: /misskey/scripts/dependency-patches
-        read_only: true
     working_dir: /misskey
     command: >
       bash -c "
-        npm install -g pnpm
+        corepack enable && corepack prepare
         pnpm -F backend i --frozen-lockfile
         pnpm exec tsc -p ./packages/backend/test-federation
         node ./packages/backend/test-federation/built/daemon.js

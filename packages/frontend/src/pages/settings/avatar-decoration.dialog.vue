@@ -45,15 +45,15 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { useTemplateRef, ref, computed } from 'vue';
+import { shallowRef, ref, computed } from 'vue';
 import MkButton from '@/components/MkButton.vue';
 import MkModalWindow from '@/components/MkModalWindow.vue';
 import MkSwitch from '@/components/MkSwitch.vue';
 import { i18n } from '@/i18n.js';
 import MkRange from '@/components/MkRange.vue';
-import { ensureSignin } from '@/i.js';
+import { signinRequired } from '@/account.js';
 
-const $i = ensureSignin();
+const $i = signinRequired();
 
 const props = defineProps<{
 	usingIndex: number | null;
@@ -82,7 +82,7 @@ const emit = defineEmits<{
 	(ev: 'detach'): void;
 }>();
 
-const dialog = useTemplateRef('dialog');
+const dialog = shallowRef<InstanceType<typeof MkModalWindow>>();
 const exceeded = computed(() => ($i.policies.avatarDecorationLimit - $i.avatarDecorations.length) <= 0);
 const locked = computed(() => props.decoration.roleIdsThatCanBeUsedThisDecoration.length > 0 && !$i.roles.some(r => props.decoration.roleIdsThatCanBeUsedThisDecoration.includes(r.id)));
 const angle = ref((props.usingIndex != null ? $i.avatarDecorations[props.usingIndex].angle : null) ?? 0);

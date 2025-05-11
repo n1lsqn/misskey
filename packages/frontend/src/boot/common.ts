@@ -5,42 +5,42 @@
 
 import { computed, watch, version as vueVersion } from 'vue';
 import { compareVersions } from 'compare-versions';
-import { version, lang, updateLocale, locale, apiUrl } from '@@/js/config.js';
-import defaultLightTheme from '@@/themes/l-light.json5';
-import defaultDarkTheme from '@@/themes/d-green-lime.json5';
+import { version, lang, updateLocale, locale } from '@@/js/config.js';
 import type { App } from 'vue';
 import widgets from '@/widgets/index.js';
 import directives from '@/directives/index.js';
 import components from '@/components/index.js';
-import { applyTheme } from '@/theme.js';
-import { isDeviceDarkmode } from '@/utility/is-device-darkmode.js';
+import { applyTheme } from '@/scripts/theme.js';
+import { isDeviceDarkmode } from '@/scripts/is-device-darkmode.js';
 import { updateI18n, i18n } from '@/i18n.js';
-import { refreshCurrentAccount, login } from '@/accounts.js';
-import { store } from '@/store.js';
+import { $i, refreshAccount, login } from '@/account.js';
+import { defaultStore, ColdDeviceStorage } from '@/store.js';
 import { fetchInstance, instance } from '@/instance.js';
-import { deviceKind, updateDeviceKind } from '@/utility/device-kind.js';
-import { reloadChannel } from '@/utility/unison-reload.js';
-import { getUrlWithoutLoginId } from '@/utility/login-id.js';
-import { getAccountFromId } from '@/utility/get-account-from-id.js';
+import { deviceKind, updateDeviceKind } from '@/scripts/device-kind.js';
+import { reloadChannel } from '@/scripts/unison-reload.js';
+import { getUrlWithoutLoginId } from '@/scripts/login-id.js';
+import { getAccountFromId } from '@/scripts/get-account-from-id.js';
 import { deckStore } from '@/ui/deck/deck-store.js';
 import { analytics, initAnalytics } from '@/analytics.js';
 import { miLocalStorage } from '@/local-storage.js';
 import { fetchCustomEmojis } from '@/custom-emojis.js';
-import { initializeDetectNetworkChange, isMobileData } from '@/utility/datasaver.js';
-import { initializeTimeBasedDarkmode, isTimeDarkmode } from '@/utility/is-time-darkmode.js';
+import { initializeDetectNetworkChange, isMobileData } from '@/scripts/datasaver.js';
+import { initializeTimeBasedDarkmode, isTimeDarkmode } from '@/scripts/is-time-darkmode.js';
 import { setupRouter } from '@/router/main.js';
 import { createMainRouter } from '@/router/definition.js';
-import { prefer } from '@/preferences.js';
-import { $i } from '@/i.js';
-import { ColdDeviceStorage } from '@/store.js';
 
-export async function common(createVue: () => Promise<App<Element>>) {
+export async function common(createVue: () => App<Element>) {
 	console.info(`Misskey v${version}`);
 
 	if (_DEV_) {
 		console.warn('Development mode!!!');
 
 		console.info(`vue ${vueVersion}`);
+
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		(window as any).$i = $i;
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		(window as any).$store = defaultStore;
 
 		window.addEventListener('error', event => {
 			console.error(event);
@@ -100,32 +100,32 @@ export async function common(createVue: () => Promise<App<Element>>) {
 	//#endregion
 
 	// タッチデバイスでCSSの:hoverを機能させる
-	window.document.addEventListener('touchend', () => {}, { passive: true });
+	document.addEventListener('touchend', () => {}, { passive: true });
 
 	// URLに#pswpを含む場合は取り除く
-	if (window.location.hash === '#pswp') {
-		window.history.replaceState(null, '', window.location.href.replace('#pswp', ''));
+	if (location.hash === '#pswp') {
+		history.replaceState(null, '', location.href.replace('#pswp', ''));
 	}
 
 	// 一斉リロード
 	reloadChannel.addEventListener('message', path => {
-		if (path !== null) window.location.href = path;
-		else window.location.reload();
+		if (path !== null) location.href = path;
+		else location.reload();
 	});
 
 	// If mobile, insert the viewport meta tag
 	if (['smartphone', 'tablet'].includes(deviceKind)) {
-		const viewport = window.document.getElementsByName('viewport').item(0);
+		const viewport = document.getElementsByName('viewport').item(0);
 		viewport.setAttribute('content',
 			`${viewport.getAttribute('content')}, minimum-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover`);
 	}
 
 	//#region Set lang attr
-	const html = window.document.documentElement;
+	const html = document.documentElement;
 	html.setAttribute('lang', lang);
 	//#endregion
 
-	await store.ready;
+	await defaultStore.ready;
 	await deckStore.ready;
 
 	const fetchInstanceMetaPromise = fetchInstance();
@@ -135,11 +135,11 @@ export async function common(createVue: () => Promise<App<Element>>) {
 	});
 
 	//#region loginId
-	const params = new URLSearchParams(window.location.search);
+	const params = new URLSearchParams(location.search);
 	const loginId = params.get('loginId');
 
 	if (loginId) {
-		const target = getUrlWithoutLoginId(window.location.href);
+		const target = getUrlWithoutLoginId(location.href);
 
 		if (!$i || $i.id !== loginId) {
 			const account = await getAccountFromId(loginId);
@@ -148,103 +148,98 @@ export async function common(createVue: () => Promise<App<Element>>) {
 			}
 		}
 
-		window.history.replaceState({ misskey: 'loginId' }, '', target);
+		history.replaceState({ misskey: 'loginId' }, '', target);
 	}
 	//#endregion
 
 	// NOTE: この処理は必ずクライアント更新チェック処理より後に来ること(テーマ再構築のため)
-	watch(store.r.darkMode, (darkMode) => {
-		applyTheme(darkMode
-			? (prefer.s.darkTheme ?? defaultDarkTheme)
-			: (prefer.s.lightTheme ?? defaultLightTheme),
-		);
+	watch(defaultStore.reactiveState.darkMode, (darkMode) => {
+		applyTheme(darkMode ? ColdDeviceStorage.get('darkTheme') : ColdDeviceStorage.get('lightTheme'));
 	}, { immediate: miLocalStorage.getItem('theme') == null });
 
-	window.document.documentElement.dataset.colorScheme = store.s.darkMode ? 'dark' : 'light';
+	document.documentElement.dataset.colorScheme = defaultStore.state.darkMode ? 'dark' : 'light';
 
-	const darkTheme = prefer.model('darkTheme');
-	const lightTheme = prefer.model('lightTheme');
+	const darkTheme = computed(ColdDeviceStorage.makeGetterSetter('darkTheme'));
+	const lightTheme = computed(ColdDeviceStorage.makeGetterSetter('lightTheme'));
 
 	watch(darkTheme, (theme) => {
-		if (store.s.darkMode) {
-			applyTheme(theme ?? defaultDarkTheme);
+		if (defaultStore.state.darkMode) {
+			applyTheme(theme);
 		}
 	});
 
 	watch(lightTheme, (theme) => {
-		if (!store.s.darkMode) {
-			applyTheme(theme ?? defaultLightTheme);
+		if (!defaultStore.state.darkMode) {
+			applyTheme(theme);
 		}
 	});
 
 	//#region Sync dark mode
 	if (ColdDeviceStorage.get('syncDeviceDarkMode') && !ColdDeviceStorage.get('syncTimeDarkMode')) {
-		store.set('darkMode', isDeviceDarkmode());
+		defaultStore.set('darkMode', isDeviceDarkmode());
 	}
 
 	if (ColdDeviceStorage.get('syncTimeDarkMode')) {
-		store.set('darkMode', isTimeDarkmode());
+		defaultStore.set('darkMode', isTimeDarkmode());
 		initializeTimeBasedDarkmode();
 	}
 
 	window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (mql) => {
-		if (prefer.s.syncDeviceDarkMode) {
-			store.set('darkMode', mql.matches);
+		if (ColdDeviceStorage.get('syncDeviceDarkMode')) {
+			defaultStore.set('darkMode', mql.matches);
 		}
 	});
 	//#endregion
 
 	//#region Auto data saver
-	if (prefer.s.autoDataSaver) {
-		store.set('enableDataSaverMode', isMobileData());
+	if (defaultStore.state.autoDataSaver) {
+		defaultStore.set('enableDataSaverMode', isMobileData());
 		initializeDetectNetworkChange();
 	}
 	//#endregion
 
 	fetchInstanceMetaPromise.then(() => {
-		// TODO: instance.defaultLightTheme/instance.defaultDarkThemeが不正な形式だった場合のケア
-		if (prefer.s.lightTheme == null && instance.defaultLightTheme != null) prefer.commit('lightTheme', JSON.parse(instance.defaultLightTheme));
-		if (prefer.s.darkTheme == null && instance.defaultDarkTheme != null) prefer.commit('darkTheme', JSON.parse(instance.defaultDarkTheme));
+		if (defaultStore.state.themeInitial) {
+			if (instance.defaultLightTheme != null) ColdDeviceStorage.set('lightTheme', JSON.parse(instance.defaultLightTheme));
+			if (instance.defaultDarkTheme != null) ColdDeviceStorage.set('darkTheme', JSON.parse(instance.defaultDarkTheme));
+			defaultStore.set('themeInitial', false);
+		}
 	});
 
-	watch(prefer.r.overridedDeviceKind, (kind) => {
+	watch(defaultStore.reactiveState.overridedDeviceKind, (kind) => {
 		updateDeviceKind(kind);
 	}, { immediate: true });
 
-	watch(prefer.r.useBlurEffectForModal, v => {
-		window.document.documentElement.style.setProperty('--MI-modalBgFilter', v ? 'blur(4px)' : 'none');
+	watch(defaultStore.reactiveState.useBlurEffectForModal, v => {
+		document.documentElement.style.setProperty('--MI-modalBgFilter', v ? 'blur(4px)' : 'none');
 	}, { immediate: true });
 
-	watch(prefer.r.useBlurEffect, v => {
+	watch(defaultStore.reactiveState.useBlurEffect, v => {
 		if (v) {
-			window.document.documentElement.style.removeProperty('--MI-blur');
+			document.documentElement.style.removeProperty('--MI-blur');
 		} else {
-			window.document.documentElement.style.setProperty('--MI-blur', 'none');
+			document.documentElement.style.setProperty('--MI-blur', 'none');
 		}
 	}, { immediate: true });
 
 	// Keep screen on
-	const onVisibilityChange = () => window.document.addEventListener('visibilitychange', () => {
-		if (window.document.visibilityState === 'visible') {
+	const onVisibilityChange = () => document.addEventListener('visibilitychange', () => {
+		if (document.visibilityState === 'visible') {
 			navigator.wakeLock.request('screen');
 		}
 	});
-	if (prefer.s.keepScreenOn && 'wakeLock' in navigator) {
+	if (defaultStore.state.keepScreenOn && 'wakeLock' in navigator) {
 		navigator.wakeLock.request('screen')
 			.then(onVisibilityChange)
 			.catch(() => {
 				// On WebKit-based browsers, user activation is required to send wake lock request
 				// https://webkit.org/blog/13862/the-user-activation-api/
-				window.document.addEventListener(
+				document.addEventListener(
 					'click',
 					() => navigator.wakeLock.request('screen').then(onVisibilityChange),
 					{ once: true },
 				);
 			});
-	}
-
-	if (prefer.s.makeEveryTextElementsSelectable) {
-		window.document.documentElement.classList.add('forceSelectableAll');
 	}
 
 	//#region Fetch user
@@ -253,7 +248,7 @@ export async function common(createVue: () => Promise<App<Element>>) {
 			console.log('account cache found. refreshing...');
 		}
 
-		refreshCurrentAccount();
+		refreshAccount();
 	}
 	//#endregion
 
@@ -274,7 +269,9 @@ export async function common(createVue: () => Promise<App<Element>>) {
 		});
 	});
 
-	const app = await createVue();
+	const app = createVue();
+
+	setupRouter(app, createMainRouter);
 
 	if (_DEV_) {
 		app.config.performance = true;
@@ -289,53 +286,18 @@ export async function common(createVue: () => Promise<App<Element>>) {
 	const rootEl = ((): HTMLElement => {
 		const MISSKEY_MOUNT_DIV_ID = 'misskey_app';
 
-		const currentRoot = window.document.getElementById(MISSKEY_MOUNT_DIV_ID);
+		const currentRoot = document.getElementById(MISSKEY_MOUNT_DIV_ID);
 
 		if (currentRoot) {
 			console.warn('multiple import detected');
 			return currentRoot;
 		}
 
-		const root = window.document.createElement('div');
+		const root = document.createElement('div');
 		root.id = MISSKEY_MOUNT_DIV_ID;
-		window.document.body.appendChild(root);
+		document.body.appendChild(root);
 		return root;
 	})();
-
-	if (instance.sentryForFrontend) {
-		const Sentry = await import('@sentry/vue');
-		Sentry.init({
-			app,
-			integrations: [
-				...(instance.sentryForFrontend.vueIntegration !== undefined ? [
-					Sentry.vueIntegration(instance.sentryForFrontend.vueIntegration ?? undefined),
-				] : []),
-				...(instance.sentryForFrontend.browserTracingIntegration !== undefined ? [
-					Sentry.browserTracingIntegration(instance.sentryForFrontend.browserTracingIntegration ?? undefined),
-				] : []),
-				...(instance.sentryForFrontend.replayIntegration !== undefined ? [
-					Sentry.replayIntegration(instance.sentryForFrontend.replayIntegration ?? undefined),
-				] : []),
-			],
-
-			// Set tracesSampleRate to 1.0 to capture 100%
-			tracesSampleRate: 1.0,
-
-			// Set `tracePropagationTargets` to control for which URLs distributed tracing should be enabled
-			...(instance.sentryForFrontend.browserTracingIntegration !== undefined ? {
-				tracePropagationTargets: [apiUrl],
-			} : {}),
-
-			// Capture Replay for 10% of all sessions,
-			// plus for 100% of sessions with an error
-			...(instance.sentryForFrontend.replayIntegration !== undefined ? {
-				replaysSessionSampleRate: 0.1,
-				replaysOnErrorSampleRate: 1.0,
-			} : {}),
-
-			...instance.sentryForFrontend.options,
-		});
-	}
 
 	app.mount(rootEl);
 
@@ -346,37 +308,34 @@ export async function common(createVue: () => Promise<App<Element>>) {
 	removeSplash();
 
 	//#region Self-XSS 対策メッセージ
-	if (!_DEV_) {
-		console.log(
-			`%c${i18n.ts._selfXssPrevention.warning}`,
-			'color: #f00; background-color: #ff0; font-size: 36px; padding: 4px;',
-		);
-		console.log(
-			`%c${i18n.ts._selfXssPrevention.title}`,
-			'color: #f00; font-weight: 900; font-family: "Hiragino Sans W9", "Hiragino Kaku Gothic ProN", sans-serif; font-size: 24px;',
-		);
-		console.log(
-			`%c${i18n.ts._selfXssPrevention.description1}`,
-			'font-size: 16px; font-weight: 700;',
-		);
-		console.log(
-			`%c${i18n.ts._selfXssPrevention.description2}`,
-			'font-size: 16px;',
-			'font-size: 20px; font-weight: 700; color: #f00;',
-		);
-		console.log(i18n.tsx._selfXssPrevention.description3({ link: 'https://misskey-hub.net/docs/for-users/resources/self-xss/' }));
-	}
+	console.log(
+		`%c${i18n.ts._selfXssPrevention.warning}`,
+		'color: #f00; background-color: #ff0; font-size: 36px; padding: 4px;',
+	);
+	console.log(
+		`%c${i18n.ts._selfXssPrevention.title}`,
+		'color: #f00; font-weight: 900; font-family: "Hiragino Sans W9", "Hiragino Kaku Gothic ProN", sans-serif; font-size: 24px;',
+	);
+	console.log(
+		`%c${i18n.ts._selfXssPrevention.description1}`,
+		'font-size: 16px; font-weight: 700;',
+	);
+	console.log(
+		`%c${i18n.ts._selfXssPrevention.description2}`,
+		'font-size: 16px;',
+		'font-size: 20px; font-weight: 700; color: #f00;',
+	);
+	console.log(i18n.tsx._selfXssPrevention.description3({ link: 'https://misskey-hub.net/docs/for-users/resources/self-xss/' }));
 	//#endregion
 
 	return {
 		isClientUpdated,
-		lastVersion,
 		app,
 	};
 }
 
 function removeSplash() {
-	const splash = window.document.getElementById('splash');
+	const splash = document.getElementById('splash');
 	if (splash) {
 		splash.style.opacity = '0';
 		splash.style.pointerEvents = 'none';

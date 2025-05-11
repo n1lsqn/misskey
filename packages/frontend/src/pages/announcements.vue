@@ -4,10 +4,11 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 <template>
-<PageWithHeader v-model:tab="tab" :actions="headerActions" :tabs="headerTabs">
+<MkStickyContainer>
+	<template #header><MkPageHeader v-model:tab="tab" :actions="headerActions" :tabs="headerTabs"/></template>
 	<MkSpacer :contentMax="800">
 		<MkHorizontalSwipe v-model:tab="tab" :tabs="headerTabs">
-			<div class="_gaps">
+			<div :key="tab" class="_gaps">
 				<MkInfo v-if="$i && $i.hasUnreadAnnouncement && tab === 'current'" warn>{{ i18n.ts.youHaveUnreadAnnouncements }}</MkInfo>
 				<MkPagination ref="paginationEl" :key="tab" v-slot="{items}" :pagination="tab === 'current' ? paginationCurrent : paginationPast" class="_gaps">
 					<section v-for="announcement in items" :key="announcement.id" class="_panel" :class="$style.announcement">
@@ -42,7 +43,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 			</div>
 		</MkHorizontalSwipe>
 	</MkSpacer>
-</PageWithHeader>
+</MkStickyContainer>
 </template>
 
 <script lang="ts" setup>
@@ -52,11 +53,10 @@ import MkButton from '@/components/MkButton.vue';
 import MkInfo from '@/components/MkInfo.vue';
 import MkHorizontalSwipe from '@/components/MkHorizontalSwipe.vue';
 import * as os from '@/os.js';
-import { misskeyApi } from '@/utility/misskey-api.js';
+import { misskeyApi } from '@/scripts/misskey-api.js';
 import { i18n } from '@/i18n.js';
-import { definePage } from '@/page.js';
-import { $i } from '@/i.js';
-import { updateCurrentAccountPartial } from '@/accounts.js';
+import { definePageMetadata } from '@/scripts/page-metadata.js';
+import { $i, updateAccountPartial } from '@/account.js';
 
 const paginationCurrent = {
 	endpoint: 'announcements' as const,
@@ -93,9 +93,9 @@ async function read(announcement) {
 		a.isRead = true;
 		return a;
 	});
-	misskeyApi('i/read-announcement', { announcementId: target.id });
-	updateCurrentAccountPartial({
-		unreadAnnouncements: $i!.unreadAnnouncements.filter(a => a.id !== target.id),
+	misskeyApi('i/read-announcement', { announcementId: announcement.id });
+	updateAccountPartial({
+		unreadAnnouncements: $i!.unreadAnnouncements.filter(a => a.id !== announcement.id),
 	});
 }
 
@@ -111,7 +111,7 @@ const headerTabs = computed(() => [{
 	icon: 'ti ti-point',
 }]);
 
-definePage(() => ({
+definePageMetadata(() => ({
 	title: i18n.ts.announcements,
 	icon: 'ti ti-speakerphone',
 }));

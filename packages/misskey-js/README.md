@@ -83,8 +83,8 @@ const mainChannel = stream.useChannel('main');
 ``` ts
 const stream = new Misskey.Stream('https://misskey.test', { token: 'TOKEN' });
 
-const chatChannel = stream.useChannel('chat', {
-	other: 'xxxxxxxxxx',
+const messagingChannel = stream.useChannel('messaging', {
+	otherparty: 'xxxxxxxxxx',
 });
 ```
 
@@ -115,11 +115,11 @@ mainChannel.on('notification', notification => {
 
 ``` ts
 const stream = new Misskey.Stream('https://misskey.test', { token: 'TOKEN' });
-const chatChannel = stream.useChannel('chat', {
-	other: 'xxxxxxxxxx',
+const messagingChannel = stream.useChannel('messaging', {
+	otherparty: 'xxxxxxxxxx',
 });
 
-chatChannel.send('read', {
+messagingChannel.send('read', {
 	id: 'xxxxxxxxxx'
 });
 ```

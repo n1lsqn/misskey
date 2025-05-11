@@ -21,12 +21,12 @@ import { v4 as uuid } from 'uuid';
 import XStatusbar from './statusbar.statusbar.vue';
 import MkFolder from '@/components/MkFolder.vue';
 import MkButton from '@/components/MkButton.vue';
-import { misskeyApi } from '@/utility/misskey-api.js';
+import { misskeyApi } from '@/scripts/misskey-api.js';
+import { defaultStore } from '@/store.js';
 import { i18n } from '@/i18n.js';
-import { definePage } from '@/page.js';
-import { prefer } from '@/preferences.js';
+import { definePageMetadata } from '@/scripts/page-metadata.js';
 
-const statusbars = prefer.r.statusbars;
+const statusbars = defaultStore.reactiveState.statusbars;
 
 const userLists = ref<Misskey.entities.UserList[] | null>(null);
 
@@ -37,20 +37,20 @@ onMounted(() => {
 });
 
 async function add() {
-	prefer.commit('statusbars', [...statusbars.value, {
+	defaultStore.push('statusbars', {
 		id: uuid(),
 		type: null,
 		black: false,
 		size: 'medium',
 		props: {},
-	}]);
+	});
 }
 
 const headerActions = computed(() => []);
 
 const headerTabs = computed(() => []);
 
-definePage(() => ({
+definePageMetadata(() => ({
 	title: i18n.ts.statusbar,
 	icon: 'ti ti-list',
 }));

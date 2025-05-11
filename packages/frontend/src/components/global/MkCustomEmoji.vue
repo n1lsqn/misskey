@@ -9,8 +9,6 @@ SPDX-License-Identifier: AGPL-3.0-only
 	:class="[$style.root, { [$style.normal]: normal, [$style.noStyle]: noStyle }]"
 	src="/client-assets/dummy.png"
 	:title="alt"
-	draggable="false"
-	style="-webkit-user-drag: none;"
 />
 <span v-else-if="errored">:{{ customEmojiName }}:</span>
 <img
@@ -20,7 +18,6 @@ SPDX-License-Identifier: AGPL-3.0-only
 	:alt="alt"
 	:title="alt"
 	decoding="async"
-	draggable="false"
 	@error="errored = true"
 	@load="errored = false"
 	@click="onClick"
@@ -30,16 +27,16 @@ SPDX-License-Identifier: AGPL-3.0-only
 <script lang="ts" setup>
 import { computed, defineAsyncComponent, inject, ref } from 'vue';
 import type { MenuItem } from '@/types/menu.js';
-import { getProxiedImageUrl, getStaticImageUrl } from '@/utility/media-proxy.js';
+import { getProxiedImageUrl, getStaticImageUrl } from '@/scripts/media-proxy.js';
+import { defaultStore } from '@/store.js';
 import { customEmojisMap } from '@/custom-emojis.js';
 import * as os from '@/os.js';
-import { misskeyApi, misskeyApiGet } from '@/utility/misskey-api.js';
-import { copyToClipboard } from '@/utility/copy-to-clipboard.js';
+import { misskeyApi, misskeyApiGet } from '@/scripts/misskey-api.js';
+import { copyToClipboard } from '@/scripts/copy-to-clipboard.js';
+import * as sound from '@/scripts/sound.js';
 import { i18n } from '@/i18n.js';
 import MkCustomEmojiDetailedDialog from '@/components/MkCustomEmojiDetailedDialog.vue';
-import { $i } from '@/i.js';
-import { prefer } from '@/preferences.js';
-import { DI } from '@/di.js';
+import { $i } from '@/account.js';
 
 const props = defineProps<{
 	name: string;
@@ -53,7 +50,7 @@ const props = defineProps<{
 	fallbackToImage?: boolean;
 }>();
 
-const react = inject(DI.mfmEmojiReactCallback);
+const react = inject<((name: string) => void) | null>('react', null);
 
 const customEmojiName = computed(() => (props.name[0] === ':' ? props.name.substring(1, props.name.length - 1) : props.name).replace('@.', ''));
 const isLocal = computed(() => !props.host && (customEmojiName.value.endsWith('@.') || !customEmojiName.value.includes('@')));
@@ -80,7 +77,7 @@ const url = computed(() => {
 				false,
 				true,
 			);
-	return prefer.s.disableShowingAnimatedImages
+	return defaultStore.reactiveState.disableShowingAnimatedImages.value
 		? getStaticImageUrl(proxied)
 		: proxied;
 });
@@ -100,6 +97,7 @@ function onClick(ev: MouseEvent) {
 			icon: 'ti ti-copy',
 			action: () => {
 				copyToClipboard(`:${props.name}:`);
+				os.success();
 			},
 		});
 
@@ -109,6 +107,7 @@ function onClick(ev: MouseEvent) {
 				icon: 'ti ti-plus',
 				action: () => {
 					react(`:${props.name}:`);
+					sound.playMisskeySfx('reaction');
 				},
 			});
 		}
@@ -158,7 +157,6 @@ async function edit(name: string) {
 .root {
 	height: 2em;
 	vertical-align: middle;
-	-webkit-user-drag: none;
 	transition: transform 0.2s ease;
 
 	&:hover {

@@ -195,9 +195,6 @@ export type ModerationLog = {
 } | {
 	type: 'deleteGalleryPost';
 	info: ModerationLogPayloads['deleteGalleryPost'];
-} | {
-	type: 'deleteChatRoom';
-	info: ModerationLogPayloads['deleteChatRoom'];
 });
 
 export type ServerStats = {

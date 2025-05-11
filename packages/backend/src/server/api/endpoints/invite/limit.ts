@@ -15,7 +15,7 @@ export const meta = {
 	tags: ['meta'],
 
 	requireCredential: true,
-	requiredRolePolicy: 'canInvite',
+	requireRolePolicy: 'canInvite',
 	kind: 'read:invite-codes',
 
 	res: {

@@ -16,7 +16,7 @@ import { computed, defineProps } from 'vue';
 import * as Misskey from 'misskey-js';
 import { instanceName } from '@@/js/config.js';
 import { instance as Instance } from '@/instance.js';
-import { getProxiedImageUrlNullable } from '@/utility/media-proxy.js';
+import { getProxiedImageUrlNullable } from '@/scripts/media-proxy.js';
 import { defaultStore } from '@/store';
 
 const props = defineProps<{
@@ -31,8 +31,8 @@ const instance = props.instance ?? {
 
 const faviconUrl = computed(() => props.instance ? getProxiedImageUrlNullable(props.instance.faviconUrl, 'preview') : getProxiedImageUrlNullable(Instance.iconUrl, 'preview') ?? getProxiedImageUrlNullable(Instance.iconUrl, 'preview') ?? '/favicon.ico');
 
-const darkMode = prefer.s.darkMode;
-const TickerStyle = prefer.s.instanceTickerStyle;
+const darkMode = defaultStore.state.darkMode;
+const TickerStyle = defaultStore.state.instanceTickerStyle;
 </script>
 
 <style lang="scss" module>

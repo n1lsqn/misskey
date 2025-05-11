@@ -13,7 +13,7 @@ export const meta = {
 	tags: ['admin'],
 
 	requireCredential: true,
-	requiredRolePolicy: 'canManageAvatarDecorations',
+	requireRolePolicy: 'canManageAvatarDecorations',
 	kind: 'write:admin:avatar-decorations',
 
 	errors: {

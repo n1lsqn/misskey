@@ -110,25 +110,25 @@ SPDX-License-Identifier: AGPL-3.0-only
 	import XPostFormAttaches from '@/components/MkPostFormAttaches.vue';
 	import MkPollEditor, { type PollEditorModelValue } from '@/components/MkPollEditor.vue';
 	import { host, url } from '@/config.js';
-	import { erase, unique } from '@/utility/array.js';
-	import { extractMentions } from '@/utility/extract-mentions.js';
-	import { formatTimeString } from '@/utility/format-time-string.js';
-	import { Autocomplete } from '@/utility/autocomplete.js';
+	import { erase, unique } from '@/scripts/array.js';
+	import { extractMentions } from '@/scripts/extract-mentions.js';
+	import { formatTimeString } from '@/scripts/format-time-string.js';
+	import { Autocomplete } from '@/scripts/autocomplete.js';
 	import * as os from '@/os.js';
-	import { misskeyApi } from '@/utility/misskey-api.js';
-	import { selectFiles } from '@/utility/select-file.js';
+	import { misskeyApi } from '@/scripts/misskey-api.js';
+	import { selectFiles } from '@/scripts/select-file.js';
 	import { defaultStore, notePostInterruptors, postFormActions } from '@/store.js';
 	import MkInfo from '@/components/MkInfo.vue';
 	import { i18n } from '@/i18n.js';
 	import { instance } from '@/instance.js';
 	import { signinRequired, notesCount, incNotesCount, getAccounts, openAccountMenu as openAccountMenu_ } from '@/account.js';
-	import { uploadFile } from '@/utility/upload.js';
-	import { deepClone } from '@/utility/clone.js';
+	import { uploadFile } from '@/scripts/upload.js';
+	import { deepClone } from '@/scripts/clone.js';
 	import MkRippleEffect from '@/components/MkRippleEffect.vue';
 	import { miLocalStorage } from '@/local-storage.js';
-	import { claimAchievement } from '@/utility/achievements.js';
-	import { emojiPicker } from '@/utility/emoji-picker.js';
-	import { mfmFunctionPicker } from '@/utility/mfm-function-picker.js';
+	import { claimAchievement } from '@/scripts/achievements.js';
+	import { emojiPicker } from '@/scripts/emoji-picker.js';
+	import { mfmFunctionPicker } from '@/scripts/mfm-function-picker.js';
 
 	const $i = signinRequired();
 
@@ -181,18 +181,18 @@ SPDX-License-Identifier: AGPL-3.0-only
 	const files = ref(props.initialFiles ?? []);
 	const poll = ref<PollEditorModelValue | null>(null);
 	const useCw = ref<boolean>(!!props.initialCw);
-	const showPreview = ref(prefer.s.showPreview);
-	watch(showPreview, () => store.set('showPreview', showPreview.value));
-	const showAddMfmFunction = ref(prefer.s.enableQuickAddMfmFunction);
-	watch(showAddMfmFunction, () => store.set('enableQuickAddMfmFunction', showAddMfmFunction.value));
+	const showPreview = ref(defaultStore.state.showPreview);
+	watch(showPreview, () => defaultStore.set('showPreview', showPreview.value));
+	const showAddMfmFunction = ref(defaultStore.state.enableQuickAddMfmFunction);
+	watch(showAddMfmFunction, () => defaultStore.set('enableQuickAddMfmFunction', showAddMfmFunction.value));
 	const cw = ref<string | null>(props.initialCw ?? null);
-	const localOnly = ref(props.initialLocalOnly ?? (prefer.s.rememberNoteVisibility ? prefer.s.localOnly : prefer.s.defaultNoteLocalOnly));
-	const visibility = ref(props.initialVisibility ?? (prefer.s.rememberNoteVisibility ? prefer.s.visibility : prefer.s.defaultNoteVisibility));
+	const localOnly = ref(props.initialLocalOnly ?? (defaultStore.state.rememberNoteVisibility ? defaultStore.state.localOnly : defaultStore.state.defaultNoteLocalOnly));
+	const visibility = ref(props.initialVisibility ?? (defaultStore.state.rememberNoteVisibility ? defaultStore.state.visibility : defaultStore.state.defaultNoteVisibility));
 	const visibleUsers = ref<Misskey.entities.UserDetailed[]>([]);
 	if (props.initialVisibleUsers) {
 		props.initialVisibleUsers.forEach(u => pushVisibleUser(u));
 	}
-	const reactionAcceptance = ref(prefer.s.reactionAcceptance);
+	const reactionAcceptance = ref(defaultStore.state.reactionAcceptance);
 	const autocomplete = ref(null);
 	const draghover = ref(false);
 	const quoteId = ref<string | null>(null);
@@ -265,8 +265,8 @@ SPDX-License-Identifier: AGPL-3.0-only
 			(!poll.value || poll.value.choices.length >= 2);
 	});
 
-	const withHashtags = computed(store.makeGetterSetter('postFormWithHashtags'));
-	const hashtags = computed(store.makeGetterSetter('postFormHashtags'));
+	const withHashtags = computed(defaultStore.makeGetterSetter('postFormWithHashtags'));
+	const hashtags = computed(defaultStore.makeGetterSetter('postFormHashtags'));
 
 	watch(text, () => {
 		checkMissingMention();
@@ -354,7 +354,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 	}
 
 	// keep cw when reply
-	if (prefer.s.keepCw && props.reply && props.reply.cw) {
+	if (defaultStore.state.keepCw && props.reply && props.reply.cw) {
 		useCw.value = true;
 		cw.value = props.reply.cw;
 	}
@@ -453,7 +453,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 	function upload(file: File, name?: string): void {
 		if (props.mock) return;
 
-		uploadFile(file, prefer.s.uploadFolder, name).then(res => {
+		uploadFile(file, defaultStore.state.uploadFolder, name).then(res => {
 			files.value.push(res);
 		});
 	}
@@ -474,8 +474,8 @@ SPDX-License-Identifier: AGPL-3.0-only
 		}, {
 			changeVisibility: v => {
 				visibility.value = v;
-				if (prefer.s.rememberNoteVisibility) {
-					store.set('visibility', visibility.value);
+				if (defaultStore.state.rememberNoteVisibility) {
+					defaultStore.set('visibility', visibility.value);
 				}
 			},
 			closed: () => dispose(),
@@ -522,8 +522,8 @@ SPDX-License-Identifier: AGPL-3.0-only
 		}
 
 		localOnly.value = !localOnly.value;
-		if (prefer.s.rememberNoteVisibility) {
-			store.set('localOnly', localOnly.value);
+		if (defaultStore.state.rememberNoteVisibility) {
+			defaultStore.set('localOnly', localOnly.value);
 		}
 	}
 
@@ -594,7 +594,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 				if (!file) continue;
 				const lio = file.name.lastIndexOf('.');
 				const ext = lio >= 0 ? file.name.slice(lio) : '';
-				const formatted = `${formatTimeString(new Date(file.lastModified), prefer.s.pastedFileName).replace(/{{number}}/g, `${i + 1}`)}${ext}`;
+				const formatted = `${formatTimeString(new Date(file.lastModified), defaultStore.state.pastedFileName).replace(/{{number}}/g, `${i + 1}`)}${ext}`;
 				upload(file, formatted);
 			}
 		}
@@ -628,7 +628,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 					return;
 				}
 
-				const fileName = formatTimeString(new Date(), prefer.s.pastedFileName).replace(/{{number}}/g, '0');
+				const fileName = formatTimeString(new Date(), defaultStore.state.pastedFileName).replace(/{{number}}/g, '0');
 				const file = new File([paste], `${fileName}.txt`, { type: 'text/plain' });
 				upload(file, `${fileName}.txt`);
 			});

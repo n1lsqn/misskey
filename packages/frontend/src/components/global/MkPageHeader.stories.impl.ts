@@ -2,10 +2,11 @@
  * SPDX-FileCopyrightText: syuilo and misskey-project
  * SPDX-License-Identifier: AGPL-3.0-only
  */
- 
+
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import { waitFor } from '@storybook/test';
-import MkPageHeader from './MkPageHeader.vue';
 import type { StoryObj } from '@storybook/vue3';
+import MkPageHeader from './MkPageHeader.vue';
 export const Empty = {
 	render(args) {
 		return {
@@ -28,7 +29,7 @@ export const Empty = {
 		};
 	},
 	async play() {
-		const wait = new Promise((resolve) => window.setTimeout(resolve, 800));
+		const wait = new Promise((resolve) => setTimeout(resolve, 800));
 		await waitFor(async () => await wait);
 	},
 	args: {

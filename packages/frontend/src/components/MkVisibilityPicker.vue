@@ -42,12 +42,12 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { nextTick, useTemplateRef, ref } from 'vue';
+import { nextTick, shallowRef, ref } from 'vue';
 import * as Misskey from 'misskey-js';
 import MkModal from '@/components/MkModal.vue';
 import { i18n } from '@/i18n.js';
 
-const modal = useTemplateRef('modal');
+const modal = shallowRef<InstanceType<typeof MkModal>>();
 
 const props = withDefaults(defineProps<{
 	currentVisibility: typeof Misskey.noteVisibilities[number];

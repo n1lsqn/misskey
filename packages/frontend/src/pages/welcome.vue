@@ -16,7 +16,7 @@ import * as Misskey from 'misskey-js';
 import XSetup from './welcome.setup.vue';
 import XEntrance from './welcome.entrance.a.vue';
 import { instanceName } from '@@/js/config.js';
-import { definePage } from '@/page.js';
+import { definePageMetadata } from '@/scripts/page-metadata.js';
 import { fetchInstance } from '@/instance.js';
 
 const instance = ref<Misskey.entities.MetaDetailed | null>(null);
@@ -29,7 +29,7 @@ const headerActions = computed(() => []);
 
 const headerTabs = computed(() => []);
 
-definePage(() => ({
+definePageMetadata(() => ({
 	title: instanceName,
 	icon: null,
 }));

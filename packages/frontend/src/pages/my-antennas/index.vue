@@ -4,12 +4,13 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 <template>
-<PageWithHeader :actions="headerActions" :tabs="headerTabs">
+<MkStickyContainer>
+	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
 	<MkSpacer :contentMax="700">
 		<div>
 			<div v-if="antennas.length === 0" class="empty">
 				<div class="_fullinfo">
-					<img :src="infoImageUrl" draggable="false"/>
+					<img :src="infoImageUrl" class="_ghost"/>
 					<div>{{ i18n.ts.nothing }}</div>
 				</div>
 			</div>
@@ -23,14 +24,14 @@ SPDX-License-Identifier: AGPL-3.0-only
 			</div>
 		</div>
 	</MkSpacer>
-</PageWithHeader>
+</MkStickyContainer>
 </template>
 
 <script lang="ts" setup>
 import { onActivated, computed } from 'vue';
 import MkButton from '@/components/MkButton.vue';
 import { i18n } from '@/i18n.js';
-import { definePage } from '@/page.js';
+import { definePageMetadata } from '@/scripts/page-metadata.js';
 import { antennasCache } from '@/cache.js';
 import { infoImageUrl } from '@/instance.js';
 
@@ -54,7 +55,7 @@ const headerActions = computed(() => [{
 
 const headerTabs = computed(() => []);
 
-definePage(() => ({
+definePageMetadata(() => ({
 	title: i18n.ts.manageAntennas,
 	icon: 'ti ti-antenna',
 }));

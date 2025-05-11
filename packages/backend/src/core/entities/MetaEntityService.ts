@@ -128,7 +128,6 @@ export class MetaEntityService {
 
 			policies: { ...DEFAULT_POLICIES, ...instance.policies },
 
-			sentryForFrontend: this.config.sentryForFrontend ?? null,
 			mediaProxy: this.config.mediaProxy,
 			enableUrlPreview: instance.urlPreviewEnabled,
 			noteSearchableScope: (this.config.meilisearch == null || this.config.meilisearch.scope !== 'local') ? 'global' : 'local',

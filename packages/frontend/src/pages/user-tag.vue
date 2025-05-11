@@ -4,19 +4,21 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 <template>
-<PageWithHeader>
+<MkStickyContainer>
+	<template #header><MkPageHeader/></template>
+
 	<MkSpacer :contentMax="1200">
 		<div class="_gaps_s">
 			<MkUserList :pagination="tagUsers"/>
 		</div>
 	</MkSpacer>
-</PageWithHeader>
+</MkStickyContainer>
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue';
 import MkUserList from '@/components/MkUserList.vue';
-import { definePage } from '@/page.js';
+import { definePageMetadata } from '@/scripts/page-metadata.js';
 
 const props = defineProps<{
 	tag: string;
@@ -32,7 +34,7 @@ const tagUsers = computed(() => ({
 	},
 }));
 
-definePage(() => ({
+definePageMetadata(() => ({
 	title: props.tag,
 	icon: 'ti ti-user-search',
 }));

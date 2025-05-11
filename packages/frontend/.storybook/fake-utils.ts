@@ -131,7 +131,7 @@ export function imageDataUrl(options?: {
 		alpha?: number,
 	}
 }, seed?: string): string {
-	const canvas = window.document.createElement('canvas');
+	const canvas = document.createElement('canvas');
 	canvas.width = options?.size?.width ?? 100;
 	canvas.height = options?.size?.height ?? 100;
 

@@ -69,7 +69,6 @@ export type RolePolicies = {
 	canImportFollowing: boolean;
 	canImportMuting: boolean;
 	canImportUserLists: boolean;
-	chatAvailability: 'available' | 'readonly' | 'unavailable';
 };
 
 export const DEFAULT_POLICIES: RolePolicies = {
@@ -110,7 +109,6 @@ export const DEFAULT_POLICIES: RolePolicies = {
 	canImportFollowing: true,
 	canImportMuting: true,
 	canImportUserLists: true,
-	chatAvailability: 'available',
 };
 
 @Injectable()
@@ -382,12 +380,6 @@ export class RoleService implements OnApplicationShutdown, OnModuleInit {
 			return aggregate(policies.map(policy => policy.useDefault ? basePolicies[name] : policy.value));
 		}
 
-		function aggregateChatAvailability(vs: RolePolicies['chatAvailability'][]) {
-			if (vs.some(v => v === 'available')) return 'available';
-			if (vs.some(v => v === 'readonly')) return 'readonly';
-			return 'unavailable';
-		}
-
 		return {
 			gtlAvailable: calc('gtlAvailable', vs => vs.some(v => v === true)),
 			ltlAvailable: calc('ltlAvailable', vs => vs.some(v => v === true)),
@@ -426,7 +418,6 @@ export class RoleService implements OnApplicationShutdown, OnModuleInit {
 			canImportFollowing: calc('canImportFollowing', vs => vs.some(v => v === true)),
 			canImportMuting: calc('canImportMuting', vs => vs.some(v => v === true)),
 			canImportUserLists: calc('canImportUserLists', vs => vs.some(v => v === true)),
-			chatAvailability: calc('chatAvailability', aggregateChatAvailability),
 		};
 	}
 
@@ -654,7 +645,6 @@ export class RoleService implements OnApplicationShutdown, OnModuleInit {
 			isModerator: values.isModerator,
 			isExplorable: values.isExplorable,
 			asBadge: values.asBadge,
-			preserveAssignmentOnMoveAccount: values.preserveAssignmentOnMoveAccount,
 			canEditMembersByModerator: values.canEditMembersByModerator,
 			displayOrder: values.displayOrder,
 			policies: values.policies,

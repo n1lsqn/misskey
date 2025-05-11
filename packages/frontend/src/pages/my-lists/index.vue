@@ -4,12 +4,13 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 <template>
-<PageWithHeader :actions="headerActions" :tabs="headerTabs">
+<MkStickyContainer>
+	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
 	<MkSpacer :contentMax="700">
 		<div class="_gaps">
 			<div v-if="items.length === 0" class="empty">
 				<div class="_fullinfo">
-					<img :src="infoImageUrl" draggable="false"/>
+					<img :src="infoImageUrl" class="_ghost"/>
 					<div>{{ i18n.ts.nothing }}</div>
 				</div>
 			</div>
@@ -24,7 +25,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 			</div>
 		</div>
 	</MkSpacer>
-</PageWithHeader>
+</MkStickyContainer>
 </template>
 
 <script lang="ts" setup>
@@ -33,12 +34,12 @@ import MkButton from '@/components/MkButton.vue';
 import MkAvatars from '@/components/MkAvatars.vue';
 import * as os from '@/os.js';
 import { i18n } from '@/i18n.js';
-import { definePage } from '@/page.js';
+import { definePageMetadata } from '@/scripts/page-metadata.js';
 import { userListsCache } from '@/cache.js';
 import { infoImageUrl } from '@/instance.js';
-import { ensureSignin } from '@/i.js';
+import { signinRequired } from '@/account.js';
 
-const $i = ensureSignin();
+const $i = signinRequired();
 
 const items = computed(() => userListsCache.value.value ?? []);
 
@@ -70,7 +71,7 @@ const headerActions = computed(() => [{
 
 const headerTabs = computed(() => []);
 
-definePage(() => ({
+definePageMetadata(() => ({
 	title: i18n.ts.manageLists,
 	icon: 'ti ti-list',
 }));

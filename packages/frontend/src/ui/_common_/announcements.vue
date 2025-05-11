@@ -24,7 +24,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { $i } from '@/i.js';
+import { $i } from '@/account.js';
 </script>
 
 <style lang="scss" module>

@@ -42,9 +42,9 @@ import MkInput from '@/components/MkInput.vue';
 import MkSelect from '@/components/MkSelect.vue';
 import MkFileListForAdmin from '@/components/MkFileListForAdmin.vue';
 import * as os from '@/os.js';
-import { lookupFile } from '@/utility/admin-lookup.js';
+import { lookupFile } from '@/scripts/admin-lookup.js';
 import { i18n } from '@/i18n.js';
-import { definePage } from '@/page.js';
+import { definePageMetadata } from '@/scripts/page-metadata.js';
 
 const origin = ref('local');
 const type = ref<string | null>(null);
@@ -85,7 +85,7 @@ const headerActions = computed(() => [{
 
 const headerTabs = computed(() => []);
 
-definePage(() => ({
+definePageMetadata(() => ({
 	title: i18n.ts.files,
 	icon: 'ti ti-cloud',
 }));

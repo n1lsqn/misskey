@@ -49,7 +49,7 @@ defineProps<{
 
 .description {
 	font-size: 0.85em;
-	color: color(from var(--MI_THEME-fg) srgb r g b / 0.75);
+	color: var(--MI_THEME-fgTransparentWeak);
 	margin: 0 0 8px 0;
 }
 </style>

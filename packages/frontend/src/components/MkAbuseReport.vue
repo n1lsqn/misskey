@@ -35,7 +35,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 			<template #label>{{ i18n.ts.target }}: <MkAcct :user="report.targetUser"/></template>
 			<template #suffix>#{{ report.targetUserId.toUpperCase() }}</template>
 
-			<div style="height: 300px; --MI-stickyTop: 0; --MI-stickyBottom: 0;">
+			<div style="container-type: inline-size;">
 				<RouterView :router="targetRouter"/>
 			</div>
 		</MkFolder>
@@ -53,7 +53,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 			<template #label>{{ i18n.ts.reporter }}: <MkAcct :user="report.reporter"/></template>
 			<template #suffix>#{{ report.reporterId.toUpperCase() }}</template>
 
-			<div style="height: 300px; --MI-stickyTop: 0; --MI-stickyBottom: 0;">
+			<div style="container-type: inline-size;">
 				<RouterView :router="reporterRouter"/>
 			</div>
 		</MkFolder>
@@ -88,9 +88,9 @@ import { i18n } from '@/i18n.js';
 import { dateString } from '@/filters/date.js';
 import MkFolder from '@/components/MkFolder.vue';
 import RouterView from '@/components/global/RouterView.vue';
+import { useRouterFactory } from '@/router/supplier';
 import MkTextarea from '@/components/MkTextarea.vue';
-import { copyToClipboard } from '@/utility/copy-to-clipboard.js';
-import { createRouter } from '@/router.js';
+import { copyToClipboard } from '@/scripts/copy-to-clipboard.js';
 
 const props = defineProps<{
 	report: Misskey.entities.AdminAbuseUserReportsResponse[number];
@@ -100,9 +100,10 @@ const emit = defineEmits<{
 	(ev: 'resolved', reportId: string): void;
 }>();
 
-const targetRouter = createRouter(`/admin/user/${props.report.targetUserId}`);
+const routerFactory = useRouterFactory();
+const targetRouter = routerFactory(`/admin/user/${props.report.targetUserId}`);
 targetRouter.init();
-const reporterRouter = createRouter(`/admin/user/${props.report.reporterId}`);
+const reporterRouter = routerFactory(`/admin/user/${props.report.reporterId}`);
 reporterRouter.init();
 
 const moderationNote = ref(props.report.moderationNote ?? '');
@@ -134,7 +135,7 @@ function forward() {
 
 function showMenu(ev: MouseEvent) {
 	os.popupMenu([{
-		icon: 'ti ti-hash',
+		icon: 'ti ti-id',
 		text: 'Copy ID',
 		action: () => {
 			copyToClipboard(props.report.id);

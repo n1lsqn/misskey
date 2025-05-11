@@ -4,8 +4,9 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 <template>
-<PageWithHeader :actions="headerActions" :tabs="headerTabs">
-	<MkSpacer :contentMax="700">
+<MkStickyContainer>
+	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
+	<MkSpacer :contentMax="700" :class="$style.main">
 		<div v-if="list" class="_gaps">
 			<MkFolder>
 				<template #label>{{ i18n.ts.settings }}</template>
@@ -48,7 +49,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 			</MkFolder>
 		</div>
 	</MkSpacer>
-</PageWithHeader>
+</MkStickyContainer>
 </template>
 
 <script lang="ts" setup>
@@ -56,8 +57,8 @@ import { computed, ref, watch } from 'vue';
 import * as Misskey from 'misskey-js';
 import MkButton from '@/components/MkButton.vue';
 import * as os from '@/os.js';
-import { misskeyApi } from '@/utility/misskey-api.js';
-import { definePage } from '@/page.js';
+import { misskeyApi } from '@/scripts/misskey-api.js';
+import { definePageMetadata } from '@/scripts/page-metadata.js';
 import { i18n } from '@/i18n.js';
 import { userPage } from '@/filters/user.js';
 import MkUserCardMini from '@/components/MkUserCardMini.vue';
@@ -65,16 +66,16 @@ import MkSwitch from '@/components/MkSwitch.vue';
 import MkFolder from '@/components/MkFolder.vue';
 import MkInput from '@/components/MkInput.vue';
 import { userListsCache } from '@/cache.js';
-import { ensureSignin } from '@/i.js';
+import { signinRequired } from '@/account.js';
+import { defaultStore } from '@/store.js';
 import MkPagination from '@/components/MkPagination.vue';
-import { mainRouter } from '@/router.js';
-import { prefer } from '@/preferences.js';
+import { mainRouter } from '@/router/main.js';
 
-const $i = ensureSignin();
+const $i = signinRequired();
 
 const {
 	enableInfiniteScroll,
-} = prefer.r;
+} = defaultStore.reactiveState;
 
 const props = defineProps<{
 	listId: string;
@@ -190,13 +191,17 @@ const headerActions = computed(() => []);
 
 const headerTabs = computed(() => []);
 
-definePage(() => ({
+definePageMetadata(() => ({
 	title: list.value ? list.value.name : i18n.ts.lists,
 	icon: 'ti ti-list',
 }));
 </script>
 
 <style lang="scss" module>
+.main {
+	min-height: calc(100cqh - (var(--MI-stickyTop, 0px) + var(--MI-stickyBottom, 0px)));
+}
+
 .userItem {
 	display: flex;
 }

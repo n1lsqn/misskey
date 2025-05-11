@@ -4,7 +4,8 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 <template>
-<PageWithHeader :actions="headerActions" :tabs="headerTabs">
+<MkStickyContainer>
+	<template #header><MkPageHeader :actions="headerActions" :tabs="headerTabs"/></template>
 	<MkSpacer :contentMax="700">
 		<div class="_gaps">
 			<MkInput v-model="title">
@@ -36,7 +37,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 			</MkSpacer>
 		</div>
 	</template>
-</PageWithHeader>
+</MkStickyContainer>
 </template>
 
 <script lang="ts" setup>
@@ -45,14 +46,14 @@ import * as Misskey from 'misskey-js';
 import { AISCRIPT_VERSION } from '@syuilo/aiscript';
 import MkButton from '@/components/MkButton.vue';
 import * as os from '@/os.js';
-import { misskeyApi } from '@/utility/misskey-api.js';
+import { misskeyApi } from '@/scripts/misskey-api.js';
 import { i18n } from '@/i18n.js';
-import { definePage } from '@/page.js';
+import { definePageMetadata } from '@/scripts/page-metadata.js';
 import MkTextarea from '@/components/MkTextarea.vue';
 import MkCodeEditor from '@/components/MkCodeEditor.vue';
 import MkInput from '@/components/MkInput.vue';
 import MkSelect from '@/components/MkSelect.vue';
-import { useRouter } from '@/router.js';
+import { useRouter } from '@/router/supplier.js';
 
 const PRESET_DEFAULT = `/// @ ${AISCRIPT_VERSION}
 
@@ -460,14 +461,14 @@ const headerActions = computed(() => []);
 
 const headerTabs = computed(() => []);
 
-definePage(() => ({
+definePageMetadata(() => ({
 	title: flash.value ? `${i18n.ts._play.edit}: ${flash.value.title}` : i18n.ts._play.new,
 }));
 </script>
 <style lang="scss" module>
 .footer {
 	backdrop-filter: var(--MI-blur, blur(15px));
-	background: color(from var(--MI_THEME-bg) srgb r g b / 0.5);
+	background: var(--MI_THEME-acrylicBg);
 	border-top: solid .5px var(--MI_THEME-divider);
 }
 </style>

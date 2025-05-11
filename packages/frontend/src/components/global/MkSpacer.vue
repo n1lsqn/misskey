@@ -13,8 +13,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 <script lang="ts" setup>
 import { inject } from 'vue';
-import { deviceKind } from '@/utility/device-kind.js';
-import { DI } from '@/di.js';
+import { deviceKind } from '@/scripts/device-kind.js';
 
 const props = withDefaults(defineProps<{
 	contentMax?: number | null;
@@ -26,7 +25,7 @@ const props = withDefaults(defineProps<{
 	marginMax: 24,
 });
 
-const forceSpacerMin = inject(DI.forceSpacerMin, false) || deviceKind === 'smartphone';
+const forceSpacerMin = inject('forceSpacerMin', false) || deviceKind === 'smartphone';
 </script>
 
 <style lang="scss" module>

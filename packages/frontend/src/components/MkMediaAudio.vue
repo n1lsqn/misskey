@@ -10,20 +10,20 @@ SPDX-License-Identifier: AGPL-3.0-only
 	tabindex="0"
 	:class="[
 		$style.audioContainer,
-		(audio.isSensitive && prefer.s.highlightSensitiveMedia) && $style.sensitive,
+		(audio.isSensitive && defaultStore.state.highlightSensitiveMedia) && $style.sensitive,
 	]"
 	@contextmenu.stop
 	@keydown.stop
 >
 	<button v-if="hide" :class="$style.hidden" @click="show">
 		<div :class="$style.hiddenTextWrapper">
-			<b v-if="audio.isSensitive" style="display: block;"><i class="ti ti-eye-exclamation"></i> {{ i18n.ts.sensitive }}{{ prefer.s.dataSaver.media ? ` (${i18n.ts.audio}${audio.size ? ' ' + bytes(audio.size) : ''})` : '' }}</b>
-			<b v-else style="display: block;"><i class="ti ti-music"></i> {{ prefer.s.dataSaver.media && audio.size ? bytes(audio.size) : i18n.ts.audio }}</b>
+			<b v-if="audio.isSensitive" style="display: block;"><i class="ti ti-eye-exclamation"></i> {{ i18n.ts.sensitive }}{{ defaultStore.state.dataSaver.media ? ` (${i18n.ts.audio}${audio.size ? ' ' + bytes(audio.size) : ''})` : '' }}</b>
+			<b v-else style="display: block;"><i class="ti ti-music"></i> {{ defaultStore.state.dataSaver.media && audio.size ? bytes(audio.size) : i18n.ts.audio }}</b>
 			<span style="display: block;">{{ i18n.ts.clickToShow }}</span>
 		</div>
 	</button>
 
-	<div v-else-if="prefer.s.useNativeUiForVideoAudioPlayer" :class="$style.nativeAudioContainer">
+	<div v-else-if="defaultStore.reactiveState.useNativeUIForVideoAudioPlayer.value" :class="$style.nativeAudioContainer">
 		<audio
 			ref="audioEl"
 			preload="metadata"
@@ -88,18 +88,18 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { useTemplateRef, watch, computed, ref, onDeactivated, onActivated, onMounted } from 'vue';
+import { shallowRef, watch, computed, ref, onDeactivated, onActivated, onMounted } from 'vue';
 import * as Misskey from 'misskey-js';
 import type { MenuItem } from '@/types/menu.js';
-import type { Keymap } from '@/utility/hotkey.js';
-import { copyToClipboard } from '@/utility/copy-to-clipboard';
+import type { Keymap } from '@/scripts/hotkey.js';
+import { copyToClipboard } from '@/scripts/copy-to-clipboard';
+import { defaultStore } from '@/store.js';
 import { i18n } from '@/i18n.js';
 import * as os from '@/os.js';
 import bytes from '@/filters/bytes.js';
 import { hms } from '@/filters/hms.js';
 import MkMediaRange from '@/components/MkMediaRange.vue';
-import { $i, iAmModerator } from '@/i.js';
-import { prefer } from '@/preferences.js';
+import { $i, iAmModerator } from '@/account.js';
 
 const props = defineProps<{
 	audio: Misskey.entities.DriveFile;
@@ -148,17 +148,17 @@ const keymap = {
 // PlayerElもしくはその子要素にフォーカスがあるかどうか
 function hasFocus() {
 	if (!playerEl.value) return false;
-	return playerEl.value === window.document.activeElement || playerEl.value.contains(window.document.activeElement);
+	return playerEl.value === document.activeElement || playerEl.value.contains(document.activeElement);
 }
 
-const playerEl = useTemplateRef('playerEl');
-const audioEl = useTemplateRef('audioEl');
+const playerEl = shallowRef<HTMLDivElement>();
+const audioEl = shallowRef<HTMLAudioElement>();
 
 // eslint-disable-next-line vue/no-setup-props-reactivity-loss
-const hide = ref((prefer.s.nsfw === 'force' || prefer.s.dataSaver.media) ? true : (props.audio.isSensitive && prefer.s.nsfw !== 'ignore'));
+const hide = ref((defaultStore.state.nsfw === 'force' || defaultStore.state.dataSaver.media) ? true : (props.audio.isSensitive && defaultStore.state.nsfw !== 'ignore'));
 
 async function show() {
-	if (props.audio.isSensitive && prefer.s.confirmWhenRevealingSensitiveMedia) {
+	if (props.audio.isSensitive && defaultStore.state.confirmWhenRevealingSensitiveMedia) {
 		const { canceled } = await os.confirm({
 			type: 'question',
 			text: i18n.ts.sensitiveMediaRevealConfirm,
@@ -240,9 +240,9 @@ function showMenu(ev: MouseEvent) {
 		menu.push({ type: 'divider' }, ...details);
 	}
 
-	if (prefer.s.devMode) {
+	if (defaultStore.state.devMode) {
 		menu.push({ type: 'divider' }, {
-			icon: 'ti ti-hash',
+			icon: 'ti ti-id',
 			text: i18n.ts.copyFileId,
 			action: () => {
 				copyToClipboard(props.audio.id);
@@ -407,7 +407,7 @@ onDeactivated(() => {
 	elapsedTimeMs.value = 0;
 	durationMs.value = 0;
 	bufferedEnd.value = 0;
-	hide.value = (prefer.s.nsfw === 'force' || prefer.s.dataSaver.media) ? true : (props.audio.isSensitive && prefer.s.nsfw !== 'ignore');
+	hide.value = (defaultStore.state.nsfw === 'force' || defaultStore.state.dataSaver.media) ? true : (props.audio.isSensitive && defaultStore.state.nsfw !== 'ignore');
 	stopAudioElWatch();
 	onceInit = false;
 	if (mediaTickFrameId) {

@@ -51,17 +51,6 @@ SPDX-License-Identifier: AGPL-3.0-only
 							</MkSwitch>
 						</MkFolder>
 
-						<MkFolder v-if="matchQuery([i18n.ts._role._options.chatAvailability, 'chatAvailability'])">
-							<template #label>{{ i18n.ts._role._options.chatAvailability }}</template>
-							<template #suffix>{{ policies.chatAvailability === 'available' ? i18n.ts.yes : policies.chatAvailability === 'readonly' ? i18n.ts.readonly : i18n.ts.no }}</template>
-							<MkSelect v-model="policies.chatAvailability">
-								<template #label>{{ i18n.ts.enable }}</template>
-								<option value="available">{{ i18n.ts.enabled }}</option>
-								<option value="readonly">{{ i18n.ts.readonly }}</option>
-								<option value="unavailable">{{ i18n.ts.disabled }}</option>
-							</MkSelect>
-						</MkFolder>
-
 						<MkFolder v-if="matchQuery([i18n.ts._role._options.mentionMax, 'mentionLimit'])">
 							<template #label>{{ i18n.ts._role._options.mentionMax }}</template>
 							<template #suffix>{{ policies.mentionLimit }}</template>
@@ -345,16 +334,15 @@ import MkInput from '@/components/MkInput.vue';
 import MkFolder from '@/components/MkFolder.vue';
 import MkSwitch from '@/components/MkSwitch.vue';
 import MkButton from '@/components/MkButton.vue';
-import MkSelect from '@/components/MkSelect.vue';
 import MkRange from '@/components/MkRange.vue';
 import MkRolePreview from '@/components/MkRolePreview.vue';
 import * as os from '@/os.js';
-import { misskeyApi } from '@/utility/misskey-api.js';
+import { misskeyApi } from '@/scripts/misskey-api.js';
 import { i18n } from '@/i18n.js';
-import { definePage } from '@/page.js';
+import { definePageMetadata } from '@/scripts/page-metadata.js';
 import { instance, fetchInstance } from '@/instance.js';
 import MkFoldableSection from '@/components/MkFoldableSection.vue';
-import { useRouter } from '@/router.js';
+import { useRouter } from '@/router/supplier.js';
 
 const router = useRouter();
 const baseRoleQ = ref('');
@@ -397,7 +385,7 @@ const headerActions = computed(() => []);
 
 const headerTabs = computed(() => []);
 
-definePage(() => ({
+definePageMetadata(() => ({
 	title: i18n.ts.roles,
 	icon: 'ti ti-badges',
 }));

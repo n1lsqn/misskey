@@ -34,11 +34,10 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts">
-import { computed, isRef, nextTick, onActivated, onBeforeMount, onBeforeUnmount, onDeactivated, ref, shallowRef, watch } from 'vue';
+import { computed, ComputedRef, isRef, nextTick, onActivated, onBeforeMount, onBeforeUnmount, onDeactivated, ref, shallowRef, watch } from 'vue';
 import * as Misskey from 'misskey-js';
 import { useDocumentVisibility } from '@@/js/use-document-visibility.js';
-import { onScrollTop, getBodyScrollHeight, getScrollContainer, onScrollBottom, scrollToBottom, scrollInContainer, isTailVisible, isHeadVisible } from '@@/js/scroll.js';
-import type { ComputedRef } from 'vue';
+import { onScrollTop, isTopVisible, getBodyScrollHeight, getScrollContainer, onScrollBottom, scrollToBottom, scroll, isBottomVisible } from '@@/js/scroll.js';
 import { misskeyApi } from '@/misskey-api.js';
 import { i18n } from '@/i18n.js';
 
@@ -63,6 +62,8 @@ export type Paging<E extends keyof Misskey.Endpoints = keyof Misskey.Endpoints> 
 	reversed?: boolean;
 
 	offsetMode?: boolean;
+
+	pageEl?: HTMLElement;
 };
 
 type MisskeyEntity = {
@@ -134,7 +135,8 @@ const isBackTop = ref(false);
 const empty = computed(() => items.value.size === 0);
 const error = ref(false);
 
-const scrollableElement = computed(() => rootEl.value ? getScrollContainer(rootEl.value) : document.body);
+const contentEl = computed(() => props.pagination.pageEl ?? rootEl.value);
+const scrollableElement = computed(() => contentEl.value ? getScrollContainer(contentEl.value) : document.body);
 
 const visibility = useDocumentVisibility();
 
@@ -165,11 +167,11 @@ watch(rootEl, () => {
 	});
 });
 
-watch([backed, rootEl], () => {
+watch([backed, contentEl], () => {
 	if (!backed.value) {
-		if (!rootEl.value) return;
+		if (!contentEl.value) return;
 
-		scrollRemove.value = (props.pagination.reversed ? onScrollBottom : onScrollTop)(rootEl.value, executeQueue, TOLERANCE);
+		scrollRemove.value = (props.pagination.reversed ? onScrollBottom : onScrollTop)(contentEl.value, executeQueue, TOLERANCE);
 	} else {
 		if (scrollRemove.value) scrollRemove.value();
 		scrollRemove.value = null;
@@ -252,7 +254,7 @@ const fetchMore = async (): Promise<void> => {
 
 			return nextTick(() => {
 				if (scrollableElement.value) {
-					scrollInContainer(scrollableElement.value, { top: oldScroll + (scrollableElement.value.scrollHeight - oldHeight), behavior: 'instant' });
+					scroll(scrollableElement.value, { top: oldScroll + (scrollableElement.value.scrollHeight - oldHeight), behavior: 'instant' });
 				} else {
 					window.scroll({ top: oldScroll + (getBodyScrollHeight() - oldHeight), behavior: 'instant' });
 				}
@@ -342,7 +344,7 @@ const appearFetchMoreAhead = async (): Promise<void> => {
 	fetchMoreAppearTimeout();
 };
 
-const isTop = (): boolean => isBackTop.value || (props.pagination.reversed ? isTailVisible : isHeadVisible)(rootEl.value!, TOLERANCE);
+const isTop = (): boolean => isBackTop.value || (props.pagination.reversed ? isBottomVisible : isTopVisible)(contentEl.value!, TOLERANCE);
 
 watch(visibility, () => {
 	if (visibility.value === 'hidden') {
@@ -440,7 +442,7 @@ onDeactivated(() => {
 });
 
 function toBottom() {
-	scrollToBottom(rootEl.value!);
+	scrollToBottom(contentEl.value!);
 }
 
 onBeforeMount(() => {

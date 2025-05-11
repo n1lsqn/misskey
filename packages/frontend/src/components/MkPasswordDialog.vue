@@ -15,7 +15,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 	<MkSpacer :marginMin="20" :marginMax="28">
 		<div style="padding: 0 0 16px 0; text-align: center;">
-			<img src="/client-assets/locked_with_key_3d.png" alt="🔐" style="display: block; margin: 0 auto; width: 48px;">
+			<img src="/fluent-emoji/1f510.png" alt="🔐" style="display: block; margin: 0 auto; width: 48px;">
 			<div style="margin-top: 16px;">{{ i18n.ts.authenticationRequiredToContinue }}</div>
 		</div>
 
@@ -39,14 +39,14 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { onMounted, useTemplateRef, ref } from 'vue';
+import { onMounted, shallowRef, ref } from 'vue';
 import MkInput from '@/components/MkInput.vue';
 import MkButton from '@/components/MkButton.vue';
 import MkModalWindow from '@/components/MkModalWindow.vue';
 import { i18n } from '@/i18n.js';
-import { ensureSignin } from '@/i.js';
+import { signinRequired } from '@/account.js';
 
-const $i = ensureSignin();
+const $i = signinRequired();
 
 const emit = defineEmits<{
 	(ev: 'done', v: { password: string; token: string | null; }): void;
@@ -54,8 +54,8 @@ const emit = defineEmits<{
 	(ev: 'cancelled'): void;
 }>();
 
-const dialog = useTemplateRef('dialog');
-const passwordInput = useTemplateRef('passwordInput');
+const dialog = shallowRef<InstanceType<typeof MkModalWindow>>();
+const passwordInput = shallowRef<InstanceType<typeof MkInput>>();
 const password = ref('');
 const isBackupCode = ref(false);
 const token = ref<string | null>(null);

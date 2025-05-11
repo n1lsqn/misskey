@@ -70,7 +70,7 @@ const props = defineProps<{
 	margin-right: 0.75em;
 	flex-shrink: 0;
 	text-align: center;
-	color: color(from var(--MI_THEME-fg) srgb r g b / 0.75);
+	color: var(--MI_THEME-fgTransparentWeak);
 
 	&:empty {
 		display: none;

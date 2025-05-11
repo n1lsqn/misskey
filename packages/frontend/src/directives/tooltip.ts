@@ -8,7 +8,7 @@
 
 import { defineAsyncComponent, ref } from 'vue';
 import type { Directive } from 'vue';
-import { isTouchUsing } from '@/utility/touch.js';
+import { isTouchUsing } from '@/scripts/touch.js';
 import { popup, alert } from '@/os.js';
 
 const start = isTouchUsing ? 'touchstart' : 'mouseenter';
@@ -47,7 +47,7 @@ export default {
 		}
 
 		self.show = () => {
-			if (!window.document.body.contains(el)) return;
+			if (!document.body.contains(el)) return;
 			if (self._close) return;
 			if (self.text == null) return;
 

@@ -14,17 +14,17 @@ import { computed, watch, ref, onMounted, shallowRef, onUnmounted } from 'vue';
 import * as Misskey from 'misskey-js';
 import GameSetting from './game.setting.vue';
 import GameBoard from './game.board.vue';
-import { misskeyApi } from '@/utility/misskey-api.js';
-import { definePage } from '@/page.js';
+import { misskeyApi } from '@/scripts/misskey-api.js';
+import { definePageMetadata } from '@/scripts/page-metadata.js';
 import { useStream } from '@/stream.js';
-import { ensureSignin } from '@/i.js';
-import { useRouter } from '@/router.js';
+import { signinRequired } from '@/account.js';
+import { useRouter } from '@/router/supplier.js';
 import * as os from '@/os.js';
 import { url } from '@@/js/config.js';
 import { i18n } from '@/i18n.js';
 import { useInterval } from '@@/js/use-interval.js';
 
-const $i = ensureSignin();
+const $i = signinRequired();
 
 const router = useRouter();
 
@@ -114,7 +114,7 @@ onUnmounted(() => {
 	}
 });
 
-definePage(() => ({
+definePageMetadata(() => ({
 	title: 'Reversi',
 	icon: 'ti ti-device-gamepad',
 }));

@@ -9,8 +9,8 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { defineAsyncComponent, useTemplateRef } from 'vue';
-import { useTooltip } from '@/use/use-tooltip.js';
+import { defineAsyncComponent, shallowRef } from 'vue';
+import { useTooltip } from '@/scripts/use-tooltip.js';
 import * as os from '@/os.js';
 
 const props = defineProps<{
@@ -20,7 +20,7 @@ const props = defineProps<{
 	withTooltip?: boolean;
 }>();
 
-const elRef = useTemplateRef('elRef');
+const elRef = shallowRef();
 
 if (props.withTooltip) {
 	useTooltip(elRef, (showing) => {

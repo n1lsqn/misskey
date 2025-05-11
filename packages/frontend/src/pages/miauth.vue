@@ -4,7 +4,8 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 <template>
-<PageWithAnimBg>
+<div>
+	<MkAnimBg style="position: fixed; top: 0;"/>
 	<div :class="$style.formContainer">
 		<div :class="$style.form">
 			<MkAuthConfirm
@@ -24,16 +25,19 @@ SPDX-License-Identifier: AGPL-3.0-only
 			</MkAuthConfirm>
 		</div>
 	</div>
-</PageWithAnimBg>
+</div>
 </template>
 
 <script lang="ts" setup>
 import { computed, useTemplateRef } from 'vue';
 import * as Misskey from 'misskey-js';
+
+import MkAnimBg from '@/components/MkAnimBg.vue';
 import MkAuthConfirm from '@/components/MkAuthConfirm.vue';
+
 import { i18n } from '@/i18n.js';
-import { misskeyApi } from '@/utility/misskey-api.js';
-import { definePage } from '@/page.js';
+import { misskeyApi } from '@/scripts/misskey-api.js';
+import { definePageMetadata } from '@/scripts/page-metadata.js';
 
 const props = defineProps<{
 	session: string;
@@ -60,7 +64,7 @@ async function onAccept(token: string) {
 			const cbUrl = new URL(props.callback);
 			if (['javascript:', 'file:', 'data:', 'mailto:', 'tel:', 'vbscript:'].includes(cbUrl.protocol)) throw new Error('invalid url');
 			cbUrl.searchParams.set('session', props.session);
-			window.location.href = cbUrl.toString();
+			location.href = cbUrl.toString();
 		} else {
 			authRoot.value?.showUI('success');
 		}
@@ -73,7 +77,7 @@ function onDeny() {
 	authRoot.value?.showUI('denied');
 }
 
-definePage(() => ({
+definePageMetadata(() => ({
 	title: 'MiAuth',
 	icon: 'ti ti-apps',
 }));

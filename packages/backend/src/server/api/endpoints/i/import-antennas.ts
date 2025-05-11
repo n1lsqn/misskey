@@ -16,7 +16,7 @@ import { ApiError } from '../../error.js';
 export const meta = {
 	secure: true,
 	requireCredential: true,
-	requiredRolePolicy: 'canImportAntennas',
+	requireRolePolicy: 'canImportAntennas',
 	prohibitMoved: true,
 
 	limit: {

@@ -15,7 +15,7 @@ import { ApiError } from '../../error.js';
 export const meta = {
 	secure: true,
 	requireCredential: true,
-	requiredRolePolicy: 'canImportMuting',
+	requireRolePolicy: 'canImportMuting',
 	prohibitMoved: true,
 
 	limit: {

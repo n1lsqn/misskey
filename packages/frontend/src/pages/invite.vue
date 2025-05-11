@@ -4,10 +4,11 @@ SPDX-License-Identifier: AGPL-3.0-only
 -->
 
 <template>
-<PageWithHeader>
+<MkStickyContainer>
+	<template #header><MkPageHeader/></template>
 	<MkSpacer v-if="!instance.disableRegistration || !($i && ($i.isAdmin || $i.policies.canInvite))" :contentMax="1200">
 		<div :class="$style.root">
-			<img :class="$style.img" :src="serverErrorImageUrl" draggable="false"/>
+			<img :class="$style.img" :src="serverErrorImageUrl" class="_ghost"/>
 			<div :class="$style.text">
 				<i class="ti ti-alert-triangle"></i>
 				{{ i18n.ts.nothing }}
@@ -29,24 +30,24 @@ SPDX-License-Identifier: AGPL-3.0-only
 			</MkPagination>
 		</div>
 	</MkSpacer>
-</PageWithHeader>
+</MkStickyContainer>
 </template>
 
 <script lang="ts" setup>
-import { computed, ref, useTemplateRef } from 'vue';
+import { computed, ref, shallowRef } from 'vue';
 import * as Misskey from 'misskey-js';
-import type { Paging } from '@/components/MkPagination.vue';
 import { i18n } from '@/i18n.js';
 import * as os from '@/os.js';
-import { misskeyApi } from '@/utility/misskey-api.js';
+import { misskeyApi } from '@/scripts/misskey-api.js';
 import MkButton from '@/components/MkButton.vue';
 import MkPagination from '@/components/MkPagination.vue';
+import type { Paging } from '@/components/MkPagination.vue';
 import MkInviteCode from '@/components/MkInviteCode.vue';
-import { definePage } from '@/page.js';
+import { definePageMetadata } from '@/scripts/page-metadata.js';
 import { serverErrorImageUrl, instance } from '@/instance.js';
-import { $i } from '@/i.js';
+import { $i } from '@/account.js';
 
-const pagingComponent = useTemplateRef('pagingComponent');
+const pagingComponent = shallowRef<InstanceType<typeof MkPagination>>();
 const currentInviteLimit = ref<null | number>(null);
 const inviteLimit = (($i != null && $i.policies.inviteLimit) || (($i == null && instance.policies.inviteLimit))) as number;
 const inviteLimitCycle = (($i != null && $i.policies.inviteLimitCycle) || ($i == null && instance.policies.inviteLimitCycle)) as number;
@@ -91,7 +92,7 @@ async function update() {
 
 update();
 
-definePage(() => ({
+definePageMetadata(() => ({
 	title: i18n.ts.invite,
 	icon: 'ti ti-user-plus',
 }));

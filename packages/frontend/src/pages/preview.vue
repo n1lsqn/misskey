@@ -13,13 +13,13 @@ SPDX-License-Identifier: AGPL-3.0-only
 import { computed } from 'vue';
 import MkSample from '@/components/MkPreview.vue';
 import { i18n } from '@/i18n.js';
-import { definePage } from '@/page.js';
+import { definePageMetadata } from '@/scripts/page-metadata.js';
 
 const headerActions = computed(() => []);
 
 const headerTabs = computed(() => []);
 
-definePage(computed(() => ({
+definePageMetadata(computed(() => ({
 	title: i18n.ts.preview,
 	icon: 'ti ti-eye',
 })));

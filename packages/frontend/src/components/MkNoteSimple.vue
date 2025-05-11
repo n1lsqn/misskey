@@ -34,7 +34,7 @@ import MkSubNoteContent from '@/components/MkSubNoteContent.vue';
 import MkCwButton from '@/components/MkCwButton.vue';
 import MkButton from '@/components/MkButton.vue';
 import * as os from '@/os.js';
-import { misskeyApi } from '@/utility/misskey-api';
+import { misskeyApi } from '@/scripts/misskey-api';
 
 const isDeleted = ref(false);
 const props = defineProps<{
