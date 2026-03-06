@@ -295,6 +295,10 @@ export const store = markRaw(new Pizzax('base', {
 		where: 'device',
 		default: 'remote' as 'none' | 'remote' | 'always',
 	},
+	instanceTickerStyle: {
+		where: 'device',
+		default: 'default' as 'default' | 'minimal' | 'icon' | 'iconColor',
+	},
 	emojiPickerScale: {
 		where: 'device',
 		default: 1,

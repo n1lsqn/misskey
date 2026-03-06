@@ -13124,4 +13124,26 @@ export interface Locale extends ILocale {
          */
         "mfm": string;
     };
+    /**
+     * ノートのサーバー情報の表示形式
+     */
+    "instanceTickerStyle": string;
+    "_instanceTickerStyle": {
+        /**
+         * デフォルト
+         */
+        "default": string;
+        /**
+         * 小さく表示
+         */
+        "minimal": string;
+        /**
+         * アイコンを表示
+         */
+        "icon": string;
+        /**
+         * アイコン(背景付き)を表示
+         */
+        "iconColor": string;
+    };
 }

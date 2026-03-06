@@ -47,10 +47,11 @@ SPDX-License-Identifier: AGPL-3.0-only
 	</div>
 	<article v-else :class="$style.article" @contextmenu.stop="onContextmenu">
 		<div v-if="appearNote.channel" :class="$style.colorBar" :style="{ background: appearNote.channel.color }"></div>
+		<MkInstanceTickerMini v-if="showTicker && tickerStyle === 'minimal'" :class="$style.tickerMini" :instance="appearNote.user.instance"/>
 		<MkAvatar :class="[$style.avatar, prefer.s.useStickyIcons ? $style.useSticky : null]" :user="appearNote.user" :link="!mock" :preview="!mock"/>
 		<div :class="$style.main">
 			<MkNoteHeader :note="appearNote" :mini="true"/>
-			<MkInstanceTicker v-if="showTicker" :host="appearNote.user.host" :instance="appearNote.user.instance"/>
+			<MkInstanceTicker v-if="showTicker && tickerStyle === 'default'" :class="$style.ticker" :host="appearNote.user.host" :instance="appearNote.user.instance"/>
 			<div style="container-type: inline-size;">
 				<p v-if="appearNote.cw != null" :class="$style.cw">
 					<Mfm
@@ -244,6 +245,7 @@ import { prefer } from '@/preferences.js';
 import { getPluginHandlers } from '@/plugin.js';
 import { DI } from '@/di.js';
 import { globalEvents } from '@/events.js';
+import { store } from '@/store';
 
 const props = withDefaults(defineProps<{
 	note: Misskey.entities.Note;
@@ -358,6 +360,9 @@ function checkMute(noteToCheck: Misskey.entities.Note, mutedWords: Array<string 
 
 	return false;
 }
+
+const tickerStyle = store.s.instanceTickerStyle;
+
 /* eslint-enable no-redeclare */
 
 const keymap = {

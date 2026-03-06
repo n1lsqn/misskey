@@ -285,6 +285,25 @@ SPDX-License-Identifier: AGPL-3.0-only
 								</MkPreferenceContainer>
 							</SearchMarker>
 
+							<SearchMarker :keywords="['ticker', 'information', 'label', 'instance', 'server', 'host', 'federation', 'style', 'display']">
+								<MkPreferenceContainer k="instanceTickerStyle">
+									<MkSelect
+										v-model="instanceTickerStyle"
+										:items="[
+											{ label: i18n.ts._instanceTickerStyle.default, value: 'default' },
+											{ label: i18n.ts._instanceTickerStyle.minimal, value: 'minimal' },
+											{ label: i18n.ts._instanceTickerStyle.icon, value: 'icon' },
+											{ label: i18n.ts._instanceTickerStyle.iconColor, value: 'iconColor' },
+										]"
+									>
+										<template #label><SearchLabel>{{ i18n.ts.instanceTickerStyle }}</SearchLabel></template>
+										<span class="_beta">
+											{{ "originFeature" }}
+										</span>
+									</MkSelect>
+								</MkPreferenceContainer>
+							</SearchMarker>
+
 							<SearchMarker :keywords="['attachment', 'image', 'photo', 'picture', 'media', 'thumbnail', 'nsfw', 'sensitive', 'display', 'show', 'hide', 'visibility']">
 								<MkPreferenceContainer k="nsfw">
 									<MkSelect
@@ -888,6 +907,7 @@ const rememberNoteVisibility = prefer.model('rememberNoteVisibility');
 const notificationPosition = prefer.model('notificationPosition');
 const notificationStackAxis = prefer.model('notificationStackAxis');
 const instanceTicker = prefer.model('instanceTicker');
+const instanceTickerStyle = prefer.model('instanceTickerStyle');
 const highlightSensitiveMedia = prefer.model('highlightSensitiveMedia');
 const mediaListWithOneImageAppearance = prefer.model('mediaListWithOneImageAppearance');
 const reactionsDisplaySize = prefer.model('reactionsDisplaySize');

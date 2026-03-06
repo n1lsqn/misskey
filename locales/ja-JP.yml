@@ -3514,3 +3514,10 @@ _qr:
   scanFile: "端末の画像をスキャン"
   raw: "テキスト"
   mfm: "MFM"
+
+instanceTickerStyle: "ノートのサーバー情報の表示形式"
+_instanceTickerStyle:
+  default: "デフォルト"
+  minimal: "小さく表示"
+  icon: "アイコンを表示"
+  iconColor: "アイコン(背景付き)を表示"

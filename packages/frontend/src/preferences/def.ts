@@ -17,6 +17,7 @@ import type { ImageFramePreset } from '@/utility/image-frame-renderer/ImageFrame
 import { genId } from '@/utility/id.js';
 import { DEFAULT_DEVICE_KIND } from '@/utility/device-kind.js';
 import { deepEqual } from '@/utility/deep-equal.js';
+import { instance } from '@/instance.js';
 
 /** サウンド設定 */
 export type SoundStore = {
@@ -268,6 +269,9 @@ export const PREF_DEF = definePreferences({
 	},
 	instanceTicker: {
 		default: 'remote' as 'none' | 'remote' | 'always',
+	},
+	instanceTickerStyle: {
+		default: 'default' as 'default' | 'minimal' | 'icon' | 'iconColor',
 	},
 	emojiPickerScale: {
 		default: 2,
