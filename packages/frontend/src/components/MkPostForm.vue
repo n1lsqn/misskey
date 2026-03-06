@@ -719,6 +719,11 @@ function clear() {
 
 function onKeydown(ev: KeyboardEvent) {
 	if (ev.key === 'Enter' && (ev.ctrlKey || ev.metaKey) && canPost.value) post();
+	if (ev.key === 'm' && (ev.ctrlKey || ev.metaKey)) visibility.value = 'public';
+	if (ev.key === '.' && (ev.ctrlKey || ev.metaKey)) visibility.value = 'followers';
+	if (ev.key === '/' && (ev.ctrlKey || ev.metaKey)) localOnly.value = !localOnly.value;
+	if (ev.key === 'Escape') emit('esc');
+	if (ev.key === ',' && (ev.ctrlKey || ev.metaKey)) visibility.value = 'home';
 
 	// justEndedComposition.value is for Safari, which keyDown occurs after compositionend.
 	// ev.isComposing is for another browsers.
