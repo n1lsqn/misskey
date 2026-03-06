@@ -20,7 +20,7 @@ const props = defineProps<{
 
 const instance = computed(() => props.instance ?? {
 	name: instanceName,
-	themeColor: (window.document.querySelector('meta[name="theme-color"]') as HTMLMetaElement)?.content,
+	themeColor: (window.document.querySelector('meta[name="theme-color"]') as HTMLMetaElement).content,
 });
 
 const faviconUrl = computed(() =>
