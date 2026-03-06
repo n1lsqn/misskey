@@ -30,6 +30,7 @@ const faviconUrl = computed(() =>
 		getProxiedImageUrlNullable(Instance.iconUrl, 'preview') ?? '/favicon.ico');
 
 const darkMode = store.s.darkMode;
+const TickerStyle = store.s.instanceTickerStyle;
 </script>
 
 <style lang="scss" module>

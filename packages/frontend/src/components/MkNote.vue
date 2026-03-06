@@ -246,6 +246,7 @@ import { getPluginHandlers } from '@/plugin.js';
 import { DI } from '@/di.js';
 import { globalEvents } from '@/events.js';
 import { store } from '@/store';
+import MkInstanceTickerMini from '@/components/MkInstanceTickerMini.vue';
 
 const props = withDefaults(defineProps<{
 	note: Misskey.entities.Note;

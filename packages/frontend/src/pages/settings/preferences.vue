@@ -317,7 +317,6 @@ SPDX-License-Identifier: AGPL-3.0-only
 											{ label: i18n.ts._instanceTickerStyle.default, value: 'default' },
 											{ label: i18n.ts._instanceTickerStyle.minimal, value: 'minimal' },
 											{ label: i18n.ts._instanceTickerStyle.icon, value: 'icon' },
-											{ label: i18n.ts._instanceTickerStyle.iconColor, value: 'iconColor' },
 										]"
 									>
 										<template #label><SearchLabel>{{ i18n.ts.instanceTickerStyle }}</SearchLabel></template>
@@ -1016,6 +1015,7 @@ watch([
 	mediaListWithOneImageAppearance,
 	limitWidthOfReaction,
 	instanceTicker,
+	instanceTickerStyle,
 	squareAvatars,
 	highlightSensitiveMedia,
 	enableSeasonalScreenEffect,

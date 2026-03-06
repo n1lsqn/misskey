@@ -271,7 +271,7 @@ export const PREF_DEF = definePreferences({
 		default: 'remote' as 'none' | 'remote' | 'always',
 	},
 	instanceTickerStyle: {
-		default: 'default' as 'default' | 'minimal' | 'icon' | 'iconColor',
+		default: 'icon' as 'default' | 'minimal' | 'icon',
 	},
 	emojiPickerScale: {
 		default: 2,
