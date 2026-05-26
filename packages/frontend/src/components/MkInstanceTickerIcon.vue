@@ -1,13 +1,13 @@
 <template>
 <div v-tooltip="instance.name" :class="$style.root">
 	<img v-if="faviconUrl && instance.themeColor && !darkMode" :class="$style.icon" :src="faviconUrl" :style="{ backgroundColor: instance.themeColor }"/>
-	<img v-else-if="faviconUrl && instance.themeColor" :class="$style.icon" :src="faviconUrl"/>
+	<img v-else-if="faviconUrl" :class="$style.icon" :src="faviconUrl"/>
 	<i v-if="!faviconUrl" class="ti ti-whirl"></i>
 </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, defineProps } from 'vue';
+import { computed } from 'vue';
 import * as Misskey from 'misskey-js';
 import { instanceName } from '@@/js/config';
 import { getProxiedImageUrlNullable } from '@/utility/media-proxy.js';
