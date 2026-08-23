@@ -12,6 +12,7 @@ import * as Misskey from 'misskey-js';
 import { instanceName } from '@@/js/config';
 import { getProxiedImageUrlNullable } from '@/utility/media-proxy.js';
 import { store } from '@/store';
+import { prefer } from '@/preferences.js';
 import { instance as Instance } from '@/instance.js';
 
 const props = defineProps<{
@@ -30,7 +31,7 @@ const faviconUrl = computed(() =>
 		getProxiedImageUrlNullable(Instance.iconUrl, 'preview') ?? '/favicon.ico');
 
 const darkMode = store.s.darkMode;
-const TickerStyle = store.s.instanceTickerStyle;
+const TickerStyle = prefer.s.instanceTickerStyle;
 </script>
 
 <style lang="scss" module>
