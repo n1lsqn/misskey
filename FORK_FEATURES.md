@@ -29,3 +29,13 @@ DB変更は新規 `1790930122383-ForkFeatures.js` にまとめ、既存migration
 開発・運用の統合先とデフォルトブランチは `n1l`。作業は `n1l` から `feat/*` / `fix/*` ブランチを切り、統合後に削除する。リリースはタグで管理する。
 
 旧7ブランチは `archive/2026-10-02/*` タグで保存する。復元例: `git switch -c restore/2025.1.0 archive/2026-10-02/feat/2025.1.0`。ブランチ削除前に、リモートの保存用タグが各ブランチの先端と一致することを確認する。
+
+## 自動リリース
+
+`auto-release-n1l.yml` は `n1l` のCI完了時に全必須チェックを照合する。未実行・実行中・失敗があると、バージョン更新もタグ作成も行わない。古いcommitの完了通知も無視する。
+
+通常の変更を統合すると、次の `-n1l.N` バージョンへルートとSDKを更新する `release/*` PRを作成する。このPRはブランチ保護の必須CIを満たした後にauto-mergeする。統合後の `n1l` のCIがすべて成功すると、バージョンと同名の注釈付きタグを作成する。既存タグは移動せず、同じcommitの通知が重複しても追加リリースしない。コード変更PRのマージは自動化しない。
+
+有効化にはGitHubの「Allow auto-merge」とActions secret `RELEASE_TOKEN` が必要。専用fine-grained PATはこのリポジトリに限定し、Contents・Pull requestsをRead and write、Actions・Checks・AdministrationをRead-onlyに設定する。Administrationは必須チェックと管理者適用を読み取るために使用し、保護ルールを変更・迂回しない。トークンはファイルやチャットに書かず、`gh secret set RELEASE_TOKEN --repo n1lsqn/misskey` の非表示入力で登録する。
+
+失敗後の再実行には、ActionsのAutomatic n1l releaseを `n1l` で手動実行できる。CI判定は手動実行でも省略しない。
