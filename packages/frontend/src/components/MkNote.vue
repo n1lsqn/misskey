@@ -88,7 +88,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 						</div>
 					</div>
 					<div v-if="appearNote.files && appearNote.files.length > 0" style="margin-top: 8px;">
-						<MkMediaList ref="galleryEl" :mediaList="appearNote.files"/>
+						<MkMediaList ref="galleryEl" :mediaList="appearNote.files" :user="appearNote.user"/>
 					</div>
 					<MkPoll
 						v-if="appearNote.poll"
@@ -224,7 +224,6 @@ import MkInstanceTicker from '@/components/MkInstanceTicker.vue';
 import { store } from '@/store';
 import MkInstanceTickerMini from '@/components/MkInstanceTickerMini.vue';
 
-
 const props = withDefaults(defineProps<{
 	note: Misskey.entities.Note;
 	pinned?: boolean;
@@ -322,7 +321,6 @@ function handleToggleReact() {
 
 const tickerStyle = prefer.s.instanceTickerStyle;
 
-
 function emitUpdReaction(emoji: string, delta: number) {
 	if (delta < 0) {
 		emit('removeReaction', emoji);
@@ -363,7 +361,7 @@ const keymap = {
 			renoteCollapsed.value = false;
 		} else if (appearNote.cw != null) {
 			showContent.value = !showContent.value;
-		} else if (isLong.value) {
+		} else if (isLong) {
 			collapsed.value = !collapsed.value;
 		}
 	},

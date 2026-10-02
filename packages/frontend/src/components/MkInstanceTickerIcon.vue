@@ -1,3 +1,8 @@
+<!--
+SPDX-FileCopyrightText: syuilo and misskey-project
+SPDX-License-Identifier: AGPL-3.0-only
+-->
+
 <template>
 <div v-tooltip="instance.name" :class="$style.root">
 	<img v-if="faviconUrl && instance.themeColor && !darkMode" :class="$style.icon" :src="faviconUrl" :style="{ backgroundColor: instance.themeColor }"/>
