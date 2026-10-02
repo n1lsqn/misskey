@@ -6,39 +6,10 @@ on:
       - master
       - develop
       - n1l
-    paths:
-      - packages/backend/**
-      - packages/frontend/**
-      - packages/frontend-shared/**
-      - packages/frontend-builder/**
-      - packages/frontend-embed/**
-      - packages/icons-subsetter/**
-      - packages/sw/**
-      - packages/misskey-js/**
-      - packages/misskey-bubble-game/**
-      - packages/misskey-reversi/**
-      - packages/shared/eslint.config.js
-      - scripts/check-dts*.mjs
-      - .github/workflows/lint.yml
-      - package.json
   pull_request:
     branches-ignore:
       - master
-    paths:
-      - packages/backend/**
-      - packages/frontend/**
-      - packages/frontend-shared/**
-      - packages/frontend-builder/**
-      - packages/frontend-embed/**
-      - packages/icons-subsetter/**
-      - packages/sw/**
-      - packages/misskey-js/**
-      - packages/misskey-bubble-game/**
-      - packages/misskey-reversi/**
-      - packages/shared/eslint.config.js
-      - scripts/check-dts*.mjs
-      - .github/workflows/lint.yml
-      - package.json
+
 jobs:
   pnpm_install:
     runs-on: ubuntu-latest
@@ -58,7 +29,6 @@ jobs:
   lint:
     needs: [pnpm_install]
     runs-on: ubuntu-latest
-    continue-on-error: true
     strategy:
       matrix:
         workspace:
@@ -98,7 +68,6 @@ jobs:
   typecheck:
     needs: [pnpm_install]
     runs-on: ubuntu-latest
-    continue-on-error: true
     strategy:
       matrix:
         workspace:
@@ -124,7 +93,6 @@ jobs:
   check-dts:
     needs: [pnpm_install]
     runs-on: ubuntu-latest
-    continue-on-error: true
     steps:
     - uses: actions/checkout@v7.0.1
       with:

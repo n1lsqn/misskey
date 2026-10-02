@@ -6,15 +6,10 @@ on:
       - master
       - develop
       - n1l
-    paths:
-      - packages/backend/**
-      - .github/workflows/validate-api-json.yml
   pull_request:
     branches-ignore:
       - master
-    paths:
-      - packages/backend/**
-      - .github/workflows/validate-api-json.yml
+
 jobs:
   validate-api-json:
     runs-on: ubuntu-latest

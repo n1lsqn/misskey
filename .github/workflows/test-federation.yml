@@ -6,17 +6,9 @@ on:
       - master
       - develop
       - n1l
-    paths:
-      - packages/backend/**
-      - packages/misskey-js/**
-      - .github/workflows/test-federation.yml
   pull_request:
     branches-ignore:
       - master
-    paths:
-      - packages/backend/**
-      - packages/misskey-js/**
-      - .github/workflows/test-federation.yml
   workflow_dispatch:
 
 jobs:
