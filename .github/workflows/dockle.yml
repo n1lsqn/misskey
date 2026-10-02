@@ -6,6 +6,7 @@ on:
     branches:
       - master
       - develop
+      - n1l
   pull_request:
     branches-ignore:
       - master

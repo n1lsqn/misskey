@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - develop
+      - n1l
     paths:
       - packages-private/**
       - packages/shared/eslint.config.js

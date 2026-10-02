@@ -5,6 +5,7 @@ on:
     branches:
       - master
       - develop
+      - n1l
 
 jobs:
   check_copyright_year:
