@@ -43,6 +43,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
+import { dataSaver } from '@/utility/data-saver.js';
 import { watch, ref, computed } from 'vue';
 import * as Misskey from 'misskey-js';
 import { extractAvgColorFromBlurhash } from '@@/js/extract-avg-color-from-blurhash.js';
@@ -87,7 +88,7 @@ const bound = computed(() => props.link
 	: {});
 
 const url = computed(() => {
-	if (prefer.s.disableShowingAnimatedImages || prefer.s.dataSaver.avatar) return getStaticImageUrl(props.user.avatarUrl);
+	if (prefer.s.disableShowingAnimatedImages || dataSaver.avatar) return getStaticImageUrl(props.user.avatarUrl);
 	return props.user.avatarUrl;
 });
 
@@ -97,7 +98,7 @@ function onClick(ev: PointerEvent): void {
 }
 
 function getDecorationUrl(decoration: Decoration | DecorationEditorDecoration) {
-	if (prefer.s.disableShowingAnimatedImages || prefer.s.dataSaver.avatar) return getStaticImageUrl(decoration.url);
+	if (prefer.s.disableShowingAnimatedImages || dataSaver.avatar) return getStaticImageUrl(decoration.url);
 	return decoration.url;
 }
 

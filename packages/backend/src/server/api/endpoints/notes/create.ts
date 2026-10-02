@@ -40,6 +40,11 @@ export const meta = {
 	},
 
 	errors: {
+		invalidDeleteTime: {
+			message: 'Scheduled deletion must be in the future.',
+			code: 'INVALID_DELETE_TIME',
+			id: '80a9b77a-8431-4566-8c42-92f5ab724839',
+		},
 		noSuchRenoteTarget: {
 			message: 'No such renote target.',
 			code: 'NO_SUCH_RENOTE_TARGET',
@@ -133,7 +138,14 @@ export const paramDef = {
 		visibleUserIds: { type: 'array', uniqueItems: true, items: {
 			type: 'string', format: 'misskey:id',
 		} },
-		cw: { type: 'string', nullable: true, minLength: 1, maxLength: 100 },
+		scheduledDelete: {
+			type: 'object', nullable: true,
+			properties: {
+				deleteAt: { type: 'integer', minimum: 0, maximum: 8640000000000000 },
+			},
+			required: ['deleteAt'],
+		},
+		cw: { type: 'string', nullable: true, maxLength: 100 },
 		localOnly: { type: 'boolean', default: false },
 		reactionAcceptance: { type: 'string', nullable: true, enum: [null, 'likeOnly', 'likeOnlyForRemote', 'nonSensitiveOnly', 'nonSensitiveOnlyForLocalLikeOnlyForRemote'], default: null },
 		noExtractMentions: { type: 'boolean', default: false },
@@ -220,9 +232,13 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 		private noteCreateService: NoteCreateService,
 	) {
 		super(meta, paramDef, async (ps, me) => {
+			if (ps.scheduledDelete && ps.scheduledDelete.deleteAt <= Date.now()) {
+				throw new ApiError(meta.errors.invalidDeleteTime);
+			}
 			try {
 				const note = await this.noteCreateService.fetchAndCreate(me, {
 					createdAt: new Date(),
+					deleteAt: ps.scheduledDelete ? new Date(ps.scheduledDelete.deleteAt) : null,
 					fileIds: ps.fileIds ?? ps.mediaIds ?? [],
 					poll: ps.poll ? {
 						choices: ps.poll.choices,

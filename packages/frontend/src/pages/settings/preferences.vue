@@ -214,6 +214,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 								</SearchMarker>
 
 								<SearchMarker :keywords="['reaction', 'confirm']">
+									<MkSwitch v-model="directRenote">{{ i18n.ts.directRenote }}</MkSwitch>
 									<MkPreferenceContainer k="confirmOnReact">
 										<MkSwitch v-model="confirmOnReact">
 											<template #label><SearchLabel>{{ i18n.ts.confirmOnReact }}</SearchLabel></template>
@@ -736,6 +737,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 						<MkInfo>{{ i18n.ts.reloadRequiredToApplySettings }}</MkInfo>
 
 						<div class="_buttons">
+							<MkSwitch v-model="autoDataSaver">{{ i18n.ts.autoDataSaver }}</MkSwitch>
 							<MkButton inline @click="enableAllDataSaver">{{ i18n.ts.enableAll }}</MkButton>
 							<MkButton inline @click="disableAllDataSaver">{{ i18n.ts.disableAll }}</MkButton>
 						</div>
@@ -913,6 +915,7 @@ import { suggestReload } from '@/utility/reload-suggest.js';
 const $i = ensureSignin();
 
 const lang = ref(miLocalStorage.getItem('lang'));
+const autoDataSaver = prefer.model('autoDataSaver');
 const dataSaver = ref(prefer.s.dataSaver);
 const realtimeMode = store.model('realtimeMode');
 
@@ -940,6 +943,7 @@ const showAvailableReactionsFirstInNote = prefer.model('showAvailableReactionsFi
 const useGroupedNotifications = prefer.model('useGroupedNotifications');
 const alwaysConfirmFollow = prefer.model('alwaysConfirmFollow');
 const confirmWhenRevealingSensitiveMedia = prefer.model('confirmWhenRevealingSensitiveMedia');
+const directRenote = prefer.model('directRenote');
 const confirmOnReact = prefer.model('confirmOnReact');
 const defaultNoteVisibility = prefer.model('defaultNoteVisibility');
 const defaultNoteLocalOnly = prefer.model('defaultNoteLocalOnly');

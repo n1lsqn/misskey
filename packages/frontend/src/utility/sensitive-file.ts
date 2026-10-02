@@ -3,13 +3,14 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
+import { dataSaver } from '@/utility/data-saver.js';
 import * as Misskey from 'misskey-js';
 import * as os from '@/os.js';
 import { prefer } from '@/preferences.js';
 import { i18n } from '@/i18n.js';
 
 export function shouldHideFileByDefault(file: Misskey.entities.DriveFile, ignoreDataSaver = false): boolean {
-	if (prefer.s.nsfw === 'force' || (!ignoreDataSaver && prefer.s.dataSaver.media)) {
+	if (prefer.s.nsfw === 'force' || (!ignoreDataSaver && dataSaver.media)) {
 		return true;
 	}
 

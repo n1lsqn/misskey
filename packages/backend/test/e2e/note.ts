@@ -31,6 +31,36 @@ describe('Note', () => {
 		tom = await signup({ username: 'tom', host: 'example.com' });
 	}, 1000 * 60 * 2);
 
+	test('fork: empty CW and 9000 characters are stored intact', async () => {
+		const text = 'あ'.repeat(9000);
+		const res = await api('notes/create', { text, cw: '' }, alice);
+		assert.strictEqual(res.status, 200);
+		assert.strictEqual(res.body.createdNote.text, text);
+		assert.strictEqual(res.body.createdNote.cw, '');
+	});
+
+	test('fork: remote timeline is registered, requires login and rejects unsafe hosts', async () => {
+		const anonymous = await api('notes/remote-timeline', { host: 'remote.example' });
+		assert.strictEqual(anonymous.status, 401);
+		const invalid = await api('notes/remote-timeline', { host: 'https://remote.example' }, alice);
+		assert.strictEqual(invalid.status, 400);
+		assert.strictEqual(castAsError(invalid.body).error.code, 'INVALID_HOST');
+		const excessive = await api('notes/remote-timeline', { host: 'remote.example', limit: 21 }, bob);
+		assert.strictEqual(excessive.status, 400);
+		assert.strictEqual(castAsError(excessive.body).error.code, 'INVALID_PARAM');
+	});
+
+	test('fork: scheduled deletion rejects past and stores future dates', async () => {
+		const bad = await api('notes/create', { text: 'past', scheduledDelete: { deleteAt: 1 } }, alice);
+		assert.strictEqual(bad.status, 400);
+		const deleteAt = Date.now() + 60_000;
+		const res = await api('notes/create', { text: 'future', scheduledDelete: { deleteAt } }, alice);
+		assert.strictEqual(res.status, 200);
+		assert.strictEqual(res.body.createdNote.deleteAt, new Date(deleteAt).toISOString());
+		const stored = await Notes.findOneByOrFail({ id: res.body.createdNote.id });
+		assert.strictEqual(stored.deleteAt?.getTime(), deleteAt);
+	});
+
 	test('投稿できる', async () => {
 		const post = {
 			text: 'test',

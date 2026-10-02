@@ -6,7 +6,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 <template>
 <div v-tooltip="instance.name" :class="$style.root">
 	<img v-if="faviconUrl && instance.themeColor && !darkMode" :class="$style.icon" :src="faviconUrl" :style="{ backgroundColor: instance.themeColor }"/>
-	<img v-else-if="faviconUrl && instance.themeColor" :class="$style.icon" :src="faviconUrl"/>
+	<img v-else-if="faviconUrl" :class="$style.icon" :src="faviconUrl"/>
 	<i v-if="!faviconUrl" class="ti ti-whirl"></i>
 </div>
 </template>
@@ -17,7 +17,6 @@ import * as Misskey from 'misskey-js';
 import { instanceName } from '@@/js/config';
 import { getProxiedImageUrlNullable } from '@/utility/media-proxy.js';
 import { store } from '@/store';
-import { prefer } from '@/preferences.js';
 import { instance as Instance } from '@/instance.js';
 
 const props = defineProps<{
@@ -35,8 +34,7 @@ const faviconUrl = computed(() =>
 		getProxiedImageUrlNullable(Instance.iconUrl, 'preview') ??
 		getProxiedImageUrlNullable(Instance.iconUrl, 'preview') ?? '/favicon.ico');
 
-const darkMode = store.s.darkMode;
-const TickerStyle = prefer.s.instanceTickerStyle;
+const darkMode = store.r.darkMode;
 </script>
 
 <style lang="scss" module>

@@ -340,6 +340,12 @@ export const PREF_DEF = definePreferences({
 	useGroupedNotifications: {
 		default: true,
 	},
+	autoDataSaver: {
+		default: false,
+	},
+	sunBasedDarkMode: {
+		default: false,
+	},
 	dataSaver: {
 		default: {
 			media: false,
@@ -380,6 +386,9 @@ export const PREF_DEF = definePreferences({
 		default: true,
 	},
 	showSoftWordMutedWord: {
+		default: false,
+	},
+	directRenote: {
 		default: false,
 	},
 	confirmOnReact: {

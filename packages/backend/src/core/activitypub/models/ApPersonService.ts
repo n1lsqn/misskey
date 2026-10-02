@@ -37,6 +37,7 @@ import { bindThis } from '@/decorators.js';
 import { RoleService } from '@/core/RoleService.js';
 import { DriveFileEntityService } from '@/core/entities/DriveFileEntityService.js';
 import type { AccountMoveService } from '@/core/AccountMoveService.js';
+import { HttpRequestService } from '@/core/HttpRequestService.js';
 import { checkHttps } from '@/misc/check-https.js';
 import { getApId, getApType, getOneApHrefNullable, isActor, isCollection, isCollectionOrOrderedCollection, isPropertyValue } from '../type.js';
 import { extractApHashtags } from './tag.js';
@@ -104,6 +105,7 @@ export class ApPersonService implements OnModuleInit {
 		private followingsRepository: FollowingsRepository,
 
 		private roleService: RoleService,
+		private httpRequestService: HttpRequestService,
 	) {
 	}
 
@@ -252,7 +254,7 @@ export class ApPersonService implements OnModuleInit {
 		return null;
 	}
 
-	private async resolveAvatarAndBanner(user: MiRemoteUser, icon: any, image: any): Promise<Partial<Pick<MiRemoteUser, 'avatarId' | 'bannerId' | 'avatarUrl' | 'bannerUrl' | 'avatarBlurhash' | 'bannerBlurhash'>>> {
+	private async resolveAvatarAndBanner(user: MiRemoteUser, icon: any, image: any): Promise<Partial<Pick<MiRemoteUser, 'avatarId' | 'bannerId' | 'avatarUrl' | 'bannerUrl' | 'avatarBlurhash' | 'bannerBlurhash' | 'avatarDecorations'>>> {
 		if (user == null) throw new Error('failed to create user: user is null');
 
 		const [avatar, banner] = await Promise.all([icon, image].map(img => {
@@ -284,6 +286,7 @@ export class ApPersonService implements OnModuleInit {
 			returns the special {id:null}&c value, and we return those
 		*/
 		return {
+			...(await this.resolveRemoteDecorations(user).catch(() => ({}))),
 			...( avatar ? {
 				avatarId: avatar.id,
 				avatarUrl: avatar.url ? this.driveFileEntityService.getPublicUrl(avatar, 'avatar') : null,
@@ -295,6 +298,29 @@ export class ApPersonService implements OnModuleInit {
 				bannerBlurhash: banner.blurhash,
 			} : {}),
 		};
+	}
+
+	private async resolveRemoteDecorations(user: MiRemoteUser): Promise<Partial<Pick<MiRemoteUser, 'avatarDecorations'>>> {
+		const response = await this.httpRequestService.send(`https://${user.host}/api/users/show`, {
+			method: 'POST', headers: { 'Content-Type': 'application/json' },
+			body: JSON.stringify({ username: user.username }), size: 256 * 1024,
+		});
+		const body = await response.json() as { username?: unknown; host?: unknown; avatarDecorations?: unknown };
+		if (body.username !== user.username || body.host != null || !Array.isArray(body.avatarDecorations)) return {};
+		const avatarDecorations: MiRemoteUser['avatarDecorations'] = [];
+		for (const decoration of body.avatarDecorations.slice(0, 16)) {
+			if (decoration == null || typeof decoration !== 'object') continue;
+			if (typeof decoration.id !== 'string' || typeof decoration.url !== 'string') continue;
+			if (decoration.id.length > 128 || decoration.url.length > 2048 || !checkHttps(decoration.url)) continue;
+			avatarDecorations.push({
+				id: decoration.id, url: decoration.url,
+				angle: typeof decoration.angle === 'number' && Number.isFinite(decoration.angle) ? decoration.angle : undefined,
+				flipH: decoration.flipH === true,
+				offsetX: typeof decoration.offsetX === 'number' && Number.isFinite(decoration.offsetX) ? Math.max(-1, Math.min(1, decoration.offsetX)) : undefined,
+				offsetY: typeof decoration.offsetY === 'number' && Number.isFinite(decoration.offsetY) ? Math.max(-1, Math.min(1, decoration.offsetY)) : undefined,
+			});
+		}
+		return { avatarDecorations };
 	}
 
 	/**

@@ -14,6 +14,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
+import { dataSaver } from '@/utility/data-saver.js';
 import { toUnicode } from 'punycode.js';
 import { computed } from 'vue';
 import { host as localHost } from '@@/js/config.js';
@@ -36,7 +37,7 @@ const isMe = $i && (
 	`@${props.username}@${toUnicode(props.host)}`.toLowerCase() === `@${$i.username}@${toUnicode(localHost)}`.toLowerCase()
 );
 
-const avatarUrl = computed(() => prefer.s.disableShowingAnimatedImages || prefer.s.dataSaver.avatar
+const avatarUrl = computed(() => prefer.s.disableShowingAnimatedImages || dataSaver.avatar
 	? getStaticImageUrl(`/avatar/@${props.username}@${props.host}`)
 	: `/avatar/@${props.username}@${props.host}`,
 );

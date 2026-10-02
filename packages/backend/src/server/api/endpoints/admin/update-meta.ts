@@ -21,6 +21,7 @@ export const meta = {
 export const paramDef = {
 	type: 'object',
 	properties: {
+		enableAntiSpam: { type: 'boolean', nullable: true },
 		disableRegistration: { type: 'boolean', nullable: true },
 		pinnedUsers: {
 			type: 'array', nullable: true, items: {
@@ -243,6 +244,8 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 	) {
 		super(meta, paramDef, async (ps, me) => {
 			const set = {} as Partial<MiMeta>;
+
+			if (typeof ps.enableAntiSpam === 'boolean') set.enableAntiSpam = ps.enableAntiSpam;
 
 			if (typeof ps.disableRegistration === 'boolean') {
 				set.disableRegistration = ps.disableRegistration;

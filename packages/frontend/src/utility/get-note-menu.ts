@@ -766,5 +766,9 @@ export function getRenoteMenu(props: {
 
 	return {
 		menu: renoteItems,
+		directRenote: (ev: PointerEvent) => {
+			const item = normalRenoteItems[0] ?? channelRenoteItems[0];
+			if (item && 'action' in item) item.action(ev);
+		},
 	};
 }

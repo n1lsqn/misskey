@@ -67,6 +67,10 @@ export class MiNote {
 	})
 	public text: string | null;
 
+	@Index('IDX_note_deleteAt', { where: '"deleteAt" IS NOT NULL' })
+	@Column('timestamp with time zone', { nullable: true })
+	public deleteAt: Date | null;
+
 	@Column('varchar', {
 		length: 256, nullable: true,
 	})

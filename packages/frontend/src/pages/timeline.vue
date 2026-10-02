@@ -27,7 +27,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
-import { computed, watch, provide, useTemplateRef, ref, onMounted, onActivated } from 'vue';
+import { computed, watch, provide, useTemplateRef, ref, onMounted, onActivated, inject } from 'vue';
 import type { Tab } from '@/components/global/MkPageHeader.tabs.vue';
 import type { MenuItem } from '@/types/menu.js';
 import type { BasicTimelineType } from '@/timelines.js';
@@ -45,6 +45,9 @@ import { deepMerge } from '@/utility/merge.js';
 import { miLocalStorage } from '@/local-storage.js';
 import { availableBasicTimelines, hasWithReplies, isAvailableBasicTimeline, isBasicTimeline, basicTimelineIconClass } from '@/timelines.js';
 import { prefer } from '@/preferences.js';
+import { DI } from '@/di.js';
+
+const router = inject(DI.router, null);
 
 const tlComponent = useTemplateRef('tlComponent');
 
@@ -289,6 +292,15 @@ const headerTabs = computed(() => [...(prefer.r.pinnedUserLists.value.map(l => (
 	title: i18n.ts.channel,
 	iconOnly: true,
 	onClick: chooseChannel,
+}, {
+	icon: 'ti ti-world-search',
+	title: i18n.ts.remoteTimeline,
+	iconOnly: true,
+	onClick: async () => {
+		// This page is eagerly imported by router.definition; avoid an eager router import cycle.
+		const target = router ?? (await import('@/router.js')).mainRouter;
+		target.push('/timeline/remote');
+	},
 }] as Tab[]);
 
 const headerTabsWhenNotLogin = computed(() => [...availableBasicTimelines().map(tl => ({

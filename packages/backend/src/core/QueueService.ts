@@ -55,6 +55,9 @@ export const QUEUE_TYPES = [
 ] as const;
 
 const REPEATABLE_SYSTEM_JOB_DEF = [{
+	name: 'deleteScheduledNotes',
+	pattern: '* * * * *',
+}, {
 	name: 'tickCharts',
 	pattern: '55 * * * *',
 }, {

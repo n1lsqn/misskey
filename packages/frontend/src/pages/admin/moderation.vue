@@ -8,6 +8,10 @@ SPDX-License-Identifier: AGPL-3.0-only
 	<div class="_spacer" style="--MI_SPACER-w: 700px; --MI_SPACER-min: 16px; --MI_SPACER-max: 32px;">
 		<SearchMarker path="/admin/moderation" :label="i18n.ts.moderation" :keywords="['moderation']" icon="ti ti-shield" :inlining="['serverRules']">
 			<div class="_gaps_m">
+				<MkSwitch v-model="enableAntiSpam" @update:modelValue="value => os.apiWithDialog('admin/update-meta', { enableAntiSpam: value })">
+					{{ i18n.ts.enableAntiSpam }}
+					<template #caption>{{ i18n.ts.enableAntiSpamDescription }}</template>
+				</MkSwitch>
 				<SearchMarker :keywords="['open', 'registration']">
 					<MkSwitch :modelValue="enableRegistration" @update:modelValue="onChange_enableRegistration">
 						<template #label><SearchLabel>{{ i18n.ts._serverSettings.openRegistration }}</SearchLabel></template>
@@ -173,6 +177,7 @@ import MkSelect from '@/components/MkSelect.vue';
 
 const meta = await misskeyApi('admin/meta');
 
+const enableAntiSpam = ref(meta.enableAntiSpam);
 const enableRegistration = ref(!meta.disableRegistration);
 const emailRequiredForSignup = ref(meta.emailRequiredForSignup);
 const {

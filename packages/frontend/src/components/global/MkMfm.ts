@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: AGPL-3.0-only
  */
 
-import { h } from 'vue';
+import { defineAsyncComponent, h } from 'vue';
 import * as mfm from 'mfm-js';
 import * as Misskey from 'misskey-js';
 import { host } from '@@/js/config.js';
@@ -21,6 +21,8 @@ import MkGoogle from '@/components/MkGoogle.vue';
 import MkSparkle from '@/components/MkSparkle.vue';
 import MkA from '@/components/global/MkA.vue';
 import { prefer } from '@/preferences.js';
+
+const MkFormula = defineAsyncComponent(() => import('@/components/MkFormula.vue'));
 
 function safeParseFloat(str: unknown): number | null {
 	if (typeof str !== 'string' || str === '') return null;
@@ -459,11 +461,11 @@ export default function (props: MfmProps, { emit }: { emit: SetupContext<MfmEven
 			}
 
 			case 'mathInline': {
-				return [h('code', token.props.formula)];
+				return [h(MkFormula, { formula: token.props.formula, block: false })];
 			}
 
 			case 'mathBlock': {
-				return [h('code', token.props.formula)];
+				return [h(MkFormula, { formula: token.props.formula, block: true })];
 			}
 
 			case 'search': {

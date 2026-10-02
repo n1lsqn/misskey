@@ -168,6 +168,7 @@ type MinimumUser = {
 };
 
 type Option = {
+	deleteAt?: Date | null;
 	createdAt?: Date | null;
 	name?: string | null;
 	text?: string | null;
@@ -282,6 +283,7 @@ export class NoteCreateService implements OnApplicationShutdown {
 		isCat: MiUser['isCat'];
 	}, data: {
 		createdAt: Date;
+		deleteAt?: Date | null;
 		replyId: MiNote['id'] | null;
 		renoteId: MiNote['id'] | null;
 		fileIds: MiDriveFile['id'][];
@@ -421,6 +423,7 @@ export class NoteCreateService implements OnApplicationShutdown {
 
 		return this.create(user, {
 			createdAt: data.createdAt,
+			deleteAt: data.deleteAt,
 			files: files,
 			poll: data.poll,
 			text: data.text,
@@ -631,6 +634,8 @@ export class NoteCreateService implements OnApplicationShutdown {
 			throw new IdentifiableError('9f466dab-c856-48cd-9e65-ff90ff750580', 'Note contains too many mentions');
 		}
 
+		await this.assertRemoteMentionsAllowed(user, mentionedUsers);
+
 		const note = await this.insertNote(user, data, tags, emojis, mentionedUsers);
 
 		setImmediate('post created', { signal: this.#shutdownController.signal }).then(
@@ -639,6 +644,12 @@ export class NoteCreateService implements OnApplicationShutdown {
 		);
 
 		return note;
+	}
+
+	private async assertRemoteMentionsAllowed(user: { id: string; host: string | null }, mentionedUsers: MinimumUser[]): Promise<void> {
+		if (!this.meta.enableAntiSpam || user.host == null || !mentionedUsers.some(u => u.host == null)) return;
+		const hasLocalFollower = await this.followingsRepository.existsBy({ followeeId: user.id, followerHost: IsNull() });
+		if (!hasLocalFollower) throw new Error('Remote mentions from accounts without local followers are disabled');
 	}
 
 	@bindThis
@@ -656,6 +667,7 @@ export class NoteCreateService implements OnApplicationShutdown {
 				: null,
 			name: data.name,
 			text: data.text,
+			deleteAt: user.host == null ? data.deleteAt ?? null : null,
 			hasPoll: data.poll != null,
 			cw: data.cw ?? null,
 			tags: tags.map(tag => normalizeForSearch(tag)),

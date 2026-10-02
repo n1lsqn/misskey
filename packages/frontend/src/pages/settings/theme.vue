@@ -32,12 +32,14 @@ SPDX-License-Identifier: AGPL-3.0-only
 			</div>
 			<div class="sync">
 				<SearchMarker :keywords="['sync', 'device', 'dark', 'light', 'mode']">
-					<MkSwitch v-model="syncDeviceDarkMode">
+					<MkSwitch v-model="syncDeviceDarkMode" :disabled="sunBasedDarkMode">
 						<template #label><SearchLabel>{{ i18n.ts.syncDeviceDarkMode }}</SearchLabel></template>
 					</MkSwitch>
 				</SearchMarker>
 			</div>
 		</div>
+
+		<MkSwitch v-model="sunBasedDarkMode">{{ i18n.ts.sunBasedDarkMode }}</MkSwitch>
 
 		<MkInfo v-if="isSafeMode" warn>{{ i18n.ts.themeIsDefaultBecauseSafeMode }}</MkInfo>
 
@@ -271,6 +273,7 @@ const lightThemeId = computed({
 	},
 });
 
+const sunBasedDarkMode = prefer.model('sunBasedDarkMode');
 const syncDeviceDarkMode = prefer.model('syncDeviceDarkMode');
 const themesCount = installedThemes.value.length;
 
@@ -282,14 +285,15 @@ watch(syncDeviceDarkMode, () => {
 
 async function toggleDarkMode() {
 	const value = !store.r.darkMode.value;
-	if (syncDeviceDarkMode.value) {
+	if (syncDeviceDarkMode.value || sunBasedDarkMode.value) {
 		const { canceled } = await os.confirm({
 			type: 'question',
-			text: i18n.tsx.switchDarkModeManuallyWhenSyncEnabledConfirm({ x: i18n.ts.syncDeviceDarkMode }),
+			text: i18n.tsx.switchDarkModeManuallyWhenSyncEnabledConfirm({ x: sunBasedDarkMode.value ? i18n.ts.sunBasedDarkMode : i18n.ts.syncDeviceDarkMode }),
 		});
 		if (canceled) return;
 
 		syncDeviceDarkMode.value = false;
+		sunBasedDarkMode.value = false;
 		store.set('darkMode', value);
 	} else {
 		store.set('darkMode', value);

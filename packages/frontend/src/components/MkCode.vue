@@ -42,6 +42,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 </template>
 
 <script lang="ts" setup>
+import { dataSaver } from '@/utility/data-saver.js';
 import { defineAsyncComponent, ref } from 'vue';
 import { i18n } from '@/i18n.js';
 import { copyToClipboard } from '@/utility/copy-to-clipboard.js';
@@ -59,7 +60,7 @@ const props = withDefaults(defineProps<{
 	withOuterStyle: true,
 });
 
-const show = ref(props.forceShow === true ? true : !prefer.s.dataSaver.code);
+const show = ref(props.forceShow === true ? true : !dataSaver.code);
 
 const XCode = defineAsyncComponent(() => import('@/components/MkCode.core.vue'));
 

@@ -3199,6 +3199,15 @@ export type paths = {
          */
         post: operations['notes___reactions___delete'];
     };
+    '/notes/remote-timeline': {
+        /**
+         * notes/remote-timeline
+         * @description No description provided.
+         *
+         *     **Credential required**: *Yes* / **Permission**: *read:account*
+         */
+        post: operations['notes___remote-timeline'];
+    };
     '/notes/renotes': {
         /**
          * notes/renotes
@@ -4450,6 +4459,8 @@ export type components = {
             id: string;
             /** Format: date-time */
             createdAt: string;
+            /** Format: date-time */
+            deleteAt?: string | null;
             /** Format: date-time */
             deletedAt?: string | null;
             text: string | null;
@@ -9529,6 +9540,7 @@ export interface operations {
                         defaultLightTheme: string | null;
                         clientOptions: components['schemas']['MetaClientOptions'];
                         description: string | null;
+                        enableAntiSpam: boolean;
                         disableRegistration: boolean;
                         impressumUrl: string | null;
                         maintainerEmail: string | null;
@@ -12950,6 +12962,7 @@ export interface operations {
         requestBody: {
             content: {
                 'application/json': {
+                    enableAntiSpam?: boolean | null;
                     disableRegistration?: boolean | null;
                     pinnedUsers?: string[] | null;
                     hiddenTags?: string[] | null;
@@ -29593,6 +29606,9 @@ export interface operations {
                      */
                     visibility?: 'public' | 'home' | 'followers' | 'specified';
                     visibleUserIds?: string[];
+                    scheduledDelete?: {
+                        deleteAt: number;
+                    } | null;
                     cw?: string | null;
                     /** @default false */
                     localOnly?: boolean;
@@ -30976,6 +30992,88 @@ export interface operations {
             204: {
                 headers: {
                     [name: string]: unknown;
+                };
+            };
+            /** @description Client error */
+            400: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Error'];
+                };
+            };
+            /** @description Authentication error */
+            401: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Error'];
+                };
+            };
+            /** @description Forbidden error */
+            403: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Error'];
+                };
+            };
+            /** @description I'm Ai */
+            418: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Error'];
+                };
+            };
+            /** @description Too many requests */
+            429: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Error'];
+                };
+            };
+            /** @description Internal server error */
+            500: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': components['schemas']['Error'];
+                };
+            };
+        };
+    };
+    'notes___remote-timeline': {
+        requestBody: {
+            content: {
+                'application/json': {
+                    host: string;
+                    /** @default 10 */
+                    limit?: number;
+                    /** Format: misskey:id */
+                    untilId?: string;
+                };
+            };
+        };
+        responses: {
+            /** @description OK (with results) */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    'application/json': {
+                        notes: components['schemas']['Note'][];
+                        untilId: string | null;
+                        skipped: number;
+                    };
                 };
             };
             /** @description Client error */

@@ -219,18 +219,22 @@ export function useNote(
 	}
 
 	// 共通アクション関数群
-	async function renote() {
+	async function renote(ev?: PointerEvent) {
 		if (props.mock) return;
 		const isLoggedIn = await pleaseLogin({ openOnRemote: pleaseLoginContext });
 		if (!isLoggedIn) return;
 		showMovedDialog();
 		if (els.renoteButton == null) return;
-		const { menu } = getRenoteMenu({
+		const { menu, directRenote } = getRenoteMenu({
 			note: rawNote,
 			renoteButton: els.renoteButton,
 			mock: props.mock,
 		});
-		os.popupMenu(menu, els.renoteButton.value);
+		if (prefer.s.directRenote) {
+			directRenote(ev ?? new PointerEvent('click'));
+		} else {
+			os.popupMenu(menu, els.renoteButton.value);
+		}
 		subscribeManuallyToNoteCapture();
 	}
 

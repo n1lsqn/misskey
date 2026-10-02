@@ -49,7 +49,7 @@ import { prefer } from '@/preferences.js';
 import { haptic } from '@/utility/haptic.js';
 
 const props = withDefaults(defineProps<{
-	user: Misskey.entities.UserDetailed,
+	user: Misskey.entities.UserLite & Partial<Misskey.entities.UserDetailed>,
 	full?: boolean,
 	large?: boolean,
 }>(), {
@@ -140,8 +140,9 @@ async function onClick() {
 				userId: props.user.id,
 				withReplies: prefer.s.defaultFollowWithReplies,
 			});
+			const updatedUser = await misskeyApi('users/show', { userId: props.user.id });
 			emit('update:user', {
-				...props.user,
+				...updatedUser,
 				withReplies: prefer.s.defaultFollowWithReplies,
 			});
 			hasPendingFollowRequestFromYou.value = true;

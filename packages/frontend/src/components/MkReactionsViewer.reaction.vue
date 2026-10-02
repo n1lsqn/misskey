@@ -8,7 +8,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 	ref="buttonEl"
 	v-ripple="canToggle"
 	class="_button"
-	:class="[$style.root, { [$style.reacted]: myReaction == reaction, [$style.canToggle]: canToggle, [$style.small]: prefer.s.reactionsDisplaySize === 'small', [$style.large]: prefer.s.reactionsDisplaySize === 'large' }]"
+	:class="[$style.root, { [$style.reacted]: myReaction == reaction, [$style.canToggle]: canToggle, [$style.fallback]: fallbackReaction != null, [$style.small]: prefer.s.reactionsDisplaySize === 'small', [$style.large]: prefer.s.reactionsDisplaySize === 'large' }]"
 	@click="toggleReaction()"
 	@contextmenu.prevent.stop="menu"
 >
@@ -40,6 +40,7 @@ import { DI } from '@/di.js';
 import { noteEvents } from '@/composables/use-note-capture.js';
 import { mute as muteEmoji, unmute as unmuteEmoji, checkMuted as isEmojiMuted } from '@/utility/emoji-mute.js';
 import { addToEmojiPalette } from '@/utility/emoji-palette.js';
+import { getReactionFallback } from '@/utility/reaction-fallback.js';
 import { haptic } from '@/utility/haptic.js';
 
 const props = defineProps<{
@@ -63,12 +64,15 @@ const emojiName = computed(() => getEmojiNameFromReaction(props.reaction));
 
 const isLocalCustomEmoji = computed(() => isLocalCustomEmojiReaction(props.reaction));
 
+const fallbackReaction = computed(() => getReactionFallback(props.reaction, customEmojisMap));
+const targetReaction = computed(() => fallbackReaction.value ?? props.reaction);
+
 const canToggle = computed(() => {
 	const emoji = isLocalCustomEmoji.value ? customEmojisMap.get(emojiName.value) : getUnicodeEmojiOrNull(props.reaction);
 
 	// TODO
 	//return $i != null && emoji != null && checkReactionPermissions($i, props.note, emoji);
-	return $i != null && emoji != null;
+	return $i != null && (emoji != null || fallbackReaction.value != null);
 });
 
 async function toggleReaction() {
@@ -76,22 +80,23 @@ async function toggleReaction() {
 	if ($i == null) return;
 
 	const me = $i;
+	const reaction = targetReaction.value;
 
 	const oldReaction = props.myReaction;
 	if (oldReaction) {
 		const confirm = await os.confirm({
 			type: 'warning',
-			text: oldReaction !== props.reaction ? i18n.ts.changeReactionConfirm : i18n.ts.cancelReactionConfirm,
+			text: oldReaction !== reaction ? i18n.ts.changeReactionConfirm : i18n.ts.cancelReactionConfirm,
 		});
 		if (confirm.canceled) return;
 
-		if (oldReaction !== props.reaction) {
+		if (oldReaction !== reaction) {
 			sound.playMisskeySfx('reaction');
 			haptic();
 		}
 
 		if (mock) {
-			emit('reactionToggled', props.reaction, (props.count - 1));
+			emit('reactionToggled', reaction, (props.count - 1));
 			return;
 		}
 
@@ -102,18 +107,18 @@ async function toggleReaction() {
 				userId: me.id,
 				reaction: oldReaction,
 			});
-			if (oldReaction !== props.reaction) {
+			if (oldReaction !== reaction) {
 				misskeyApi('notes/reactions/create', {
 					noteId: props.noteId,
-					reaction: props.reaction,
+					reaction: reaction,
 				}).then(() => {
-					const emoji = customEmojisMap.get(emojiName.value);
-					if (emoji == null && getUnicodeEmojiOrNull(props.reaction) == null) {
+					const emoji = customEmojisMap.get(getEmojiNameFromReaction(reaction));
+					if (emoji == null && getUnicodeEmojiOrNull(reaction) == null) {
 						return;
 					}
 					noteEvents.emit(`reacted:${props.noteId}`, {
 						userId: me.id,
-						reaction: props.reaction,
+						reaction: reaction,
 						emoji: emoji,
 					});
 				});
@@ -123,7 +128,7 @@ async function toggleReaction() {
 		if (prefer.s.confirmOnReact) {
 			const confirm = await os.confirm({
 				type: 'question',
-				text: i18n.tsx.reactAreYouSure({ emoji: props.reaction.replace('@.', '') }),
+				text: i18n.tsx.reactAreYouSure({ emoji: reaction.replace('@.', '') }),
 			});
 
 			if (confirm.canceled) return;
@@ -133,22 +138,22 @@ async function toggleReaction() {
 		haptic();
 
 		if (mock) {
-			emit('reactionToggled', props.reaction, (props.count + 1));
+			emit('reactionToggled', reaction, (props.count + 1));
 			return;
 		}
 
 		misskeyApi('notes/reactions/create', {
 			noteId: props.noteId,
-			reaction: props.reaction,
+			reaction: reaction,
 		}).then(() => {
-			const emoji = customEmojisMap.get(emojiName.value);
-			if (emoji == null && getUnicodeEmojiOrNull(props.reaction) == null) {
+			const emoji = customEmojisMap.get(getEmojiNameFromReaction(reaction));
+			if (emoji == null && getUnicodeEmojiOrNull(reaction) == null) {
 				return;
 			}
 
 			noteEvents.emit(`reacted:${props.noteId}`, {
 				userId: me.id,
-				reaction: props.reaction,
+				reaction: reaction,
 				emoji: emoji,
 			});
 		});
@@ -266,6 +271,10 @@ if (!mock) {
 </script>
 
 <style lang="scss" module>
+.fallback {
+	border: 1px dashed var(--MI_THEME-switchBg);
+}
+
 .root {
 	display: inline-flex;
 	height: 42px;

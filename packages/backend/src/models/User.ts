@@ -147,6 +147,7 @@ export class MiUser {
 	})
 	public avatarDecorations: {
 		id: string;
+		url?: string;
 		angle?: number;
 		flipH?: boolean;
 		offsetX?: number;

@@ -28,6 +28,7 @@ import { analytics, initAnalytics } from '@/analytics.js';
 import { miLocalStorage } from '@/local-storage.js';
 import { fetchCustomEmojis } from '@/custom-emojis.js';
 import { prefer } from '@/preferences.js';
+import { initializeSunDarkMode } from '@/utility/sun-dark-mode.js';
 import { $i } from '@/i.js';
 import { launchPlugins } from '@/plugin.js';
 import { initTelemetry } from '@/telemetry.js';
@@ -142,13 +143,15 @@ export async function common(createVue: () => Promise<App<Element>>) {
 	}
 	//#endregion
 
+	initializeSunDarkMode();
+
 	//#region Sync dark mode
-	if (prefer.s.syncDeviceDarkMode) {
+	if (prefer.s.syncDeviceDarkMode && !prefer.s.sunBasedDarkMode) {
 		store.set('darkMode', isDeviceDarkmode());
 	}
 
 	window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (mql) => {
-		if (prefer.s.syncDeviceDarkMode) {
+		if (prefer.s.syncDeviceDarkMode && !prefer.s.sunBasedDarkMode) {
 			store.set('darkMode', mql.matches);
 		}
 	});

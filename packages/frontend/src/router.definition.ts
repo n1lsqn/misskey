@@ -571,6 +571,10 @@ export const ROUTE_DEF = [{
 	component: page(() => import('@/pages/antenna-timeline.vue')),
 	loginRequired: true,
 }, {
+	path: '/timeline/remote',
+	component: page(() => import('@/pages/remote-timeline.vue')),
+	loginRequired: true,
+}, {
 	path: '/clicker',
 	component: page(() => import('@/pages/clicker.vue')),
 	loginRequired: true,

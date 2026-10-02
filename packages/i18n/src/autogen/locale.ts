@@ -825,6 +825,30 @@ export interface Locale extends ILocale {
      */
     "host": string;
     /**
+     * 他サーバーのローカルタイムライン
+     */
+    "remoteTimeline": string;
+    /**
+     * Misskey対応サーバーのドメインを入力してください。公開ローカルタイムラインのうち、連合できる投稿を表示します。自動更新はされません。
+     */
+    "remoteTimelineDescription": string;
+    /**
+     * 相手サーバーの公開ローカルタイムラインを取得できませんでした。非公開・未対応・通信障害の可能性があります。
+     */
+    "remoteTimelineUnavailable": string;
+    /**
+     * 他サーバーのドメインだけを入力してください。URLやIPアドレスは指定できません。
+     */
+    "remoteTimelineInvalidHost": string;
+    /**
+     * このサーバーとの連合は許可されていません。
+     */
+    "remoteTimelineBlocked": string;
+    /**
+     * {count}件の投稿は連合できない、またはミュート・ブロックなどにより表示されませんでした。
+     */
+    "remoteTimelineSkipped": ParameterizedString<"count">;
+    /**
      * 自分を選択
      */
     "selectSelf": string;
@@ -13400,4 +13424,32 @@ export interface Locale extends ILocale {
          */
         "iconColor": string;
     };
+    /**
+     * リノートボタンで即座にリノートする
+     */
+    "directRenote": string;
+    /**
+     * 携帯回線・低速回線でのみデータセーバーを適用する（対応ブラウザのみ）
+     */
+    "autoDataSaver": string;
+    /**
+     * 東京の日の出・日の入りに合わせてダークモードを切り替える
+     */
+    "sunBasedDarkMode": string;
+    /**
+     * ノートの自動削除日時
+     */
+    "scheduledDelete": string;
+    /**
+     * アンチスパムモード
+     */
+    "enableAntiSpam": string;
+    /**
+     * ローカルのフォロワーがいないリモートユーザーからのメンションと返信を拒否します。
+     */
+    "enableAntiSpamDescription": string;
+    /**
+     * 自動削除は即時投稿で利用できます。予約投稿する場合は自動削除日時を解除してください。
+     */
+    "scheduledDeleteImmediateOnly": string;
 }

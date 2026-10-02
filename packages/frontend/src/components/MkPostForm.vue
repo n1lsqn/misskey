@@ -88,6 +88,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 		</MkTip>
 		<MkUploaderItems :items="uploader.items.value" @showMenu="(item, ev) => showPerUploadItemMenu(item, ev)" @showMenuViaContextmenu="(item, ev) => showPerUploadItemMenuViaContextmenu(item, ev)"/>
 	</div>
+	<MkInfo v-if="deleteAt != null">{{ i18n.ts.scheduledDelete }}: <MkTime :time="deleteAt" mode="detail"/> <button class="_button" :aria-label="i18n.ts.cancel" @click="deleteAt = null"><i class="ti ti-x"></i></button></MkInfo>
 	<MkPollEditor v-if="poll" v-model="poll" @destroyed="poll = null"/>
 	<MkNotePreview v-if="showPreview" :class="$style.preview" :text="text" :files="files" :poll="poll ?? undefined" :useCw="useCw" :cw="cw" :user="postAccount ?? $i"/>
 	<div v-if="showingOptions" style="padding: 8px 16px;">
@@ -212,6 +213,7 @@ if (props.initialVisibleUsers) {
 }
 const reactionAcceptance = ref(store.s.reactionAcceptance);
 const scheduledAt = ref<number | null>(null);
+const deleteAt = ref<number | null>(null);
 const draghover = ref(false);
 const quoteId = ref<string | null>(null);
 const hasNotSpecifiedMentions = ref(false);
@@ -320,7 +322,6 @@ const canPost = computed((): boolean => {
 		(
 			useCw.value ?
 				(
-					cw.value != null && cw.value.trim() !== '' &&
 					cwTextLength.value <= maxCwTextLength
 				) : true
 		) &&
@@ -438,6 +439,7 @@ function watchForDraft() {
 	watch(quoteId, () => saveDraft());
 	watch(reactionAcceptance, () => saveDraft());
 	watch(scheduledAt, () => saveDraft());
+	watch(deleteAt, () => saveDraft());
 }
 
 function checkMissingMention() {
@@ -662,6 +664,13 @@ function showOtherSettings() {
 			}
 			saveServerDraft();
 		},
+	}, {
+		icon: 'ti ti-calendar-minus',
+		text: i18n.ts.scheduledDelete,
+		action: async () => {
+			const { canceled, result } = await os.inputDatetime({ title: i18n.ts.scheduledDelete });
+			if (!canceled && result.getTime() > Date.now()) deleteAt.value = result.getTime();
+		},
 	}, ...($i.policies.scheduledNoteLimit > 0 ? [{
 		icon: 'ti ti-calendar-time',
 		text: i18n.ts.schedulePost + '...',
@@ -719,6 +728,7 @@ function clear() {
 	poll.value = null;
 	quoteId.value = null;
 	scheduledAt.value = null;
+	deleteAt.value = null;
 	uploader.reset();
 }
 
@@ -881,6 +891,7 @@ type StoredDrafts = {
 			quoteId: string | null;
 			reactionAcceptance: 'likeOnly' | 'likeOnlyForRemote' | 'nonSensitiveOnly' | 'nonSensitiveOnlyForLocalLikeOnlyForRemote' | null;
 			scheduledAt: number | null;
+			deleteAt?: number | null;
 		};
 	};
 };
@@ -904,6 +915,7 @@ function saveDraft() {
 			quoteId: quoteId.value,
 			reactionAcceptance: reactionAcceptance.value,
 			scheduledAt: scheduledAt.value,
+			deleteAt: deleteAt.value,
 		},
 	};
 
@@ -921,10 +933,14 @@ function deleteDraft() {
 async function saveServerDraft(options: {
 	isActuallyScheduled?: boolean;
 } = {}) {
+	if (deleteAt.value != null) {
+		await os.alert({ type: 'warning', text: i18n.ts.scheduledDeleteImmediateOnly });
+		throw new Error('Scheduled deletion is not supported in server drafts');
+	}
 	return await os.apiWithDialog(serverDraftId.value == null ? 'notes/drafts/create' : 'notes/drafts/update', {
 		...(serverDraftId.value == null ? {} : { draftId: serverDraftId.value }),
 		text: text.value,
-		cw: useCw.value ? cw.value || null : null,
+		cw: useCw.value ? cw.value ?? '' : null,
 		visibility: visibility.value,
 		localOnly: localOnly.value,
 		hashtag: hashtags.value,
@@ -981,6 +997,10 @@ async function post(ev?: PointerEvent) {
 			}
 		}
 
+		if (deleteAt.value != null) {
+			await os.alert({ type: 'warning', text: i18n.ts.scheduledDeleteImmediateOnly });
+			return;
+		}
 		await postAsScheduled();
 		clear();
 		return;
@@ -1025,6 +1045,7 @@ async function post(ev?: PointerEvent) {
 	}
 
 	let postData = {
+		scheduledDelete: deleteAt.value == null ? undefined : { deleteAt: deleteAt.value },
 		text: text.value === '' ? null : text.value,
 		fileIds: files.value.length > 0 ? files.value.map(f => f.id) : undefined,
 		replyId: replyTargetNote.value ? replyTargetNote.value.id : undefined,
@@ -1444,6 +1465,7 @@ onMounted(() => {
 				quoteId.value = draft.data.quoteId;
 				reactionAcceptance.value = draft.data.reactionAcceptance;
 				scheduledAt.value = draft.data.scheduledAt ?? null;
+				deleteAt.value = draft.data.deleteAt ?? null;
 			}
 		}
 
