@@ -6,25 +6,10 @@ on:
       - master
       - develop
       - n1l
-    paths:
-      - packages/frontend/**
-      # for permissions
-      - packages/misskey-js/**
-      # for e2e
-      - packages/backend/**
-      - .github/workflows/test-frontend.yml
-      - .github/misskey/test.yml
   pull_request:
     branches-ignore:
       - master
-    paths:
-      - packages/frontend/**
-      # for permissions
-      - packages/misskey-js/**
-      # for e2e
-      - packages/backend/**
-      - .github/workflows/test-frontend.yml
-      - .github/misskey/test.yml
+
 jobs:
   vitest:
     name: Unit tests (frontend)

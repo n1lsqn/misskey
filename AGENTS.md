@@ -41,6 +41,13 @@
 7. **他人のブランチを `git reset --hard` / `git branch -D` で破壊しない**
 8. **`git config` をユーザーに無断で書き換えない** (特に `user.name` / `user.email` / `commit.gpgsign`)
 
+### ブランチ・CI・リリース
+
+- コード・設定・バージョン更新は `n1l` から専用作業ブランチを切って行う。
+- `n1l` への統合は PR 経由で行い、対象commitの必須CIがすべて成功してからマージする。失敗・実行中・未実行のままマージしない。
+- `continue-on-error` によるworkflow全体の成功を、失敗した検査の成功扱いにしない。個々の必須チェック結果を確認する。
+- リリースタグは、対象commitの必須CIがすべて成功し、ルートと `packages/misskey-js/package.json` のバージョンが一致してから作成する。既存タグを移動しない。
+
 ### Issue / PR / 外部送信
 
 9. **ユーザーの明示指示なしに PR を merge / close / force-push しない**
