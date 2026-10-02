@@ -36,6 +36,6 @@ DB変更は新規 `1790930122383-ForkFeatures.js` にまとめ、既存migration
 
 通常の変更を統合すると、次の `-n1l.N` バージョンへルートとSDKを更新する `release/*` PRを作成する。このPRはブランチ保護の必須CIを満たした後にauto-mergeする。統合後の `n1l` のCIがすべて成功すると、バージョンと同名の注釈付きタグを作成する。既存タグは移動せず、同じcommitの通知が重複しても追加リリースしない。コード変更PRのマージは自動化しない。
 
-有効化にはGitHubの「Allow auto-merge」とActions secret `RELEASE_TOKEN` が必要。専用fine-grained PATはこのリポジトリに限定し、Contents・Pull requestsをRead and write、Actions・Checks・AdministrationをRead-onlyに設定する。Administrationは必須チェックと管理者適用を読み取るために使用し、保護ルールを変更・迂回しない。トークンはファイルやチャットに書かず、`gh secret set RELEASE_TOKEN --repo n1lsqn/misskey` の非表示入力で登録する。
+有効化にはGitHubの「Allow auto-merge」とActions secret `RELEASE_TOKEN` が必要。専用fine-grained PATはこのリポジトリに限定し、Contents・Pull requestsをRead and write、Actions・AdministrationをRead-onlyに設定する。Administrationは必須チェックと管理者適用を読み取るために使用し、保護ルールを変更・迂回しない。公開リポジトリのChecks API読み取りには追加のChecks権限は不要。トークンはファイルやチャットに書かず、`gh secret set RELEASE_TOKEN --repo n1lsqn/misskey` の非表示入力で登録する。
 
 失敗後の再実行には、ActionsのAutomatic n1l releaseを `n1l` で手動実行できる。CI判定は手動実行でも省略しない。
