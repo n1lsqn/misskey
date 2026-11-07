@@ -1,0 +1,59 @@
+name: Automatic n1l release
+
+on:
+  workflow_run:
+    workflows:
+      - Lint
+      - Test (backend)
+      - Test (frontend)
+      - Test (federation)
+      - Test (production install and build)
+      - Test (misskey.js)
+      - Check Misskey JS version
+      - Check SPDX-License-Identifier
+      - api.json validation
+      - Dockle
+      - Check copyright year
+      - Lint and test packages-private
+    types: [completed]
+    branches: [n1l]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: automatic-n1l-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Release after successful CI
+    if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.event == 'push' && github.event.workflow_run.conclusion == 'success')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ secrets.RELEASE_TOKEN }}
+      GIT_AUTHOR_NAME: github-actions[bot]
+      GIT_AUTHOR_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+      GIT_COMMITTER_NAME: github-actions[bot]
+      GIT_COMMITTER_EMAIL: 41898282+github-actions[bot]@users.noreply.github.com
+    steps:
+      - name: Require release credentials
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo 'Configure RELEASE_TOKEN; no version update or tag will be created.'
+            exit 1
+          fi
+      - uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || 'n1l' }}
+          fetch-depth: 0
+          token: ${{ secrets.RELEASE_TOKEN }}
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version-file: .node-version
+      - name: Test release guards
+        run: node --test scripts/auto-release.test.mjs
+      - name: Publish only after all required checks pass
+        run: node scripts/auto-release.mjs
