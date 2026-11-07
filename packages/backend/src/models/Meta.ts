@@ -64,6 +64,9 @@ export class MiMeta {
 	public disableRegistration: boolean;
 
 	@Column('boolean', { default: false })
+	public enableInvitationRequests: boolean;
+
+	@Column('boolean', { default: false })
 	public enableAntiSpam: boolean;
 
 	@Column('varchar', {

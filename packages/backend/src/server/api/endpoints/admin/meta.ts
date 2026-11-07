@@ -451,6 +451,7 @@ export const meta = {
 				optional: false, nullable: true,
 			},
 			enableAntiSpam: { type: 'boolean', optional: false, nullable: false },
+			enableInvitationRequests: { type: 'boolean', optional: false, nullable: false },
 			disableRegistration: {
 				type: 'boolean',
 				optional: false, nullable: false,
@@ -662,6 +663,7 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 				privacyPolicyUrl: instance.privacyPolicyUrl,
 				inquiryUrl: instance.inquiryUrl,
 				disableRegistration: instance.disableRegistration,
+				enableInvitationRequests: instance.enableInvitationRequests,
 				enableAntiSpam: instance.enableAntiSpam,
 				emailRequiredForSignup: instance.emailRequiredForSignup,
 				enableHcaptcha: instance.enableHcaptcha,

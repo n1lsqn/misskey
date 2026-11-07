@@ -571,11 +571,44 @@ declare module '../api.js' {
     ): Promise<SwitchCaseResponseType<E, P>>;
 
     /**
+     * Delete an invitation request and its personal information.
+     * 
+     * **Credential required**: *Yes* / **Permission**: *write:admin:invite-codes*
+     */
+    request<E extends 'admin/invite/delete-request', P extends Endpoints[E]['req']>(
+      endpoint: E,
+      params: P,
+      credential?: string | null,
+    ): Promise<SwitchCaseResponseType<E, P>>;
+
+    /**
      * No description provided.
      * 
      * **Credential required**: *Yes* / **Permission**: *read:admin:invite-codes*
      */
     request<E extends 'admin/invite/list', P extends Endpoints[E]['req']>(
+      endpoint: E,
+      params: P,
+      credential?: string | null,
+    ): Promise<SwitchCaseResponseType<E, P>>;
+
+    /**
+     * List invitation requests for moderation.
+     * 
+     * **Credential required**: *Yes* / **Permission**: *read:admin:invite-codes*
+     */
+    request<E extends 'admin/invite/requests', P extends Endpoints[E]['req']>(
+      endpoint: E,
+      params: P,
+      credential?: string | null,
+    ): Promise<SwitchCaseResponseType<E, P>>;
+
+    /**
+     * Approve or reject an invitation request, or retry a failed invitation email.
+     * 
+     * **Credential required**: *Yes* / **Permission**: *write:admin:invite-codes*
+     */
+    request<E extends 'admin/invite/resolve-request', P extends Endpoints[E]['req']>(
       endpoint: E,
       params: P,
       credential?: string | null,
@@ -3575,6 +3608,17 @@ declare module '../api.js' {
      * **Credential required**: *Yes* / **Permission**: *read:invite-codes*
      */
     request<E extends 'invite/list', P extends Endpoints[E]['req']>(
+      endpoint: E,
+      params: P,
+      credential?: string | null,
+    ): Promise<SwitchCaseResponseType<E, P>>;
+
+    /**
+     * Request an invitation code for this server.
+     * 
+     * **Credential required**: *No*
+     */
+    request<E extends 'invite/request', P extends Endpoints[E]['req']>(
       endpoint: E,
       params: P,
       credential?: string | null,

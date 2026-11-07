@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 <template>
 <div class="_selectable">
-	<div :class="$style.label" @click="focus"><slot name="label"></slot></div>
+	<div :id="`${id}-label`" :class="$style.label" @click="focus"><slot name="label"></slot></div>
 	<div :class="{ [$style.disabled]: disabled, [$style.focused]: focused, [$style.tall]: tall, [$style.pre]: pre }" style="position: relative;">
 		<textarea
 			ref="inputEl"
@@ -14,6 +14,9 @@ SPDX-License-Identifier: AGPL-3.0-only
 			:class="[$style.textarea, { _monospace: code }]"
 			:disabled="disabled"
 			:required="required"
+			:maxlength="maxLength"
+			:aria-labelledby="$slots.label ? `${id}-label` : undefined"
+			:aria-describedby="$slots.caption ? `${id}-caption` : undefined"
 			:readonly="readonly"
 			:placeholder="placeholder"
 			:pattern="pattern"
@@ -25,7 +28,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 			@input="onInput"
 		></textarea>
 	</div>
-	<div :class="$style.caption"><slot name="caption"></slot></div>
+	<div :id="`${id}-caption`" :class="$style.caption"><slot name="caption"></slot></div>
 	<button v-if="mfmPreview" style="font-size: 0.85em;" class="_textButton" type="button" @click="preview = !preview">{{ i18n.ts.preview }}</button>
 	<div v-if="mfmPreview" v-show="preview" v-panel :class="$style.mfmPreview">
 		<Mfm :text="v"/>
@@ -41,11 +44,15 @@ import { debounce } from 'throttle-debounce';
 import type { SuggestionType } from '@/utility/autocomplete.js';
 import MkButton from '@/components/MkButton.vue';
 import { i18n } from '@/i18n.js';
+import { genId } from '@/utility/id.js';
 import { Autocomplete } from '@/utility/autocomplete.js';
+
+const id = genId();
 
 const props = defineProps<{
 	modelValue: string | null;
 	required?: boolean;
+	maxLength?: number;
 	readonly?: boolean;
 	disabled?: boolean;
 	pattern?: string;

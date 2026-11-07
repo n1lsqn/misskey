@@ -6,11 +6,11 @@
 process.env.NODE_ENV = 'test';
 
 import * as assert from 'assert';
-import { describe, beforeAll, test, expect, vi } from 'vitest';
+import { describe, beforeAll, afterAll, test, expect, vi } from 'vitest';
 // node-fetch only supports it's own Blob yet
 // https://github.com/node-fetch/node-fetch/pull/1664
 import { Blob } from 'node-fetch';
-import { api, castAsError, initTestDb, post, role, signup, simpleGet, uploadFile } from '../utils.js';
+import { api, castAsError, createAppToken, initTestDb, post, role, signup, simpleGet, uploadFile } from '../utils.js';
 import type * as misskey from 'misskey-js';
 import { MiUser } from '@/models/_.js';
 
@@ -29,6 +29,95 @@ describe('Endpoints', () => {
 		dave = await signup({ username: 'dave' });
 		await api('admin/update-meta', { federation: 'all' }, alice as misskey.entities.SignupResponse);
 	}, 1000 * 60 * 2);
+
+	describe('invitation requests HTTP', () => {
+		let pendingId: string;
+		let rejectedId: string;
+		let previous: misskey.entities.AdminMetaResponse;
+
+		beforeAll(async () => {
+			previous = (await api('admin/meta', {}, alice)).body;
+			const result = await api('admin/update-meta', { enableInvitationRequests: true, disableRegistration: true, enableEmail: true }, alice);
+			expect(result.status).toBe(204);
+		});
+
+		afterAll(async () => {
+			await api('admin/update-meta', {
+				enableInvitationRequests: previous.enableInvitationRequests,
+				disableRegistration: previous.disableRegistration,
+				enableEmail: previous.enableEmail,
+			}, alice);
+		});
+
+		test('registers the public API and exposes the enabled flag in meta', async () => {
+			const meta = await api('meta', {});
+			expect(meta.body.enableInvitationRequests).toBe(true);
+			const result = await api('invite/request', { email: 'http-invite1@example.com', reason: 'Hello from HTTP' });
+			expect(result.status).toBe(204);
+			const duplicate = await api('invite/request', { email: 'HTTP-INVITE1@EXAMPLE.COM', reason: 'duplicate' });
+			expect(duplicate.status).toBe(204);
+		});
+
+		test('rejects anonymous, ordinary, and insufficient-scope clients for all admin APIs', async () => {
+			const token = await createAppToken(alice, []);
+			const endpoints = [
+				['admin/invite/requests', {}],
+				['admin/invite/resolve-request', { requestId: 'missing', approve: false }],
+				['admin/invite/delete-request', { requestId: 'missing' }],
+			] as const;
+			for (const [endpoint, params] of endpoints) {
+				const anonymous = await api(endpoint, params);
+				expect(anonymous.status).toBe(401);
+				const ordinary = await api(endpoint, params, bob);
+				expect(ordinary.status).toBe(403);
+				const unscoped = await api(endpoint, params, { token });
+				expect(unscoped.status).toBe(403);
+			}
+		});
+
+		test('lists normalized requests without leaking invitation codes', async () => {
+			const result = await api('admin/invite/requests', {}, alice);
+			expect(result.status).toBe(200);
+			expect(result.body).toHaveLength(1);
+			expect(result.body[0]).toMatchObject({ email: 'http-invite1@example.com', reason: 'Hello from HTTP', status: 'pending', sentAt: null });
+			expect(result.body[0]).not.toHaveProperty('ticketId');
+			expect(result.body[0]).not.toHaveProperty('code');
+			pendingId = result.body[0].id;
+		});
+
+		test('supports cursor pagination and state filters', async () => {
+			await api('invite/request', { email: 'http-invite2@example.com', reason: 'second' });
+			const first = await api('admin/invite/requests', { limit: 1 }, alice);
+			expect(first.body).toHaveLength(1);
+			rejectedId = first.body[0].id;
+			const second = await api('admin/invite/requests', { limit: 1, untilId: rejectedId }, alice);
+			expect(second.body.map(x => x.id)).toEqual([pendingId]);
+			const reject = await api('admin/invite/resolve-request', { requestId: rejectedId, approve: false }, alice);
+			expect(reject.status).toBe(204);
+			const rejected = await api('admin/invite/requests', { status: 'rejected' }, alice);
+			expect(rejected.body.map(x => x.id)).toEqual([rejectedId]);
+			const pending = await api('admin/invite/requests', { status: 'pending' }, alice);
+			expect(pending.body.map(x => x.id)).toEqual([pendingId]);
+		});
+
+		test('refuses approval with email disabled and preserves the pending request', async () => {
+			await api('admin/update-meta', { enableEmail: false }, alice);
+			const result = await api('admin/invite/resolve-request', { requestId: pendingId, approve: true }, alice);
+			expect(castAsError(result.body as never).error.code).toBe('EMAIL_DISABLED');
+			const closed = await api('invite/request', { email: 'http-invite3@example.com', reason: 'closed' });
+			expect(castAsError(closed.body as never).error.code).toBe('INVITATION_REQUESTS_CLOSED');
+			expect((await api('meta', {})).body.enableInvitationRequests).toBe(false);
+		});
+
+		test('deletes the applicant data using the registered admin route', async () => {
+			for (const requestId of [pendingId, rejectedId]) {
+				const result = await api('admin/invite/delete-request', { requestId }, alice);
+				expect(result.status).toBe(204);
+			}
+			expect((await api('admin/invite/requests', {}, alice)).body).toHaveLength(0);
+			expect((await api('admin/invite/requests', { status: 'rejected' }, alice)).body).toHaveLength(0);
+		});
+	});
 
 	describe('signup', () => {
 		test('不正なユーザー名でアカウントが作成できない', async () => {

@@ -9,6 +9,9 @@ SPDX-License-Identifier: AGPL-3.0-only
 		ref="input"
 		type="checkbox"
 		:disabled="disabled"
+		:checked="checked"
+		:aria-labelledby="!noBody && ($slots.label || $slots.default) ? `${id}-label` : undefined"
+		:aria-describedby="!noBody && $slots.caption ? `${id}-caption` : undefined"
 		:class="$style.input"
 		@click="toggle"
 	>
@@ -16,21 +19,24 @@ SPDX-License-Identifier: AGPL-3.0-only
 	<span v-if="!noBody" :class="$style.body">
 		<!-- TODO: 無名slotの方は廃止 -->
 		<span :class="$style.label">
-			<span @click="toggle">
+			<span :id="`${id}-label`" @click="toggle">
 				<slot name="label"></slot><slot></slot>
 			</span>
 			<span v-if="helpText" v-tooltip:dialog="helpText" class="_button _help" :class="$style.help"><i class="ti ti-help-circle"></i></span>
 		</span>
-		<p :class="$style.caption"><slot name="caption"></slot></p>
+		<p :id="`${id}-caption`" :class="$style.caption"><slot name="caption"></slot></p>
 	</span>
 </div>
 </template>
 
 <script lang="ts" setup>
-import { toRefs } from 'vue';
+import { computed, unref } from 'vue';
 import type { Ref } from 'vue';
 import XButton from '@/components/MkSwitch.button.vue';
 import { haptic } from '@/utility/haptic.js';
+import { genId } from '@/utility/id.js';
+
+const id = genId();
 
 const props = defineProps<{
 	modelValue: boolean | Ref<boolean>;
@@ -44,7 +50,7 @@ const emit = defineEmits<{
 	(ev: 'change', v: boolean): void;
 }>();
 
-const checked = toRefs(props).modelValue;
+const checked = computed(() => unref(props.modelValue));
 const toggle = () => {
 	if (props.disabled) return;
 	emit('update:modelValue', !checked.value);

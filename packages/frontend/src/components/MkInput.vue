@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 <template>
 <div class="_selectable">
-	<div :class="$style.label" @click="focus"><slot name="label"></slot></div>
+	<div :id="`${id}-label`" :class="$style.label" @click="focus"><slot name="label"></slot></div>
 	<div :class="[$style.input, { [$style.inline]: inline, [$style.disabled]: disabled, [$style.focused]: focused }]">
 		<div ref="prefixEl" :class="$style.prefix"><slot name="prefix"></slot></div>
 		<input
@@ -24,9 +24,12 @@ SPDX-License-Identifier: AGPL-3.0-only
 			:spellcheck="spellcheck"
 			:inputmode="inputmode"
 			:step="step"
-			:list="id"
+			:list="datalist ? id : undefined"
 			:min="min"
 			:max="max"
+			:maxlength="maxLength"
+			:aria-labelledby="$slots.label ? `${id}-label` : undefined"
+			:aria-describedby="$slots.caption ? `${id}-caption` : undefined"
 			@focus="focused = true"
 			@blur="focused = false"
 			@keydown="onKeydown($event)"
@@ -37,7 +40,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 		</datalist>
 		<div ref="suffixEl" :class="$style.suffix"><slot name="suffix"></slot></div>
 	</div>
-	<div :class="$style.caption"><slot name="caption"></slot></div>
+	<div :id="`${id}-caption`" :class="$style.caption"><slot name="caption"></slot></div>
 
 	<MkButton v-if="manualSave && changed" primary :class="$style.save" @click="updated"><i class="ti ti-check"></i> {{ i18n.ts.save }}</MkButton>
 </div>
@@ -79,6 +82,7 @@ const props = defineProps<{
 	datalist?: string[];
 	min?: number;
 	max?: number;
+	maxLength?: number;
 	inline?: boolean;
 	debounce?: boolean | number;
 	throttle?: boolean | number;

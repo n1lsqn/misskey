@@ -254,10 +254,22 @@ type AdminInviteCreateRequest = operations['admin___invite___create']['requestBo
 type AdminInviteCreateResponse = operations['admin___invite___create']['responses']['200']['content']['application/json'];
 
 // @public (undocumented)
+type AdminInviteDeleteRequestRequest = operations['admin___invite___delete-request']['requestBody']['content']['application/json'];
+
+// @public (undocumented)
 type AdminInviteListRequest = operations['admin___invite___list']['requestBody']['content']['application/json'];
 
 // @public (undocumented)
 type AdminInviteListResponse = operations['admin___invite___list']['responses']['200']['content']['application/json'];
+
+// @public (undocumented)
+type AdminInviteRequestsRequest = operations['admin___invite___requests']['requestBody']['content']['application/json'];
+
+// @public (undocumented)
+type AdminInviteRequestsResponse = operations['admin___invite___requests']['responses']['200']['content']['application/json'];
+
+// @public (undocumented)
+type AdminInviteResolveRequestRequest = operations['admin___invite___resolve-request']['requestBody']['content']['application/json'];
 
 // @public (undocumented)
 type AdminMetaResponse = operations['admin___meta']['responses']['200']['content']['application/json'];
@@ -1617,8 +1629,12 @@ declare namespace entities {
         AdminGetUserIpsResponse,
         AdminInviteCreateRequest,
         AdminInviteCreateResponse,
+        AdminInviteDeleteRequestRequest,
         AdminInviteListRequest,
         AdminInviteListResponse,
+        AdminInviteRequestsRequest,
+        AdminInviteRequestsResponse,
+        AdminInviteResolveRequestRequest,
         AdminMetaResponse,
         AdminPromoCreateRequest,
         AdminQueueClearRequest,
@@ -2027,6 +2043,7 @@ declare namespace entities {
         InviteLimitResponse,
         InviteListRequest,
         InviteListResponse,
+        InviteRequestRequest,
         MetaRequest,
         MetaResponse,
         MiauthGenTokenRequest,
@@ -2708,6 +2725,9 @@ type InviteListRequest = operations['invite___list']['requestBody']['content']['
 
 // @public (undocumented)
 type InviteListResponse = operations['invite___list']['responses']['200']['content']['application/json'];
+
+// @public (undocumented)
+type InviteRequestRequest = operations['invite___request']['requestBody']['content']['application/json'];
 
 // @public (undocumented)
 type IPageLikesRequest = operations['i___page-likes']['requestBody']['content']['application/json'];

@@ -13539,4 +13539,90 @@ export interface Locale extends ILocale {
      * 自動削除は即時投稿で利用できます。予約投稿する場合は自動削除日時を解除してください。
      */
     "scheduledDeleteImmediateOnly": string;
+    "_invitationRequest": {
+        /**
+         * 招待申請
+         */
+        "title": string;
+        /**
+         * 招待コードを申請する
+         */
+        "apply": string;
+        /**
+         * 参加理由を添えて招待コードを申請できます。管理者が承認すると、入力したメールアドレスに招待コードが届きます。
+         */
+        "description": string;
+        /**
+         * 参加理由
+         */
+        "reason": string;
+        /**
+         * このサーバーでどのような活動をしたいか教えてください（2000文字以内）。
+         */
+        "reasonCaption": string;
+        /**
+         * メールアドレスと参加理由は、招待の審査・連絡のために管理者とモデレーターへ共有されます。
+         */
+        "privacy": string;
+        /**
+         * 申請を受け付けました。承認された場合はメールでお知らせします。すでに申請済みの場合、重複した申請は追加されません。
+         */
+        "submitted": string;
+        /**
+         * 現在、招待申請を受け付けていません。
+         */
+        "closed": string;
+        /**
+         * 招待コードの申請を受け付ける
+         */
+        "enable": string;
+        /**
+         * 招待制でメール送信が有効な場合に利用できます。申請はコントロールパネルの「招待」で審査できます。
+         */
+        "enableCaption": string;
+        /**
+         * 審査待ち
+         */
+        "pending": string;
+        /**
+         * 承認済み
+         */
+        "approved": string;
+        /**
+         * 却下済み
+         */
+        "rejected": string;
+        /**
+         * 承認して招待メールを送る
+         */
+        "approve": string;
+        /**
+         * この申請を承認し、有効期限7日間の招待コードをメールで送信しますか？
+         */
+        "approveConfirm": string;
+        /**
+         * この申請を却下しますか？
+         */
+        "rejectConfirm": string;
+        /**
+         * 招待メールの送信を再試行
+         */
+        "retry": string;
+        /**
+         * 招待メールはまだ送信されていません。メール設定を確認して送信を再試行してください。
+         */
+        "deliveryFailed": string;
+        /**
+         * 申請に含まれるメールアドレスと参加理由を削除しますか？発行済みの招待コードは削除されません。
+         */
+        "deleteConfirm": string;
+        /**
+         * CAPTCHAの認証に失敗しました。もう一度お試しください。
+         */
+        "captchaFailed": string;
+        /**
+         * このメールアドレスは利用できません。
+         */
+        "invalidEmail": string;
+    };
 }

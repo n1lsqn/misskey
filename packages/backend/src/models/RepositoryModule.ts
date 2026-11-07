@@ -51,6 +51,7 @@ import {
 	MiPollVote,
 	MiPromoNote,
 	MiPromoRead,
+	MiInvitationRequest,
 	MiRegistrationTicket,
 	MiRegistryItem,
 	MiRelay,
@@ -313,6 +314,12 @@ const $abuseUserReportsRepository: Provider = {
 const $abuseReportNotificationRecipientRepository: Provider = {
 	provide: DI.abuseReportNotificationRecipientRepository,
 	useFactory: (db: DataSource) => db.getRepository(MiAbuseReportNotificationRecipient).extend(miRepository as MiRepository<MiAbuseReportNotificationRecipient>),
+	inject: [DI.db],
+};
+
+const $invitationRequestsRepository: Provider = {
+	provide: DI.invitationRequestsRepository,
+	useFactory: (db: DataSource) => db.getRepository(MiInvitationRequest).extend(miRepository as MiRepository<MiInvitationRequest>),
 	inject: [DI.db],
 };
 
@@ -585,6 +592,7 @@ const $reversiGamesRepository: Provider = {
 		$hashtagsRepository,
 		$abuseUserReportsRepository,
 		$abuseReportNotificationRecipientRepository,
+		$invitationRequestsRepository,
 		$registrationTicketsRepository,
 		$authSessionsRepository,
 		$accessTokensRepository,
@@ -663,6 +671,7 @@ const $reversiGamesRepository: Provider = {
 		$hashtagsRepository,
 		$abuseUserReportsRepository,
 		$abuseReportNotificationRecipientRepository,
+		$invitationRequestsRepository,
 		$registrationTicketsRepository,
 		$authSessionsRepository,
 		$accessTokensRepository,

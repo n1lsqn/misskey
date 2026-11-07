@@ -197,6 +197,9 @@ export const ROUTE_DEF = [{
 		component: page(() => import('@/pages/_empty_.vue')),
 	}],
 }, {
+	path: '/invitation-request',
+	component: page(() => import('@/pages/invitation-request.vue')),
+}, {
 	path: '/reset-password/:token?',
 	component: page(() => import('@/pages/reset-password.vue')),
 }, {

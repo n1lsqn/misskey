@@ -71,8 +71,12 @@ import type {
 	AdminGetUserIpsResponse,
 	AdminInviteCreateRequest,
 	AdminInviteCreateResponse,
+	AdminInviteDeleteRequestRequest,
 	AdminInviteListRequest,
 	AdminInviteListResponse,
+	AdminInviteRequestsRequest,
+	AdminInviteRequestsResponse,
+	AdminInviteResolveRequestRequest,
 	AdminMetaResponse,
 	AdminPromoCreateRequest,
 	AdminQueueClearRequest,
@@ -483,6 +487,7 @@ import type {
 	InviteLimitResponse,
 	InviteListRequest,
 	InviteListResponse,
+	InviteRequestRequest,
 	MetaRequest,
 	MetaResponse,
 	MiauthGenTokenRequest,
@@ -721,7 +726,10 @@ export type Endpoints = {
 	'admin/get-table-stats': { req: EmptyRequest; res: AdminGetTableStatsResponse };
 	'admin/get-user-ips': { req: AdminGetUserIpsRequest; res: AdminGetUserIpsResponse };
 	'admin/invite/create': { req: AdminInviteCreateRequest; res: AdminInviteCreateResponse };
+	'admin/invite/delete-request': { req: AdminInviteDeleteRequestRequest; res: EmptyResponse };
 	'admin/invite/list': { req: AdminInviteListRequest; res: AdminInviteListResponse };
+	'admin/invite/requests': { req: AdminInviteRequestsRequest; res: AdminInviteRequestsResponse };
+	'admin/invite/resolve-request': { req: AdminInviteResolveRequestRequest; res: EmptyResponse };
 	'admin/meta': { req: EmptyRequest; res: AdminMetaResponse };
 	'admin/promo/create': { req: AdminPromoCreateRequest; res: EmptyResponse };
 	'admin/queue/clear': { req: AdminQueueClearRequest; res: EmptyResponse };
@@ -991,6 +999,7 @@ export type Endpoints = {
 	'invite/delete': { req: InviteDeleteRequest; res: EmptyResponse };
 	'invite/limit': { req: EmptyRequest; res: InviteLimitResponse };
 	'invite/list': { req: InviteListRequest; res: InviteListResponse };
+	'invite/request': { req: InviteRequestRequest; res: EmptyResponse };
 	'meta': { req: MetaRequest; res: MetaResponse };
 	'miauth/gen-token': { req: MiauthGenTokenRequest; res: MiauthGenTokenResponse };
 	'mute/create': { req: MuteCreateRequest; res: EmptyResponse };
