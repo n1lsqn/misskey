@@ -15,8 +15,20 @@ function readGitFile(ref, file) {
 	}
 }
 
-function hasOfficialReleaseTag(commit) {
-	return gitLines(['tag', '--contains', commit]).some(tag => /^\d{4}\.\d+\.\d+$/.test(tag));
+function isOfficialReleaseSource(commit) {
+	if (gitLines(['tag', '--contains', commit]).some(tag => /^\d{4}\.\d+\.\d+$/.test(tag))) return true;
+
+	const subject = gitLines(['show', '-s', '--format=%s', commit])[0] ?? '';
+	const releaseVersion = /^Release: (\d{4}\.\d+\.\d+)$/.exec(subject)?.[1];
+	if (releaseVersion === undefined) return false;
+
+	try {
+		const rootVersion = JSON.parse(execFileSync('git', ['show', `${commit}:package.json`], { encoding: 'utf8' })).version;
+		const sdkVersion = JSON.parse(execFileSync('git', ['show', `${commit}:packages/misskey-js/package.json`], { encoding: 'utf8' })).version;
+		return rootVersion === releaseVersion && sdkVersion === releaseVersion;
+	} catch {
+		return false;
+	}
 }
 
 function matchesImportedRelease(file, base) {
@@ -33,7 +45,7 @@ function matchesImportedRelease(file, base) {
 		if (target === undefined) return false;
 
 		return parents.slice(1).some(source => {
-			if (!hasOfficialReleaseTag(source)) return false;
+			if (!isOfficialReleaseSource(source)) return false;
 			const sourceFile = readGitFile(source, file);
 			const targetFile = readGitFile(target, file);
 			return sourceFile !== null && !sourceFile.equals(targetFile ?? Buffer.alloc(0)) && workingTree.equals(sourceFile);
@@ -42,7 +54,7 @@ function matchesImportedRelease(file, base) {
 }
 
 /**
- * マージ中、または公式リリースタグから取り込んだ翻訳と完全一致するものだけを許可する。
+ * マージ中、または公式リリースコミットから取り込んだ翻訳と完全一致するものだけを許可する。
  * @param {string[]} changedFiles
  * @param {string | null} [base]
  * @returns {string[]}

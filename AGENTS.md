@@ -25,7 +25,7 @@
 
 2. **`locales/ja-JP.yml` 以外の locale YAML を手動編集しない**
    - 他言語ファイル (`en-US.yml` など `ja-JP.yml` 以外すべて) は Crowdin の自動配信先。手動編集すると次の同期で上書き喪失する
-   - 公式 Misskey リリースをマージする場合は例外。翻訳ファイルを編集・解決せず、リリースタグ側と完全一致する内容を保持すること
+   - 公式 Misskey リリースをマージする場合は例外。翻訳ファイルを編集・解決せず、取り込み元リリースと完全一致する内容を保持すること
    - 根拠: [locales/README.md](locales/README.md) と [crowdin.yml](crowdin.yml) (`ja-JP.yml` → `locales/%locale%.yml` の同期設定)
 
 3. **マージ済 migration ファイルを編集しない**
@@ -76,7 +76,7 @@
 2. **backend API 変更時**: `pnpm build-misskey-js-with-types` を実行し `packages/misskey-js/src/autogen/` の差分も commit に含めた
 3. **entity / migration 変更時**: `pnpm --filter backend check-migrations` が pending DDL 0 件で通る / 新規 migration は `up()` と `down()` 両方実装済
 4. **SPDX**: `node scripts/check-spdx.mjs` が `SPDX: OK` を返すことを確認する
-5. **locale safety**: commit 済み・未commit・untracked の変更集合に `locales/ja-JP.yml` 以外の locale YAML がないことを確認する。公式リリースマージ由来で、ファイル内容が取り込み元タグと完全一致する場合は例外として検査される
+5. **locale safety**: commit 済み・未commit・untracked の変更集合に `locales/ja-JP.yml` 以外の locale YAML がないことを確認する。公式リリースマージ由来で、ファイル内容が取り込み元リリースと完全一致する場合は例外として検査される
 6. **[CHANGELOG](.claude/skills/shipping-misskey-change/references/tasks/changelog-update.md)**: ユーザーが明示しない限り編集しない。
    ユーザー影響がある変更では引き継ぎに候補を 1 行だけ示す
 

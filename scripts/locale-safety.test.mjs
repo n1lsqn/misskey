@@ -42,7 +42,7 @@ test('only exact incoming translations are allowed during a merge', () => {
 	}
 });
 
-test('allows locale updates that exactly match an imported official release tag', () => {
+test('allows locale updates that exactly match an imported official release', () => {
 	const previous = process.cwd();
 	const dir = mkdtempSync(join(tmpdir(), 'misskey-locale-release-test-'));
 	try {
@@ -52,7 +52,10 @@ test('allows locale updates that exactly match an imported official release tag'
 		git('init', '--quiet');
 		const targetBranch = git('branch', '--show-current');
 		mkdirSync('locales');
+		mkdirSync('packages/misskey-js', { recursive: true });
 		writeFileSync('locales/en-US.yml', 'hello: Hello\n');
+		writeFileSync('package.json', JSON.stringify({ version: '2026.10.0' }));
+		writeFileSync('packages/misskey-js/package.json', JSON.stringify({ version: '2026.10.0' }));
 		writeFileSync('README.md', 'base\n');
 		git('add', '.');
 		gitCommit('-m', 'base');
@@ -62,7 +65,10 @@ test('allows locale updates that exactly match an imported official release tag'
 		writeFileSync('locales/en-US.yml', 'hello: Hello from Crowdin\n');
 		git('add', 'locales/en-US.yml');
 		gitCommit('-m', 'New Crowdin updates (#123)');
-		git('tag', '2026.10.1');
+		writeFileSync('package.json', JSON.stringify({ version: '2026.10.1' }));
+		writeFileSync('packages/misskey-js/package.json', JSON.stringify({ version: '2026.10.1' }));
+		git('add', 'package.json', 'packages/misskey-js/package.json');
+		gitCommit('-m', 'Release: 2026.10.1');
 
 		git('checkout', targetBranch);
 		writeFileSync('README.md', 'target update\n');
