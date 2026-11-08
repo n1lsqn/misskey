@@ -5,7 +5,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 
 <template>
 <PageWithHeader>
-	<div class="_spacer" style="--MI_SPACER-w: 600px;">
+	<div class="_spacer" :class="$style.content" style="--MI_SPACER-w: 600px;">
 		<div class="_gaps_m">
 			<MkInfo v-if="submitted">{{ i18n.ts._invitationRequest.submitted }}</MkInfo>
 			<MkInfo v-else-if="!instance.enableInvitationRequests" warn>{{ i18n.ts._invitationRequest.closed }}</MkInfo>
@@ -102,3 +102,11 @@ async function submit() {
 
 definePage(() => ({ title: i18n.ts._invitationRequest.title, icon: 'ti ti-mail-plus' }));
 </script>
+
+<style lang="scss" module>
+@media (max-width: 650px) {
+	.content {
+		padding-bottom: var(--MI-minBottomSpacingMobile);
+	}
+}
+</style>
