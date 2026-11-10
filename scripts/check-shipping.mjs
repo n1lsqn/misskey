@@ -191,8 +191,8 @@ function runSpdx(base, repoRoot) {
  * @param {string[]} changedFiles
  * @returns {0 | 1}
  */
-function runLocaleSafety(changedFiles) {
-	const badLocales = forbiddenLocaleChanges(changedFiles);
+function runLocaleSafety(changedFiles, base) {
+	const badLocales = forbiddenLocaleChanges(changedFiles, base);
 	if (badLocales.length === 0) {
 		console.log('Locale safety: PASS');
 		return 0;
@@ -234,7 +234,7 @@ function main() {
 		const changedFiles = listChangedFiles(base);
 		const lint = runChangedFileLint(changedFiles, repoRoot);
 		const spdxStatus = runSpdx(base, repoRoot);
-		const localeStatus = runLocaleSafety(changedFiles);
+		const localeStatus = runLocaleSafety(changedFiles, base);
 
 		console.log('');
 		console.log('Shipping checks:');
