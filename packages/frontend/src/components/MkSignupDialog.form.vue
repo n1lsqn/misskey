@@ -12,6 +12,7 @@ SPDX-License-Identifier: AGPL-3.0-only
 		<form class="_gaps_m" autocomplete="new-password" @submit.prevent="onSubmit">
 			<MkInput v-if="instance.disableRegistration" v-model="invitationCode" type="text" :spellcheck="false" required data-testid="signup-invitation-code">
 				<template #label>{{ i18n.ts.invitationCode }}</template>
+				<template v-if="instance.enableInvitationRequests" #caption><a href="/invitation-request" class="_link">{{ i18n.ts._invitationRequest.apply }}</a></template>
 				<template #prefix><i class="ti ti-key"></i></template>
 			</MkInput>
 			<MkInput v-model="username" type="text" pattern="^[a-zA-Z0-9_]{1,20}$" :spellcheck="false" autocomplete="username" required data-testid="signup-username" @update:modelValue="onChangeUsername">

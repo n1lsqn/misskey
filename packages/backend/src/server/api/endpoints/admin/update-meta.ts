@@ -23,6 +23,7 @@ export const paramDef = {
 	properties: {
 		enableAntiSpam: { type: 'boolean', nullable: true },
 		disableRegistration: { type: 'boolean', nullable: true },
+		enableInvitationRequests: { type: 'boolean' },
 		pinnedUsers: {
 			type: 'array', nullable: true, items: {
 				type: 'string',
@@ -246,6 +247,10 @@ export default class extends Endpoint<typeof meta, typeof paramDef> { // eslint-
 			const set = {} as Partial<MiMeta>;
 
 			if (typeof ps.enableAntiSpam === 'boolean') set.enableAntiSpam = ps.enableAntiSpam;
+
+			if (ps.enableInvitationRequests !== undefined) {
+				set.enableInvitationRequests = ps.enableInvitationRequests;
+			}
 
 			if (typeof ps.disableRegistration === 'boolean') {
 				set.disableRegistration = ps.disableRegistration;

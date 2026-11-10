@@ -74,6 +74,7 @@ export const packedMetaLiteSchema = {
 		clientOptions: {
 			ref: 'MetaClientOptions',
 		},
+		enableInvitationRequests: { type: 'boolean', optional: false, nullable: false },
 		disableRegistration: {
 			type: 'boolean',
 			optional: false, nullable: false,

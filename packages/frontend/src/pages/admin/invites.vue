@@ -7,6 +7,32 @@ SPDX-License-Identifier: AGPL-3.0-only
 <PageWithHeader :actions="headerActions" :tabs="headerTabs">
 	<div class="_spacer" style="--MI_SPACER-w: 800px;">
 		<div class="_gaps_m">
+			<MkFolder :defaultOpen="true">
+				<template #icon><i class="ti ti-mail-plus"></i></template>
+				<template #label>{{ i18n.ts._invitationRequest.title }}</template>
+				<div class="_gaps_m">
+					<MkSelect v-model="requestStatus" :items="requestStatusDef">
+						<template #label>{{ i18n.ts.state }}</template>
+					</MkSelect>
+					<MkPagination :paginator="requestPaginator">
+						<template #default="{ items }">
+							<div class="_gaps_s">
+								<div v-for="request in items" :key="request.id" class="_panel _gaps_s" :class="$style.request">
+									<b class="_selectable">{{ request.email }}</b>
+									<MkTime :time="request.createdAt"/>
+									<div class="_selectable" :class="$style.reason">{{ request.reason }}</div>
+									<MkInfo v-if="request.status === 'approved' && !request.sentAt" warn>{{ i18n.ts._invitationRequest.deliveryFailed }}</MkInfo>
+									<div class="_buttons">
+										<MkButton v-if="request.status === 'pending' || (request.status === 'approved' && !request.sentAt)" primary :disabled="busyRequests.has(request.id)" @click="resolveRequest(request.id, true)">{{ request.status === 'pending' ? i18n.ts._invitationRequest.approve : i18n.ts._invitationRequest.retry }}</MkButton>
+										<MkButton v-if="request.status === 'pending'" danger :disabled="busyRequests.has(request.id)" @click="resolveRequest(request.id, false)">{{ i18n.ts.reject }}</MkButton>
+										<MkButton :disabled="busyRequests.has(request.id)" @click="deleteRequest(request.id)">{{ i18n.ts.delete }}</MkButton>
+									</div>
+								</div>
+							</div>
+						</template>
+					</MkPagination>
+				</div>
+			</MkFolder>
 			<MkFolder :expanded="false">
 				<template #icon><i class="ti ti-plus"></i></template>
 				<template #label>{{ i18n.ts.createInviteCode }}</template>
@@ -58,6 +84,7 @@ import MkInput from '@/components/MkInput.vue';
 import MkSwitch from '@/components/MkSwitch.vue';
 import MkPagination from '@/components/MkPagination.vue';
 import MkInviteCode from '@/components/MkInviteCode.vue';
+import MkInfo from '@/components/MkInfo.vue';
 import { definePage } from '@/page.js';
 import { useMkSelect } from '@/composables/use-mkselect.js';
 import { Paginator } from '@/utility/paginator.js';
@@ -96,6 +123,46 @@ const paginator = markRaw(new Paginator('admin/invite/list', {
 	offsetMode: true,
 }));
 
+const { model: requestStatus, def: requestStatusDef } = useMkSelect({
+	items: [
+		{ label: i18n.ts._invitationRequest.pending, value: 'pending' },
+		{ label: i18n.ts._invitationRequest.approved, value: 'approved' },
+		{ label: i18n.ts._invitationRequest.rejected, value: 'rejected' },
+	],
+	initialValue: 'pending',
+});
+const requestPaginator = markRaw(new Paginator('admin/invite/requests', {
+	limit: 10,
+	computedParams: computed(() => ({ status: requestStatus.value })),
+}));
+const busyRequests = ref(new Set<string>());
+
+async function resolveRequest(requestId: string, approve: boolean) {
+	if (busyRequests.value.has(requestId)) return;
+	busyRequests.value.add(requestId);
+	try {
+		const { canceled } = await os.confirm({ type: 'warning', text: approve ? i18n.ts._invitationRequest.approveConfirm : i18n.ts._invitationRequest.rejectConfirm });
+		if (canceled) return;
+		await os.apiWithDialog('admin/invite/resolve-request', { requestId, approve });
+	} finally {
+		busyRequests.value.delete(requestId);
+		requestPaginator.reload();
+	}
+}
+
+async function deleteRequest(requestId: string) {
+	if (busyRequests.value.has(requestId)) return;
+	busyRequests.value.add(requestId);
+	try {
+		const { canceled } = await os.confirm({ type: 'warning', text: i18n.ts._invitationRequest.deleteConfirm });
+		if (canceled) return;
+		await os.apiWithDialog('admin/invite/delete-request', { requestId });
+		requestPaginator.removeItem(requestId);
+	} finally {
+		busyRequests.value.delete(requestId);
+	}
+}
+
 const expiresAt = ref('');
 const noExpirationDate = ref(true);
 const createCount = ref(1);
@@ -130,6 +197,15 @@ definePage(() => ({
 </script>
 
 <style lang="scss" module>
+.request {
+	padding: 16px;
+	overflow-wrap: anywhere;
+}
+
+.reason {
+	white-space: pre-wrap;
+}
+
 .inputs {
 	display: flex;
 	gap: 8px;

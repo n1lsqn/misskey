@@ -657,6 +657,10 @@ export interface Locale extends ILocale {
      */
     "selectAntenna": string;
     /**
+     * クリップを選択
+     */
+    "selectClip": string;
+    /**
      * アンテナを編集
      */
     "editAntenna": string;
@@ -5233,6 +5237,15 @@ export interface Locale extends ILocale {
      */
     "keepOriginalFilenameDescription": string;
     /**
+     * センシティブなメディアは選択できません
+     */
+    "cannotSelectSensitiveMedia": string;
+    /**
+     * 自分でセンシティブ設定を行っていないのにこのエラーが出ている場合、自動判定によりセンシティブなメディアとされている可能性があります。
+     * サーバーの規則に照らして不要な場合は、ファイルのセンシティブ設定を解除してもう一度お試しください。
+     */
+    "cannotSelectSensitiveMediaDescription": string;
+    /**
      * 説明文はありません
      */
     "noDescription": string;
@@ -6372,6 +6385,64 @@ export interface Locale extends ILocale {
          */
         "forceBackup": string;
     };
+    "_followApproval": {
+        /**
+         * フォロー承認
+         */
+        "groupTitle": string;
+        /**
+         * すべてのフォローが承認制になるため、期間による設定は適用されません。フォローの承認制を解除すると、以下の設定が再び適用されます。
+         */
+        "inactiveDescription": string;
+        /**
+         * 新しいアカウントからのフォローを承認制にする
+         */
+        "title": string;
+        /**
+         * フォローを承認制にしている場合や、新しいアカウントからのフォローを保留する場合にも、あなたがフォローしている相手は自動承認します。
+         */
+        "autoAcceptDescription": string;
+        /**
+         * 指定した期間が経過していない相手からのフォローを、フォローリクエストとして保留します。既存のフォロワーには影響しません。フォローしている相手の自動承認が有効な場合、その相手は自動承認されます。
+         */
+        "description": string;
+        /**
+         * ローカルユーザーからのフォロー
+         */
+        "local": string;
+        /**
+         * このサーバーでのアカウント作成からの期間で判定します。
+         */
+        "localDescription": string;
+        /**
+         * リモートユーザーからのフォロー
+         */
+        "remote": string;
+        /**
+         * 相手のサーバーでの作成日時ではなく、このサーバーが初めてそのアカウントを認識してからの期間で判定します。
+         */
+        "remoteDescription": string;
+        /**
+         * 既定値を使う（現在は無効）
+         */
+        "useDefault": string;
+        /**
+         * 期間を指定する
+         */
+        "custom": string;
+        /**
+         * 承認が必要な期間
+         */
+        "period": string;
+        /**
+         * 単位
+         */
+        "unit": string;
+        /**
+         * 期間が正しくありません。1秒以上の期間を、指定できる範囲内で入力してください。
+         */
+        "invalidPeriod": string;
+    };
     "_accountSettings": {
         /**
          * コンテンツの表示にログインを必須にする
@@ -6556,6 +6627,18 @@ export interface Locale extends ILocale {
          * 有効にすると、このお知らせを既読にする際に確認ダイアログが表示されます。また、一括既読操作の対象になりません。
          */
         "needConfirmationToReadDescription": string;
+        /**
+         * 自動アーカイブ日時
+         */
+        "autoArchiveAt": string;
+        /**
+         * 指定した日時を過ぎると、このお知らせは自動的にアーカイブされます。空欄の場合は自動的にアーカイブされません。
+         */
+        "autoArchiveAtDescription": string;
+        /**
+         * 自動アーカイブ日時には現在より後の日時を指定してください。
+         */
+        "autoArchiveAtMustBeInFuture": string;
         /**
          * お知らせを終了
          */
@@ -11286,6 +11369,10 @@ export interface Locale extends ILocale {
              */
             "channel": string;
             /**
+             * クリップ
+             */
+            "clip": string;
+            /**
              * メンション
              */
             "mentions": string;
@@ -13452,4 +13539,90 @@ export interface Locale extends ILocale {
      * 自動削除は即時投稿で利用できます。予約投稿する場合は自動削除日時を解除してください。
      */
     "scheduledDeleteImmediateOnly": string;
+    "_invitationRequest": {
+        /**
+         * 招待申請
+         */
+        "title": string;
+        /**
+         * 招待コードを申請する
+         */
+        "apply": string;
+        /**
+         * 参加理由を添えて招待コードを申請できます。管理者が承認すると、入力したメールアドレスに招待コードが届きます。
+         */
+        "description": string;
+        /**
+         * 参加理由
+         */
+        "reason": string;
+        /**
+         * このサーバーでどのような活動をしたいか教えてください（2000文字以内）。
+         */
+        "reasonCaption": string;
+        /**
+         * メールアドレスと参加理由は、招待の審査・連絡のために管理者とモデレーターへ共有されます。
+         */
+        "privacy": string;
+        /**
+         * 申請を受け付けました。承認された場合はメールでお知らせします。すでに申請済みの場合、重複した申請は追加されません。
+         */
+        "submitted": string;
+        /**
+         * 現在、招待申請を受け付けていません。
+         */
+        "closed": string;
+        /**
+         * 招待コードの申請を受け付ける
+         */
+        "enable": string;
+        /**
+         * 招待制でメール送信が有効な場合に利用できます。申請はコントロールパネルの「招待」で審査できます。
+         */
+        "enableCaption": string;
+        /**
+         * 審査待ち
+         */
+        "pending": string;
+        /**
+         * 承認済み
+         */
+        "approved": string;
+        /**
+         * 却下済み
+         */
+        "rejected": string;
+        /**
+         * 承認して招待メールを送る
+         */
+        "approve": string;
+        /**
+         * この申請を承認し、有効期限7日間の招待コードをメールで送信しますか？
+         */
+        "approveConfirm": string;
+        /**
+         * この申請を却下しますか？
+         */
+        "rejectConfirm": string;
+        /**
+         * 招待メールの送信を再試行
+         */
+        "retry": string;
+        /**
+         * 招待メールはまだ送信されていません。メール設定を確認して送信を再試行してください。
+         */
+        "deliveryFailed": string;
+        /**
+         * 申請に含まれるメールアドレスと参加理由を削除しますか？発行済みの招待コードは削除されません。
+         */
+        "deleteConfirm": string;
+        /**
+         * CAPTCHAの認証に失敗しました。もう一度お試しください。
+         */
+        "captchaFailed": string;
+        /**
+         * このメールアドレスは利用できません。
+         */
+        "invalidEmail": string;
+    };
 }

@@ -22,6 +22,11 @@ SPDX-License-Identifier: AGPL-3.0-only
 					</MkSwitch>
 				</SearchMarker>
 
+				<MkSwitch :modelValue="enableInvitationRequests" :disabled="!meta.enableEmail" @update:modelValue="onChange_enableInvitationRequests">
+					{{ i18n.ts._invitationRequest.enable }}
+					<template #caption>{{ i18n.ts._invitationRequest.enableCaption }}</template>
+				</MkSwitch>
+
 				<SearchMarker :keywords="['email', 'required', 'signup']">
 					<MkSwitch v-model="emailRequiredForSignup" @change="onChange_emailRequiredForSignup">
 						<template #label><SearchLabel>{{ i18n.ts.emailRequiredForSignup }}</SearchLabel> ({{ i18n.ts.recommended }})</template>
@@ -179,6 +184,7 @@ const meta = await misskeyApi('admin/meta');
 
 const enableAntiSpam = ref(meta.enableAntiSpam);
 const enableRegistration = ref(!meta.disableRegistration);
+const enableInvitationRequests = ref(meta.enableInvitationRequests);
 const emailRequiredForSignup = ref(meta.emailRequiredForSignup);
 const {
 	model: ugcVisibilityForVisitor,
@@ -199,6 +205,12 @@ const preservedUsernames = ref(meta.preservedUsernames.join('\n'));
 const blockedHosts = ref(meta.blockedHosts.join('\n'));
 const silencedHosts = ref(meta.silencedHosts?.join('\n') ?? '');
 const mediaSilencedHosts = ref(meta.mediaSilencedHosts.join('\n'));
+
+async function onChange_enableInvitationRequests(value: boolean) {
+	await os.apiWithDialog('admin/update-meta', { enableInvitationRequests: value });
+	enableInvitationRequests.value = value;
+	fetchInstance(true);
+}
 
 async function onChange_enableRegistration(value: boolean) {
 	if (value) {
