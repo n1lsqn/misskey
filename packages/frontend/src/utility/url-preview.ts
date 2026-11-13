@@ -5,6 +5,7 @@
 import { computed } from 'vue';
 import { hostname } from '@@/js/config.js';
 import { instance } from '@/instance.js';
+import { prefer } from '@/preferences.js';
 import { dataSaver } from '@/utility/data-saver.js';
 
 export const isEnabledUrlPreview = computed(() => (instance.enableUrlPreview && !dataSaver.disableUrlPreview));
@@ -20,10 +21,11 @@ export function transformPlayerUrl(url: string): string {
 		// https://dev.twitch.tv/docs/embed/video-and-clips/
 		urlParams.set('parent', hostname);
 		urlParams.set('allowfullscreen', '');
-		urlParams.set('autoplay', 'true');
+
+		urlParams.set('autoplay', prefer.s.autoplayEmbededPlayerOfUrlPreview ? 'true' : 'false');
 	} else {
-		urlParams.set('autoplay', '1');
-		urlParams.set('auto_play', '1');
+		urlParams.set('autoplay', prefer.s.autoplayEmbededPlayerOfUrlPreview ? '1' : '0');
+		urlParams.set('auto_play', prefer.s.autoplayEmbededPlayerOfUrlPreview ? '1' : 'false');
 	}
 	urlObj.search = urlParams.toString();
 
